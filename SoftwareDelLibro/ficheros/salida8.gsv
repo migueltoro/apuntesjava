@@ -1,0 +1,13 @@
+digraph G {
+  A [ label="A
+8.0" style="bold" ];
+  B [ ];
+  C [ label="C
+-0.0" style="dotted" ];
+  D [ label="D
+-8.0" style="dotted" ];
+  A -> C [ label="4.0" ];
+  A -> B [ label="4.0" ];
+  B -> D [ label="4.0" ];
+  C -> D [ label="4.0" ];
+}

@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.sa;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.Set;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>import com.google.common.collect.Sets;<a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>import us.lsi.algoritmos.AbstractAlgoritmo;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import us.lsi.math.Math2;<a name="line.8"></a>
+<span class="sourceLineNo">009</span><a name="line.9"></a>
+<span class="sourceLineNo">010</span><a name="line.10"></a>
+<span class="sourceLineNo">011</span>/**<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * &lt;p&gt; Implementación del Algoritmo de Simulated Annealing. Un problema que se quiera resolver por este algortimo<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * debe implementar el interface ProblemaSA &amp;lt; E,S,A &amp;gt; &lt;/p&gt;<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * <a name="line.14"></a>
+<span class="sourceLineNo">015</span> * &lt;p&gt; Para usar esta técnica hay que considerar un conjunto de estado y unas alternativas para pasar de unos a otros.<a name="line.15"></a>
+<span class="sourceLineNo">016</span> * El estado que minimice el objetivo debe ser alcanzable desde el estado inicial a través de una secuencia de <a name="line.16"></a>
+<span class="sourceLineNo">017</span> * alternativas. &lt;/p&gt;<a name="line.17"></a>
+<span class="sourceLineNo">018</span> * <a name="line.18"></a>
+<span class="sourceLineNo">019</span> * &lt;p&gt;La documentación puede encontarse en el: &lt;a href="../../../document/Tema16.pdf" target="_blank"&gt;Tema16&lt;/a&gt;&lt;/p&gt;<a name="line.19"></a>
+<span class="sourceLineNo">020</span> * <a name="line.20"></a>
+<span class="sourceLineNo">021</span> * &lt;p&gt;Un resumen de la a documentación puede encontarse en el: &lt;a href="../../../document/SimulatedAnn.html" target="_blank"&gt;Tema16&lt;/a&gt;&lt;/p&gt;<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * <a name="line.22"></a>
+<span class="sourceLineNo">023</span> * @author Miguel Toro<a name="line.23"></a>
+<span class="sourceLineNo">024</span> *<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * @param &lt;E&gt; Tipo del estado<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * @param &lt;S&gt; Tipo de la solución<a name="line.26"></a>
+<span class="sourceLineNo">027</span> * @param &lt;A&gt; Tipo de la alternativa<a name="line.27"></a>
+<span class="sourceLineNo">028</span> */<a name="line.28"></a>
+<span class="sourceLineNo">029</span>public class AlgoritmoSA&lt;E extends EstadoSA&lt;E,S,A&gt;,S,A&gt; extends AbstractAlgoritmo {<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                  <a name="line.30"></a>
+<span class="sourceLineNo">031</span>        /**<a name="line.31"></a>
+<span class="sourceLineNo">032</span>         * Conjunto de soluciones encontradas<a name="line.32"></a>
+<span class="sourceLineNo">033</span>         */<a name="line.33"></a>
+<span class="sourceLineNo">034</span>        public Set&lt;S&gt; soluciones;   <a name="line.34"></a>
+<span class="sourceLineNo">035</span>        /**<a name="line.35"></a>
+<span class="sourceLineNo">036</span>         * Mejor solución encontrada<a name="line.36"></a>
+<span class="sourceLineNo">037</span>         */<a name="line.37"></a>
+<span class="sourceLineNo">038</span>        public E mejorSolucionEncontrada = null;    <a name="line.38"></a>
+<span class="sourceLineNo">039</span>    /**<a name="line.39"></a>
+<span class="sourceLineNo">040</span>     * Número de intentos. En cada intento se parte del estado incial y se llevan a cabo<a name="line.40"></a>
+<span class="sourceLineNo">041</span>     * un número de iteraciones por intento. En cada iteración se llevan a cabo un número de iteraciones <a name="line.41"></a>
+<span class="sourceLineNo">042</span>     * sin disminuir la temperatura. <a name="line.42"></a>
+<span class="sourceLineNo">043</span>     */<a name="line.43"></a>
+<span class="sourceLineNo">044</span>    public static Integer numeroDeIntentos = 10;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    /**<a name="line.45"></a>
+<span class="sourceLineNo">046</span>     * El número iteraciones por intento. Los designaremos por n. <a name="line.46"></a>
+<span class="sourceLineNo">047</span>     */<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    public static Integer numeroDeIteracionesPorIntento = 200;<a name="line.48"></a>
+<span class="sourceLineNo">049</span>    /**<a name="line.49"></a>
+<span class="sourceLineNo">050</span>     * El número iteraciones a la misma temperatura. Lo designaremos por m.<a name="line.50"></a>
+<span class="sourceLineNo">051</span>     */<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    public static Integer numeroDeIteracionesALaMismaTemperatura = 10;<a name="line.52"></a>
+<span class="sourceLineNo">053</span>        /**<a name="line.53"></a>
+<span class="sourceLineNo">054</span>         * La temperatura fijada inicialmente. Lo designaremos por t0.<a name="line.54"></a>
+<span class="sourceLineNo">055</span>         */<a name="line.55"></a>
+<span class="sourceLineNo">056</span>        public static double temperaturaInicial= 1000;<a name="line.56"></a>
+<span class="sourceLineNo">057</span>        /**<a name="line.57"></a>
+<span class="sourceLineNo">058</span>         * <a name="line.58"></a>
+<span class="sourceLineNo">059</span>         * &lt;p&gt; La temperatura disminuye en ese factor en cada iteración: t = &amp;alpha;&amp;#42;t. Por lo que t = t0&amp;#42;&amp;alpha; &amp;#94; i. &lt;/p&gt;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>         * &lt;p&gt; El número total de iteraciones es m&amp;#42;n.  Este número es una medida del tiempo de ejecución del algoritmo. &lt;/p&gt;<a name="line.60"></a>
+<span class="sourceLineNo">061</span>         * &lt;p&gt; La probabilidad p de aceptar un cambio de estado de tamaño &amp;Delta; depende de la temperatura en la forma <a name="line.61"></a>
+<span class="sourceLineNo">062</span>         *  p = e &amp;#94; (-&amp;Delta;/(t0&amp;#42;&amp;alpha; &amp;#94; i))  con  0 &amp;lt; i &amp;lt; = n.  &lt;/p&gt;<a name="line.62"></a>
+<span class="sourceLineNo">063</span>         * &lt;p&gt; Sea p0 la probabilidad de aceptar un cambio en i = 0 y pf la probabilidad de aceptarlo en i = n.&lt;/p&gt;<a name="line.63"></a>
+<span class="sourceLineNo">064</span>         * &lt;p&gt;<a name="line.64"></a>
+<span class="sourceLineNo">065</span>         * Escogiendo   t0 = 100*&amp;Delta;  tenemos  p0 = e &amp;#94; (-&amp;Delta;/t0) =e &amp;#94; (-/100) = 0.99 <a name="line.65"></a>
+<span class="sourceLineNo">066</span>         * Y a partir de   pf = e &amp;#94; (-1/(100*&amp;alpha; &amp;#94; n)  o  &amp;alpha; &amp;#94; n = -1/(100&amp;#42;ln(pf))  obtenemos valores para  n, &amp;alpha;, pf.<a name="line.66"></a>
+<span class="sourceLineNo">067</span>         * Un caso típico  &amp;alpha; = 0.97, n = 200, pf = 0.01 <a name="line.67"></a>
+<span class="sourceLineNo">068</span>         * &lt;/p&gt;<a name="line.68"></a>
+<span class="sourceLineNo">069</span>         * <a name="line.69"></a>
+<span class="sourceLineNo">070</span>         * @constraint  p = e &amp;#94; (-&amp;Delta;/(t0&amp;#42;&amp;alpha; &amp;#94; i))  con  0 &amp;lt; i &amp;lt; = n.<a name="line.70"></a>
+<span class="sourceLineNo">071</span>         * @constraint  0 &amp;lt; &amp;alpha; &amp;lt; 1 <a name="line.71"></a>
+<span class="sourceLineNo">072</span>         */<a name="line.72"></a>
+<span class="sourceLineNo">073</span>        public static double alfa = 0.97;<a name="line.73"></a>
+<span class="sourceLineNo">074</span>        <a name="line.74"></a>
+<span class="sourceLineNo">075</span>        /**<a name="line.75"></a>
+<span class="sourceLineNo">076</span>         * @param p Problema a resolver<a name="line.76"></a>
+<span class="sourceLineNo">077</span>         */<a name="line.77"></a>
+<span class="sourceLineNo">078</span>        public AlgoritmoSA(ProblemaSA&lt;E,S,A&gt; p){<a name="line.78"></a>
+<span class="sourceLineNo">079</span>                problema = p; <a name="line.79"></a>
+<span class="sourceLineNo">080</span>                soluciones = Sets.newHashSet();<a name="line.80"></a>
+<span class="sourceLineNo">081</span>        }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span><a name="line.83"></a>
+<span class="sourceLineNo">084</span>        private static double temperatura;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>        private static int numeroDeIteraciones;<a name="line.85"></a>
+<span class="sourceLineNo">086</span>        private static boolean parar = false;<a name="line.86"></a>
+<span class="sourceLineNo">087</span>        private S solucion = null;   <a name="line.87"></a>
+<span class="sourceLineNo">088</span>        private ProblemaSA&lt;E,S,A&gt; problema;     <a name="line.88"></a>
+<span class="sourceLineNo">089</span>        private E estado;       <a name="line.89"></a>
+<span class="sourceLineNo">090</span>        private E nextEstado; <a name="line.90"></a>
+<span class="sourceLineNo">091</span><a name="line.91"></a>
+<span class="sourceLineNo">092</span>        /**<a name="line.92"></a>
+<span class="sourceLineNo">093</span>         * Ejecución del algoritmo<a name="line.93"></a>
+<span class="sourceLineNo">094</span>         */<a name="line.94"></a>
+<span class="sourceLineNo">095</span>        public void ejecuta() {<a name="line.95"></a>
+<span class="sourceLineNo">096</span><a name="line.96"></a>
+<span class="sourceLineNo">097</span>                mejorSolucionEncontrada = problema.getEstadoInicial();<a name="line.97"></a>
+<span class="sourceLineNo">098</span>                for (Integer n = 0; !parar &amp;&amp; n &lt; numeroDeIntentos; n++) {<a name="line.98"></a>
+<span class="sourceLineNo">099</span>                        temperatura = temperaturaInicial;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>                        estado = problema.getEstadoInicial();<a name="line.100"></a>
+<span class="sourceLineNo">101</span>                        for (numeroDeIteraciones = 0; !parar<a name="line.101"></a>
+<span class="sourceLineNo">102</span>                                        &amp;&amp; numeroDeIteraciones &lt; numeroDeIteracionesPorIntento; numeroDeIteraciones++) {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>                                for (int s = 0; !parar &amp;&amp; s &lt; numeroDeIteracionesALaMismaTemperatura; s++) {<a name="line.103"></a>
+<span class="sourceLineNo">104</span>                                        A a = estado.getAlternativa();<a name="line.104"></a>
+<span class="sourceLineNo">105</span>                                        nextEstado = estado.next(a);<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                                        double incr = nextEstado.getObjetivo()<a name="line.106"></a>
+<span class="sourceLineNo">107</span>                                                        - estado.getObjetivo();<a name="line.107"></a>
+<span class="sourceLineNo">108</span>                                        if (aceptaCambio(incr)) {<a name="line.108"></a>
+<span class="sourceLineNo">109</span>                                                estado = nextEstado.copia();<a name="line.109"></a>
+<span class="sourceLineNo">110</span>                                                actualizaMejorValor();<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                                        }<a name="line.111"></a>
+<span class="sourceLineNo">112</span>                                        parar = estado.condicionDeParada();<a name="line.112"></a>
+<span class="sourceLineNo">113</span>                                }<a name="line.113"></a>
+<span class="sourceLineNo">114</span>                                nexTemperatura();<a name="line.114"></a>
+<span class="sourceLineNo">115</span>                        }<a name="line.115"></a>
+<span class="sourceLineNo">116</span>                        solucion = estado.getSolucion();<a name="line.116"></a>
+<span class="sourceLineNo">117</span>                        if (solucion != null &amp;&amp; estado.esSolucion(solucion))<a name="line.117"></a>
+<span class="sourceLineNo">118</span>                                soluciones.add(solucion);<a name="line.118"></a>
+<span class="sourceLineNo">119</span>                }<a name="line.119"></a>
+<span class="sourceLineNo">120</span>        }<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>        private void actualizaMejorValor() {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>                if (estado.getObjetivo() &lt; mejorSolucionEncontrada.getObjetivo()) {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>                        mejorSolucionEncontrada = estado.copia();<a name="line.124"></a>
+<span class="sourceLineNo">125</span>                }<a name="line.125"></a>
+<span class="sourceLineNo">126</span>        }<a name="line.126"></a>
+<span class="sourceLineNo">127</span><a name="line.127"></a>
+<span class="sourceLineNo">128</span>        private void nexTemperatura() {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>                temperatura = alfa*temperatura; <a name="line.129"></a>
+<span class="sourceLineNo">130</span>        }<a name="line.130"></a>
+<span class="sourceLineNo">131</span><a name="line.131"></a>
+<span class="sourceLineNo">132</span>        private boolean aceptaCambio(double incr) {             <a name="line.132"></a>
+<span class="sourceLineNo">133</span>                return Math2.aceptaBoltzmann(incr, temperatura);<a name="line.133"></a>
+<span class="sourceLineNo">134</span>        }<a name="line.134"></a>
+<span class="sourceLineNo">135</span><a name="line.135"></a>
+<span class="sourceLineNo">136</span>}<a name="line.136"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

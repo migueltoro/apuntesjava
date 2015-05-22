@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.pl;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import lpsolve.*;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>public class Demo {<a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>  public static void main(String[] args) {<a name="line.7"></a>
+<span class="sourceLineNo">008</span>    try {<a name="line.8"></a>
+<span class="sourceLineNo">009</span>      // Create a problem with 4 variables and 0 constraints<a name="line.9"></a>
+<span class="sourceLineNo">010</span>      LpSolve solver = LpSolve.makeLp(0, 4);<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>      // add constraints<a name="line.12"></a>
+<span class="sourceLineNo">013</span>      double r1[] = {3, 2, 2, 1};<a name="line.13"></a>
+<span class="sourceLineNo">014</span>      double r2[] = {0, 3, 3, 1};<a name="line.14"></a>
+<span class="sourceLineNo">015</span>      double r3[] = {2, 3, -2, 3};<a name="line.15"></a>
+<span class="sourceLineNo">016</span>//      solver.strAddConstraint("3 2 2 1", LpSolve.LE, 4);<a name="line.16"></a>
+<span class="sourceLineNo">017</span>//      solver.strAddConstraint("0 4 3 1", LpSolve.LE, 3);<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>      solver.addConstraint(r1, LpSolve.LE, 4);<a name="line.19"></a>
+<span class="sourceLineNo">020</span>      solver.addConstraint(r2, LpSolve.GE, 3);<a name="line.20"></a>
+<span class="sourceLineNo">021</span>      // set objective function<a name="line.21"></a>
+<span class="sourceLineNo">022</span> //     solver.strSetObjFn("2 3 -2 3");<a name="line.22"></a>
+<span class="sourceLineNo">023</span>      solver.setObjFn(r3);<a name="line.23"></a>
+<span class="sourceLineNo">024</span>      <a name="line.24"></a>
+<span class="sourceLineNo">025</span>      solver.setMaxim();;;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>      // solve the problem<a name="line.26"></a>
+<span class="sourceLineNo">027</span>      solver.solve();<a name="line.27"></a>
+<span class="sourceLineNo">028</span>System.out.println("______________________");<a name="line.28"></a>
+<span class="sourceLineNo">029</span>      solver.printConstraints(0);;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>      solver.printConstraints(1);<a name="line.30"></a>
+<span class="sourceLineNo">031</span>      solver.printTableau();<a name="line.31"></a>
+<span class="sourceLineNo">032</span>      solver.printSolution(0);<a name="line.32"></a>
+<span class="sourceLineNo">033</span>System.out.println("______________________");     <a name="line.33"></a>
+<span class="sourceLineNo">034</span>      // print solution<a name="line.34"></a>
+<span class="sourceLineNo">035</span>      System.out.println("Value of objective function: " + solver.getObjective());<a name="line.35"></a>
+<span class="sourceLineNo">036</span>      double[] var = solver.getPtrVariables();<a name="line.36"></a>
+<span class="sourceLineNo">037</span>      for (int i = 0; i &lt; var.length; i++) {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>        System.out.println("Value of var[" + i + "] = " + var[i]);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>      }<a name="line.39"></a>
+<span class="sourceLineNo">040</span><a name="line.40"></a>
+<span class="sourceLineNo">041</span>      // delete the problem and free memory<a name="line.41"></a>
+<span class="sourceLineNo">042</span>      solver.deleteLp();<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    }<a name="line.43"></a>
+<span class="sourceLineNo">044</span>    catch (LpSolveException e) {<a name="line.44"></a>
+<span class="sourceLineNo">045</span>       e.printStackTrace();<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    }<a name="line.46"></a>
+<span class="sourceLineNo">047</span>  }<a name="line.47"></a>
+<span class="sourceLineNo">048</span><a name="line.48"></a>
+<span class="sourceLineNo">049</span>}<a name="line.49"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

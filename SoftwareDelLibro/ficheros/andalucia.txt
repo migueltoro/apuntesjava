@@ -1,0 +1,22 @@
+#VERTEX#
+Sevilla
+Cadiz
+Huelva
+Cordoba
+Malaga
+Almeria
+Granada
+Jaen
+#EDGE#
+Sevilla,Huelva
+Sevilla,Cordoba
+Sevilla,Cadiz
+Sevilla,Malaga
+Malaga,Cadiz
+Malaga,Cordoba
+Malaga, Granada
+Cordoba,Malaga
+Cordoba,Jaen
+Cordoba,Granada
+Granada,Almeria
+Granada,Jaen

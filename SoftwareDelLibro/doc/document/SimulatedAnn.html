@@ -1,0 +1,320 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 12 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:10.0pt;
+	margin-left:0cm;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-link:"Texto de globo Car";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";}
+span.TextodegloboCar
+	{mso-style-name:"Texto de globo Car";
+	mso-style-link:"Texto de globo";
+	font-family:"Tahoma","sans-serif";}
+.MsoPapDefault
+	{margin-bottom:10.0pt;
+	line-height:115%;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:70.85pt 3.0cm 70.85pt 3.0cm;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+
+</head>
+
+<body lang=ES>
+
+<div class=WordSection1>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>Los <i>Algoritmos de
+Simulated Annealing </i>parten de un problema (como en la estrategia <i>Voraz</i>),
+sus soluciones posibles  y para cada una de ellas un valor calculado por las
+función objetivo. Representamos cada solución posible mediante una instancia
+del estado. Igual que antes para cada instancia del estado </span><span style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";position:relative;
+top:5.5pt'><img width=10 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image001.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> se definen un conjunto de
+alternativas </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=20 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image002.gif"></span><span
+style='font-size:14.0pt;line-height:115%'>. Se escoge de forma aleatoria una de
+las alternativas de </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=20 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image002.gif"></span><span
+style='font-size:14.0pt;line-height:115%'>. Se calcula el estado siguiente tras
+esa alternativa mediante la función </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=85 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image003.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> Si el estado siguiente se acepta se
+continúa. Si no se acepta se vuelve al estado anterior.</span></p>
+
+<p class=MsoNormal style='text-align:justify'><b><span style='font-size:14.0pt;
+line-height:115%'>&nbsp;</span></b></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>En este tipo de
+algoritmos es clave la noción de aceptación del nuevo estado. Sean los estados </span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif"'><img
+width=125 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image004.gif"></span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>Sean </span><span style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";position:relative;
+top:6.0pt'><img width=33 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image005.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> los valores de la función objetivo
+para los estados </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=32 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image006.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> y </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:6.0pt'><img width=84 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image007.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> el incremento de la función
+objetivo. Entonces el nuevo estado se acepta con probabilidad </span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif"'><img
+width=205 height=46
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image008.gif"></span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>Es decir se acepta con
+total seguridad si el incremento es negativo (estamos asumiendo problemas de
+minimización) y con la probabilidad indicada si es positivo. La probabilidad
+depende de un concepto llamado temperatura. La temperatura, que intenta emular la
+temperatura de un sistema, toma un valor inicial y posteriormente va
+disminuyendo hasta acercarse a cero. Una cuestión clave en la estategia de
+enfriamiento. Es decir el mecanismo disminución de la temperatura. Se han
+propuesto varias alternativas. Aquí, en un primer momento, escogeremos</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif"'><img
+width=198 height=26
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image009.gif"></span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>Dónde </span><span style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";position:relative;
+top:5.5pt'><img width=12 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image010.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> es un parámetro, </span><span style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";position:relative;
+top:5.5pt'><img width=7 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image011.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> el número de iteración y </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=18 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image012.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> la temperatura inicial. También será
+necesario establecer  </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=11 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image013.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> el número de iteraciones y </span><span style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";position:relative;
+top:5.5pt'><img width=16 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image014.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> el número de iteraciones sin cambiar
+la temperatura.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>El algoritmo comienza
+a dar pasos y en las primeras iteraciones acepta incrementos positivos con
+probabilidad </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=48 height=26
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image015.gif"></span><span
+style='font-size:14.0pt;line-height:115%'>. Al final acepta incrementos
+positivos con probabilidad </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=66 height=27
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image016.gif"></span><span
+style='font-size:14.0pt;line-height:115%'>. Para ajustar el algoritmo debemos
+escoger los parámetros anteriores. Para ello escogemos la probabilidad de
+aceptación al principio de </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=18 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image017.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> y al final </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:7.5pt'><img width=19 height=27
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image018.gif"></span><span
+style='font-size:14.0pt;line-height:115%'>. La primera debe ser alta (0.98 por
+ejemplo) y la segunda baja (0.01 por ejemplo). A partir de lo anterior vemos
+que debe cumplirse</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif"'><img
+width=249 height=30
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image019.gif"></span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>Si conocemos el tamaño
+típico de </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=11 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image020.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> y escogemos </span><span style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";position:relative;
+top:5.5pt'><img width=11 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image013.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> (el número de iteraciones con cambio
+de temperatura en cada una de ellas) podemos despejar </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=40 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image021.gif"></span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif"'><img
+width=256 height=69
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image022.gif"></span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>De la relaciones
+anteriores podemos concluir que </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=18 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image012.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> debe ser escogido en función del
+valor de </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=11 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image020.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> de t<a name="_GoBack"></a>al forma
+que  </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:10.0pt'><img width=69 height=35
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image023.gif"></span><span
+style='font-size:14.0pt;line-height:115%'>. El valor de </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=18 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image017.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> debe ser cercano a 1 y el de </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:7.5pt'><img width=23 height=27
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image024.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> cercano a cero. A partir de las
+ideas anteriores y las relaciones previas podemos obtener valores para </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=54 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image025.gif"></span><span
+style='font-size:14.0pt;line-height:115%'>.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:14.0pt;
+line-height:115%'>Si</span><b><span style='font-size:14.0pt;line-height:115%'> </span></b><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:7.5pt'><img width=291 height=27
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image026.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> tenemos </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=157 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image027.gif"></span><span
+style='font-size:14.0pt;line-height:115%'>.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>O alternativamente</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:14.0pt;
+line-height:115%'>Si</span><b><span style='font-size:14.0pt;line-height:115%'> </span></b><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:7.5pt'><img width=291 height=27
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image028.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> tenemos </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=157 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image029.gif"></span><span
+style='font-size:14.0pt;line-height:115%'>.</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify'><span style='font-size:14.0pt;line-height:115%'>Otro parámetro a
+escoger es </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=16 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image014.gif"></span><span
+style='font-size:14.0pt;line-height:115%'> (el número de iteraciones a la misma
+temperatura). Escogidos esos parámetros el tiempo de ejecución del algoritmo es
+proporcional al producto </span><span
+style='font-size:11.0pt;line-height:115%;font-family:"Calibri","sans-serif";
+position:relative;top:5.5pt'><img width=48 height=25
+src="Los%20Algoritmos%20de%20Simulated%20Annealing%20parten%20de%20un%20problema_archivos/image030.gif"></span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<HTML>
+<BODY>
+<p> El Problema de la Mochila es un problema clásico que puede ser resuelto por diversas técnicas algorítmicas.<p>
+
+<p> El problema parte de un conjunto de objetos disponibles. Cada objeto tiene las siguientes propiedades: </p>
+
+<p> <ul>
+<li> Valor
+<li> Peso
+<li> Número máximo de unidades permitidas
+<li> Valor Unitario = Valor/Peso (Propiedad Derivada)
+</ul> </p>
+
+<p> Se dispone de un fichero que contiene las propiedades de los objetos disponibles. Cada línea contiene las propiedades
+básicas de un objeto separadas por comas. El conjunto de objetos del fichero se leerán y guardarán en una lista
+que denominaremos ObjetosDisponibles. La mochila, además, tiene una capacidad. </p>
+<p> El problema consiste en colocar un número de unidades de cada uno de los objetos disponibles 
+que sea menor que el número máximo permitido, tal que que peso total sea menor o igual que la capacidad de la mochila
+y el valor total de los objetos puestos en la mochila sea máximo </p>
+
+<p>  Un problema generalizado tiene las siguientes propiedades.   </p>
+<p> <ul>
+<li> Capacidad
+<li> Index 
+<li> Objetos Disponibles (propiedad compartida)
+</ul> </p>
+<p> Un problema generalizado de la mochila resuelve un Problema de la Mochila con una Capacidad dada y usando solamente 
+los objetos disponibles que están desde la posición Index hasta el final de la lista de objetos disponibles</p>
+<p> <ul>
+<li> La clase {@link us.lsi.pd.mochila.ObjetoMochila ObjetoMochila} representa los objetos que se van a incluir en la mochila.
+<li> La clase {@link us.lsi.pd.mochila.ProblemaMochila ProblemaMochila} representa los diversos problemas generalizados de la mochila. 
+<li> La clase {@link us.lsi.pd.mochila.SolucionMochila SoluciónMochila} representa soluciones  del problema de la mochila.
+<li> La clase {@link us.lsi.pd.mochila.ProblemaMochilaPD ProblemaMochilaPD} implementa los métodos necesarios para que 
+el problema de la mochila se resuelva mediante la técnica de la Programación Dinámica Con Filtro.
+</ul> </p> 
+<p> Una ficha del problema puede encontrarse en  
+<a href="../../../../document/FichaProblemaMochila.pdf" target="_blank">Ficha del Problema de la Mochila</a></p>
+</BODY>
+</HTML>
+ 

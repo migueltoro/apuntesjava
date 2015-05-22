@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.db.example;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import us.lsi.db.TableDefinition;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>public class Address implements TableDefinition{<a name="line.5"></a>
+<span class="sourceLineNo">006</span>        private int id;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>        private int personid;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>        private String streetno;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>        private String streetname;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>        private String city;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>        private String state;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>        private String zip;<a name="line.12"></a>
+<span class="sourceLineNo">013</span><a name="line.13"></a>
+<span class="sourceLineNo">014</span>        public int getId() {<a name="line.14"></a>
+<span class="sourceLineNo">015</span>                return id;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>        }<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>        public void setId(int id) {<a name="line.18"></a>
+<span class="sourceLineNo">019</span>                this.id = id;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>        }<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>        public int getPersonid() {<a name="line.22"></a>
+<span class="sourceLineNo">023</span>                return personid;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>        }<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>        public void setPersonid(int personid) {<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                this.personid = personid;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>        }<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>        public String getStreetno() {<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                return streetno;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>        }<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>        public void setStreetno(String streetno) {<a name="line.34"></a>
+<span class="sourceLineNo">035</span>                this.streetno = streetno;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        }<a name="line.36"></a>
+<span class="sourceLineNo">037</span><a name="line.37"></a>
+<span class="sourceLineNo">038</span>        public String getStreetname() {<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                return streetname;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>        }<a name="line.40"></a>
+<span class="sourceLineNo">041</span><a name="line.41"></a>
+<span class="sourceLineNo">042</span>        public void setStreetname(String streetname) {<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                this.streetname = streetname;<a name="line.43"></a>
+<span class="sourceLineNo">044</span>        }<a name="line.44"></a>
+<span class="sourceLineNo">045</span><a name="line.45"></a>
+<span class="sourceLineNo">046</span>        public String getCity() {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>                return city;<a name="line.47"></a>
+<span class="sourceLineNo">048</span>        }<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>        public void setCity(String city) {<a name="line.50"></a>
+<span class="sourceLineNo">051</span>                this.city = city;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>        }<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>        public String getState() {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>                return state;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>        }<a name="line.56"></a>
+<span class="sourceLineNo">057</span><a name="line.57"></a>
+<span class="sourceLineNo">058</span>        public void setState(String state) {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>                this.state = state;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>        }<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>        public String getZip() {<a name="line.62"></a>
+<span class="sourceLineNo">063</span>                return zip;<a name="line.63"></a>
+<span class="sourceLineNo">064</span>        }<a name="line.64"></a>
+<span class="sourceLineNo">065</span><a name="line.65"></a>
+<span class="sourceLineNo">066</span>        public void setZip(String zip) {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>                this.zip = zip;<a name="line.67"></a>
+<span class="sourceLineNo">068</span>        }<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>        @Override<a name="line.70"></a>
+<span class="sourceLineNo">071</span>        public String toString() {<a name="line.71"></a>
+<span class="sourceLineNo">072</span>                return "Address [id=" + id + ", personid=" + personid + ", streetno="<a name="line.72"></a>
+<span class="sourceLineNo">073</span>                                + streetno + ", streetname=" + streetname + ", city=" + city<a name="line.73"></a>
+<span class="sourceLineNo">074</span>                                + ", state=" + state + ", zip=" + zip + "]";<a name="line.74"></a>
+<span class="sourceLineNo">075</span>        }<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>}<a name="line.77"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

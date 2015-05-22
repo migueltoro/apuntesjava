@@ -1,0 +1,19 @@
+digraph G {
+  A [ ];
+  B [ ];
+  C [ label="C
+2.0/14.0" style="bold" ];
+  D [ ];
+  S [ style="bold" ];
+  T [ style="dotted" ];
+  A -> C [ label="/10.0" ];
+  C -> A [ label="/4.0" ];
+  A -> B [ label="1.0/12.0" ];
+  D -> B [ label="3.0/7.0" ];
+  B -> C [ label="2.0/9.0" ];
+  C -> D [ label="2.0/14.0" ];
+  S -> A [ label="/16.0" ];
+  S -> C [ label="/13.0" ];
+  B -> T [ label="/20.0" ];
+  D -> T [ label="/4.0" ];
+}

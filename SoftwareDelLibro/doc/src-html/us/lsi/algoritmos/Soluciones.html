@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.algoritmos;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.*;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import com.google.common.collect.*;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>/**<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * Un agregado de elementos ordenados<a name="line.8"></a>
+<span class="sourceLineNo">009</span> *  <a name="line.9"></a>
+<span class="sourceLineNo">010</span> * @author Miguel Toro <a name="line.10"></a>
+<span class="sourceLineNo">011</span> *<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * @param &lt;S&gt; El tipo de los elementos<a name="line.12"></a>
+<span class="sourceLineNo">013</span> */<a name="line.13"></a>
+<span class="sourceLineNo">014</span>public class Soluciones&lt;S&gt; {<a name="line.14"></a>
+<span class="sourceLineNo">015</span>        <a name="line.15"></a>
+<span class="sourceLineNo">016</span>        <a name="line.16"></a>
+<span class="sourceLineNo">017</span>        private SortedSet&lt;S&gt; soluciones;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>    private Soluciones(Comparator&lt;S&gt; cmp){<a name="line.19"></a>
+<span class="sourceLineNo">020</span>        soluciones = Sets.&lt;S&gt;newTreeSet(cmp);<a name="line.20"></a>
+<span class="sourceLineNo">021</span>    }<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>    public static &lt;S extends Comparable&lt;? super S&gt;&gt; Soluciones&lt;S&gt; create() {<a name="line.23"></a>
+<span class="sourceLineNo">024</span>                return new Soluciones&lt;S&gt;(Comparator.&lt;S&gt;naturalOrder());<a name="line.24"></a>
+<span class="sourceLineNo">025</span>        }<a name="line.25"></a>
+<span class="sourceLineNo">026</span>    <a name="line.26"></a>
+<span class="sourceLineNo">027</span>    public static &lt;S&gt; Soluciones&lt;S&gt; create(Comparator&lt;S&gt; cmp) {<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                return new Soluciones&lt;S&gt;(cmp);<a name="line.28"></a>
+<span class="sourceLineNo">029</span>        }<a name="line.29"></a>
+<span class="sourceLineNo">030</span>    <a name="line.30"></a>
+<span class="sourceLineNo">031</span>    public boolean isEmpty(){<a name="line.31"></a>
+<span class="sourceLineNo">032</span>        return soluciones.isEmpty();<a name="line.32"></a>
+<span class="sourceLineNo">033</span>    }<a name="line.33"></a>
+<span class="sourceLineNo">034</span>    <a name="line.34"></a>
+<span class="sourceLineNo">035</span>    public int size(){<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        return soluciones.size();<a name="line.36"></a>
+<span class="sourceLineNo">037</span>    }<a name="line.37"></a>
+<span class="sourceLineNo">038</span>    <a name="line.38"></a>
+<span class="sourceLineNo">039</span>    public boolean add(S s){<a name="line.39"></a>
+<span class="sourceLineNo">040</span>        boolean r = soluciones.add(s);<a name="line.40"></a>
+<span class="sourceLineNo">041</span>        return r;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    }<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>        public S getMejorSolucion() {<a name="line.44"></a>
+<span class="sourceLineNo">045</span>                S r = null;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>                if(!soluciones.isEmpty()){<a name="line.46"></a>
+<span class="sourceLineNo">047</span>                        r =soluciones.first();<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                }<a name="line.48"></a>
+<span class="sourceLineNo">049</span>                return r;<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        }<a name="line.50"></a>
+<span class="sourceLineNo">051</span>        <a name="line.51"></a>
+<span class="sourceLineNo">052</span>        public SortedSet&lt;S&gt; getSoluciones() {<a name="line.52"></a>
+<span class="sourceLineNo">053</span>                return soluciones;<a name="line.53"></a>
+<span class="sourceLineNo">054</span>        }<a name="line.54"></a>
+<span class="sourceLineNo">055</span>        <a name="line.55"></a>
+<span class="sourceLineNo">056</span>        public String toString(){<a name="line.56"></a>
+<span class="sourceLineNo">057</span>                String r = "El número de Soluciones es = "+soluciones.size()+".  Las Soluciones son: \n";<a name="line.57"></a>
+<span class="sourceLineNo">058</span>                for(S s : soluciones){<a name="line.58"></a>
+<span class="sourceLineNo">059</span>                        r=r+s+"\n";<a name="line.59"></a>
+<span class="sourceLineNo">060</span>                }<a name="line.60"></a>
+<span class="sourceLineNo">061</span>                return r;<a name="line.61"></a>
+<span class="sourceLineNo">062</span>        }<a name="line.62"></a>
+<span class="sourceLineNo">063</span>}<a name="line.63"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

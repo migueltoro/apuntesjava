@@ -1,0 +1,481 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.gui;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.awt.EventQueue;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>import javax.swing.JFrame;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import javax.swing.JPanel;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import javax.swing.border.EmptyBorder;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import javax.swing.JSplitPane;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import javax.swing.JScrollPane;<a name="line.9"></a>
+<span class="sourceLineNo">010</span><a name="line.10"></a>
+<span class="sourceLineNo">011</span>import java.awt.FlowLayout;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import java.awt.GridBagLayout;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import java.awt.GridBagConstraints;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>import java.awt.Insets;<a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
+<span class="sourceLineNo">016</span>import javax.swing.JButton;<a name="line.16"></a>
+<span class="sourceLineNo">017</span>import javax.swing.JList;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import javax.swing.JLabel;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import javax.swing.JTextField;<a name="line.19"></a>
+<span class="sourceLineNo">020</span>import javax.swing.JTable;<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>import org.jdesktop.beansbinding.AutoBinding;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>import org.jdesktop.beansbinding.BeanProperty;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>import org.jdesktop.beansbinding.Bindings;<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>import java.util.List;<a name="line.26"></a>
+<span class="sourceLineNo">027</span><a name="line.27"></a>
+<span class="sourceLineNo">028</span>import org.jdesktop.swingbinding.JListBinding;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>import org.jdesktop.swingbinding.JTableBinding;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>import org.jdesktop.swingbinding.SwingBindings;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>import org.jdesktop.beansbinding.ELProperty;<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>import javax.swing.ListSelectionModel;<a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>import java.awt.event.ActionListener;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>import java.awt.event.ActionEvent;<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span><a name="line.39"></a>
+<span class="sourceLineNo">040</span>public class JPhoneBook1 extends JFrame {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>        <a name="line.41"></a>
+<span class="sourceLineNo">042</span>//      private AutoBinding&lt;JList, JList, JTable, JTable&gt; Name;<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>        /**<a name="line.44"></a>
+<span class="sourceLineNo">045</span>         * <a name="line.45"></a>
+<span class="sourceLineNo">046</span>         */<a name="line.46"></a>
+<span class="sourceLineNo">047</span>        private static final long serialVersionUID = 1L;<a name="line.47"></a>
+<span class="sourceLineNo">048</span>        private JSplitPane contentPane;<a name="line.48"></a>
+<span class="sourceLineNo">049</span>        private JTextField nameTextField;<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        private JTextField emailTextField;<a name="line.50"></a>
+<span class="sourceLineNo">051</span>        private JTextField phoneTextField;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>        private JTextField mobil2TextField;<a name="line.52"></a>
+<span class="sourceLineNo">053</span>        private JTable tableOfPersons;<a name="line.53"></a>
+<span class="sourceLineNo">054</span>        @SuppressWarnings("rawtypes")<a name="line.54"></a>
+<span class="sourceLineNo">055</span>        private JList categoriesList;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>        <a name="line.56"></a>
+<span class="sourceLineNo">057</span>        private JButton groupsNewButton;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>        private JButton groupsEditButton;<a name="line.58"></a>
+<span class="sourceLineNo">059</span>        private JButton groupsDeleteButton;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>        private JButton personNewButton;<a name="line.60"></a>
+<span class="sourceLineNo">061</span>        private JButton personDeleteButton;<a name="line.61"></a>
+<span class="sourceLineNo">062</span>        private JTextField mobil1TextField;<a name="line.62"></a>
+<span class="sourceLineNo">063</span>        <a name="line.63"></a>
+<span class="sourceLineNo">064</span>        private PhoneGroups m_categories; <a name="line.64"></a>
+<span class="sourceLineNo">065</span>        <a name="line.65"></a>
+<span class="sourceLineNo">066</span>        private List&lt;String&gt; namesOfCategories; <a name="line.66"></a>
+<span class="sourceLineNo">067</span>        private JPanel leftToolBar;<a name="line.67"></a>
+<span class="sourceLineNo">068</span>        private JPanel leftPanel;<a name="line.68"></a>
+<span class="sourceLineNo">069</span>        private JPanel rightPanel;<a name="line.69"></a>
+<span class="sourceLineNo">070</span>        private JPanel rigthToolBar;<a name="line.70"></a>
+<span class="sourceLineNo">071</span>        private JButton okButton;<a name="line.71"></a>
+<span class="sourceLineNo">072</span>        <a name="line.72"></a>
+<span class="sourceLineNo">073</span>        <a name="line.73"></a>
+<span class="sourceLineNo">074</span>        /**<a name="line.74"></a>
+<span class="sourceLineNo">075</span>         * @return Categorias<a name="line.75"></a>
+<span class="sourceLineNo">076</span>         */<a name="line.76"></a>
+<span class="sourceLineNo">077</span>        public PhoneGroups getCategories() {<a name="line.77"></a>
+<span class="sourceLineNo">078</span>                return m_categories;<a name="line.78"></a>
+<span class="sourceLineNo">079</span>        }<a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>        /**<a name="line.81"></a>
+<span class="sourceLineNo">082</span>         * @return Nombres de las categorias<a name="line.82"></a>
+<span class="sourceLineNo">083</span>         */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>        public List&lt;String&gt; getNamesOfCategories() {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>                return namesOfCategories;<a name="line.85"></a>
+<span class="sourceLineNo">086</span>        }<a name="line.86"></a>
+<span class="sourceLineNo">087</span>        <a name="line.87"></a>
+<span class="sourceLineNo">088</span>        public static void create(final PhoneGroups categories, final List&lt;String&gt; names) {<a name="line.88"></a>
+<span class="sourceLineNo">089</span>                EventQueue.invokeLater(new Runnable() {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>                        public void run() {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>                                try {<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                                        JPhoneBook1 frame = new JPhoneBook1(categories,names);<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                                        frame.setVisible(true);<a name="line.93"></a>
+<span class="sourceLineNo">094</span>                                } catch (Exception e) {<a name="line.94"></a>
+<span class="sourceLineNo">095</span>                                        e.printStackTrace();<a name="line.95"></a>
+<span class="sourceLineNo">096</span>                                }<a name="line.96"></a>
+<span class="sourceLineNo">097</span>                        }<a name="line.97"></a>
+<span class="sourceLineNo">098</span>                });<a name="line.98"></a>
+<span class="sourceLineNo">099</span>        }<a name="line.99"></a>
+<span class="sourceLineNo">100</span>        <a name="line.100"></a>
+<span class="sourceLineNo">101</span>        public void setDefaultValues1(PhoneGroups g, List&lt;String&gt; names) {<a name="line.101"></a>
+<span class="sourceLineNo">102</span>                m_categories = g;<a name="line.102"></a>
+<span class="sourceLineNo">103</span>                namesOfCategories = names;<a name="line.103"></a>
+<span class="sourceLineNo">104</span>        }<a name="line.104"></a>
+<span class="sourceLineNo">105</span>        <a name="line.105"></a>
+<span class="sourceLineNo">106</span>        @SuppressWarnings("rawtypes")<a name="line.106"></a>
+<span class="sourceLineNo">107</span>        public JPhoneBook1(PhoneGroups categories, List&lt;String&gt; names) {<a name="line.107"></a>
+<span class="sourceLineNo">108</span>                setDefaultValues1(categories,names);<a name="line.108"></a>
+<span class="sourceLineNo">109</span>                setTitle("Phone Book");<a name="line.109"></a>
+<span class="sourceLineNo">110</span>                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                setBounds(100, 100, 831, 643);<a name="line.111"></a>
+<span class="sourceLineNo">112</span>                contentPane = new JSplitPane();<a name="line.112"></a>
+<span class="sourceLineNo">113</span>                contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));<a name="line.113"></a>
+<span class="sourceLineNo">114</span>                setContentPane(contentPane);<a name="line.114"></a>
+<span class="sourceLineNo">115</span>                <a name="line.115"></a>
+<span class="sourceLineNo">116</span>                leftPanel = new JPanel();<a name="line.116"></a>
+<span class="sourceLineNo">117</span>                contentPane.setLeftComponent(leftPanel);<a name="line.117"></a>
+<span class="sourceLineNo">118</span>                GridBagLayout gbl_leftPanel = new GridBagLayout();<a name="line.118"></a>
+<span class="sourceLineNo">119</span>                gbl_leftPanel.columnWidths = new int[]{189, 0};<a name="line.119"></a>
+<span class="sourceLineNo">120</span>                gbl_leftPanel.rowHeights = new int[]{33, 448, 0};<a name="line.120"></a>
+<span class="sourceLineNo">121</span>                gbl_leftPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};<a name="line.121"></a>
+<span class="sourceLineNo">122</span>                gbl_leftPanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};<a name="line.122"></a>
+<span class="sourceLineNo">123</span>                leftPanel.setLayout(gbl_leftPanel);<a name="line.123"></a>
+<span class="sourceLineNo">124</span>                <a name="line.124"></a>
+<span class="sourceLineNo">125</span>                leftToolBar = new JPanel();<a name="line.125"></a>
+<span class="sourceLineNo">126</span>                GridBagConstraints gbc_leftToolBar = new GridBagConstraints();<a name="line.126"></a>
+<span class="sourceLineNo">127</span>                gbc_leftToolBar.anchor = GridBagConstraints.NORTHWEST;<a name="line.127"></a>
+<span class="sourceLineNo">128</span>                gbc_leftToolBar.insets = new Insets(0, 0, 5, 0);<a name="line.128"></a>
+<span class="sourceLineNo">129</span>                gbc_leftToolBar.gridx = 0;<a name="line.129"></a>
+<span class="sourceLineNo">130</span>                gbc_leftToolBar.gridy = 0;<a name="line.130"></a>
+<span class="sourceLineNo">131</span>                leftPanel.add(leftToolBar, gbc_leftToolBar);<a name="line.131"></a>
+<span class="sourceLineNo">132</span>                <a name="line.132"></a>
+<span class="sourceLineNo">133</span>                groupsNewButton = new JButton("New");<a name="line.133"></a>
+<span class="sourceLineNo">134</span>                groupsNewButton.addActionListener(new ActionListener() {<a name="line.134"></a>
+<span class="sourceLineNo">135</span>                        public void actionPerformed(ActionEvent arg0) {<a name="line.135"></a>
+<span class="sourceLineNo">136</span>                                PhoneGroup group = new PhoneGroup("???");<a name="line.136"></a>
+<span class="sourceLineNo">137</span>                                JPhoneGroupDialog1 dialog = new JPhoneGroupDialog1(namesOfCategories, group);<a name="line.137"></a>
+<span class="sourceLineNo">138</span>                                dialog.setLocationRelativeTo(leftToolBar);<a name="line.138"></a>
+<span class="sourceLineNo">139</span>                                dialog.setVisible(true);<a name="line.139"></a>
+<span class="sourceLineNo">140</span>                                m_categories.addGroup(group);<a name="line.140"></a>
+<span class="sourceLineNo">141</span>                                categoriesList.repaint();<a name="line.141"></a>
+<span class="sourceLineNo">142</span>                        }<a name="line.142"></a>
+<span class="sourceLineNo">143</span>                });<a name="line.143"></a>
+<span class="sourceLineNo">144</span>                leftToolBar.add(groupsNewButton);<a name="line.144"></a>
+<span class="sourceLineNo">145</span>                <a name="line.145"></a>
+<span class="sourceLineNo">146</span>                groupsEditButton = new JButton("Edit");<a name="line.146"></a>
+<span class="sourceLineNo">147</span>                groupsEditButton.addActionListener(new ActionListener() {<a name="line.147"></a>
+<span class="sourceLineNo">148</span>                        public void actionPerformed(ActionEvent arg0) {<a name="line.148"></a>
+<span class="sourceLineNo">149</span>                                JPhoneGroupDialog1 dialog = new JPhoneGroupDialog1(namesOfCategories, m_categories.getCategories().get(categoriesList.getSelectedIndex()));<a name="line.149"></a>
+<span class="sourceLineNo">150</span>                                dialog.setLocationRelativeTo(leftToolBar);<a name="line.150"></a>
+<span class="sourceLineNo">151</span>                                dialog.setVisible(true);<a name="line.151"></a>
+<span class="sourceLineNo">152</span>                                categoriesList.repaint();<a name="line.152"></a>
+<span class="sourceLineNo">153</span>                        }<a name="line.153"></a>
+<span class="sourceLineNo">154</span>                });<a name="line.154"></a>
+<span class="sourceLineNo">155</span>                leftToolBar.add(groupsEditButton);<a name="line.155"></a>
+<span class="sourceLineNo">156</span>                <a name="line.156"></a>
+<span class="sourceLineNo">157</span>                groupsDeleteButton = new JButton("Delete");<a name="line.157"></a>
+<span class="sourceLineNo">158</span>                groupsDeleteButton.addActionListener(new ActionListener() {<a name="line.158"></a>
+<span class="sourceLineNo">159</span>                        public void actionPerformed(ActionEvent arg0) {<a name="line.159"></a>
+<span class="sourceLineNo">160</span>                                m_categories.removeGroup(m_categories.getCategories().get(categoriesList.getSelectedIndex()));<a name="line.160"></a>
+<span class="sourceLineNo">161</span>                                categoriesList.repaint();<a name="line.161"></a>
+<span class="sourceLineNo">162</span>                        }<a name="line.162"></a>
+<span class="sourceLineNo">163</span>                });<a name="line.163"></a>
+<span class="sourceLineNo">164</span>                leftToolBar.add(groupsDeleteButton);<a name="line.164"></a>
+<span class="sourceLineNo">165</span>                <a name="line.165"></a>
+<span class="sourceLineNo">166</span>                categoriesList = new JList();<a name="line.166"></a>
+<span class="sourceLineNo">167</span>                categoriesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);<a name="line.167"></a>
+<span class="sourceLineNo">168</span>                GridBagConstraints gbc_categoriesList = new GridBagConstraints();<a name="line.168"></a>
+<span class="sourceLineNo">169</span>                gbc_categoriesList.fill = GridBagConstraints.BOTH;<a name="line.169"></a>
+<span class="sourceLineNo">170</span>                gbc_categoriesList.gridx = 0;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>                gbc_categoriesList.gridy = 1;<a name="line.171"></a>
+<span class="sourceLineNo">172</span>                leftPanel.add(categoriesList, gbc_categoriesList);<a name="line.172"></a>
+<span class="sourceLineNo">173</span>                <a name="line.173"></a>
+<span class="sourceLineNo">174</span>                rightPanel = new JPanel();<a name="line.174"></a>
+<span class="sourceLineNo">175</span>                contentPane.setRightComponent(rightPanel);<a name="line.175"></a>
+<span class="sourceLineNo">176</span>                GridBagLayout gbl_rightPanel = new GridBagLayout();<a name="line.176"></a>
+<span class="sourceLineNo">177</span>                gbl_rightPanel.columnWidths = new int[]{609, 0};<a name="line.177"></a>
+<span class="sourceLineNo">178</span>                gbl_rightPanel.rowHeights = new int[]{42, 205, 125, 0};<a name="line.178"></a>
+<span class="sourceLineNo">179</span>                gbl_rightPanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};<a name="line.179"></a>
+<span class="sourceLineNo">180</span>                gbl_rightPanel.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};<a name="line.180"></a>
+<span class="sourceLineNo">181</span>                rightPanel.setLayout(gbl_rightPanel);<a name="line.181"></a>
+<span class="sourceLineNo">182</span>                <a name="line.182"></a>
+<span class="sourceLineNo">183</span>                rigthToolBar = new JPanel();<a name="line.183"></a>
+<span class="sourceLineNo">184</span>                FlowLayout fl_rigthToolBar = (FlowLayout) rigthToolBar.getLayout();<a name="line.184"></a>
+<span class="sourceLineNo">185</span>                fl_rigthToolBar.setAlignment(FlowLayout.LEFT);<a name="line.185"></a>
+<span class="sourceLineNo">186</span>                GridBagConstraints gbc_rigthToolBar = new GridBagConstraints();<a name="line.186"></a>
+<span class="sourceLineNo">187</span>                gbc_rigthToolBar.anchor = GridBagConstraints.NORTH;<a name="line.187"></a>
+<span class="sourceLineNo">188</span>                gbc_rigthToolBar.fill = GridBagConstraints.HORIZONTAL;<a name="line.188"></a>
+<span class="sourceLineNo">189</span>                gbc_rigthToolBar.insets = new Insets(0, 0, 5, 0);<a name="line.189"></a>
+<span class="sourceLineNo">190</span>                gbc_rigthToolBar.gridx = 0;<a name="line.190"></a>
+<span class="sourceLineNo">191</span>                gbc_rigthToolBar.gridy = 0;<a name="line.191"></a>
+<span class="sourceLineNo">192</span>                rightPanel.add(rigthToolBar, gbc_rigthToolBar);<a name="line.192"></a>
+<span class="sourceLineNo">193</span>                <a name="line.193"></a>
+<span class="sourceLineNo">194</span>                personNewButton = new JButton("New");<a name="line.194"></a>
+<span class="sourceLineNo">195</span>                personNewButton.addActionListener(new ActionListener() {<a name="line.195"></a>
+<span class="sourceLineNo">196</span>                        public void actionPerformed(ActionEvent arg0) {<a name="line.196"></a>
+<span class="sourceLineNo">197</span>                                PhoneGroup group = m_categories.getCategories().get(categoriesList.getSelectedIndex());<a name="line.197"></a>
+<span class="sourceLineNo">198</span>                                Person person = new Person();<a name="line.198"></a>
+<span class="sourceLineNo">199</span>                                group.addPerson(person);<a name="line.199"></a>
+<span class="sourceLineNo">200</span>                                categoriesList.repaint();<a name="line.200"></a>
+<span class="sourceLineNo">201</span>                                tableOfPersons.repaint();<a name="line.201"></a>
+<span class="sourceLineNo">202</span>                        }<a name="line.202"></a>
+<span class="sourceLineNo">203</span>                });<a name="line.203"></a>
+<span class="sourceLineNo">204</span>                rigthToolBar.add(personNewButton);<a name="line.204"></a>
+<span class="sourceLineNo">205</span>                <a name="line.205"></a>
+<span class="sourceLineNo">206</span>                personDeleteButton = new JButton("Delete");<a name="line.206"></a>
+<span class="sourceLineNo">207</span>                personDeleteButton.addActionListener(new ActionListener() {<a name="line.207"></a>
+<span class="sourceLineNo">208</span>                        public void actionPerformed(ActionEvent arg0) {<a name="line.208"></a>
+<span class="sourceLineNo">209</span>                                PhoneGroup group = m_categories.getCategories().get(categoriesList.getSelectedIndex());<a name="line.209"></a>
+<span class="sourceLineNo">210</span>                                Person person = group.getPersons().get(tableOfPersons.getSelectedRow());<a name="line.210"></a>
+<span class="sourceLineNo">211</span>                                group.removePerson(person);<a name="line.211"></a>
+<span class="sourceLineNo">212</span>                                categoriesList.repaint();<a name="line.212"></a>
+<span class="sourceLineNo">213</span>                                tableOfPersons.repaint();<a name="line.213"></a>
+<span class="sourceLineNo">214</span>                        }<a name="line.214"></a>
+<span class="sourceLineNo">215</span>                });<a name="line.215"></a>
+<span class="sourceLineNo">216</span>                rigthToolBar.add(personDeleteButton);<a name="line.216"></a>
+<span class="sourceLineNo">217</span>                <a name="line.217"></a>
+<span class="sourceLineNo">218</span>                okButton = new JButton("OK");<a name="line.218"></a>
+<span class="sourceLineNo">219</span>                okButton.addActionListener(new ActionListener() {<a name="line.219"></a>
+<span class="sourceLineNo">220</span>                        public void actionPerformed(ActionEvent arg0) {<a name="line.220"></a>
+<span class="sourceLineNo">221</span>                                <a name="line.221"></a>
+<span class="sourceLineNo">222</span>                        }<a name="line.222"></a>
+<span class="sourceLineNo">223</span>                });<a name="line.223"></a>
+<span class="sourceLineNo">224</span>                rigthToolBar.add(okButton);<a name="line.224"></a>
+<span class="sourceLineNo">225</span>                <a name="line.225"></a>
+<span class="sourceLineNo">226</span>                JScrollPane scrollPane = new JScrollPane();<a name="line.226"></a>
+<span class="sourceLineNo">227</span>                GridBagConstraints gbc_scrollPane = new GridBagConstraints();<a name="line.227"></a>
+<span class="sourceLineNo">228</span>                gbc_scrollPane.fill = GridBagConstraints.BOTH;<a name="line.228"></a>
+<span class="sourceLineNo">229</span>                gbc_scrollPane.insets = new Insets(0, 0, 5, 0);<a name="line.229"></a>
+<span class="sourceLineNo">230</span>                gbc_scrollPane.gridx = 0;<a name="line.230"></a>
+<span class="sourceLineNo">231</span>                gbc_scrollPane.gridy = 1;<a name="line.231"></a>
+<span class="sourceLineNo">232</span>                rightPanel.add(scrollPane, gbc_scrollPane);<a name="line.232"></a>
+<span class="sourceLineNo">233</span>                <a name="line.233"></a>
+<span class="sourceLineNo">234</span>                tableOfPersons = new JTable();<a name="line.234"></a>
+<span class="sourceLineNo">235</span>                tableOfPersons.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);<a name="line.235"></a>
+<span class="sourceLineNo">236</span>                scrollPane.setViewportView(tableOfPersons);<a name="line.236"></a>
+<span class="sourceLineNo">237</span>                <a name="line.237"></a>
+<span class="sourceLineNo">238</span>                JPanel bottomPanel = new JPanel();<a name="line.238"></a>
+<span class="sourceLineNo">239</span>                GridBagConstraints gbc_bottomPanel = new GridBagConstraints();<a name="line.239"></a>
+<span class="sourceLineNo">240</span>                gbc_bottomPanel.fill = GridBagConstraints.BOTH;<a name="line.240"></a>
+<span class="sourceLineNo">241</span>                gbc_bottomPanel.gridx = 0;<a name="line.241"></a>
+<span class="sourceLineNo">242</span>                gbc_bottomPanel.gridy = 2;<a name="line.242"></a>
+<span class="sourceLineNo">243</span>                rightPanel.add(bottomPanel, gbc_bottomPanel);<a name="line.243"></a>
+<span class="sourceLineNo">244</span>                GridBagLayout gbl_bottomPanel = new GridBagLayout();<a name="line.244"></a>
+<span class="sourceLineNo">245</span>                gbl_bottomPanel.columnWidths = new int[]{0, 103, 0, 0};<a name="line.245"></a>
+<span class="sourceLineNo">246</span>                gbl_bottomPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};<a name="line.246"></a>
+<span class="sourceLineNo">247</span>                gbl_bottomPanel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};<a name="line.247"></a>
+<span class="sourceLineNo">248</span>                gbl_bottomPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};<a name="line.248"></a>
+<span class="sourceLineNo">249</span>                bottomPanel.setLayout(gbl_bottomPanel);<a name="line.249"></a>
+<span class="sourceLineNo">250</span>                <a name="line.250"></a>
+<span class="sourceLineNo">251</span>                JLabel nameLabel = new JLabel("Name: ");<a name="line.251"></a>
+<span class="sourceLineNo">252</span>                GridBagConstraints gbc_nameLabel = new GridBagConstraints();<a name="line.252"></a>
+<span class="sourceLineNo">253</span>                gbc_nameLabel.insets = new Insets(0, 0, 5, 5);<a name="line.253"></a>
+<span class="sourceLineNo">254</span>                gbc_nameLabel.anchor = GridBagConstraints.EAST;<a name="line.254"></a>
+<span class="sourceLineNo">255</span>                gbc_nameLabel.gridx = 0;<a name="line.255"></a>
+<span class="sourceLineNo">256</span>                gbc_nameLabel.gridy = 0;<a name="line.256"></a>
+<span class="sourceLineNo">257</span>                bottomPanel.add(nameLabel, gbc_nameLabel);<a name="line.257"></a>
+<span class="sourceLineNo">258</span>                <a name="line.258"></a>
+<span class="sourceLineNo">259</span>                nameTextField = new JTextField();<a name="line.259"></a>
+<span class="sourceLineNo">260</span>                GridBagConstraints gbc_nameTextField = new GridBagConstraints();<a name="line.260"></a>
+<span class="sourceLineNo">261</span>                gbc_nameTextField.insets = new Insets(0, 0, 5, 0);<a name="line.261"></a>
+<span class="sourceLineNo">262</span>                gbc_nameTextField.fill = GridBagConstraints.HORIZONTAL;<a name="line.262"></a>
+<span class="sourceLineNo">263</span>                gbc_nameTextField.gridx = 2;<a name="line.263"></a>
+<span class="sourceLineNo">264</span>                gbc_nameTextField.gridy = 0;<a name="line.264"></a>
+<span class="sourceLineNo">265</span>                bottomPanel.add(nameTextField, gbc_nameTextField);<a name="line.265"></a>
+<span class="sourceLineNo">266</span>                nameTextField.setColumns(10);<a name="line.266"></a>
+<span class="sourceLineNo">267</span>                <a name="line.267"></a>
+<span class="sourceLineNo">268</span>                JLabel emailLabel = new JLabel("Email: ");<a name="line.268"></a>
+<span class="sourceLineNo">269</span>                GridBagConstraints gbc_emailLabel = new GridBagConstraints();<a name="line.269"></a>
+<span class="sourceLineNo">270</span>                gbc_emailLabel.insets = new Insets(0, 0, 5, 5);<a name="line.270"></a>
+<span class="sourceLineNo">271</span>                gbc_emailLabel.anchor = GridBagConstraints.EAST;<a name="line.271"></a>
+<span class="sourceLineNo">272</span>                gbc_emailLabel.gridx = 0;<a name="line.272"></a>
+<span class="sourceLineNo">273</span>                gbc_emailLabel.gridy = 1;<a name="line.273"></a>
+<span class="sourceLineNo">274</span>                bottomPanel.add(emailLabel, gbc_emailLabel);<a name="line.274"></a>
+<span class="sourceLineNo">275</span>                <a name="line.275"></a>
+<span class="sourceLineNo">276</span>                emailTextField = new JTextField();<a name="line.276"></a>
+<span class="sourceLineNo">277</span>                GridBagConstraints gbc_emailTextField = new GridBagConstraints();<a name="line.277"></a>
+<span class="sourceLineNo">278</span>                gbc_emailTextField.insets = new Insets(0, 0, 5, 0);<a name="line.278"></a>
+<span class="sourceLineNo">279</span>                gbc_emailTextField.fill = GridBagConstraints.HORIZONTAL;<a name="line.279"></a>
+<span class="sourceLineNo">280</span>                gbc_emailTextField.gridx = 2;<a name="line.280"></a>
+<span class="sourceLineNo">281</span>                gbc_emailTextField.gridy = 1;<a name="line.281"></a>
+<span class="sourceLineNo">282</span>                bottomPanel.add(emailTextField, gbc_emailTextField);<a name="line.282"></a>
+<span class="sourceLineNo">283</span>                emailTextField.setColumns(10);<a name="line.283"></a>
+<span class="sourceLineNo">284</span>                <a name="line.284"></a>
+<span class="sourceLineNo">285</span>                JLabel phoneLabel = new JLabel("Phone: ");<a name="line.285"></a>
+<span class="sourceLineNo">286</span>                GridBagConstraints gbc_phoneLabel = new GridBagConstraints();<a name="line.286"></a>
+<span class="sourceLineNo">287</span>                gbc_phoneLabel.insets = new Insets(0, 0, 5, 5);<a name="line.287"></a>
+<span class="sourceLineNo">288</span>                gbc_phoneLabel.anchor = GridBagConstraints.EAST;<a name="line.288"></a>
+<span class="sourceLineNo">289</span>                gbc_phoneLabel.gridx = 0;<a name="line.289"></a>
+<span class="sourceLineNo">290</span>                gbc_phoneLabel.gridy = 2;<a name="line.290"></a>
+<span class="sourceLineNo">291</span>                bottomPanel.add(phoneLabel, gbc_phoneLabel);<a name="line.291"></a>
+<span class="sourceLineNo">292</span>                <a name="line.292"></a>
+<span class="sourceLineNo">293</span>                phoneTextField = new JTextField();<a name="line.293"></a>
+<span class="sourceLineNo">294</span>                GridBagConstraints gbc_phoneTextField = new GridBagConstraints();<a name="line.294"></a>
+<span class="sourceLineNo">295</span>                gbc_phoneTextField.insets = new Insets(0, 0, 5, 0);<a name="line.295"></a>
+<span class="sourceLineNo">296</span>                gbc_phoneTextField.fill = GridBagConstraints.HORIZONTAL;<a name="line.296"></a>
+<span class="sourceLineNo">297</span>                gbc_phoneTextField.gridx = 2;<a name="line.297"></a>
+<span class="sourceLineNo">298</span>                gbc_phoneTextField.gridy = 2;<a name="line.298"></a>
+<span class="sourceLineNo">299</span>                bottomPanel.add(phoneTextField, gbc_phoneTextField);<a name="line.299"></a>
+<span class="sourceLineNo">300</span>                phoneTextField.setColumns(10);<a name="line.300"></a>
+<span class="sourceLineNo">301</span>                <a name="line.301"></a>
+<span class="sourceLineNo">302</span>                JLabel mobileLabel1 = new JLabel("MobilePhone1:");<a name="line.302"></a>
+<span class="sourceLineNo">303</span>                GridBagConstraints gbc_mobileLabel1 = new GridBagConstraints();<a name="line.303"></a>
+<span class="sourceLineNo">304</span>                gbc_mobileLabel1.insets = new Insets(0, 0, 5, 5);<a name="line.304"></a>
+<span class="sourceLineNo">305</span>                gbc_mobileLabel1.anchor = GridBagConstraints.EAST;<a name="line.305"></a>
+<span class="sourceLineNo">306</span>                gbc_mobileLabel1.gridx = 0;<a name="line.306"></a>
+<span class="sourceLineNo">307</span>                gbc_mobileLabel1.gridy = 3;<a name="line.307"></a>
+<span class="sourceLineNo">308</span>                bottomPanel.add(mobileLabel1, gbc_mobileLabel1);<a name="line.308"></a>
+<span class="sourceLineNo">309</span>                <a name="line.309"></a>
+<span class="sourceLineNo">310</span>                mobil1TextField = new JTextField();<a name="line.310"></a>
+<span class="sourceLineNo">311</span>                GridBagConstraints gbc_mobil1TextField = new GridBagConstraints();<a name="line.311"></a>
+<span class="sourceLineNo">312</span>                gbc_mobil1TextField.insets = new Insets(0, 0, 5, 0);<a name="line.312"></a>
+<span class="sourceLineNo">313</span>                gbc_mobil1TextField.fill = GridBagConstraints.HORIZONTAL;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>                gbc_mobil1TextField.gridx = 2;<a name="line.314"></a>
+<span class="sourceLineNo">315</span>                gbc_mobil1TextField.gridy = 3;<a name="line.315"></a>
+<span class="sourceLineNo">316</span>                bottomPanel.add(mobil1TextField, gbc_mobil1TextField);<a name="line.316"></a>
+<span class="sourceLineNo">317</span>                mobil1TextField.setColumns(10);<a name="line.317"></a>
+<span class="sourceLineNo">318</span>                <a name="line.318"></a>
+<span class="sourceLineNo">319</span>                JLabel mobileLabel2 = new JLabel("MobilPhone2:");<a name="line.319"></a>
+<span class="sourceLineNo">320</span>                GridBagConstraints gbc_mobileLabel2 = new GridBagConstraints();<a name="line.320"></a>
+<span class="sourceLineNo">321</span>                gbc_mobileLabel2.insets = new Insets(0, 0, 5, 5);<a name="line.321"></a>
+<span class="sourceLineNo">322</span>                gbc_mobileLabel2.anchor = GridBagConstraints.EAST;<a name="line.322"></a>
+<span class="sourceLineNo">323</span>                gbc_mobileLabel2.gridx = 0;<a name="line.323"></a>
+<span class="sourceLineNo">324</span>                gbc_mobileLabel2.gridy = 4;<a name="line.324"></a>
+<span class="sourceLineNo">325</span>                bottomPanel.add(mobileLabel2, gbc_mobileLabel2);<a name="line.325"></a>
+<span class="sourceLineNo">326</span>                <a name="line.326"></a>
+<span class="sourceLineNo">327</span>                mobil2TextField = new JTextField();<a name="line.327"></a>
+<span class="sourceLineNo">328</span>                GridBagConstraints gbc_mobil2TextField = new GridBagConstraints();<a name="line.328"></a>
+<span class="sourceLineNo">329</span>                gbc_mobil2TextField.insets = new Insets(0, 0, 5, 0);<a name="line.329"></a>
+<span class="sourceLineNo">330</span>                gbc_mobil2TextField.fill = GridBagConstraints.HORIZONTAL;<a name="line.330"></a>
+<span class="sourceLineNo">331</span>                gbc_mobil2TextField.gridx = 2;<a name="line.331"></a>
+<span class="sourceLineNo">332</span>                gbc_mobil2TextField.gridy = 4;<a name="line.332"></a>
+<span class="sourceLineNo">333</span>                bottomPanel.add(mobil2TextField, gbc_mobil2TextField);<a name="line.333"></a>
+<span class="sourceLineNo">334</span>                mobil2TextField.setColumns(10);<a name="line.334"></a>
+<span class="sourceLineNo">335</span>                initDataBindings();<a name="line.335"></a>
+<span class="sourceLineNo">336</span>        <a name="line.336"></a>
+<span class="sourceLineNo">337</span>        }<a name="line.337"></a>
+<span class="sourceLineNo">338</span>        @SuppressWarnings("rawtypes")<a name="line.338"></a>
+<span class="sourceLineNo">339</span>        protected void initDataBindings() {<a name="line.339"></a>
+<span class="sourceLineNo">340</span>                BeanProperty&lt;PhoneGroups, List&lt;PhoneGroup&gt;&gt; phoneGroupsBeanProperty = BeanProperty.create("categories");<a name="line.340"></a>
+<span class="sourceLineNo">341</span>                JListBinding&lt;PhoneGroup, PhoneGroups, JList&gt; jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, m_categories, phoneGroupsBeanProperty, categoriesList);<a name="line.341"></a>
+<span class="sourceLineNo">342</span>                //<a name="line.342"></a>
+<span class="sourceLineNo">343</span>                ELProperty&lt;PhoneGroup, Object&gt; phoneGroupEvalutionProperty = ELProperty.create("${name}(${personCount})");<a name="line.343"></a>
+<span class="sourceLineNo">344</span>                jListBinding.setDetailBinding(phoneGroupEvalutionProperty);<a name="line.344"></a>
+<span class="sourceLineNo">345</span>                //<a name="line.345"></a>
+<span class="sourceLineNo">346</span>                jListBinding.bind();<a name="line.346"></a>
+<span class="sourceLineNo">347</span>                //<a name="line.347"></a>
+<span class="sourceLineNo">348</span>                BeanProperty&lt;JList, List&lt;Person&gt;&gt; jListBeanProperty = BeanProperty.create("selectedElement.persons");<a name="line.348"></a>
+<span class="sourceLineNo">349</span>                JTableBinding&lt;Person, JList, JTable&gt; jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, categoriesList, jListBeanProperty, tableOfPersons);<a name="line.349"></a>
+<span class="sourceLineNo">350</span>                //<a name="line.350"></a>
+<span class="sourceLineNo">351</span>                BeanProperty&lt;Person, String&gt; personBeanProperty = BeanProperty.create("name");<a name="line.351"></a>
+<span class="sourceLineNo">352</span>                jTableBinding.addColumnBinding(personBeanProperty).setColumnName("Name");<a name="line.352"></a>
+<span class="sourceLineNo">353</span>                //<a name="line.353"></a>
+<span class="sourceLineNo">354</span>                BeanProperty&lt;Person, String&gt; personBeanProperty_1 = BeanProperty.create("email");<a name="line.354"></a>
+<span class="sourceLineNo">355</span>                jTableBinding.addColumnBinding(personBeanProperty_1).setColumnName("Email");<a name="line.355"></a>
+<span class="sourceLineNo">356</span>                //<a name="line.356"></a>
+<span class="sourceLineNo">357</span>                BeanProperty&lt;Person, String&gt; personBeanProperty_2 = BeanProperty.create("phone");<a name="line.357"></a>
+<span class="sourceLineNo">358</span>                jTableBinding.addColumnBinding(personBeanProperty_2).setColumnName("Phone");<a name="line.358"></a>
+<span class="sourceLineNo">359</span>                //<a name="line.359"></a>
+<span class="sourceLineNo">360</span>                BeanProperty&lt;Person, String&gt; personBeanProperty_3 = BeanProperty.create("mobilePhone1");<a name="line.360"></a>
+<span class="sourceLineNo">361</span>                jTableBinding.addColumnBinding(personBeanProperty_3).setColumnName("MobilePhone1");<a name="line.361"></a>
+<span class="sourceLineNo">362</span>                //<a name="line.362"></a>
+<span class="sourceLineNo">363</span>                BeanProperty&lt;Person, String&gt; personBeanProperty_4 = BeanProperty.create("mobilePhone2");<a name="line.363"></a>
+<span class="sourceLineNo">364</span>                jTableBinding.addColumnBinding(personBeanProperty_4).setColumnName("MobilePhone2");<a name="line.364"></a>
+<span class="sourceLineNo">365</span>                //<a name="line.365"></a>
+<span class="sourceLineNo">366</span>                BeanProperty&lt;Person, String&gt; personBeanProperty_5 = BeanProperty.create("string");<a name="line.366"></a>
+<span class="sourceLineNo">367</span>                jTableBinding.addColumnBinding(personBeanProperty_5).setColumnName("String");<a name="line.367"></a>
+<span class="sourceLineNo">368</span>                //<a name="line.368"></a>
+<span class="sourceLineNo">369</span>                jTableBinding.bind();<a name="line.369"></a>
+<span class="sourceLineNo">370</span>                //<a name="line.370"></a>
+<span class="sourceLineNo">371</span>                BeanProperty&lt;JTable, String&gt; jTableBeanProperty = BeanProperty.create("selectedElement.name");<a name="line.371"></a>
+<span class="sourceLineNo">372</span>                BeanProperty&lt;JTextField, String&gt; jTextFieldBeanProperty = BeanProperty.create("text");<a name="line.372"></a>
+<span class="sourceLineNo">373</span>                AutoBinding&lt;JTable, String, JTextField, String&gt; autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, tableOfPersons, jTableBeanProperty, nameTextField, jTextFieldBeanProperty);<a name="line.373"></a>
+<span class="sourceLineNo">374</span>                autoBinding_2.bind();<a name="line.374"></a>
+<span class="sourceLineNo">375</span>                //<a name="line.375"></a>
+<span class="sourceLineNo">376</span>                BeanProperty&lt;JTable, String&gt; jTableBeanProperty_1 = BeanProperty.create("selectedElement.email");<a name="line.376"></a>
+<span class="sourceLineNo">377</span>                BeanProperty&lt;JTextField, String&gt; jTextFieldBeanProperty_1 = BeanProperty.create("text");<a name="line.377"></a>
+<span class="sourceLineNo">378</span>                AutoBinding&lt;JTable, String, JTextField, String&gt; autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, tableOfPersons, jTableBeanProperty_1, emailTextField, jTextFieldBeanProperty_1);<a name="line.378"></a>
+<span class="sourceLineNo">379</span>                autoBinding.bind();<a name="line.379"></a>
+<span class="sourceLineNo">380</span>                //<a name="line.380"></a>
+<span class="sourceLineNo">381</span>                BeanProperty&lt;JTable, String&gt; jTableBeanProperty_2 = BeanProperty.create("selectedElement.phone");<a name="line.381"></a>
+<span class="sourceLineNo">382</span>                BeanProperty&lt;JTextField, String&gt; jTextFieldBeanProperty_2 = BeanProperty.create("text");<a name="line.382"></a>
+<span class="sourceLineNo">383</span>                AutoBinding&lt;JTable, String, JTextField, String&gt; autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, tableOfPersons, jTableBeanProperty_2, phoneTextField, jTextFieldBeanProperty_2);<a name="line.383"></a>
+<span class="sourceLineNo">384</span>                autoBinding_1.bind();<a name="line.384"></a>
+<span class="sourceLineNo">385</span>                //<a name="line.385"></a>
+<span class="sourceLineNo">386</span>                BeanProperty&lt;JTable, String&gt; jTableBeanProperty_3 = BeanProperty.create("selectedElement.mobilePhone1");<a name="line.386"></a>
+<span class="sourceLineNo">387</span>                BeanProperty&lt;JTextField, String&gt; jTextFieldBeanProperty_3 = BeanProperty.create("text");<a name="line.387"></a>
+<span class="sourceLineNo">388</span>                AutoBinding&lt;JTable, String, JTextField, String&gt; autoBinding_3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, tableOfPersons, jTableBeanProperty_3, mobil1TextField, jTextFieldBeanProperty_3);<a name="line.388"></a>
+<span class="sourceLineNo">389</span>                autoBinding_3.bind();<a name="line.389"></a>
+<span class="sourceLineNo">390</span>                //<a name="line.390"></a>
+<span class="sourceLineNo">391</span>                BeanProperty&lt;JTable, String&gt; jTableBeanProperty_4 = BeanProperty.create("selectedElement.mobilePhone2");<a name="line.391"></a>
+<span class="sourceLineNo">392</span>                BeanProperty&lt;JTextField, String&gt; jTextFieldBeanProperty_4 = BeanProperty.create("text");<a name="line.392"></a>
+<span class="sourceLineNo">393</span>                AutoBinding&lt;JTable, String, JTextField, String&gt; autoBinding_4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, tableOfPersons, jTableBeanProperty_4, mobil2TextField, jTextFieldBeanProperty_4);<a name="line.393"></a>
+<span class="sourceLineNo">394</span>                autoBinding_4.bind();<a name="line.394"></a>
+<span class="sourceLineNo">395</span>                //<a name="line.395"></a>
+<span class="sourceLineNo">396</span>                ELProperty&lt;JList, Object&gt; jListEvalutionProperty_1 = ELProperty.create("${selectedElement != null}");<a name="line.396"></a>
+<span class="sourceLineNo">397</span>                BeanProperty&lt;JButton, Boolean&gt; jButtonBeanProperty = BeanProperty.create("enabled");<a name="line.397"></a>
+<span class="sourceLineNo">398</span>                AutoBinding&lt;JList, Object, JButton, Boolean&gt; autoBinding_6 = Bindings.createAutoBinding(UpdateStrategy.READ, categoriesList, jListEvalutionProperty_1, groupsDeleteButton, jButtonBeanProperty);<a name="line.398"></a>
+<span class="sourceLineNo">399</span>                autoBinding_6.bind();<a name="line.399"></a>
+<span class="sourceLineNo">400</span>                //<a name="line.400"></a>
+<span class="sourceLineNo">401</span>                ELProperty&lt;JTable, Object&gt; jTableEvalutionProperty = ELProperty.create("${selectedElement != null}");<a name="line.401"></a>
+<span class="sourceLineNo">402</span>                AutoBinding&lt;JTable, Object, JButton, Boolean&gt; autoBinding_7 = Bindings.createAutoBinding(UpdateStrategy.READ, tableOfPersons, jTableEvalutionProperty, personDeleteButton, jButtonBeanProperty);<a name="line.402"></a>
+<span class="sourceLineNo">403</span>                autoBinding_7.bind();<a name="line.403"></a>
+<span class="sourceLineNo">404</span>                //<a name="line.404"></a>
+<span class="sourceLineNo">405</span>                ELProperty&lt;JList, Object&gt; jListEvalutionProperty = ELProperty.create("${selectedElement != null}");<a name="line.405"></a>
+<span class="sourceLineNo">406</span>                AutoBinding&lt;JList, Object, JButton, Boolean&gt; autoBinding_5 = Bindings.createAutoBinding(UpdateStrategy.READ, categoriesList, jListEvalutionProperty, groupsEditButton, jButtonBeanProperty);<a name="line.406"></a>
+<span class="sourceLineNo">407</span>                autoBinding_5.bind();<a name="line.407"></a>
+<span class="sourceLineNo">408</span>        }<a name="line.408"></a>
+<span class="sourceLineNo">409</span>}<a name="line.409"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

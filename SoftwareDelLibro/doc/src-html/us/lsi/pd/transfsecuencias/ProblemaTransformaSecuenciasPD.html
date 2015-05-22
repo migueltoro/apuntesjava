@@ -1,0 +1,266 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.pd.transfsecuencias;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.List;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.Comparator;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>import com.google.common.base.Preconditions;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import com.google.common.collect.Lists;<a name="line.7"></a>
+<span class="sourceLineNo">008</span><a name="line.8"></a>
+<span class="sourceLineNo">009</span>import us.lsi.pd.ProblemaPD;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import us.lsi.pd.AlgoritmoPD.Sp;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import us.lsi.pd.transfsecuencias.AlternativaSecuencia.Accion;<a name="line.11"></a>
+<span class="sourceLineNo">012</span><a name="line.12"></a>
+<span class="sourceLineNo">013</span>public class ProblemaTransformaSecuenciasPD implements ProblemaPD&lt;List&lt;AlternativaSecuencia&gt;, Accion&gt; {<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>        <a name="line.15"></a>
+<span class="sourceLineNo">016</span>        public static ProblemaTransformaSecuenciasPD create(String original,<a name="line.16"></a>
+<span class="sourceLineNo">017</span>                        int index,Double valorAcumulado) {<a name="line.17"></a>
+<span class="sourceLineNo">018</span>                return new ProblemaTransformaSecuenciasPD(original, index,valorAcumulado);<a name="line.18"></a>
+<span class="sourceLineNo">019</span>        }<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>        public static ProblemaTransformaSecuenciasPD create() {<a name="line.21"></a>
+<span class="sourceLineNo">022</span>                return new ProblemaTransformaSecuenciasPD(<a name="line.22"></a>
+<span class="sourceLineNo">023</span>                                new String(ProblemaTransformaSecuencias.original), 0, 0.);<a name="line.23"></a>
+<span class="sourceLineNo">024</span>        }<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>        private String original;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>        private int index;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>        private Double valorAcumulado;<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>        <a name="line.30"></a>
+<span class="sourceLineNo">031</span>        <a name="line.31"></a>
+<span class="sourceLineNo">032</span>        private ProblemaTransformaSecuenciasPD(<a name="line.32"></a>
+<span class="sourceLineNo">033</span>                        String original, <a name="line.33"></a>
+<span class="sourceLineNo">034</span>                        int index,<a name="line.34"></a>
+<span class="sourceLineNo">035</span>                        Double valorAcumulado) {<a name="line.35"></a>
+<span class="sourceLineNo">036</span>                super();<a name="line.36"></a>
+<span class="sourceLineNo">037</span>                this.original = new StringBuilder(original).toString();<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                this.index = index;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                this.valorAcumulado = valorAcumulado;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>        }<a name="line.40"></a>
+<span class="sourceLineNo">041</span><a name="line.41"></a>
+<span class="sourceLineNo">042</span>        private char getCharEnOriginal(){<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                Preconditions.checkElementIndex(0, this.original.length());<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                return this.original.charAt(this.index);<a name="line.44"></a>
+<span class="sourceLineNo">045</span>        }<a name="line.45"></a>
+<span class="sourceLineNo">046</span>        <a name="line.46"></a>
+<span class="sourceLineNo">047</span>        private char getCharEnTransformada(){<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                Preconditions.checkElementIndex(0, ProblemaTransformaSecuencias.transformada.length());<a name="line.48"></a>
+<span class="sourceLineNo">049</span>                return ProblemaTransformaSecuencias.transformada.charAt(this.index);<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        }<a name="line.50"></a>
+<span class="sourceLineNo">051</span>        <a name="line.51"></a>
+<span class="sourceLineNo">052</span>        @Override<a name="line.52"></a>
+<span class="sourceLineNo">053</span>        public ProblemaPD.Tipo getTipo() {<a name="line.53"></a>
+<span class="sourceLineNo">054</span>                return Tipo.Min;<a name="line.54"></a>
+<span class="sourceLineNo">055</span>        }<a name="line.55"></a>
+<span class="sourceLineNo">056</span>        @Override<a name="line.56"></a>
+<span class="sourceLineNo">057</span>        public int size() {<a name="line.57"></a>
+<span class="sourceLineNo">058</span>                return ProblemaTransformaSecuencias.tamTransformada-this.index+<a name="line.58"></a>
+<span class="sourceLineNo">059</span>                                this.original.length()-this.index;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>        }<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>        @Override<a name="line.62"></a>
+<span class="sourceLineNo">063</span>        public boolean esCasoBase() {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>                return this.size() ==0 ;<a name="line.64"></a>
+<span class="sourceLineNo">065</span>        }<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>        @Override<a name="line.67"></a>
+<span class="sourceLineNo">068</span>        public Sp&lt;Accion&gt; getSolucionCasoBase() {<a name="line.68"></a>
+<span class="sourceLineNo">069</span>                return Sp.create(Accion.Nada, 0.);<a name="line.69"></a>
+<span class="sourceLineNo">070</span>        }<a name="line.70"></a>
+<span class="sourceLineNo">071</span><a name="line.71"></a>
+<span class="sourceLineNo">072</span>        @Override<a name="line.72"></a>
+<span class="sourceLineNo">073</span>        public Sp&lt;Accion&gt; seleccionaAlternativa(List&lt;Sp&lt;Accion&gt;&gt; ls) {<a name="line.73"></a>
+<span class="sourceLineNo">074</span>                return ls.stream().filter(x-&gt;x!=null)<a name="line.74"></a>
+<span class="sourceLineNo">075</span>                                .min(Comparator.&lt;Sp&lt;Accion&gt;&gt;naturalOrder())<a name="line.75"></a>
+<span class="sourceLineNo">076</span>                                .get();<a name="line.76"></a>
+<span class="sourceLineNo">077</span>        }<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>        @Override<a name="line.79"></a>
+<span class="sourceLineNo">080</span>        public ProblemaPD&lt;List&lt;AlternativaSecuencia&gt;, Accion&gt; getSubProblema(Accion a, int i) {<a name="line.80"></a>
+<span class="sourceLineNo">081</span>                Preconditions.checkArgument(i==0);<a name="line.81"></a>
+<span class="sourceLineNo">082</span>                StringBuilder s = new StringBuilder(this.original);<a name="line.82"></a>
+<span class="sourceLineNo">083</span>                int index = this.index;<a name="line.83"></a>
+<span class="sourceLineNo">084</span>                Double valorAcumulado = this.valorAcumulado;<a name="line.84"></a>
+<span class="sourceLineNo">085</span>                switch(a){<a name="line.85"></a>
+<span class="sourceLineNo">086</span>                case Cambia: s.setCharAt(index, this.getCharEnTransformada()); <a name="line.86"></a>
+<span class="sourceLineNo">087</span>                                         index++; valorAcumulado++ ; break;<a name="line.87"></a>
+<span class="sourceLineNo">088</span>                case Elimina: s = s.deleteCharAt(index); valorAcumulado++; break;<a name="line.88"></a>
+<span class="sourceLineNo">089</span>                case Añade: s = s.append(this.getCharEnTransformada());<a name="line.89"></a>
+<span class="sourceLineNo">090</span>                                         index++; valorAcumulado++ ; break;<a name="line.90"></a>
+<span class="sourceLineNo">091</span>                case Avanza: index++; break;<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                case Nada: break;<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                }<a name="line.93"></a>
+<span class="sourceLineNo">094</span>                String r = s.toString();<a name="line.94"></a>
+<span class="sourceLineNo">095</span>                ProblemaTransformaSecuenciasPD p =ProblemaTransformaSecuenciasPD.create(r, index, valorAcumulado);<a name="line.95"></a>
+<span class="sourceLineNo">096</span>                return p;<a name="line.96"></a>
+<span class="sourceLineNo">097</span>        }<a name="line.97"></a>
+<span class="sourceLineNo">098</span><a name="line.98"></a>
+<span class="sourceLineNo">099</span>        @Override<a name="line.99"></a>
+<span class="sourceLineNo">100</span>        public Sp&lt;Accion&gt; combinaSolucionesParciales(Accion a, List&lt;Sp&lt;Accion&gt;&gt; ls) {<a name="line.100"></a>
+<span class="sourceLineNo">101</span>                return Sp.create(a, ls.get(0).propiedad+AlternativaSecuencia.getValor(a));<a name="line.101"></a>
+<span class="sourceLineNo">102</span>        }<a name="line.102"></a>
+<span class="sourceLineNo">103</span><a name="line.103"></a>
+<span class="sourceLineNo">104</span>        @Override<a name="line.104"></a>
+<span class="sourceLineNo">105</span>        public List&lt;Accion&gt; getAlternativas() {<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                List&lt;Accion&gt; r = Lists.newArrayList();<a name="line.106"></a>
+<span class="sourceLineNo">107</span>                if(!this.esCasoBase()){         <a name="line.107"></a>
+<span class="sourceLineNo">108</span>                        if(this.index == this.original.length() &amp;&amp; this.index &lt; ProblemaTransformaSecuencias.tamTransformada ){<a name="line.108"></a>
+<span class="sourceLineNo">109</span>                                r = Lists.newArrayList(Accion.Añade);<a name="line.109"></a>
+<span class="sourceLineNo">110</span>                        }else if(this.index &lt; this.original.length() &amp;&amp; this.index == ProblemaTransformaSecuencias.tamTransformada) {<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                                r = Lists.newArrayList(Accion.Elimina);<a name="line.111"></a>
+<span class="sourceLineNo">112</span>                        }else if(this.getCharEnOriginal() == this.getCharEnTransformada()){<a name="line.112"></a>
+<span class="sourceLineNo">113</span>                                r = Lists.newArrayList(Accion.Avanza);<a name="line.113"></a>
+<span class="sourceLineNo">114</span>                        }else {<a name="line.114"></a>
+<span class="sourceLineNo">115</span>                                r = Lists.newArrayList(Accion.Cambia, Accion.Elimina);<a name="line.115"></a>
+<span class="sourceLineNo">116</span>                        }<a name="line.116"></a>
+<span class="sourceLineNo">117</span>                }<a name="line.117"></a>
+<span class="sourceLineNo">118</span>                return r;<a name="line.118"></a>
+<span class="sourceLineNo">119</span>        }<a name="line.119"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
+<span class="sourceLineNo">121</span>        @Override<a name="line.121"></a>
+<span class="sourceLineNo">122</span>        public int getNumeroSubProblemas(Accion a) {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>                return this.esCasoBase() ? 0 : 1;<a name="line.123"></a>
+<span class="sourceLineNo">124</span>        }<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>        @Override<a name="line.126"></a>
+<span class="sourceLineNo">127</span>        public List&lt;AlternativaSecuencia&gt; getSolucionReconstruida(Sp&lt;Accion&gt; sp, List&lt;List&lt;AlternativaSecuencia&gt;&gt; ls) {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>                List&lt;AlternativaSecuencia&gt; ls0 = Lists.newArrayList();<a name="line.128"></a>
+<span class="sourceLineNo">129</span>                if(!ls.isEmpty()){<a name="line.129"></a>
+<span class="sourceLineNo">130</span>                        ls0 =ls.get(0);<a name="line.130"></a>
+<span class="sourceLineNo">131</span>                        if(!(sp.alternativa == Accion.Avanza || sp.alternativa==Accion.Nada)){                          <a name="line.131"></a>
+<span class="sourceLineNo">132</span>                                ls0.add(0,AlternativaSecuencia.create(this.index,sp.alternativa));<a name="line.132"></a>
+<span class="sourceLineNo">133</span>                        }<a name="line.133"></a>
+<span class="sourceLineNo">134</span>                }               <a name="line.134"></a>
+<span class="sourceLineNo">135</span>                return ls0;<a name="line.135"></a>
+<span class="sourceLineNo">136</span>        }<a name="line.136"></a>
+<span class="sourceLineNo">137</span><a name="line.137"></a>
+<span class="sourceLineNo">138</span>        @Override<a name="line.138"></a>
+<span class="sourceLineNo">139</span>        public List&lt;AlternativaSecuencia&gt; getSolucionReconstruida(Sp&lt;Accion&gt; sp) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>                List&lt;AlternativaSecuencia&gt; ls0 = Lists.newArrayList();  <a name="line.140"></a>
+<span class="sourceLineNo">141</span>                return ls0;<a name="line.141"></a>
+<span class="sourceLineNo">142</span>        }<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        <a name="line.143"></a>
+<span class="sourceLineNo">144</span>        @Override<a name="line.144"></a>
+<span class="sourceLineNo">145</span>        public Double getObjetivoEstimado(Accion a) {<a name="line.145"></a>
+<span class="sourceLineNo">146</span>                return valorAcumulado;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>        }<a name="line.147"></a>
+<span class="sourceLineNo">148</span><a name="line.148"></a>
+<span class="sourceLineNo">149</span>        @Override<a name="line.149"></a>
+<span class="sourceLineNo">150</span>        public Double getObjetivo() {<a name="line.150"></a>
+<span class="sourceLineNo">151</span>                return valorAcumulado;<a name="line.151"></a>
+<span class="sourceLineNo">152</span>        }<a name="line.152"></a>
+<span class="sourceLineNo">153</span><a name="line.153"></a>
+<span class="sourceLineNo">154</span>        @Override<a name="line.154"></a>
+<span class="sourceLineNo">155</span>        public int hashCode() {<a name="line.155"></a>
+<span class="sourceLineNo">156</span>                final int prime = 31;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>                int result = 1;<a name="line.157"></a>
+<span class="sourceLineNo">158</span>                result = prime * result + index;<a name="line.158"></a>
+<span class="sourceLineNo">159</span>                result = prime * result<a name="line.159"></a>
+<span class="sourceLineNo">160</span>                                + ((original == null) ? 0 : original.hashCode());<a name="line.160"></a>
+<span class="sourceLineNo">161</span>                return result;<a name="line.161"></a>
+<span class="sourceLineNo">162</span>        }<a name="line.162"></a>
+<span class="sourceLineNo">163</span><a name="line.163"></a>
+<span class="sourceLineNo">164</span>        @Override<a name="line.164"></a>
+<span class="sourceLineNo">165</span>        public boolean equals(Object obj) {<a name="line.165"></a>
+<span class="sourceLineNo">166</span>                if (this == obj)<a name="line.166"></a>
+<span class="sourceLineNo">167</span>                        return true;<a name="line.167"></a>
+<span class="sourceLineNo">168</span>                if (obj == null)<a name="line.168"></a>
+<span class="sourceLineNo">169</span>                        return false;<a name="line.169"></a>
+<span class="sourceLineNo">170</span>                if (!(obj instanceof ProblemaTransformaSecuenciasPD))<a name="line.170"></a>
+<span class="sourceLineNo">171</span>                        return false;<a name="line.171"></a>
+<span class="sourceLineNo">172</span>                ProblemaTransformaSecuenciasPD other = (ProblemaTransformaSecuenciasPD) obj;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>                if (index != other.index)<a name="line.173"></a>
+<span class="sourceLineNo">174</span>                        return false;<a name="line.174"></a>
+<span class="sourceLineNo">175</span>                if (original == null) {<a name="line.175"></a>
+<span class="sourceLineNo">176</span>                        if (other.original != null)<a name="line.176"></a>
+<span class="sourceLineNo">177</span>                                return false;<a name="line.177"></a>
+<span class="sourceLineNo">178</span>                } else if (!original.equals(other.original))<a name="line.178"></a>
+<span class="sourceLineNo">179</span>                        return false;<a name="line.179"></a>
+<span class="sourceLineNo">180</span>                return true;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>        }<a name="line.181"></a>
+<span class="sourceLineNo">182</span><a name="line.182"></a>
+<span class="sourceLineNo">183</span>        @Override<a name="line.183"></a>
+<span class="sourceLineNo">184</span>        public String toString() {<a name="line.184"></a>
+<span class="sourceLineNo">185</span>                return "("+original<a name="line.185"></a>
+<span class="sourceLineNo">186</span>                                + "," + index + "," + valorAcumulado<a name="line.186"></a>
+<span class="sourceLineNo">187</span>                                + ")";<a name="line.187"></a>
+<span class="sourceLineNo">188</span>        }<a name="line.188"></a>
+<span class="sourceLineNo">189</span><a name="line.189"></a>
+<span class="sourceLineNo">190</span>        <a name="line.190"></a>
+<span class="sourceLineNo">191</span><a name="line.191"></a>
+<span class="sourceLineNo">192</span>        <a name="line.192"></a>
+<span class="sourceLineNo">193</span>        <a name="line.193"></a>
+<span class="sourceLineNo">194</span>}<a name="line.194"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

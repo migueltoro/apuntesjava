@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.algoritmos;<a name="line.1"></a>
+<span class="sourceLineNo">002</span>import java.util.*;<a name="line.2"></a>
+<span class="sourceLineNo">003</span><a name="line.3"></a>
+<span class="sourceLineNo">004</span>import us.lsi.algoritmos.AlgoritmoPD.Sp;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>/**<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * &lt;p&gt;Interface que debe implementar un problema para ser resuelto por la técnica de Programación Dinámica &lt;/p&gt;<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * <a name="line.9"></a>
+<span class="sourceLineNo">010</span> * &lt;p&gt;La documentación puede encontarse en el: &lt;a href="../../../document/Tema14.pdf" target="_blank"&gt;Tema14&lt;/a&gt;&lt;/p&gt;<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * <a name="line.11"></a>
+<span class="sourceLineNo">012</span> * @author Miguel Toro<a name="line.12"></a>
+<span class="sourceLineNo">013</span> *<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * @param &lt;S&gt; El tipo de la solución del problema<a name="line.14"></a>
+<span class="sourceLineNo">015</span> * @param &lt;A&gt; El tipo de las alternativas<a name="line.15"></a>
+<span class="sourceLineNo">016</span> * @param &lt;T&gt; El tipo del objetivo<a name="line.16"></a>
+<span class="sourceLineNo">017</span> * @see AlgoritmoPD.Sp<a name="line.17"></a>
+<span class="sourceLineNo">018</span> */<a name="line.18"></a>
+<span class="sourceLineNo">019</span>public interface ProblemaPD&lt;S,A,T extends Comparable&lt;? super T&gt;&gt;  {     <a name="line.19"></a>
+<span class="sourceLineNo">020</span>        /**<a name="line.20"></a>
+<span class="sourceLineNo">021</span>         * @constraint El tamaño de un problema debe ser mayor que el de cada uno de sus subproblemas<a name="line.21"></a>
+<span class="sourceLineNo">022</span>         * @return El tamaño de un problema<a name="line.22"></a>
+<span class="sourceLineNo">023</span>         */<a name="line.23"></a>
+<span class="sourceLineNo">024</span>        int size();<a name="line.24"></a>
+<span class="sourceLineNo">025</span>        /**<a name="line.25"></a>
+<span class="sourceLineNo">026</span>         * @return Si el problema es un caso base<a name="line.26"></a>
+<span class="sourceLineNo">027</span>         */<a name="line.27"></a>
+<span class="sourceLineNo">028</span>        boolean esCasoBase();<a name="line.28"></a>
+<span class="sourceLineNo">029</span>        /**<a name="line.29"></a>
+<span class="sourceLineNo">030</span>         * @pos Si el problema no tiene solución se debe devolver null<a name="line.30"></a>
+<span class="sourceLineNo">031</span>         * @return La solución del caso base<a name="line.31"></a>
+<span class="sourceLineNo">032</span>         */<a name="line.32"></a>
+<span class="sourceLineNo">033</span>        Sp&lt;A, T&gt; getSolucionCasoBase();<a name="line.33"></a>
+<span class="sourceLineNo">034</span>        /**<a name="line.34"></a>
+<span class="sourceLineNo">035</span>         * @pre ls!=null<a name="line.35"></a>
+<span class="sourceLineNo">036</span>         * @pos Los valores null en ls deben ser eliminados de ls previamente a elegir una alterantiva. Si ls es vacía tras eliminar los valores null<a name="line.36"></a>
+<span class="sourceLineNo">037</span>         * la solución devuelta es null<a name="line.37"></a>
+<span class="sourceLineNo">038</span>         * @param ls - Soluciones de los subproblemas alcanzados tras tomar las diferentes alternativas<a name="line.38"></a>
+<span class="sourceLineNo">039</span>         * @return La solución del problema<a name="line.39"></a>
+<span class="sourceLineNo">040</span>         */<a name="line.40"></a>
+<span class="sourceLineNo">041</span>        Sp&lt;A, T&gt; seleccionaAlternativa(List&lt;Sp&lt;A, T&gt;&gt; ls);<a name="line.41"></a>
+<span class="sourceLineNo">042</span>        /**<a name="line.42"></a>
+<span class="sourceLineNo">043</span>         * @pre 0 &amp;lt; = i &amp;lt; getNumeroSubProblemas(a)<a name="line.43"></a>
+<span class="sourceLineNo">044</span>         * @param a - Alternativa escogida<a name="line.44"></a>
+<span class="sourceLineNo">045</span>         * @param i - Número del subproblema<a name="line.45"></a>
+<span class="sourceLineNo">046</span>         * @return Subproblema<a name="line.46"></a>
+<span class="sourceLineNo">047</span>         */<a name="line.47"></a>
+<span class="sourceLineNo">048</span>        ProblemaPD&lt;S,A,T&gt; getSubProblema(A a, int i);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>        /**<a name="line.49"></a>
+<span class="sourceLineNo">050</span>         * @pre ls.size() == getNumeroSubProblemas(a) y a está incluida en getAlternativas()<a name="line.50"></a>
+<span class="sourceLineNo">051</span>         * @pos  Si un elemento de ls es null la solución devuelta es también null<a name="line.51"></a>
+<span class="sourceLineNo">052</span>         * @param a - Alternativa escogida<a name="line.52"></a>
+<span class="sourceLineNo">053</span>         * @param ls - Soluciones de los subproblemas<a name="line.53"></a>
+<span class="sourceLineNo">054</span>         * @return La solución para un problema si las soluciones para los subproblemas están en ls <a name="line.54"></a>
+<span class="sourceLineNo">055</span>         * y se escoge la alternativa a<a name="line.55"></a>
+<span class="sourceLineNo">056</span>         */<a name="line.56"></a>
+<span class="sourceLineNo">057</span>        Sp&lt;A, T&gt; combinaSolucionesParciales(A a , List&lt;Sp&lt;A, T&gt;&gt; ls);   <a name="line.57"></a>
+<span class="sourceLineNo">058</span>        /**<a name="line.58"></a>
+<span class="sourceLineNo">059</span>         * @pos Si un problema no tiene solución el conjunto de alternativas es vacío <a name="line.59"></a>
+<span class="sourceLineNo">060</span>         * @return Las alternativas disponibles para el problema<a name="line.60"></a>
+<span class="sourceLineNo">061</span>         */<a name="line.61"></a>
+<span class="sourceLineNo">062</span>        Iterable&lt;A&gt; getAlternativas();<a name="line.62"></a>
+<span class="sourceLineNo">063</span>        /**<a name="line.63"></a>
+<span class="sourceLineNo">064</span>         * @param a - Alternativa escogida<a name="line.64"></a>
+<span class="sourceLineNo">065</span>         * @return Número de subproblemas para una alternativa dada<a name="line.65"></a>
+<span class="sourceLineNo">066</span>         */<a name="line.66"></a>
+<span class="sourceLineNo">067</span>        int getNumeroSubProblemas(A a);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>        /**<a name="line.68"></a>
+<span class="sourceLineNo">069</span>         * @pre El problema es un caso base<a name="line.69"></a>
+<span class="sourceLineNo">070</span>         * @param sp - Solución parcial del caso base<a name="line.70"></a>
+<span class="sourceLineNo">071</span>         * @return La solución para un caso base si la solución parcial es a. Si no tiene solución se devuelve null. <a name="line.71"></a>
+<span class="sourceLineNo">072</span>         */<a name="line.72"></a>
+<span class="sourceLineNo">073</span>        S getSolucionReconstruida(Sp&lt;A, T&gt; sp); <a name="line.73"></a>
+<span class="sourceLineNo">074</span>        /**<a name="line.74"></a>
+<span class="sourceLineNo">075</span>         * @pre El problema no es un caso base, ls !=null y ls.size() &amp;lt; 0 y a  una de las alternativas del problema<a name="line.75"></a>
+<span class="sourceLineNo">076</span>         * @param sp - Solución parcial del problema<a name="line.76"></a>
+<span class="sourceLineNo">077</span>         * @param ls - Soluciones de los subproblemas<a name="line.77"></a>
+<span class="sourceLineNo">078</span>         * @return La solución para un problema si las soluciones para los subproblemas están en ls <a name="line.78"></a>
+<span class="sourceLineNo">079</span>         * y la solución parcial del problema es  a. Si un problema no tiene solución se devuelve null. Un problema <a name="line.79"></a>
+<span class="sourceLineNo">080</span>         * que tiene algún subproblema sin solución no tiene solución tampoco<a name="line.80"></a>
+<span class="sourceLineNo">081</span>         */<a name="line.81"></a>
+<span class="sourceLineNo">082</span>        S getSolucionReconstruida(Sp&lt;A, T&gt; sp, List&lt;S&gt; ls);     <a name="line.82"></a>
+<span class="sourceLineNo">083</span>}<a name="line.83"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

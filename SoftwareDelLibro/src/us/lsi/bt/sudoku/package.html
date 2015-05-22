@@ -1,0 +1,51 @@
+<HTML>
+<BODY>
+
+<p> El Problema del Sudoku problema clásico que puede ser resuelto por diversas técnicas algorítmicas.<p>
+
+<p> El problema parte de una cuadrícula de tamaño N. Es decir con N filas y N columnas. La cuadrícula está subdividida en subcuadrículas de tamaño M que deber ser divisor de M.
+Hay, por lo tanto, N*N casillas y (N/M)*(N/M) subcuadrículas. </p>
+
+<p> Cada casilla puede ser identificada por las coordenadas (x,y). Ambas toman valores en el rango [0,N). Una casilla puede ser identificada alternativamente por
+un entero p en el rango [0,N*N). El entero que se asocia a cada casilla se determina asignado 0 a la casilla  (0,0), 1 a (1,0) y siguiendo una fila tras otra. </p>
+
+
+<p> El objetivo del problema es colocar un número entero del intervalo [0,...,N) en cada casilla de tal forma que en cada fila, cada columna y cada subcuadrícula estén todos los valores posibles.
+Al principio se dan un conjunto de casillas con valores predeterminados </p>
+
+<p>&nbsp;</p>
+<p>Fichero de datos de entrada con las posiciones ocupadas: x, y e informaci&oacute;n en la casilla correspondiente.</p>
+<p>0,8,6<br>0,6,1<br>0,0,3<br>1,8,8<br>1,6,3<br>1,5,9<br>1,2,7<br>2,4,6<br>3,7,3<br>3,3,8<br>3,1,9<br>4,8,4<br>4,6,7<br>4,2,8<br>4,0,5<br>5,7,5<br>5,5,7<br>5,1,4<br>6,4,7<br>7,6,5<br>7,3,2<br>7,2,9<br>7,0,1<br>8,8,1<br>8,2,6<br>8,0,8</p>
+<p>La informaci&oacute;n del fichero se puede representar de una forma m&aacute;s gr&aacute;fica:</p>
+<p>6 8 0 0 4 0 0 0 1<br> 0 0 0 3 0 5 0 0 0<br> 1 3 0 0 7 0 0 5 0<br> 0 9 0 0 0 7 0 0 0<br> 0 0 6 0 0 0 7 0 0<br> 0 0 0 8 0 0 0 2 0<br> 0 7 0 0 8 0 0 9 6<br> 0 0 0 9 0 4 0 0 0<br> 3 0 0 0 5 0 0 1 8</p>
+<p>La disposici&oacute;n anterior puede valorarse con un valor:</p>
+<p>Objetivo = 165</p>
+<p>Cuando este objetivo alcanza el cero hemos encontrado una soluci&oacute;n como es el caso:</p>
+<p>6 8 5 2 4 9 3 7 1<br> 9 2 7 3 1 5 8 6 4<br> 1 3 4 6 7 8 9 5 2<br> 8 9 1 5 2 7 6 4 3<br> 2 5 6 4 3 1 7 8 9<br> 7 4 3 8 9 6 1 2 5<br> 4 7 2 1 8 3 5 9 6<br> 5 1 8 9 6 4 2 3 7<br> 3 6 9 7 5 2 4 1 8</p>
+<p>Objetivo = 0</p>
+<p>&nbsp;</p>
+
+
+
+<p> Los datos que aparecen en un Sodoku pueden ser modelados como un objeto del tipo {@link us.lsi.bt.sudoku.CuadroSudoku CuadroSudoku}
+</p>
+
+<p> A un Problema Sudoku le podemos asociar el tipo {@link us.lsi.bt.sudoku.ProblemaSudoku ProblemaSudoku} </p>
+
+<p> Las clases disponibles en el paquete son: </p>
+
+<p> <ul>
+<li> La clase {@link us.lsi.bt.sudoku.Casilla Casilla} representa las casillas.
+<li> La clase {@link us.lsi.bt.sudoku.CuadroSudoku CuadroSudoku} representa una cuadrícula tamaño N*N con valores en las casillas. 
+<li> La clase {@link us.lsi.bt.sudoku.ProblemaSodoku ProblemaSudoku} implementa los detalles de un Problema Sudoku
+<li> La clase {@link us.lsi.bt.sudoku.EstadoSudokuBT EstadoSudokuBT} implementa estado del problema para ser resuelto mediante Bactracking
+<li> La clase {@link us.lsi.bt.sudoku.EstadoSudokuSAAp1 EstadoSudokuSAAp1} implementa estado del problema para ser resuelto mediante Simulated Annealing
+<li> La clase {@link us.lsi.bt.sudoku.EstadoSudokuSAAp2 EstadoSudokuSAAp2} implementa estado del problema para ser resuelto mediante Simulated Annealing
+<li> La clase {@link us.lsi.bt.sudoku.ProblemaSudokuBT ProblemaSudokuBT} implementa un problema para ser resuelto mediante Bactracking
+<li> La clase {@link us.lsi.bt.sudoku.ProblemaSudokuSAAp1 ProblemaSudokuSAAp1} implementa un problema para ser resuelto mediante Simulated Annealing
+<li> La clase {@link us.lsi.bt.sudoku.ProblemaSudokuSAAp2 ProblemaSudokuSAAp2} implementa un problema para ser resuelto mediante Simulated Annealing
+</ul> </p> 
+<p> El paquete incluye clases de test </p>
+</BODY>
+</HTML>
+ 

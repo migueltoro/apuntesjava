@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.astar.laberinto;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.List;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.Set;<a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.util.stream.Collectors;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.util.stream.Stream;<a name="line.6"></a>
+<span class="sourceLineNo">007</span><a name="line.7"></a>
+<span class="sourceLineNo">008</span>import org.jgrapht.GraphPath;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import org.jgrapht.Graphs;<a name="line.9"></a>
+<span class="sourceLineNo">010</span><a name="line.10"></a>
+<span class="sourceLineNo">011</span>import com.google.common.collect.HashBasedTable;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import com.google.common.collect.Lists;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import com.google.common.collect.Table;<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>import us.lsi.common.ParInteger;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>import us.lsi.graphs.*;<a name="line.16"></a>
+<span class="sourceLineNo">017</span>import us.lsi.stream.Stream2;<a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>public class Casilla implements VirtualVertex&lt;Casilla,SimpleEdge&lt;Casilla&gt;&gt; {<a name="line.19"></a>
+<span class="sourceLineNo">020</span>        private Integer x;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>        private Integer y;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>        private Integer info;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>        public static int numX;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>        public static int numY;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>        public static Table&lt;Integer,Integer,Integer&gt; datosCasillas = HashBasedTable.&lt;Integer,Integer,Integer&gt;create();<a name="line.25"></a>
+<span class="sourceLineNo">026</span>        <a name="line.26"></a>
+<span class="sourceLineNo">027</span>        private Casilla(int x, int y) {<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                super();<a name="line.28"></a>
+<span class="sourceLineNo">029</span>                this.x = x;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                this.y = y;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                this.info = datosCasillas.get(y, y);<a name="line.31"></a>
+<span class="sourceLineNo">032</span>                if(!isValid()){<a name="line.32"></a>
+<span class="sourceLineNo">033</span>                        throw new IllegalArgumentException("Casilla no valida con "+this.x+","+this.y+","+this.info);<a name="line.33"></a>
+<span class="sourceLineNo">034</span>                }<a name="line.34"></a>
+<span class="sourceLineNo">035</span>        }<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        <a name="line.36"></a>
+<span class="sourceLineNo">037</span>        public Integer getX() {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                return x;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>        }<a name="line.39"></a>
+<span class="sourceLineNo">040</span>        public void setX(int x) {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                this.x = x;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>        }<a name="line.42"></a>
+<span class="sourceLineNo">043</span>        public Integer getY() {<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                return y;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>        }<a name="line.45"></a>
+<span class="sourceLineNo">046</span>        public void setY(int y) {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>                this.y = y;<a name="line.47"></a>
+<span class="sourceLineNo">048</span>        }<a name="line.48"></a>
+<span class="sourceLineNo">049</span>        <a name="line.49"></a>
+<span class="sourceLineNo">050</span>        public Integer getInfo() {<a name="line.50"></a>
+<span class="sourceLineNo">051</span>                return info;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>        }<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>        public static void iniDatos(String nf, int nx, int ny){<a name="line.54"></a>
+<span class="sourceLineNo">055</span>                numX = nx;<a name="line.55"></a>
+<span class="sourceLineNo">056</span>                numY = ny;<a name="line.56"></a>
+<span class="sourceLineNo">057</span>                Stream&lt;Integer&gt; ls = Stream2.fromFile(nf)<a name="line.57"></a>
+<span class="sourceLineNo">058</span>                                .&lt;String&gt;flatMap((String x)-&gt;Stream2.fromString(x, ","))<a name="line.58"></a>
+<span class="sourceLineNo">059</span>                                .&lt;Integer&gt;map((String x)-&gt;new Integer(x));<a name="line.59"></a>
+<span class="sourceLineNo">060</span>                <a name="line.60"></a>
+<span class="sourceLineNo">061</span>                <a name="line.61"></a>
+<span class="sourceLineNo">062</span>                Container ct = new Container(Casilla.datosCasillas);<a name="line.62"></a>
+<span class="sourceLineNo">063</span>                <a name="line.63"></a>
+<span class="sourceLineNo">064</span>                ls.forEach((Integer e)-&gt;{ ct.add(e); });<a name="line.64"></a>
+<span class="sourceLineNo">065</span>                                <a name="line.65"></a>
+<span class="sourceLineNo">066</span>                if(ct.numDatos!= numX*numY){<a name="line.66"></a>
+<span class="sourceLineNo">067</span>                        throw new IllegalArgumentException("No hay el número adecuado de datos");<a name="line.67"></a>
+<span class="sourceLineNo">068</span>                }<a name="line.68"></a>
+<span class="sourceLineNo">069</span>        }<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>        <a name="line.71"></a>
+<span class="sourceLineNo">072</span>        public static Casilla create(int x, int y) {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>                return new Casilla(x, y);<a name="line.73"></a>
+<span class="sourceLineNo">074</span>        }<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>        @Override<a name="line.76"></a>
+<span class="sourceLineNo">077</span>        public int hashCode() {<a name="line.77"></a>
+<span class="sourceLineNo">078</span>                final int prime = 31;<a name="line.78"></a>
+<span class="sourceLineNo">079</span>                int result = 1;<a name="line.79"></a>
+<span class="sourceLineNo">080</span>                result = prime * result + x;<a name="line.80"></a>
+<span class="sourceLineNo">081</span>                result = prime * result + y;<a name="line.81"></a>
+<span class="sourceLineNo">082</span>                return result;<a name="line.82"></a>
+<span class="sourceLineNo">083</span>        }<a name="line.83"></a>
+<span class="sourceLineNo">084</span>        @Override<a name="line.84"></a>
+<span class="sourceLineNo">085</span>        public boolean equals(Object obj) {<a name="line.85"></a>
+<span class="sourceLineNo">086</span>                if (this == obj)<a name="line.86"></a>
+<span class="sourceLineNo">087</span>                        return true;<a name="line.87"></a>
+<span class="sourceLineNo">088</span>                if (obj == null)<a name="line.88"></a>
+<span class="sourceLineNo">089</span>                        return false;<a name="line.89"></a>
+<span class="sourceLineNo">090</span>                if (getClass() != obj.getClass())<a name="line.90"></a>
+<span class="sourceLineNo">091</span>                        return false;<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                Casilla other = (Casilla) obj;<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                if (x != other.x)<a name="line.93"></a>
+<span class="sourceLineNo">094</span>                        return false;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>                if (y != other.y)<a name="line.95"></a>
+<span class="sourceLineNo">096</span>                        return false;<a name="line.96"></a>
+<span class="sourceLineNo">097</span>                return true;<a name="line.97"></a>
+<span class="sourceLineNo">098</span>        }<a name="line.98"></a>
+<span class="sourceLineNo">099</span><a name="line.99"></a>
+<span class="sourceLineNo">100</span>        @Override<a name="line.100"></a>
+<span class="sourceLineNo">101</span>        public String toString() {<a name="line.101"></a>
+<span class="sourceLineNo">102</span>                return "(" + x + "," + y + "," + info + ")";<a name="line.102"></a>
+<span class="sourceLineNo">103</span>        }<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>        @Override<a name="line.105"></a>
+<span class="sourceLineNo">106</span>        public Set&lt;Casilla&gt; getNeighborListOf() {<a name="line.106"></a>
+<span class="sourceLineNo">107</span>                List&lt;ParInteger&gt; ls = Lists.newArrayList(ParInteger.create(1,0),<a name="line.107"></a>
+<span class="sourceLineNo">108</span>                                ParInteger.create(0,1),ParInteger.create(-1,0),ParInteger.create(0,-1));<a name="line.108"></a>
+<span class="sourceLineNo">109</span>                return ls.stream()<a name="line.109"></a>
+<span class="sourceLineNo">110</span>                                 .&lt;ParInteger&gt; map((ParInteger x)-&gt; ParInteger.create(x.p1+this.x, x.p2+this.y))<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                                 .filter((ParInteger x)-&gt; x.p1&gt;=0 &amp;&amp; x.p1 &lt; numX &amp;&amp; x.p2&gt;=0 &amp;&amp; x.p2 &lt; numY &amp;&amp; <a name="line.111"></a>
+<span class="sourceLineNo">112</span>                                                  datosCasillas.get(x.p1, x.p2) &gt;=0)<a name="line.112"></a>
+<span class="sourceLineNo">113</span>                                 .&lt;Casilla&gt;map((ParInteger x)-&gt; Casilla.create(x.p1,x.p2))<a name="line.113"></a>
+<span class="sourceLineNo">114</span>                                 .collect(Collectors.&lt;Casilla&gt;toSet());<a name="line.114"></a>
+<span class="sourceLineNo">115</span>        }<a name="line.115"></a>
+<span class="sourceLineNo">116</span><a name="line.116"></a>
+<span class="sourceLineNo">117</span>        @Override<a name="line.117"></a>
+<span class="sourceLineNo">118</span>        public Set&lt;SimpleEdge&lt;Casilla&gt;&gt; edgesOf() {<a name="line.118"></a>
+<span class="sourceLineNo">119</span>                return getNeighborListOf().stream()<a name="line.119"></a>
+<span class="sourceLineNo">120</span>                                .&lt;SimpleEdge&lt;Casilla&gt;&gt;map((Casilla c)-&gt;SimpleEdge.&lt;Casilla&gt;getFactoria().createEdge(this,c))<a name="line.120"></a>
+<span class="sourceLineNo">121</span>                                .collect(Collectors.&lt;SimpleEdge&lt;Casilla&gt;&gt;toSet());<a name="line.121"></a>
+<span class="sourceLineNo">122</span>        }<a name="line.122"></a>
+<span class="sourceLineNo">123</span><a name="line.123"></a>
+<span class="sourceLineNo">124</span>        @Override<a name="line.124"></a>
+<span class="sourceLineNo">125</span>        public boolean isNeighbor(Casilla e) {<a name="line.125"></a>
+<span class="sourceLineNo">126</span>                return Math.abs(this.getX()-e.getX()) + Math.abs(this.getY()-e.getY()) == 1;<a name="line.126"></a>
+<span class="sourceLineNo">127</span>        }<a name="line.127"></a>
+<span class="sourceLineNo">128</span><a name="line.128"></a>
+<span class="sourceLineNo">129</span>        public boolean isValid() {<a name="line.129"></a>
+<span class="sourceLineNo">130</span>                return this.info &gt;=0 &amp;&amp; this.getX() &gt;=0 &amp;&amp; this.getX()&lt; numX &amp;&amp; this.getY() &gt;=0 &amp;&amp; this.getY()&lt; numY;<a name="line.130"></a>
+<span class="sourceLineNo">131</span>        }<a name="line.131"></a>
+<span class="sourceLineNo">132</span>        <a name="line.132"></a>
+<span class="sourceLineNo">133</span>        private static String normalize(String s, int n){<a name="line.133"></a>
+<span class="sourceLineNo">134</span>                int t = n-s.length();<a name="line.134"></a>
+<span class="sourceLineNo">135</span>                String r = "";<a name="line.135"></a>
+<span class="sourceLineNo">136</span>                for(int i =0;i&lt;t;i++){<a name="line.136"></a>
+<span class="sourceLineNo">137</span>                        r= r+" ";<a name="line.137"></a>
+<span class="sourceLineNo">138</span>                }       <a name="line.138"></a>
+<span class="sourceLineNo">139</span>                r = r+s;<a name="line.139"></a>
+<span class="sourceLineNo">140</span>                return r;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>        }<a name="line.141"></a>
+<span class="sourceLineNo">142</span>        <a name="line.142"></a>
+<span class="sourceLineNo">143</span>        public static String show(GraphPath&lt;Casilla,SimpleEdge&lt;Casilla&gt;&gt; p){<a name="line.143"></a>
+<span class="sourceLineNo">144</span>                List&lt;Casilla&gt; lc = Graphs.getPathVertexList(p);         <a name="line.144"></a>
+<span class="sourceLineNo">145</span>                String s = "";<a name="line.145"></a>
+<span class="sourceLineNo">146</span>                Casilla c;<a name="line.146"></a>
+<span class="sourceLineNo">147</span>                for(int y = Casilla.numY-1; y&gt;=0; y--){<a name="line.147"></a>
+<span class="sourceLineNo">148</span>                        for(int x=0; x &lt; Casilla.numX;x++){<a name="line.148"></a>
+<span class="sourceLineNo">149</span>                                        c = Casilla.create(x, y);<a name="line.149"></a>
+<span class="sourceLineNo">150</span>                                        if(lc.contains(c)){<a name="line.150"></a>
+<span class="sourceLineNo">151</span>                                                s = s+normalize("X",7);<a name="line.151"></a>
+<span class="sourceLineNo">152</span>                                        }else{<a name="line.152"></a>
+<span class="sourceLineNo">153</span>                                                s = s+normalize(Casilla.datosCasillas.get(x, y).toString(),7);<a name="line.153"></a>
+<span class="sourceLineNo">154</span>                                        }<a name="line.154"></a>
+<span class="sourceLineNo">155</span>                        }<a name="line.155"></a>
+<span class="sourceLineNo">156</span>                        s = s+"\n";<a name="line.156"></a>
+<span class="sourceLineNo">157</span>                }<a name="line.157"></a>
+<span class="sourceLineNo">158</span>            return s;<a name="line.158"></a>
+<span class="sourceLineNo">159</span>        }<a name="line.159"></a>
+<span class="sourceLineNo">160</span>        <a name="line.160"></a>
+<span class="sourceLineNo">161</span>        private static class Container {<a name="line.161"></a>
+<span class="sourceLineNo">162</span>                private Table&lt;Integer,Integer,Integer&gt; datosCasillas;<a name="line.162"></a>
+<span class="sourceLineNo">163</span>                private int ax = 0;<a name="line.163"></a>
+<span class="sourceLineNo">164</span>                private int ay = numY-1;<a name="line.164"></a>
+<span class="sourceLineNo">165</span>                public int numDatos;<a name="line.165"></a>
+<span class="sourceLineNo">166</span>                        <a name="line.166"></a>
+<span class="sourceLineNo">167</span>                public Container(Table&lt;Integer, Integer, Integer&gt; datosCasillas) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>                        super();<a name="line.168"></a>
+<span class="sourceLineNo">169</span>                        this.datosCasillas = datosCasillas;<a name="line.169"></a>
+<span class="sourceLineNo">170</span>                        this.ax = 0;<a name="line.170"></a>
+<span class="sourceLineNo">171</span>                        this.ay = numY-1;<a name="line.171"></a>
+<span class="sourceLineNo">172</span>                        this.numDatos = 0;<a name="line.172"></a>
+<span class="sourceLineNo">173</span>                }<a name="line.173"></a>
+<span class="sourceLineNo">174</span><a name="line.174"></a>
+<span class="sourceLineNo">175</span><a name="line.175"></a>
+<span class="sourceLineNo">176</span>                public void add(Integer e){<a name="line.176"></a>
+<span class="sourceLineNo">177</span>                        this.datosCasillas.put(ax, ay, e) ;<a name="line.177"></a>
+<span class="sourceLineNo">178</span>                        numDatos++;<a name="line.178"></a>
+<span class="sourceLineNo">179</span>                        if(ax==Casilla.numX){<a name="line.179"></a>
+<span class="sourceLineNo">180</span>                                ax=0;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>                                ay--;<a name="line.181"></a>
+<span class="sourceLineNo">182</span>                        }else{<a name="line.182"></a>
+<span class="sourceLineNo">183</span>                                ax++;<a name="line.183"></a>
+<span class="sourceLineNo">184</span>                        }<a name="line.184"></a>
+<span class="sourceLineNo">185</span>                }<a name="line.185"></a>
+<span class="sourceLineNo">186</span>        }<a name="line.186"></a>
+<span class="sourceLineNo">187</span>        <a name="line.187"></a>
+<span class="sourceLineNo">188</span>}<a name="line.188"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

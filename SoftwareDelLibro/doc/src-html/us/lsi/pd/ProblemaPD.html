@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.pd;<a name="line.1"></a>
+<span class="sourceLineNo">002</span>import java.util.*;<a name="line.2"></a>
+<span class="sourceLineNo">003</span><a name="line.3"></a>
+<span class="sourceLineNo">004</span>import us.lsi.pd.AlgoritmoPD.Sp;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>/**<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * &lt;p&gt;Interface que debe implementar un problema para ser resuelto por la técnica de Programación Dinámica &lt;/p&gt;<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * <a name="line.9"></a>
+<span class="sourceLineNo">010</span> * &lt;p&gt;La documentación puede encontarse en el: &lt;a href="../../../document/Tema14.pdf" target="_blank"&gt;Tema14&lt;/a&gt;&lt;/p&gt;<a name="line.10"></a>
+<span class="sourceLineNo">011</span> * <a name="line.11"></a>
+<span class="sourceLineNo">012</span> * @author Miguel Toro<a name="line.12"></a>
+<span class="sourceLineNo">013</span> *<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * @param &lt;S&gt; El tipo de la solución del problema<a name="line.14"></a>
+<span class="sourceLineNo">015</span> * @param &lt;A&gt; El tipo de las alternativas<a name="line.15"></a>
+<span class="sourceLineNo">016</span> * @see AlgoritmoPD.Sp<a name="line.16"></a>
+<span class="sourceLineNo">017</span> */<a name="line.17"></a>
+<span class="sourceLineNo">018</span>public interface ProblemaPD&lt;S,A&gt;  {     <a name="line.18"></a>
+<span class="sourceLineNo">019</span>        <a name="line.19"></a>
+<span class="sourceLineNo">020</span>        public enum Tipo{Min,Max,Todas}<a name="line.20"></a>
+<span class="sourceLineNo">021</span>        <a name="line.21"></a>
+<span class="sourceLineNo">022</span>        <a name="line.22"></a>
+<span class="sourceLineNo">023</span>        /**<a name="line.23"></a>
+<span class="sourceLineNo">024</span>         * @return El tipo del problema: minimiza, maximiza o busca un valor que involucra a todas las alternativas<a name="line.24"></a>
+<span class="sourceLineNo">025</span>         *<a name="line.25"></a>
+<span class="sourceLineNo">026</span>         * <a name="line.26"></a>
+<span class="sourceLineNo">027</span>         **/<a name="line.27"></a>
+<span class="sourceLineNo">028</span>        Tipo getTipo(); <a name="line.28"></a>
+<span class="sourceLineNo">029</span>        /**<a name="line.29"></a>
+<span class="sourceLineNo">030</span>         * @return El tamaño del problema<a name="line.30"></a>
+<span class="sourceLineNo">031</span>         */<a name="line.31"></a>
+<span class="sourceLineNo">032</span>        int size();<a name="line.32"></a>
+<span class="sourceLineNo">033</span>        /**<a name="line.33"></a>
+<span class="sourceLineNo">034</span>         * @return Si el problema es un caso base<a name="line.34"></a>
+<span class="sourceLineNo">035</span>         */<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        boolean esCasoBase();<a name="line.36"></a>
+<span class="sourceLineNo">037</span>        /**<a name="line.37"></a>
+<span class="sourceLineNo">038</span>         * @pos <a name="line.38"></a>
+<span class="sourceLineNo">039</span>         * &lt;ul&gt;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>         *      &lt;li&gt; Si el problema no tiene solución se debe devolver null<a name="line.40"></a>
+<span class="sourceLineNo">041</span>         *      &lt;li&gt; Si el problema tiene solución asociada a una alternativa esta será de la forma (a,p).Siendo a la alternativa y p la propiedad correspondiente.<a name="line.41"></a>
+<span class="sourceLineNo">042</span>         *      &lt;li&gt; Si el problema tiene solución pero no asociada a una alternativa esta será de la forma (null,p).Siendo p la propiedad correspondiente.<a name="line.42"></a>
+<span class="sourceLineNo">043</span>         *      &lt;/ul&gt; <a name="line.43"></a>
+<span class="sourceLineNo">044</span>         * @return  La solución del caso base<a name="line.44"></a>
+<span class="sourceLineNo">045</span>         */<a name="line.45"></a>
+<span class="sourceLineNo">046</span>        Sp&lt;A&gt; getSolucionCasoBase();<a name="line.46"></a>
+<span class="sourceLineNo">047</span>        /**<a name="line.47"></a>
+<span class="sourceLineNo">048</span>         * @pre ls!=null, ls no está vacía, ls no contiene null, ls no contiene valores de la forma &lt;code&gt; (a,null) &lt;/code&gt;<a name="line.48"></a>
+<span class="sourceLineNo">049</span>         * <a name="line.49"></a>
+<span class="sourceLineNo">050</span>         * @pos <a name="line.50"></a>
+<span class="sourceLineNo">051</span>         * &lt;ul&gt;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>         *  &lt;li&gt; Si ls es vacía tras eliminar los valores &lt;code&gt; (a,null) &lt;/code&gt; la solución devuelta es null. El problema no tiene solución.<a name="line.52"></a>
+<span class="sourceLineNo">053</span>         *      &lt;li&gt; Si el problema tiene solución asociada a una alternativa, esta será de la forma &lt;code&gt;(a,p)&lt;/code&gt;. Siendo &lt;code&gt; a &lt;/code&gt;la alternativa y &lt;code&gt; p &lt;/code&gt; la propiedad correspondiente. <a name="line.53"></a>
+<span class="sourceLineNo">054</span>         *      &lt;li&gt; Si el problema tiene solución pero no asociada a una alternativa esta será de la forma &lt;code&gt; (null,p)&lt;/code&gt;. Siendo &lt;code&gt; p &lt;/code&gt; la propiedad correspondiente.<a name="line.54"></a>
+<span class="sourceLineNo">055</span>         *      &lt;/ul&gt; <a name="line.55"></a>
+<span class="sourceLineNo">056</span>         * @param ls - Soluciones existentes alcanzados tras tomar las diferentes alternativas<a name="line.56"></a>
+<span class="sourceLineNo">057</span>         * @return La solución del problema<a name="line.57"></a>
+<span class="sourceLineNo">058</span>         */<a name="line.58"></a>
+<span class="sourceLineNo">059</span>        Sp&lt;A&gt; seleccionaAlternativa(List&lt;Sp&lt;A&gt;&gt; ls);<a name="line.59"></a>
+<span class="sourceLineNo">060</span>        /**<a name="line.60"></a>
+<span class="sourceLineNo">061</span>         * @pre 0 &amp;lt; = i &amp;lt; getNumeroSubProblemas(a)<a name="line.61"></a>
+<span class="sourceLineNo">062</span>         * @param a - Alternativa escogida<a name="line.62"></a>
+<span class="sourceLineNo">063</span>         * @param np - Número del subproblema<a name="line.63"></a>
+<span class="sourceLineNo">064</span>         * @return Subproblema<a name="line.64"></a>
+<span class="sourceLineNo">065</span>         */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>        ProblemaPD&lt;S,A&gt; getSubProblema(A a, int np);<a name="line.66"></a>
+<span class="sourceLineNo">067</span>        /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>         * @pre &lt;code&gt; ls.size() == getNumeroSubProblemas(a) &lt;/code&gt;, a está incluida en &lt;code&gt; getAlternativas() &lt;/code&gt; y<a name="line.68"></a>
+<span class="sourceLineNo">069</span>         * ls no contiene null<a name="line.69"></a>
+<span class="sourceLineNo">070</span>         * @param a - Alternativa escogida<a name="line.70"></a>
+<span class="sourceLineNo">071</span>         * @param ls - Soluciones de los subproblemas<a name="line.71"></a>
+<span class="sourceLineNo">072</span>         * @return La solución del problema alcanzado siguiendo la alternativa &lt;code&gt; a &lt;/code&gt; <a name="line.72"></a>
+<span class="sourceLineNo">073</span>         * y las soluciones parciales de los subproblemas del mismo están en ls <a name="line.73"></a>
+<span class="sourceLineNo">074</span>         */<a name="line.74"></a>
+<span class="sourceLineNo">075</span>        Sp&lt;A&gt; combinaSolucionesParciales(A a , List&lt;Sp&lt;A&gt;&gt; ls); <a name="line.75"></a>
+<span class="sourceLineNo">076</span>        /**<a name="line.76"></a>
+<span class="sourceLineNo">077</span>         * @pos Si un problema no tiene solución el conjunto de alternativas es vacío <a name="line.77"></a>
+<span class="sourceLineNo">078</span>         * @return Las alternativas disponibles para el problema<a name="line.78"></a>
+<span class="sourceLineNo">079</span>         */<a name="line.79"></a>
+<span class="sourceLineNo">080</span>        List&lt;A&gt; getAlternativas();<a name="line.80"></a>
+<span class="sourceLineNo">081</span>        /**<a name="line.81"></a>
+<span class="sourceLineNo">082</span>         * @param a - Alternativa escogida<a name="line.82"></a>
+<span class="sourceLineNo">083</span>         * @return Número de subproblemas para una alternativa dada<a name="line.83"></a>
+<span class="sourceLineNo">084</span>         */<a name="line.84"></a>
+<span class="sourceLineNo">085</span>        int getNumeroSubProblemas(A a);<a name="line.85"></a>
+<span class="sourceLineNo">086</span>        /**<a name="line.86"></a>
+<span class="sourceLineNo">087</span>         * @pre El problema es un caso base<a name="line.87"></a>
+<span class="sourceLineNo">088</span>         * @pos <a name="line.88"></a>
+<span class="sourceLineNo">089</span>         * &lt;ul&gt;<a name="line.89"></a>
+<span class="sourceLineNo">090</span>         *  &lt;li&gt; Si sp es de la forma &lt;code&gt; (a,p) &lt;/code&gt; la solución se reconstruye a partir de esos dos valores. <a name="line.90"></a>
+<span class="sourceLineNo">091</span>         *  &lt;li&gt; Si es de la forma &lt;code&gt; (null,p) &lt;/code&gt; sólo a partir de &lt;code&gt; p &lt;/code&gt;.<a name="line.91"></a>
+<span class="sourceLineNo">092</span>         * &lt;/ul&gt; <a name="line.92"></a>
+<span class="sourceLineNo">093</span>         * @param sp - Solución parcial del caso base<a name="line.93"></a>
+<span class="sourceLineNo">094</span>         * @return La solución para un caso base si la solución parcial es sp. <a name="line.94"></a>
+<span class="sourceLineNo">095</span>         */<a name="line.95"></a>
+<span class="sourceLineNo">096</span>        S getSolucionReconstruida(Sp&lt;A&gt; sp);    <a name="line.96"></a>
+<span class="sourceLineNo">097</span>        /**<a name="line.97"></a>
+<span class="sourceLineNo">098</span>         * @pre <a name="line.98"></a>
+<span class="sourceLineNo">099</span>         * &lt;p&gt; El problema no es un caso base, &lt;code&gt; ls !=null &lt;/code&gt;, &lt;code&gt; ls.size() &amp;gt; 0 &lt;/code&gt; y ls no contiene null.&lt;/p&gt;<a name="line.99"></a>
+<span class="sourceLineNo">100</span>         * &lt;p&gt; Si el tipo es Min o Max entonces sp = (a,p) &lt;/p&gt;<a name="line.100"></a>
+<span class="sourceLineNo">101</span>         * &lt;p&gt; Si tipo es Todas entonces sp puede ser (a,p) o (null,p). Entonces  ls tiene en cada caso el significado correspondiente &lt;/p&gt;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>         * @pos<a name="line.102"></a>
+<span class="sourceLineNo">103</span>         * &lt;ul&gt;<a name="line.103"></a>
+<span class="sourceLineNo">104</span>         *  &lt;li&gt; Si &lt;code&gt; sp = (a,p) &lt;/code&gt; la solución se reconstruye a partir de &lt;code&gt; a, p, ls &lt;/code&gt; estando &lt;code&gt; ls &lt;/code&gt; las <a name="line.104"></a>
+<span class="sourceLineNo">105</span>         *  de los subproblemas del problema que se alcanza siguiendo la alternativa &lt;code&gt; a &lt;/code&gt; <a name="line.105"></a>
+<span class="sourceLineNo">106</span>         *  &lt;li&gt; Si &lt;code&gt; sp = (null,p) &lt;/code&gt; la solución se reconstruye a partir de las <a name="line.106"></a>
+<span class="sourceLineNo">107</span>         *  soluciones de los problemas que tienen solución y se alcanzan siguiendo las diferentes alternativas posibles.<a name="line.107"></a>
+<span class="sourceLineNo">108</span>         * &lt;/ul&gt; <a name="line.108"></a>
+<span class="sourceLineNo">109</span>         * @param sp - Solución parcial del problema<a name="line.109"></a>
+<span class="sourceLineNo">110</span>         * @param ls - <a name="line.110"></a>
+<span class="sourceLineNo">111</span>         * &lt;ul&gt;<a name="line.111"></a>
+<span class="sourceLineNo">112</span>         *  &lt;li&gt; Si &lt;code&gt; sp = (a,p)  &lt;/code&gt; la solución de los subproblemas del problema que se alcanza <a name="line.112"></a>
+<span class="sourceLineNo">113</span>         *  siguiendo la alternativa &lt;code&gt; a &lt;/code&gt;. <a name="line.113"></a>
+<span class="sourceLineNo">114</span>         *  &lt;li&gt; Si &lt;code&gt; sp = (null,p) &lt;/code&gt;  las soluciones de los problemas que tienen solución y <a name="line.114"></a>
+<span class="sourceLineNo">115</span>         *  se alcanzan siguiendo las diferentes alternativas posibles. <a name="line.115"></a>
+<span class="sourceLineNo">116</span>         * &lt;/ul&gt;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>         * Soluciones obtenidas siguiendo la diferentes alternativas<a name="line.117"></a>
+<span class="sourceLineNo">118</span>         * @return La solución para el problema. <a name="line.118"></a>
+<span class="sourceLineNo">119</span>         */<a name="line.119"></a>
+<span class="sourceLineNo">120</span>        S getSolucionReconstruida(Sp&lt;A&gt; sp, List&lt;S&gt; ls);        <a name="line.120"></a>
+<span class="sourceLineNo">121</span>        <a name="line.121"></a>
+<span class="sourceLineNo">122</span>        /**<a name="line.122"></a>
+<span class="sourceLineNo">123</span>         * @pos <a name="line.123"></a>
+<span class="sourceLineNo">124</span>         * &lt;ul&gt;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>         * &lt;li&gt; Si el problema es de minimización el valor debe ser <a name="line.125"></a>
+<span class="sourceLineNo">126</span>         * una cota inferior del valor de la propiedad objetivo del problema inicial, <a name="line.126"></a>
+<span class="sourceLineNo">127</span>         * asumiendo que se ha alcanzado el problema actual y se  va a seguir la alternativa &lt;code&gt; a &lt;/code&gt;.<a name="line.127"></a>
+<span class="sourceLineNo">128</span>         * La alternativa puede ser descartada si &lt;code&gt; getObjetivoEstimado(a) &amp;gt; =  AlgoritmoPD.getMejorValor() &lt;/code&gt;,<a name="line.128"></a>
+<span class="sourceLineNo">129</span>         * puesto que el valor objetivo de la solución obtnida estaría por encima del mejor valor obtenido hasta el momento.<a name="line.129"></a>
+<span class="sourceLineNo">130</span>         * Es decir nos quedamos con las alternativas que cumplen <a name="line.130"></a>
+<span class="sourceLineNo">131</span>         * &lt;code&gt; getObjetivoEstimado(a) &amp;lt;   AlgoritmoPD.getMejorValor() &lt;/code&gt;.<a name="line.131"></a>
+<span class="sourceLineNo">132</span>         * Donde &lt;code&gt; AlgoritmoPD.getMejorValor() &lt;/code&gt; es el mejor valor encontrado por el algoritmo hasta ahora.<a name="line.132"></a>
+<span class="sourceLineNo">133</span>         * &lt;li&gt; Si el problema original fuera de maximización el valor debe ser <a name="line.133"></a>
+<span class="sourceLineNo">134</span>         * una cota superior del valor de la propiedad objetivo del problema inicial, <a name="line.134"></a>
+<span class="sourceLineNo">135</span>         * asumiendo que se ha alcanzado el problema actual y se  va a seguir la alternativa &lt;code&gt; a &lt;/code&gt;.<a name="line.135"></a>
+<span class="sourceLineNo">136</span>         *  Es decir nos quedamos con las alternativas que cumplen <a name="line.136"></a>
+<span class="sourceLineNo">137</span>         * &lt;code&gt; getObjetivoEstimado(a) &amp;gt;   AlgoritmoPD.getMejorValor() &lt;/code&gt;.<a name="line.137"></a>
+<span class="sourceLineNo">138</span>         * &lt;/ul&gt;<a name="line.138"></a>
+<span class="sourceLineNo">139</span>         * &lt;p&gt; Si no es posible estimar esa cota entonces devolverá MIN_VALUE si el problema es de minimización<a name="line.139"></a>
+<span class="sourceLineNo">140</span>         *  y MAX_VALUE si es de maximización&lt;/p&gt;<a name="line.140"></a>
+<span class="sourceLineNo">141</span>         * @param a - Alternativa elegida<a name="line.141"></a>
+<span class="sourceLineNo">142</span>         * @return El valor objetivo estimado si seguimos &lt;code&gt; a &lt;/code&gt;<a name="line.142"></a>
+<span class="sourceLineNo">143</span>         */<a name="line.143"></a>
+<span class="sourceLineNo">144</span>        Double getObjetivoEstimado(A a);<a name="line.144"></a>
+<span class="sourceLineNo">145</span>        /**<a name="line.145"></a>
+<span class="sourceLineNo">146</span>         * Se asume que se llama al método sólo cuando se ha resuelto el problema y por lo tanto sabemos el valor de la propiedad solución.<a name="line.146"></a>
+<span class="sourceLineNo">147</span>         * En muchos caso se puede calcular sumando un valor acumlado al valor conocido de la solución.<a name="line.147"></a>
+<span class="sourceLineNo">148</span>         * @pos Si no es posible calcularla  se devolverá MAX_VALUE si el problema es de minimización y MIN_VALUE si es de maximización. <a name="line.148"></a>
+<span class="sourceLineNo">149</span>         * @return Valor de propiedad objetivo del problema inicial asumiendo que estamos en el problema actual   <a name="line.149"></a>
+<span class="sourceLineNo">150</span>         */<a name="line.150"></a>
+<span class="sourceLineNo">151</span>        Double getObjetivo();<a name="line.151"></a>
+<span class="sourceLineNo">152</span>}<a name="line.152"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

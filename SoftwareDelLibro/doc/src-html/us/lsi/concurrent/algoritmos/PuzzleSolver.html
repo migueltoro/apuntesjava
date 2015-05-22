@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.concurrent.algoritmos;<a name="line.1"></a>
+<span class="sourceLineNo">002</span>import java.util.concurrent.atomic.*;<a name="line.2"></a>
+<span class="sourceLineNo">003</span><a name="line.3"></a>
+<span class="sourceLineNo">004</span>public class PuzzleSolver&lt;P, M&gt; extends ConcurrentPuzzleSolver&lt;P, M&gt; {<a name="line.4"></a>
+<span class="sourceLineNo">005</span>        PuzzleSolver(Puzzle&lt;P, M&gt; puzzle) {<a name="line.5"></a>
+<span class="sourceLineNo">006</span>                super(puzzle);<a name="line.6"></a>
+<span class="sourceLineNo">007</span>        }<a name="line.7"></a>
+<span class="sourceLineNo">008</span><a name="line.8"></a>
+<span class="sourceLineNo">009</span>        private final AtomicInteger taskCount = new AtomicInteger(0);<a name="line.9"></a>
+<span class="sourceLineNo">010</span><a name="line.10"></a>
+<span class="sourceLineNo">011</span>        protected Runnable newTask(P p, M m, PuzzleNode&lt;P, M&gt; n) {<a name="line.11"></a>
+<span class="sourceLineNo">012</span>                return new CountingSolverTask(p, m, n);<a name="line.12"></a>
+<span class="sourceLineNo">013</span>        }<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>        class CountingSolverTask extends SolverTask {<a name="line.15"></a>
+<span class="sourceLineNo">016</span>                CountingSolverTask(P pos, M move, PuzzleNode&lt;P, M&gt; prev) {<a name="line.16"></a>
+<span class="sourceLineNo">017</span>                        super(pos, move, prev);<a name="line.17"></a>
+<span class="sourceLineNo">018</span>                        taskCount.incrementAndGet();<a name="line.18"></a>
+<span class="sourceLineNo">019</span>                }<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>                public void run() {<a name="line.21"></a>
+<span class="sourceLineNo">022</span>                        try {<a name="line.22"></a>
+<span class="sourceLineNo">023</span>                                super.run();<a name="line.23"></a>
+<span class="sourceLineNo">024</span>                        } finally {<a name="line.24"></a>
+<span class="sourceLineNo">025</span>                                if (taskCount.decrementAndGet() == 0)<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                                        solution.setValue(null);<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                        }<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                }<a name="line.28"></a>
+<span class="sourceLineNo">029</span>        }<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>}<a name="line.31"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

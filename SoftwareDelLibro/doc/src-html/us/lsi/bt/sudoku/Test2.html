@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.bt.sudoku;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>public class Test2 {<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>        public static void main(String[] args) {<a name="line.5"></a>
+<span class="sourceLineNo">006</span>                EstadoSudokuSAAp1 e = new ProblemaSudokuSAAp1("sudoku.txt").getEstadoInicial();<a name="line.6"></a>
+<span class="sourceLineNo">007</span>                e.cuadro.show();<a name="line.7"></a>
+<span class="sourceLineNo">008</span>                for(int i=0; i&lt; 100;i++){<a name="line.8"></a>
+<span class="sourceLineNo">009</span>                        double obj = e.getObjetivo();<a name="line.9"></a>
+<span class="sourceLineNo">010</span>                        e = e.next(e.getAlternativa());<a name="line.10"></a>
+<span class="sourceLineNo">011</span>                        System.out.println(obj-e.getObjetivo());<a name="line.11"></a>
+<span class="sourceLineNo">012</span>                }<a name="line.12"></a>
+<span class="sourceLineNo">013</span>/*              for(int x=0; x &lt; ProblemaSudoku.numeroDeFilas; x++){<a name="line.13"></a>
+<span class="sourceLineNo">014</span>                        System.out.println(e.cuadro.getValoresOcupadosEnX().get(x).size());<a name="line.14"></a>
+<span class="sourceLineNo">015</span>                }<a name="line.15"></a>
+<span class="sourceLineNo">016</span>*/      }<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>}<a name="line.18"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.pd;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span><a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.util.*;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.util.stream.Collectors;<a name="line.6"></a>
+<span class="sourceLineNo">007</span><a name="line.7"></a>
+<span class="sourceLineNo">008</span>import us.lsi.algoritmos.AbstractAlgoritmo;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import us.lsi.common.Lists2;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import us.lsi.pd.ProblemaPD.Tipo;<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>import com.google.common.collect.*;<a name="line.12"></a>
+<span class="sourceLineNo">013</span><a name="line.13"></a>
+<span class="sourceLineNo">014</span>/**<a name="line.14"></a>
+<span class="sourceLineNo">015</span> * &lt;p&gt; Algoritmo que implementa la técnica de Programación Dinámica con sus variantes. <a name="line.15"></a>
+<span class="sourceLineNo">016</span> * Un problema que se quiera resolver con esta técnica debe implementar el interface ProblemaPD &amp;lt; S,A &amp;gt; y asumimos que <a name="line.16"></a>
+<span class="sourceLineNo">017</span> * queremos minimizar la propiedad getObjetivo() &lt;/p&gt;<a name="line.17"></a>
+<span class="sourceLineNo">018</span> * <a name="line.18"></a>
+<span class="sourceLineNo">019</span> * &lt;p&gt;La documentación puede encontarse en el: &lt;a href="../../../document/Tema14.pdf" target="_blank"&gt;Tema14&lt;/a&gt;&lt;/p&gt;<a name="line.19"></a>
+<span class="sourceLineNo">020</span> * <a name="line.20"></a>
+<span class="sourceLineNo">021</span> * <a name="line.21"></a>
+<span class="sourceLineNo">022</span> * @author Miguel Toro<a name="line.22"></a>
+<span class="sourceLineNo">023</span> *<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * @param &lt;S&gt; El tipo de la solución<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * @param &lt;A&gt; El tipo de la alternativa<a name="line.25"></a>
+<span class="sourceLineNo">026</span> */<a name="line.26"></a>
+<span class="sourceLineNo">027</span>public class AlgoritmoPD&lt;S,A&gt; extends AbstractAlgoritmo {<a name="line.27"></a>
+<span class="sourceLineNo">028</span>       <a name="line.28"></a>
+<span class="sourceLineNo">029</span>        /**<a name="line.29"></a>
+<span class="sourceLineNo">030</span>         * Si se quiere aplicar la técnica aleatoria para escoger una de las alternativas<a name="line.30"></a>
+<span class="sourceLineNo">031</span>         */<a name="line.31"></a>
+<span class="sourceLineNo">032</span>        public static boolean isRandomize = false;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>        /**<a name="line.33"></a>
+<span class="sourceLineNo">034</span>         * Tamaño umbral a partir del cual se escoge aleatoriamente una de las alternativas<a name="line.34"></a>
+<span class="sourceLineNo">035</span>         */<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        public static Integer sizeRef = 10;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>        <a name="line.37"></a>
+<span class="sourceLineNo">038</span>        public Map&lt;ProblemaPD&lt;S,A&gt;,Sp&lt;A&gt;&gt; solucionesParciales;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>        private ProblemaPD&lt;S,A&gt; problema;    <a name="line.39"></a>
+<span class="sourceLineNo">040</span>    private Iterable&lt;ProblemaPD&lt;S,A&gt;&gt; problemas;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>    private static Double mejorValor;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>    private static Tipo tipo;<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>    <a name="line.44"></a>
+<span class="sourceLineNo">045</span>    private boolean isMin(){<a name="line.45"></a>
+<span class="sourceLineNo">046</span>        return tipo.equals(Tipo.Min);<a name="line.46"></a>
+<span class="sourceLineNo">047</span>    }<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    <a name="line.48"></a>
+<span class="sourceLineNo">049</span>    private boolean isMax(){<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        return tipo.equals(Tipo.Max);<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    }<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    <a name="line.52"></a>
+<span class="sourceLineNo">053</span>    /**<a name="line.53"></a>
+<span class="sourceLineNo">054</span>         * @return El mejor valor de la propiedade objetivo del problema inicial encontrado por el algoritmo hasta este momento<a name="line.54"></a>
+<span class="sourceLineNo">055</span>         */<a name="line.55"></a>
+<span class="sourceLineNo">056</span>        public static Double getMejorValor() {<a name="line.56"></a>
+<span class="sourceLineNo">057</span>                return mejorValor;<a name="line.57"></a>
+<span class="sourceLineNo">058</span>        }<a name="line.58"></a>
+<span class="sourceLineNo">059</span>    <a name="line.59"></a>
+<span class="sourceLineNo">060</span>        public AlgoritmoPD(Iterable&lt;ProblemaPD&lt;S,A&gt;&gt; ps){               <a name="line.60"></a>
+<span class="sourceLineNo">061</span>            problema = Iterables.get(ps, 0);<a name="line.61"></a>
+<span class="sourceLineNo">062</span>            problemas = ps;<a name="line.62"></a>
+<span class="sourceLineNo">063</span>            tipo = problema.getTipo();<a name="line.63"></a>
+<span class="sourceLineNo">064</span>            mejorValor = isMin()? Double.MAX_VALUE: Double.MIN_VALUE;  <a name="line.64"></a>
+<span class="sourceLineNo">065</span>        }<a name="line.65"></a>
+<span class="sourceLineNo">066</span>        <a name="line.66"></a>
+<span class="sourceLineNo">067</span>        public void ejecuta() {<a name="line.67"></a>
+<span class="sourceLineNo">068</span>                <a name="line.68"></a>
+<span class="sourceLineNo">069</span>                do {<a name="line.69"></a>
+<span class="sourceLineNo">070</span>                        solucionesParciales = Maps.newHashMap();<a name="line.70"></a>
+<span class="sourceLineNo">071</span>                        for (ProblemaPD&lt;S, A&gt; p : problemas) {                                  <a name="line.71"></a>
+<span class="sourceLineNo">072</span>                                        pD(p);                          <a name="line.72"></a>
+<span class="sourceLineNo">073</span>                        }               <a name="line.73"></a>
+<span class="sourceLineNo">074</span>                } while (isRandomize &amp;&amp; solucionesParciales.get(problema)==null);                       <a name="line.74"></a>
+<span class="sourceLineNo">075</span>        }<a name="line.75"></a>
+<span class="sourceLineNo">076</span>        <a name="line.76"></a>
+<span class="sourceLineNo">077</span>        private Iterable&lt;A&gt; randomize(ProblemaPD&lt;S,A&gt; p, Iterable&lt;A&gt; alternativas){<a name="line.77"></a>
+<span class="sourceLineNo">078</span>                Iterable&lt;A&gt; alt;<a name="line.78"></a>
+<span class="sourceLineNo">079</span>                if(isRandomize &amp;&amp; p.size()&gt;sizeRef){<a name="line.79"></a>
+<span class="sourceLineNo">080</span>                        List&lt;A&gt; ls = Lists.newArrayList(alternativas);                  <a name="line.80"></a>
+<span class="sourceLineNo">081</span>                        alt = Lists2.randomUnitary(ls);<a name="line.81"></a>
+<span class="sourceLineNo">082</span>                }else{<a name="line.82"></a>
+<span class="sourceLineNo">083</span>                        alt = alternativas;<a name="line.83"></a>
+<span class="sourceLineNo">084</span>                }<a name="line.84"></a>
+<span class="sourceLineNo">085</span>                return alt;<a name="line.85"></a>
+<span class="sourceLineNo">086</span>        }<a name="line.86"></a>
+<span class="sourceLineNo">087</span>        <a name="line.87"></a>
+<span class="sourceLineNo">088</span>        private void actualizaMejorValor(ProblemaPD&lt;S,A&gt; p){<a name="line.88"></a>
+<span class="sourceLineNo">089</span>                Double objetivo = p.getObjetivo();                      <a name="line.89"></a>
+<span class="sourceLineNo">090</span>                if(isMin() &amp;&amp; objetivo &lt; mejorValor || isMax() &amp;&amp; objetivo &gt; mejorValor) {<a name="line.90"></a>
+<span class="sourceLineNo">091</span>                        mejorValor = objetivo;<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                }<a name="line.92"></a>
+<span class="sourceLineNo">093</span>        }<a name="line.93"></a>
+<span class="sourceLineNo">094</span>        <a name="line.94"></a>
+<span class="sourceLineNo">095</span>        private Sp&lt;A&gt; pD(ProblemaPD&lt;S,A&gt; p){<a name="line.95"></a>
+<span class="sourceLineNo">096</span>                Sp&lt;A&gt; e = null; <a name="line.96"></a>
+<span class="sourceLineNo">097</span>                if (solucionesParciales.containsKey(p)){<a name="line.97"></a>
+<span class="sourceLineNo">098</span>                        e = solucionesParciales.get(p);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>                } else if( p.esCasoBase()) {<a name="line.99"></a>
+<span class="sourceLineNo">100</span>                        e = p.getSolucionCasoBase();            <a name="line.100"></a>
+<span class="sourceLineNo">101</span>                        solucionesParciales.put(p, e);                                  <a name="line.101"></a>
+<span class="sourceLineNo">102</span>                } else {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>                        List&lt;Sp&lt;A&gt;&gt; solucionesDeAlternativas = Lists.newArrayList(); <a name="line.103"></a>
+<span class="sourceLineNo">104</span>                        for(A a: randomize(p,p.getAlternativas())){<a name="line.104"></a>
+<span class="sourceLineNo">105</span>                                if(isMin() &amp;&amp; p.getObjetivoEstimado(a) &gt;= mejorValor) continue;<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                                if(isMax() &amp;&amp; p.getObjetivoEstimado(a) &lt;= mejorValor) continue;<a name="line.106"></a>
+<span class="sourceLineNo">107</span>                                int numeroDeSubProblemas = p.getNumeroSubProblemas(a);<a name="line.107"></a>
+<span class="sourceLineNo">108</span>                                List&lt;Sp&lt;A&gt;&gt; solucionesDeSubProblemas = Lists.newArrayList();  <a name="line.108"></a>
+<span class="sourceLineNo">109</span>                                boolean haySolucion = true;<a name="line.109"></a>
+<span class="sourceLineNo">110</span>                                for(int i = 0; i &lt; numeroDeSubProblemas; i++){<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                                        ProblemaPD&lt;S,A&gt; pr = p.getSubProblema(a,i);                             <a name="line.111"></a>
+<span class="sourceLineNo">112</span>                                        Sp&lt;A&gt; sp = pD(pr);<a name="line.112"></a>
+<span class="sourceLineNo">113</span>                                        if(sp==null) { haySolucion=false; break;}                                       <a name="line.113"></a>
+<span class="sourceLineNo">114</span>                                        solucionesDeSubProblemas.add(sp);                       <a name="line.114"></a>
+<span class="sourceLineNo">115</span>                                }<a name="line.115"></a>
+<span class="sourceLineNo">116</span>                                Sp&lt;A&gt; sa = haySolucion?p.combinaSolucionesParciales(a, solucionesDeSubProblemas): Sp.create(a,null);<a name="line.116"></a>
+<span class="sourceLineNo">117</span>                                solucionesDeAlternativas.add(sa);<a name="line.117"></a>
+<span class="sourceLineNo">118</span>                        }<a name="line.118"></a>
+<span class="sourceLineNo">119</span>                        solucionesDeAlternativas = solucionesDeAlternativas.stream().filter(x -&gt; x.propiedad != null).collect(Collectors.toList());<a name="line.119"></a>
+<span class="sourceLineNo">120</span>                        if (!solucionesDeAlternativas.isEmpty()) {<a name="line.120"></a>
+<span class="sourceLineNo">121</span>                                e = p.seleccionaAlternativa(solucionesDeAlternativas);<a name="line.121"></a>
+<span class="sourceLineNo">122</span>                        }<a name="line.122"></a>
+<span class="sourceLineNo">123</span>                        if(e!=null) {<a name="line.123"></a>
+<span class="sourceLineNo">124</span>                                e.solucionesDeAlternativas = solucionesDeAlternativas;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>                        }<a name="line.125"></a>
+<span class="sourceLineNo">126</span>                        solucionesParciales.put(p, e);                  <a name="line.126"></a>
+<span class="sourceLineNo">127</span>                }<a name="line.127"></a>
+<span class="sourceLineNo">128</span>                actualizaMejorValor(p); <a name="line.128"></a>
+<span class="sourceLineNo">129</span>                return e;<a name="line.129"></a>
+<span class="sourceLineNo">130</span>        }<a name="line.130"></a>
+<span class="sourceLineNo">131</span>        <a name="line.131"></a>
+<span class="sourceLineNo">132</span>        /**<a name="line.132"></a>
+<span class="sourceLineNo">133</span>         * @param pd - <a name="line.133"></a>
+<span class="sourceLineNo">134</span>         * @return Si pd es un subproblema encontrado al resolver el problema inicial<a name="line.134"></a>
+<span class="sourceLineNo">135</span>         */<a name="line.135"></a>
+<span class="sourceLineNo">136</span>        public boolean isSubproblema(ProblemaPD&lt;S,A&gt; pd){<a name="line.136"></a>
+<span class="sourceLineNo">137</span>                return this.solucionesParciales.containsKey(pd);<a name="line.137"></a>
+<span class="sourceLineNo">138</span>        }<a name="line.138"></a>
+<span class="sourceLineNo">139</span>        <a name="line.139"></a>
+<span class="sourceLineNo">140</span>        /**<a name="line.140"></a>
+<span class="sourceLineNo">141</span>         * @return Número de subproblemas encontrado al resolver el problema inicial<a name="line.141"></a>
+<span class="sourceLineNo">142</span>         */<a name="line.142"></a>
+<span class="sourceLineNo">143</span>        public int getNumeroDeSubproblemas(){<a name="line.143"></a>
+<span class="sourceLineNo">144</span>                return this.solucionesParciales.keySet().size();<a name="line.144"></a>
+<span class="sourceLineNo">145</span>        }<a name="line.145"></a>
+<span class="sourceLineNo">146</span>        <a name="line.146"></a>
+<span class="sourceLineNo">147</span>        /**<a name="line.147"></a>
+<span class="sourceLineNo">148</span>         * @param pd - Problema del que se quiere obtener la solución parcial<a name="line.148"></a>
+<span class="sourceLineNo">149</span>         * @return Solución parcial del problema o null si no tiene solución o no ha ha sido encontrado por el algoritmo<a name="line.149"></a>
+<span class="sourceLineNo">150</span>         */<a name="line.150"></a>
+<span class="sourceLineNo">151</span>        public Sp&lt;A&gt; getSolucionParcial(ProblemaPD&lt;S,A&gt; pd) {<a name="line.151"></a>
+<span class="sourceLineNo">152</span>                Sp&lt;A&gt; e = null;         <a name="line.152"></a>
+<span class="sourceLineNo">153</span>                if(solucionesParciales.containsKey(pd)){<a name="line.153"></a>
+<span class="sourceLineNo">154</span>                        e = solucionesParciales.get(pd);<a name="line.154"></a>
+<span class="sourceLineNo">155</span>                }<a name="line.155"></a>
+<span class="sourceLineNo">156</span>                return  e;<a name="line.156"></a>
+<span class="sourceLineNo">157</span>        }<a name="line.157"></a>
+<span class="sourceLineNo">158</span>        <a name="line.158"></a>
+<span class="sourceLineNo">159</span>        /**<a name="line.159"></a>
+<span class="sourceLineNo">160</span>         * @param pd - Problema del que se quiere obtener la solución<a name="line.160"></a>
+<span class="sourceLineNo">161</span>         * @return Solución del problema o null si no tiene solución o no ha ha sido encontrado por el algoritmo<a name="line.161"></a>
+<span class="sourceLineNo">162</span>         */<a name="line.162"></a>
+<span class="sourceLineNo">163</span>        public S getSolucion(ProblemaPD&lt;S, A&gt; pd) {     <a name="line.163"></a>
+<span class="sourceLineNo">164</span>                S s = null;<a name="line.164"></a>
+<span class="sourceLineNo">165</span>                if (solucionesParciales.containsKey(pd)) {<a name="line.165"></a>
+<span class="sourceLineNo">166</span>                        Sp&lt;A&gt; e = solucionesParciales.get(pd);<a name="line.166"></a>
+<span class="sourceLineNo">167</span>                        if (e != null) {<a name="line.167"></a>
+<span class="sourceLineNo">168</span>                                if (pd.esCasoBase()) {                                  <a name="line.168"></a>
+<span class="sourceLineNo">169</span>                                        s = pd.getSolucionReconstruida(e);<a name="line.169"></a>
+<span class="sourceLineNo">170</span>                                } else if (e.alternativa != null) {<a name="line.170"></a>
+<span class="sourceLineNo">171</span>                                        List&lt;S&gt; soluciones = Lists.&lt;S&gt; newArrayList();<a name="line.171"></a>
+<span class="sourceLineNo">172</span>                                        for (int i = 0; i &lt; pd.getNumeroSubProblemas(e.alternativa); i++) {<a name="line.172"></a>
+<span class="sourceLineNo">173</span>                                                soluciones.add(getSolucion(pd.getSubProblema(e.alternativa, i)));<a name="line.173"></a>
+<span class="sourceLineNo">174</span>                                        }<a name="line.174"></a>
+<span class="sourceLineNo">175</span>                                        s = pd.getSolucionReconstruida(e, soluciones);<a name="line.175"></a>
+<span class="sourceLineNo">176</span>                                } else if (e.alternativa == null) {<a name="line.176"></a>
+<span class="sourceLineNo">177</span>                                        List&lt;S&gt; solucionesAlternativas = Lists.&lt;S&gt; newArrayList();<a name="line.177"></a>
+<span class="sourceLineNo">178</span>                                        for (Sp&lt;A&gt; e1 : e.solucionesDeAlternativas) {<a name="line.178"></a>
+<span class="sourceLineNo">179</span>                                                List&lt;S&gt; soluciones = Lists.&lt;S&gt; newArrayList();<a name="line.179"></a>
+<span class="sourceLineNo">180</span>                                                if(e1.propiedad == null) continue;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>                                                for (int i = 0; i &lt; pd.getNumeroSubProblemas(e1.alternativa); i++) {<a name="line.181"></a>
+<span class="sourceLineNo">182</span>                                                        soluciones.add(getSolucion(pd.getSubProblema(e1.alternativa, i)));<a name="line.182"></a>
+<span class="sourceLineNo">183</span>                                                }<a name="line.183"></a>
+<span class="sourceLineNo">184</span>                                                s = pd.getSolucionReconstruida(e1, soluciones);<a name="line.184"></a>
+<span class="sourceLineNo">185</span>                                                solucionesAlternativas.add(s);<a name="line.185"></a>
+<span class="sourceLineNo">186</span>                                        }<a name="line.186"></a>
+<span class="sourceLineNo">187</span>                                        s = pd.getSolucionReconstruida(e,solucionesAlternativas);<a name="line.187"></a>
+<span class="sourceLineNo">188</span>                                }<a name="line.188"></a>
+<span class="sourceLineNo">189</span>                        }<a name="line.189"></a>
+<span class="sourceLineNo">190</span>                }<a name="line.190"></a>
+<span class="sourceLineNo">191</span>                return s;<a name="line.191"></a>
+<span class="sourceLineNo">192</span>        }<a name="line.192"></a>
+<span class="sourceLineNo">193</span><a name="line.193"></a>
+<span class="sourceLineNo">194</span>        /**<a name="line.194"></a>
+<span class="sourceLineNo">195</span>         * @param nombre - Fichero dónde se almacenará el grafo para ser representado<a name="line.195"></a>
+<span class="sourceLineNo">196</span>         * @param titulo - Título del gráfico<a name="line.196"></a>
+<span class="sourceLineNo">197</span>         * @param pd - Problema y sus subproblemas que forman el grafo<a name="line.197"></a>
+<span class="sourceLineNo">198</span>         */<a name="line.198"></a>
+<span class="sourceLineNo">199</span>        public void showAllGraph(String nombre,String titulo,ProblemaPD&lt;S,A&gt; pd){<a name="line.199"></a>
+<span class="sourceLineNo">200</span>                super.setFile(nombre);<a name="line.200"></a>
+<span class="sourceLineNo">201</span>                super.getFile().println("digraph "+titulo+" {  \n size=\"100,100\"; ");         <a name="line.201"></a>
+<span class="sourceLineNo">202</span>                showAll(pd);<a name="line.202"></a>
+<span class="sourceLineNo">203</span>                super.getFile().println("}");<a name="line.203"></a>
+<span class="sourceLineNo">204</span>        }<a name="line.204"></a>
+<span class="sourceLineNo">205</span>        <a name="line.205"></a>
+<span class="sourceLineNo">206</span>        private void marcarEnSolucion(ProblemaPD&lt;S,A&gt; pd){<a name="line.206"></a>
+<span class="sourceLineNo">207</span>                if(solucionesParciales.containsKey(pd)){<a name="line.207"></a>
+<span class="sourceLineNo">208</span>                        Sp&lt;A&gt; e = solucionesParciales.get(pd);          <a name="line.208"></a>
+<span class="sourceLineNo">209</span>                        if(e!=null){<a name="line.209"></a>
+<span class="sourceLineNo">210</span>                                e.estaEnLaSolucion =true;<a name="line.210"></a>
+<span class="sourceLineNo">211</span>                                A alternativa = e.alternativa;                  <a name="line.211"></a>
+<span class="sourceLineNo">212</span>                                if (!pd.esCasoBase()) {<a name="line.212"></a>
+<span class="sourceLineNo">213</span>                                        for (int i = 0; i &lt; pd.getNumeroSubProblemas(alternativa); i++) {<a name="line.213"></a>
+<span class="sourceLineNo">214</span>                                                ProblemaPD&lt;S, A&gt; pds = pd.getSubProblema(<a name="line.214"></a>
+<span class="sourceLineNo">215</span>                                                                alternativa, i);<a name="line.215"></a>
+<span class="sourceLineNo">216</span>                                                marcarEnSolucion(pds);<a name="line.216"></a>
+<span class="sourceLineNo">217</span>                                        }<a name="line.217"></a>
+<span class="sourceLineNo">218</span>                                }       <a name="line.218"></a>
+<span class="sourceLineNo">219</span>                        }<a name="line.219"></a>
+<span class="sourceLineNo">220</span>                }<a name="line.220"></a>
+<span class="sourceLineNo">221</span>        }<a name="line.221"></a>
+<span class="sourceLineNo">222</span><a name="line.222"></a>
+<span class="sourceLineNo">223</span>        private String problema(ProblemaPD&lt;S,A&gt; p, Sp&lt;A&gt; e){<a name="line.223"></a>
+<span class="sourceLineNo">224</span>                String s= "    "+"\""+p+"\"";<a name="line.224"></a>
+<span class="sourceLineNo">225</span>                if(e!=null){<a name="line.225"></a>
+<span class="sourceLineNo">226</span>                        s = s+" [shape=box]";<a name="line.226"></a>
+<span class="sourceLineNo">227</span>                } else{<a name="line.227"></a>
+<span class="sourceLineNo">228</span>                        s = s+" [shape=diamond]";<a name="line.228"></a>
+<span class="sourceLineNo">229</span>                }<a name="line.229"></a>
+<span class="sourceLineNo">230</span>                return s+";";<a name="line.230"></a>
+<span class="sourceLineNo">231</span>        }<a name="line.231"></a>
+<span class="sourceLineNo">232</span>        <a name="line.232"></a>
+<span class="sourceLineNo">233</span>        private String alternativa(ProblemaPD&lt;S,A&gt; p, A alternativa){<a name="line.233"></a>
+<span class="sourceLineNo">234</span>                String s = "    "+"\""+p+","+alternativa+"\""+" [label="+alternativa+"]";<a name="line.234"></a>
+<span class="sourceLineNo">235</span>                return s+";";<a name="line.235"></a>
+<span class="sourceLineNo">236</span>        }<a name="line.236"></a>
+<span class="sourceLineNo">237</span>        <a name="line.237"></a>
+<span class="sourceLineNo">238</span>        private String aristaProblemaToAlternativa(ProblemaPD&lt;S,A&gt; p, A alternativa, Sp&lt;A&gt; e){<a name="line.238"></a>
+<span class="sourceLineNo">239</span>                String s = "    "+"\""+p+"\""+" -&gt; "+"\""+p+","+alternativa+"\"";<a name="line.239"></a>
+<span class="sourceLineNo">240</span>                if(e.estaEnLaSolucion &amp;&amp; e.alternativa.equals(alternativa)){<a name="line.240"></a>
+<span class="sourceLineNo">241</span>                        s = s+ "[style=bold,arrowhead=dot]";<a name="line.241"></a>
+<span class="sourceLineNo">242</span>                }<a name="line.242"></a>
+<span class="sourceLineNo">243</span>                return s+";";<a name="line.243"></a>
+<span class="sourceLineNo">244</span>        }<a name="line.244"></a>
+<span class="sourceLineNo">245</span>        <a name="line.245"></a>
+<span class="sourceLineNo">246</span>        private String aristaAlternativaToProblema(ProblemaPD&lt;S,A&gt; p, A alternativa, ProblemaPD&lt;S,A&gt; ps, Sp&lt;A&gt; e){<a name="line.246"></a>
+<span class="sourceLineNo">247</span>                String s = "    "+"\""+p+","+alternativa+"\""+" -&gt; "+"\""+ps+"\"";<a name="line.247"></a>
+<span class="sourceLineNo">248</span>                if(e.estaEnLaSolucion &amp;&amp; e.alternativa.equals(alternativa)){<a name="line.248"></a>
+<span class="sourceLineNo">249</span>                        s = s+ "[style=bold,arrowhead=dot]";<a name="line.249"></a>
+<span class="sourceLineNo">250</span>                }<a name="line.250"></a>
+<span class="sourceLineNo">251</span>                return s+";";<a name="line.251"></a>
+<span class="sourceLineNo">252</span>        }<a name="line.252"></a>
+<span class="sourceLineNo">253</span><a name="line.253"></a>
+<span class="sourceLineNo">254</span><a name="line.254"></a>
+<span class="sourceLineNo">255</span>        private void showAll(ProblemaPD&lt;S,A&gt; p){                <a name="line.255"></a>
+<span class="sourceLineNo">256</span>                if (solucionesParciales.get(p).alternativa!=null) {<a name="line.256"></a>
+<span class="sourceLineNo">257</span>                        marcarEnSolucion(p);<a name="line.257"></a>
+<span class="sourceLineNo">258</span>                }<a name="line.258"></a>
+<span class="sourceLineNo">259</span>                for(ProblemaPD&lt;S,A&gt; pd:solucionesParciales.keySet()){                   <a name="line.259"></a>
+<span class="sourceLineNo">260</span>                        Sp&lt;A&gt; e = solucionesParciales.get(pd);<a name="line.260"></a>
+<span class="sourceLineNo">261</span>                        if(e!=null)super.getFile().println(problema(pd,e));<a name="line.261"></a>
+<span class="sourceLineNo">262</span>                        if(e!=null &amp;&amp; e.solucionesDeAlternativas!=null){                        <a name="line.262"></a>
+<span class="sourceLineNo">263</span>                                for(Sp&lt;A&gt; solParAlt:e.solucionesDeAlternativas){                        <a name="line.263"></a>
+<span class="sourceLineNo">264</span>                                        super.getFile().println(alternativa(pd,solParAlt.alternativa));<a name="line.264"></a>
+<span class="sourceLineNo">265</span>                                        super.getFile().println(aristaProblemaToAlternativa(pd,solParAlt.alternativa,e));<a name="line.265"></a>
+<span class="sourceLineNo">266</span>                                        for(int i = 0; i &lt; pd.getNumeroSubProblemas(solParAlt.alternativa); i++){       <a name="line.266"></a>
+<span class="sourceLineNo">267</span>                                                ProblemaPD&lt;S,A&gt; pds= pd.getSubProblema(solParAlt.alternativa,i);<a name="line.267"></a>
+<span class="sourceLineNo">268</span>                                                if(solucionesParciales.get(pds)==null)super.getFile().println(problema(pds,null));                                              <a name="line.268"></a>
+<span class="sourceLineNo">269</span>                                                super.getFile().println(aristaAlternativaToProblema(pd,solParAlt.alternativa,pds,e));<a name="line.269"></a>
+<span class="sourceLineNo">270</span>                                        }<a name="line.270"></a>
+<span class="sourceLineNo">271</span>                                }<a name="line.271"></a>
+<span class="sourceLineNo">272</span>                        }<a name="line.272"></a>
+<span class="sourceLineNo">273</span>                }<a name="line.273"></a>
+<span class="sourceLineNo">274</span>        }<a name="line.274"></a>
+<span class="sourceLineNo">275</span>        <a name="line.275"></a>
+<span class="sourceLineNo">276</span>        /**<a name="line.276"></a>
+<span class="sourceLineNo">277</span>         * Un tipo diseñado para representar soluciones parciales a partir de las cuales <a name="line.277"></a>
+<span class="sourceLineNo">278</span>         * se puede reconstruir la solución del problema. <a name="line.278"></a>
+<span class="sourceLineNo">279</span>         * Esta formado por un par: una alternativa y el valor de una propiedad. La solución del problema <a name="line.279"></a>
+<span class="sourceLineNo">280</span>         * es la que se obtendría tomando la alternativa y el valor estaría en la propiedad<a name="line.280"></a>
+<span class="sourceLineNo">281</span>         * <a name="line.281"></a>
+<span class="sourceLineNo">282</span>         * El valor null para este tipo representará la no existencia de solución<a name="line.282"></a>
+<span class="sourceLineNo">283</span>         * <a name="line.283"></a>
+<span class="sourceLineNo">284</span>         * @param &lt;A1&gt; Tipo de la alternativa<a name="line.284"></a>
+<span class="sourceLineNo">285</span>         */<a name="line.285"></a>
+<span class="sourceLineNo">286</span>        public static class Sp&lt;A1&gt; implements Comparable&lt;Sp&lt;A1&gt;&gt; {<a name="line.286"></a>
+<span class="sourceLineNo">287</span>                <a name="line.287"></a>
+<span class="sourceLineNo">288</span><a name="line.288"></a>
+<span class="sourceLineNo">289</span>                public A1 alternativa;<a name="line.289"></a>
+<span class="sourceLineNo">290</span>                public Double propiedad;<a name="line.290"></a>
+<span class="sourceLineNo">291</span>                private List&lt;Sp&lt;A1&gt;&gt; solucionesDeAlternativas = null; <a name="line.291"></a>
+<span class="sourceLineNo">292</span>                private boolean estaEnLaSolucion = false;<a name="line.292"></a>
+<span class="sourceLineNo">293</span>                                        <a name="line.293"></a>
+<span class="sourceLineNo">294</span>                public static &lt;A2&gt; Sp&lt;A2&gt; create(A2 alternativa,Double propiedad){<a name="line.294"></a>
+<span class="sourceLineNo">295</span>                        return new Sp&lt;A2&gt;(alternativa, propiedad);<a name="line.295"></a>
+<span class="sourceLineNo">296</span>                }<a name="line.296"></a>
+<span class="sourceLineNo">297</span><a name="line.297"></a>
+<span class="sourceLineNo">298</span>                protected Sp(A1 alternativa, Double propiedad) {<a name="line.298"></a>
+<span class="sourceLineNo">299</span>                        super();<a name="line.299"></a>
+<span class="sourceLineNo">300</span>                        this.alternativa = alternativa;<a name="line.300"></a>
+<span class="sourceLineNo">301</span>                        this.propiedad = propiedad;     <a name="line.301"></a>
+<span class="sourceLineNo">302</span>                }               <a name="line.302"></a>
+<span class="sourceLineNo">303</span>                <a name="line.303"></a>
+<span class="sourceLineNo">304</span>                @Override<a name="line.304"></a>
+<span class="sourceLineNo">305</span>                public String toString(){<a name="line.305"></a>
+<span class="sourceLineNo">306</span>                        return "("+alternativa+","+propiedad+")";<a name="line.306"></a>
+<span class="sourceLineNo">307</span>                }<a name="line.307"></a>
+<span class="sourceLineNo">308</span><a name="line.308"></a>
+<span class="sourceLineNo">309</span>                @Override<a name="line.309"></a>
+<span class="sourceLineNo">310</span>                public int compareTo(Sp&lt;A1&gt; ob) {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>                        return this.propiedad.compareTo(ob.propiedad);<a name="line.311"></a>
+<span class="sourceLineNo">312</span>                }<a name="line.312"></a>
+<span class="sourceLineNo">313</span>                <a name="line.313"></a>
+<span class="sourceLineNo">314</span>        }       <a name="line.314"></a>
+<span class="sourceLineNo">315</span>        <a name="line.315"></a>
+<span class="sourceLineNo">316</span>}<a name="line.316"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

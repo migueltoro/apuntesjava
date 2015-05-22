@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.ag;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.Comparator;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.List;<a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.util.function.Predicate;<a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>import org.apache.commons.math3.genetics.Chromosome;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import org.apache.commons.math3.genetics.FixedGenerationCount;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import org.apache.commons.math3.genetics.Population;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import org.apache.commons.math3.genetics.StoppingCondition;<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>import com.google.common.collect.Lists;<a name="line.12"></a>
+<span class="sourceLineNo">013</span><a name="line.13"></a>
+<span class="sourceLineNo">014</span>import us.lsi.stream.Stream2;<a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
+<span class="sourceLineNo">016</span>/**<a name="line.16"></a>
+<span class="sourceLineNo">017</span> * <a name="line.17"></a>
+<span class="sourceLineNo">018</span> * &lt;p&gt; Acumula una lista, en la propiedad <a name="line.18"></a>
+<span class="sourceLineNo">019</span> * &lt;code&gt; AlgoritmoAG.bestChromosomes &lt;/code&gt; que guarda los mejores &lt;code&gt; numBestChromosomes &lt;/code&gt; <a name="line.19"></a>
+<span class="sourceLineNo">020</span> * distintos de cada generación.&lt;/p&gt;<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * <a name="line.21"></a>
+<span class="sourceLineNo">022</span> * <a name="line.22"></a>
+<span class="sourceLineNo">023</span> * &lt;p&gt; Implementa una condición de parada que se cumple cuando se encuentran &lt;code&gt; numBestChromosomes &lt;/code&gt; cromosomas<a name="line.23"></a>
+<span class="sourceLineNo">024</span> * que cumplan un  &lt;code&gt; predicate &lt;/code&gt; o el número de generaciones supera<a name="line.24"></a>
+<span class="sourceLineNo">025</span> * &lt;code&gt; AlgoritmoAG.NUM_GENERATIONS&lt;/code&gt;  &lt;/p&gt;<a name="line.25"></a>
+<span class="sourceLineNo">026</span> * <a name="line.26"></a>
+<span class="sourceLineNo">027</span> * &lt;p&gt; La propiedad &lt;code&gt; predicate &lt;/code&gt; debe ser inicializada desde el problema concreto a resolver. La propiedad numeroDeGeneraciones<a name="line.27"></a>
+<span class="sourceLineNo">028</span> * guarda el número de generaciones &lt;/p&gt;<a name="line.28"></a>
+<span class="sourceLineNo">029</span> * <a name="line.29"></a>
+<span class="sourceLineNo">030</span> * @author Miguel Toro<a name="line.30"></a>
+<span class="sourceLineNo">031</span> *<a name="line.31"></a>
+<span class="sourceLineNo">032</span> */<a name="line.32"></a>
+<span class="sourceLineNo">033</span>public class SolutionsNumber implements StoppingCondition {<a name="line.33"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span>        public static Integer numeroDeGeneraciones = 0;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        public static Predicate&lt;Chromosome&gt; predicate =null;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>        private Integer ns;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>        private FixedGenerationCount fixed;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>        public SolutionsNumber(Integer numBestChromosomes, Integer NUM_GENERATIONS) {<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                super();<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                this.ns = numBestChromosomes;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>                AlgoritmoAG.bestChromosomes = Lists.newArrayList();<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                this.fixed = new FixedGenerationCount(NUM_GENERATIONS);<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                predicate = (Chromosome x) -&gt; x.fitness() &gt;= AlgoritmoAG.FITNESS; <a name="line.44"></a>
+<span class="sourceLineNo">045</span>        }<a name="line.45"></a>
+<span class="sourceLineNo">046</span><a name="line.46"></a>
+<span class="sourceLineNo">047</span>        @Override<a name="line.47"></a>
+<span class="sourceLineNo">048</span>        public boolean isSatisfied(Population population) {<a name="line.48"></a>
+<span class="sourceLineNo">049</span>                List&lt;Chromosome&gt; ls = Stream2<a name="line.49"></a>
+<span class="sourceLineNo">050</span>                                .&lt;Chromosome&gt; fromUnmodifiableIterable(population)<a name="line.50"></a>
+<span class="sourceLineNo">051</span>                                .sorted(Comparator.&lt;Chromosome&gt; reverseOrder())<a name="line.51"></a>
+<span class="sourceLineNo">052</span>                                .distinct()<a name="line.52"></a>
+<span class="sourceLineNo">053</span>                                .limit(ns)<a name="line.53"></a>
+<span class="sourceLineNo">054</span>                                .toList();<a name="line.54"></a>
+<span class="sourceLineNo">055</span>                AlgoritmoAG.bestChromosomes.addAll(ls);<a name="line.55"></a>
+<span class="sourceLineNo">056</span>                boolean ret = fixed.isSatisfied(population);<a name="line.56"></a>
+<span class="sourceLineNo">057</span>                ret = ret || ls.stream().allMatch((Chromosome x) -&gt; predicate.test(x));<a name="line.57"></a>
+<span class="sourceLineNo">058</span>                numeroDeGeneraciones++;<a name="line.58"></a>
+<span class="sourceLineNo">059</span>                return ret;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>        }<a name="line.60"></a>
+<span class="sourceLineNo">061</span><a name="line.61"></a>
+<span class="sourceLineNo">062</span>}<a name="line.62"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

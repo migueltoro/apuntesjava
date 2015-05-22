@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.ryp.anuncios;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import us.lsi.algoritmos.AlgoritmoBT;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import us.lsi.algoritmos.Algoritmos;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>public class TestAnunciosBT {<a name="line.7"></a>
+<span class="sourceLineNo">008</span><a name="line.8"></a>
+<span class="sourceLineNo">009</span>        <a name="line.9"></a>
+<span class="sourceLineNo">010</span>        public static void main(String[] args) {<a name="line.10"></a>
+<span class="sourceLineNo">011</span>                // TODO Auto-generated method stub<a name="line.11"></a>
+<span class="sourceLineNo">012</span>                ProblemaAnuncios.leeYOrdenaAnuncios("anuncios.txt");<a name="line.12"></a>
+<span class="sourceLineNo">013</span>                ProblemaAnuncios.tiempoTotal = 45;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>                AlgoritmoBT.numeroDeSoluciones = 50000;<a name="line.14"></a>
+<span class="sourceLineNo">015</span>                System.out.println(ProblemaAnuncios.todosLosAnunciosDisponibles);<a name="line.15"></a>
+<span class="sourceLineNo">016</span>                System.out.println(ProblemaAnuncios.restricciones);     <a name="line.16"></a>
+<span class="sourceLineNo">017</span>                AlgoritmoBT.conFiltro = true;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>                AlgoritmoBT&lt;ListaDeAnunciosAEmitir, Integer, Double&gt; a = Algoritmos.createBT(ProblemaAnunciosBT.create());<a name="line.18"></a>
+<span class="sourceLineNo">019</span>                a.ejecuta();<a name="line.19"></a>
+<span class="sourceLineNo">020</span>                System.out.println(a.soluciones);<a name="line.20"></a>
+<span class="sourceLineNo">021</span>        }<a name="line.21"></a>
+<span class="sourceLineNo">022</span>}<a name="line.22"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

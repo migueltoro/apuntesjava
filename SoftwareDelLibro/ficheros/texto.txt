@@ -1,0 +1,61 @@
+Drawing graphs with NEATO 
+
+Stephen C. North 
+
+April 26, 2004 
+
+Abstract 
+
+NEATO is a program that makes layouts of undirected graphs following the 
+filter model of DOT. Its layout heuristic creates virtual physical models and 
+runs an iterative solver to find low energy configurations. The intended applications 
+are in telecommunication networks, computer programming and software 
+engineering. Here is an example layout depicting an entity-relationship 
+database schema. It took 0.01 seconds of user time to generate on a garden 
+variety PC running Linux. 
+
+Entity Relation Diagramdrawn by NEATOcourseC-IninstitutenameS-I1studentnamegradenumberS-Cmnamecode1nn
+1 
+
+NEATO User’s 
+Manual, 
+April 
+26, 
+2004 
+
+
+1 Introduction 
+
+NEATO is a utility that draws undirected graphs, which are common in telecommunications 
+and computer programming. It draws a graph by constructing a virtual 
+physical model and running an iterative solver to find a low-energy configuration. 
+Following an approach proposed by Kamada and Kawai [KK89], an ideal spring 
+is placed between every pair of nodes such that its length is set to the shortest path 
+distance between the endpoints. The springs push the nodes so their geometric distance 
+in the layout approximates their path distance in the graph. This often yields 
+reasonable layouts [Ead84][FR91]. (In statistics, this algorithm is also known as 
+multidimensional scaling. Its application to graph drawing was noted by Kruskal 
+and Seery in the late 1970s.) 
+
+NEATO is compatible with the directed graph drawing program DOT in sharing 
+the same input file format and graphics drivers [KN91]. Since the file format 
+includes both undirected and directed graphs, NEATO draws graphs prepared for 
+DOT, and vice versa. Both programs have the same options for setting labels, colors, 
+shapes, text fonts, and pagination, and for generating code in common graphics 
+languages (PostScript, raster formats such as GIF and PNG, SVG, FrameMaker 
+MIF, HPGL/2, and web click maps). Both work with DOTTY, an interactive graph 
+viewer for X windows. (The lneatocommand script runs neato from an interactive 
+window.) 
+
+Figs. 1–4 are representative examples of NEATO’s output. The timings refer to 
+user time on a 600 Mhz Pentium Linux server. Fig. 1 was derived from a handmade 
+drawing in an operating system tutorial. Fig. 2 shows the connectivity of a 
+computer network. Fig. 3 shows the sharing of programmer-defined types between 
+procedures in a C program. The program that was the source of this graph parses a 
+text file into an internal data structure. The graph was extracted from a C program 
+database. Its drawing shows where interactions or conversions between types may 
+occur. Finally, Fig. 4 shows relationships between IMRs (modification requests) 
+in an externally released software product.1 The labeled nodes are IMRs and the 
+small circles encode many-to-many dependencies. 
+
+1Graph courtesy of J. Hoshen, Bell Labs. 

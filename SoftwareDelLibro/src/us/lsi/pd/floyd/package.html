@@ -1,0 +1,29 @@
+<HTML>
+<BODY>
+<p> El Algoritmo de Floyd es una algoritmo clásico de Programación Dinámica.<p>
+
+<p> El problema parte de un grafo.  Los vértices del grafo los ubica en una lista que llamaremos Vértices. Un número entero, por lo tanto, 
+designa de manera única uno de los vértices según la posición que ocupa en esta lista. Cada arista del grafo tiene un peso de tipo double.</p>
+
+<p> El problema es encontrar el camino mínimo entre dos  vértices i, j, dados. </p>
+
+<p> El problema se generaliza incluyendo un tercer parámetro k. Un problema (i,j,k) significa encontrar en un grafo dado el camino mínimo de i a j usando como ciudades
+intermedias las que están en las posiciones k o mayores. </p>
+
+<p> <ul>
+<li> La clase {@link us.lsi.pd.floyd.FloyProblemPD FloyProblemPD} representa problemas generalizados.
+<li> La clase {@link us.lsi.pd.floyd.GrafoDelMapa GrafoDelMapa} lee un fichero,  construye el grafo e inicializa el origen y el destino.
+<li> La clase {@link us.lsi.pd.floyd.Carretera Carretera} representa aristas concretas para este problema.
+<li> La clase {@link us.lsi.pd.floyd.Ciudad Ciudad} implementa vértices concretos para este problema.
+</ul> </p> 
+<p> El paquete incluye una clase de test</p>
+
+<p> El grafo con los subproblemas alcanzados es: </p> 
+<p><a href="../../../../document/solucionMapa.jpg" target="_blank">Grafo con las Soluciones</a></p>
+
+<p> Una ficha del problema puede encontrarse en  
+<a href="../../../../document/FichaProblemaFloyd.pdf" target="_blank">Ficha de Floyd</a></p>
+
+</BODY>
+</HTML>
+ 

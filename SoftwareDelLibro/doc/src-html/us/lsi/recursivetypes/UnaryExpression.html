@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.recursivetypes;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.HashMap;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.Map;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>public class UnaryExpression extends Expression {<a name="line.6"></a>
+<span class="sourceLineNo">007</span>        public enum UnaryOperator{MAS,MENOS}<a name="line.7"></a>
+<span class="sourceLineNo">008</span>        private static Map&lt;UnaryOperator,java.util.function.UnaryOperator&lt;Integer&gt;&gt; map = iniMap();<a name="line.8"></a>
+<span class="sourceLineNo">009</span>        <a name="line.9"></a>
+<span class="sourceLineNo">010</span>        private static Map&lt;UnaryOperator,java.util.function.UnaryOperator&lt;Integer&gt;&gt; iniMap(){<a name="line.10"></a>
+<span class="sourceLineNo">011</span>                Map&lt;UnaryOperator,java.util.function.UnaryOperator&lt;Integer&gt;&gt; map;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>                map = new HashMap&lt;UnaryOperator, java.util.function.UnaryOperator&lt;Integer&gt;&gt;();<a name="line.12"></a>
+<span class="sourceLineNo">013</span>                map.put(UnaryOperator.MAS, (Integer x)-&gt;x);<a name="line.13"></a>
+<span class="sourceLineNo">014</span>                map.put(UnaryOperator.MENOS, (Integer x)-&gt;-x);<a name="line.14"></a>
+<span class="sourceLineNo">015</span>                return map;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>        }<a name="line.16"></a>
+<span class="sourceLineNo">017</span>        private UnaryOperator operator;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>        private Expression expression;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>        UnaryExpression(UnaryOperator operator, Expression expression) {<a name="line.19"></a>
+<span class="sourceLineNo">020</span>                super();<a name="line.20"></a>
+<span class="sourceLineNo">021</span>                this.operator = operator;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>                this.expression = expression;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>        }<a name="line.23"></a>
+<span class="sourceLineNo">024</span>        public UnaryOperator getOperator() {<a name="line.24"></a>
+<span class="sourceLineNo">025</span>                return operator;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>        }<a name="line.26"></a>
+<span class="sourceLineNo">027</span>        public void setOperator(UnaryOperator operator) {<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                this.operator = operator;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>        }<a name="line.29"></a>
+<span class="sourceLineNo">030</span>        public Expression getExpression() {<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                return expression;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>        }<a name="line.32"></a>
+<span class="sourceLineNo">033</span>        public void setExpression(Expression expression) {<a name="line.33"></a>
+<span class="sourceLineNo">034</span>                this.expression = expression;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>        }<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        <a name="line.36"></a>
+<span class="sourceLineNo">037</span>        @Override<a name="line.37"></a>
+<span class="sourceLineNo">038</span>        public Integer value() {<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                return map.get(this.operator).apply(this.getExpression().value());<a name="line.39"></a>
+<span class="sourceLineNo">040</span>        }       <a name="line.40"></a>
+<span class="sourceLineNo">041</span>        <a name="line.41"></a>
+<span class="sourceLineNo">042</span>        <a name="line.42"></a>
+<span class="sourceLineNo">043</span>}<a name="line.43"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

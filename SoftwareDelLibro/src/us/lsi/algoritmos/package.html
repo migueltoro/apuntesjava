@@ -1,0 +1,47 @@
+<HTML>
+<BODY>
+<p> Implementaciones de distintos tipos de Algoritmos y los tipos que deben implementar los problemas para ser resueltos por los mismos.<p>
+
+<p> Las clases usadas en el paquete son: </p>
+
+<p> <ul>
+<li> La clase {@link us.lsi.ag.AlgoritmoAG AlgoritmoAG} implementa los Algoritmos Genéticos.
+<li> La clase {@link us.lsi.ag.AlgoritmoAGBinary AlgoritmoAGBinary} implementa los Algoritmos Genéticos con codificación binaria
+<li> La clase {@link us.lsi.ag.AlgoritmoAGRandomKey AlgoritmoAGRandomKey} implementa los Algoritmos Genéticos con codificación real y clave aleatoria
+<li> La clase {@link us.lsi.ag.AlgoritmoAGMix AlgoritmoAGMix} implementa los Algoritmos Genéticos un cromosoma binario y otro real
+<li> La clase {@link us.lsi.bt.AlgoritmoBT AlgoritmoBT} implementa los Algoritmos de Backtracking
+<li> La clase {@link us.lsi.dyv.AlgoritmoDyV AlgoritmoDyV} implementa los Algoritmos de Divide y Vencerás 
+<li> La clase {@link us.lsi.pd.AlgoritmoPD AlgoritmoPD} implementa los Algoritmos de Programación Dinámica
+<li> La clase {@link us.lsi.sa.AlgoritmoSA AlgoritmoSA} implementa los Algoritmos de Simulated Annealing
+<li> La clase {@link us.lsi.voraz.AlgoritmoVZ AlgoritmoVZ} implementa los Algoritmos Voraces
+<li> La clase {@link us.lsi.algoritmos.Algorimos Algoritmos} implementa una factoría de Algoritmos de los tipos anteriores
+<li> La clase {@link us.lsi.algoritmos.Soluciones Soluciones} implementa un agregado de soluciones
+</ul> </p> 
+En el paquete se usan además las clases:
+<p> <ul>
+<li> La clase {@link us.lsi.flowgraph.FlowAlgorithm FlowAlgorithm} implementa la solución de una red de flujo
+<li> La clase {@link us.lsi.graphs.AStarAlgorithm AStarAlgorithm} implementa un Algoritmo AStar
+<li> Se usa la clase <a href="https://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/optim/linear/SimplexSolver.html" target="_blank">SimplexSolver</a>
+de Apache que implementa el algoritmo del Simplex. Esa clase se adapta y reutiliza en 
+{@link us.lsi.pl.AlgoritmoPL AlgoritmoPL}
+<li> Se usa la clase <a href="http://lpsolve.sourceforge.net/5.5/" target="_blank">LpSolve</a>
+de  que implementa un algoritmo de Programación Lineal Entera. Esa clase se adapta y reutiliza en 
+{@link us.lsi.pl.AlgoritmoPLI AlgoritmoPLI}
+</ul>
+<p> El paquete incluye tipos necesarios para usar los algortimos anteriores </p>
+<p> <ul>
+<li> El tipo {@link us.lsi.bt.EstadoBT EstadoBT} es el tipo del estado para los algortimos de Vuelta Atrás
+<li> El tipo {@link us.lsi.bt.EstadoBTF EstadoBTF} es el tipo del estado para los algortimos de Vuelta Atrás con Filtro
+<li> El tipo {@link us.lsi.sa.EstadoSA EstadoSA} es el tipo del estado para los algortimos Simulated Annealing
+<li> El tipo {@link us.lsi.voraz.EstadoVZ EstadoVZ} es el tipo del estado para los algortimos Voraces
+<li> El tipo {@link us.lsi.ag.ProblemaAG ProblemaAG} es el tipo de de los problemas que se van a resolver mediante Algoritmos Genéticos
+<li> El tipo {@link us.lsi.bt.ProblemaBT ProblemaBT} es el tipo de de los problemas que se van a resolver mediante Vuelta Atrás
+<li> El tipo {@link us.lsi.dyv.ProblemaDyV ProblemaDyV} es el tipo de de los problemas que se van a resolver mediante Divide y Vencerás
+<li> El tipo {@link us.lsi.pd.ProblemaPD ProblemaPD} es el tipo de de los problemas que se van a resolver mediante Programación Dinámica
+<li> El tipo {@link us.lsi.pd.ProblemaPDF ProblemaPDF} es el tipo de de los problemas que se van a resolver mediante Programación Dinámica con Filtro
+<li> El tipo {@link us.lsi.sa.ProblemaSA ProblemaSA} es el tipo de de los problemas que se van a resolver mediante Simulated Annealing
+<li> El tipo {@link us.lsi.voraz.ProblemaVZ ProblemaVZ} es el tipo de de los problemas que se van a resolver mediante Voraz
+</ul> </p>
+</BODY>
+</HTML>
+ 
