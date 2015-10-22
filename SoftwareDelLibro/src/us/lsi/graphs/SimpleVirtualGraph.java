@@ -65,7 +65,7 @@ public class SimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEd
 	}
 	@Override
 	public boolean containsVertex(V v) {
-		return true;
+		return v.isValid();
 	}
 	@Override
 	public V getEdgeSource(E e) {
@@ -79,7 +79,7 @@ public class SimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEd
 
 	@Override
 	public double getEdgeWeight(E e) {
-		return 1.;
+		return e.getEdgeWeight();
 	}
 	
 	@Override

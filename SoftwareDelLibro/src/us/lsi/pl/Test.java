@@ -9,7 +9,6 @@ import us.lsi.common.Arrays2;
 import us.lsi.pd.mochila.ProblemaMochila;
 import us.lsi.pd.mochila.SolucionMochila;
 import us.lsi.pl.ProblemaPL.TipoDeVariable;
-import us.lsi.pl.mochila.MochilaPL;
 
 public class Test {
 
@@ -64,9 +63,7 @@ public class Test {
 		System.out.println("-------------------");	
 		System.out.println("________");
 		System.out.println(a.getObjetivo());
-		SolucionMochila s = MochilaPL.getSolucion(a.getSolucion());
 		System.out.println("________");
-		System.out.println(s);
 		System.out.println("________");
 		for(int i=0;i<p.getNumOfVariables();i++){
 			System.out.println(i+","+p.getNombre(i));

@@ -2,45 +2,52 @@ package us.lsi.ag.mochila;
 
 import java.util.List;
 
-import us.lsi.ag.Cromosoma;
-import us.lsi.ag.ProblemaAGBag;
+import us.lsi.ag.ProblemaAGIndex;
+import us.lsi.ag.agchromosomes.IndexChromosome;
 import us.lsi.pd.mochila.ObjetoMochila;
 import us.lsi.pd.mochila.ProblemaMochila;
 import us.lsi.pd.mochila.SolucionMochila;
 
-public class ProblemaMochilaAG implements ProblemaAGBag<SolucionMochila> {
+public class ProblemaMochilaAG implements ProblemaAGIndex<SolucionMochila>{
 
 	public ProblemaMochilaAG(String fichero) {
 		ProblemaMochila.leeObjetosDisponibles(fichero);
 	}	
 
 	@Override
-	public SolucionMochila getSolucion(Cromosoma<Integer> chromosome) {
+	public SolucionMochila getSolucion(IndexChromosome chromosome) {
 		SolucionMochila s = SolucionMochila.create();
-		for (Integer e: chromosome.decode()) {
-			s =	s.add(ProblemaMochila.getObjeto(e),1);
+		List<Integer> ls = chromosome.decode();
+		for (int i=0; i< this.getObjectsNumber();i++) {
+			s =	s.add(ProblemaMochila.getObjeto(i),ls.get(i));
 		}
 		return s;
 	}
 	
 	
 
+	private Double fitness = null;
+	
 	@Override
 	public Double fitnessFunction(List<Integer> ls) {
 		double r;
-		Integer peso = 0;
-		Integer valor = 0;
-    	for (Integer e: ls) {
-			peso = peso + ProblemaMochila.getPesoObjeto(e);
-			valor = valor + ProblemaMochila.getValorObjeto(e);
-		}
-		double dif = ProblemaMochila.capacidadInicial - peso;
-		if(dif >= 0.){
-			r = valor;
-		} else {
-			r = valor - 10000*(dif*dif);
-		}
-		return r;
+		double valor=0.;
+		double dif=0.;
+		double peso=0.;
+			peso = 0.;
+			valor = 0.;
+			for (int i = 0; i < ls.size(); i++) {
+				peso = peso + ls.get(i) * ProblemaMochila.getPesoObjeto(i);
+				valor = valor + ls.get(i) * ProblemaMochila.getValorObjeto(i);
+			}
+			dif = ProblemaMochila.capacidadInicial - peso;
+			if(dif >= 0.){
+				r = valor;
+			} else {
+				r = valor - 10000*(dif*dif);
+			}
+			fitness = r;
+		return fitness;
 	}
 
 	
@@ -49,15 +56,13 @@ public class ProblemaMochilaAG implements ProblemaAGBag<SolucionMochila> {
 	}
 	
 	@Override
-	public Integer getMultiplicidadMaxima(int index){
+	public Integer getMax(int index){
 		return ProblemaMochila.getObjetosDisponibles().get(index).getNumMaxDeUnidades();
 	}
 
 	@Override
-	public Integer getNumeroDeObjetos() {
+	public Integer getObjectsNumber() {
 		return this.getObjetos().size();
-	}
-	
-	
-	
+	}	
+
 }

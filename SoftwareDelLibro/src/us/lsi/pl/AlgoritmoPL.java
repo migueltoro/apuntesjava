@@ -92,4 +92,5 @@ public class AlgoritmoPL implements SolutionPL {
 		return collection;
 	}
 	
+	
 }

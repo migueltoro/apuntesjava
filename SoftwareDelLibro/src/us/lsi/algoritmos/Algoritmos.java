@@ -4,18 +4,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import us.lsi.ag.AlgoritmoAGBinary;
-import us.lsi.ag.AlgoritmoAGMulti;
-import us.lsi.ag.AlgoritmoAGMix;
-import us.lsi.ag.AlgoritmoAGRandomKey;
-import us.lsi.ag.AlgoritmoAGReal;
-import us.lsi.ag.BagBinaryChromosome;
-import us.lsi.ag.BagMultiChromosome;
-import us.lsi.ag.BagMixChromosome;
-import us.lsi.ag.BagRandomKeyChromosome;
-import us.lsi.ag.ProblemaAGBag;
-import us.lsi.ag.ProblemaAGReal;
-import us.lsi.ag.RealBinaryChromosome;
+import us.lsi.ag.AlgoritmoAG;
+import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
+import us.lsi.ag.ProblemaAG;
 import us.lsi.astar.AStarAlgorithm;
 import us.lsi.astar.AStarGraph;
 import us.lsi.bt.AlgoritmoBT;
@@ -135,82 +126,10 @@ public class Algoritmos {
 	 * @return AlgoritmoAGReal
 	 */
 	
-	public static AlgoritmoAGReal createAGReal(ProblemaAGReal<?> p) {
-		RealBinaryChromosome.limites = p.getLimites();
-		RealBinaryChromosome.numeroDeVariables = p.getNumeroDeVariables();
-		RealBinaryChromosome.fitnessFunction = p::fitnessFunction;
-		return new AlgoritmoAGReal(p);
+	public static AlgoritmoAG createAG(ChromosomeType tipo, ProblemaAG p) {
+		return new AlgoritmoAG(tipo,p);
 	}
-	
-	/**<p> Algoritmo específico para algoritmos genéticos con codificación binaria.
-	 * Son adecuados para resolver problemas de subconjuntos de multiconjuntos 
-	 * y aquellos otros donde el esapcio de búsqueda es un producto cartesiano de número reales.</p>
-	 * Los cromosomas que implementemos deben heredar de la clase 
-	 * <a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/genetics/BinaryChromosome.html" target="_blank"> BinaryChromosome </a>
-	 * 
-	 * 
-	 *
-	 *
-	 * @param p Problema
-	 * @return AlgoritmoAGBinary
-	 */
-	
-	public static AlgoritmoAGBinary createAGBinary(ProblemaAGBag<?> p) {
-		BagBinaryChromosome.fitnessFunction = p::fitnessFunction;
-		return new AlgoritmoAGBinary(p);
-	}
-	
-	/**<p> Algoritmo específico para algoritmos genéticos con codificación binaria.
-	 * Son adecuados para resolver problemas de subconjuntos de multiconjuntos 
-	 * y aquellos otros donde el espacio de búsqueda es un producto cartesiano de número reales.</p>
-	 * Los cromosomas que implementemos deben heredar de la clase 
-	 * <a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/genetics/BinaryChromosome.html" target="_blank"> BinaryChromosome </a>
-	 * 
-	 * 
-	 *
-	 * @param p Problema
-	 * @return AlgoritmoAGMulti
-	 */
-	
-	public static AlgoritmoAGMulti createAGMulti(ProblemaAGBag<?> p) {
-		BagMultiChromosome.fitnessFunction = p::fitnessFunction;
-		return new AlgoritmoAGMulti(p);
-	}
-	
-	/**
-	 * <p> Algoritmo específico para algoritmos genéticos con codificación real. 
-	 * Son adecuados para resolver problemas que se representan por permutaciones </p>
-	 * los cromosomas que implementemos deben heredar de la clase 
-	 * <a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/genetics/RandomKey.html" target="_blank"> RandomKey </a>
-	 * 
-	 * 
-	 *
-	 * @param <S> Tipo de la solución
-	 * @param p Problema
-	 * @return AlgoritmoAGRandomKey
-	 */
-	public static <S> AlgoritmoAGRandomKey createAGRandomKey(ProblemaAGBag<?> p) {			
-		BagRandomKeyChromosome.fitnessFunction = p::fitnessFunction;
-		return new AlgoritmoAGRandomKey(p);
-	}
-	
-	/**
-	 * <p> Algoritmo específico para algoritmos genéticos con mixta binaria y real. 
-	 * Son adecuados para resolver problemas que se representan permutaciones de subconjuntos de los elementos de una lista. </p>
-	 * los cromosomas que implementemos deben heredar de la clase que se indica.
-	 * 
-	 * 
-	 *
-	 *
-	 * @param p Problema
-	 * @return AlgoritmoAGMix
-	 */
-	public static AlgoritmoAGMix createAGMix(ProblemaAGBag<?> p) {
-		BagMixChromosome.fitnessFunction = p::fitnessFunction;
-		return new AlgoritmoAGMix(p);
-	}
-	
-	
+		
 	/**
 	 * @param fichero Fichero que  describe laq red de flujo
 	 * @return Algoritmo de red de flujo que resuelve el problema especificado en el fichero

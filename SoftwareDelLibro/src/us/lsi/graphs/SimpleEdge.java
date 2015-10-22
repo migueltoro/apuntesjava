@@ -44,6 +44,13 @@ public class SimpleEdge<V> implements EdgeFactory<V, SimpleEdge<V>> {
 		return this.target;
 	}
 	
+	/**
+	 * @return El peso asociado a la arista
+	 */
+	public double getEdgeWeight(){
+		return 1.;
+	}
+	
 	@Override
 	public String toString() {
 		return this.source+","+this.target;

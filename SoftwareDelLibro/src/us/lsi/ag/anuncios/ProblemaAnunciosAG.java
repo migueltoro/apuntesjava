@@ -3,13 +3,13 @@ package us.lsi.ag.anuncios;
 
 import java.util.List;
 
-import us.lsi.ag.Cromosoma;
-import us.lsi.ag.ProblemaAGBag;
+import us.lsi.ag.ProblemaAGIndex;
+import us.lsi.ag.agchromosomes.IndexChromosome;
 import us.lsi.bt.anuncios.Anuncio;
 import us.lsi.bt.anuncios.ListaDeAnunciosAEmitir;
 import us.lsi.bt.anuncios.ProblemaAnuncios;
 
-public class ProblemaAnunciosAG extends ProblemaAnuncios implements ProblemaAGBag<ListaDeAnunciosAEmitir> {
+public class ProblemaAnunciosAG extends ProblemaAnuncios implements ProblemaAGIndex<ListaDeAnunciosAEmitir> {
 
 	public ProblemaAnunciosAG(String file) {
 		super();
@@ -17,7 +17,7 @@ public class ProblemaAnunciosAG extends ProblemaAnuncios implements ProblemaAGBa
 	}	
 	
 	@Override
-	public ListaDeAnunciosAEmitir getSolucion(Cromosoma<Integer> c) {		
+	public ListaDeAnunciosAEmitir getSolucion(IndexChromosome c) {		
 		return  ListaDeAnunciosAEmitir.create(c.decode());
 	}
 	
@@ -40,11 +40,9 @@ public class ProblemaAnunciosAG extends ProblemaAnuncios implements ProblemaAGBa
 	}
 
 	@Override
-	public Integer getNumeroDeObjetos() {
+	public Integer getObjectsNumber() {
 		return this.getObjetos().size();
 	}
-
-	
 	
 	
 }

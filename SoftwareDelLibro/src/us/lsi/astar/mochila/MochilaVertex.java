@@ -70,6 +70,11 @@ public class MochilaVertex implements VirtualVertex<MochilaVertex, SimpleEdge<Mo
 	@Override
 	public String toString() {
 		return problema.toString();
+	}
+
+	@Override
+	public boolean isValid() {
+		return true;
 	}	
 	
 	

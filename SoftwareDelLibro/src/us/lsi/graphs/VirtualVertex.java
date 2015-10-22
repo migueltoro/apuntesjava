@@ -10,7 +10,11 @@ import java.util.Set;
  * @param <V> Tipo de los vértices
  * @param <E> Tipo de las aristas
  */
-public interface VirtualVertex<V extends VirtualVertex<V,E>, E> {
+public interface VirtualVertex<V extends VirtualVertex<V,E>, E> {	
+	/**
+	 * @return Si es un valor válido del tipo
+	 */
+	boolean isValid();
 	/**
 	 * @return Conjunto de los vértices vecinos
 	 */

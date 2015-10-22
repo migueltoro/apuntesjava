@@ -4,12 +4,14 @@ import java.util.List;
 
 
 
-import us.lsi.ag.Cromosoma;
-import us.lsi.ag.ProblemaAGBag;
+
+
+import us.lsi.ag.ProblemaAGIndex;
+import us.lsi.ag.agchromosomes.IndexChromosome;
 import us.lsi.bt.reinas.Reina;
 import us.lsi.bt.reinas.TableroDeReinas;
 
-public class ProblemaReinasAG implements ProblemaAGBag<List<Reina>> {
+public class ProblemaReinasAG implements ProblemaAGIndex<List<Reina>> {
 
 	public static int numeroDeReinas = 8;
 	
@@ -21,7 +23,7 @@ public class ProblemaReinasAG implements ProblemaAGBag<List<Reina>> {
 	}
 
 	@Override
-	public List<Reina> getSolucion(Cromosoma<Integer> chromosome) {
+	public List<Reina> getSolucion(IndexChromosome chromosome) {
 		List<Integer> ls = chromosome.decode();
 		TableroDeReinas tr = TableroDeReinas.create(ls);
 		return tr.getReinas();
@@ -35,9 +37,8 @@ public class ProblemaReinasAG implements ProblemaAGBag<List<Reina>> {
 	}
 
 	@Override
-	public Integer getNumeroDeObjetos() {
+	public Integer getObjectsNumber() {
 		return numeroDeReinas;
 	}	
-	
 	
 }

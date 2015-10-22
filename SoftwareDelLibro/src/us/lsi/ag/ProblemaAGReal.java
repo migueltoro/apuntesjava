@@ -2,6 +2,7 @@ package us.lsi.ag;
 
 import java.util.List;
 
+import us.lsi.ag.agchromosomes.RealChromosome;
 import us.lsi.common.Par;
 
 /**
@@ -9,7 +10,7 @@ import us.lsi.common.Par;
  *
  * @param <S> Tipo de la solución
  */
-public interface ProblemaAGReal<S> {
+public interface ProblemaAGReal<S> extends ProblemaAG {
 	
 	/**
 	 * @return Número de variables
@@ -32,6 +33,6 @@ public interface ProblemaAGReal<S> {
 	 * @param chromosome Es un cromosoma
 	 * @return La solución definida por el cromosoma
 	 */
-	S getSolucion(Cromosoma<Double> chromosome);
+	S getSolucion(RealChromosome chromosome);
 	
 }

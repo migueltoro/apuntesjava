@@ -169,7 +169,7 @@ public class Lists2 {
 
 	
 	/**
-	 * @param ls Un alista de bits
+	 * @param ls Una lista de bits
 	 * @return El número entero conrrespondiente
 	 */
 	public static  Integer decode(List<Integer> ls){

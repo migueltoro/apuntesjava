@@ -119,6 +119,11 @@ public class Secuencia implements VirtualVertex<Secuencia, SecuenciaEdge> {
 	public String toString() {
 		return "Secuencia [cadena=" + cadena + ", index=" + index + "]";
 	}
+
+	@Override
+	public boolean isValid() {
+		return true;
+	}
 	
 	
 }

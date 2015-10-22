@@ -32,7 +32,7 @@ import us.lsi.common.Entry;
 public class Ejemplos {
 
 	public static <T> List<T> ejemploA(Stream<T> st){
-		return st.collect(Collectors.toList());
+		return st.collect(Collectors.<T>toList());
 	}
 	
 	public static List<Double> ejemploB(List<Punto2D> ls){
