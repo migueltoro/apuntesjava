@@ -19,7 +19,7 @@
 <span class="sourceLineNo">011</span>        <a name="line.11"></a>
 <span class="sourceLineNo">012</span>        public static void main(String[] args) {<a name="line.12"></a>
 <span class="sourceLineNo">013</span>                LaberintoCaminoMinimo g = new LaberintoCaminoMinimo(<a name="line.13"></a>
-<span class="sourceLineNo">014</span>                                SimpleEdge.&lt;Casilla&gt;getFactoria(),"laberinto.txt", 8, 6);<a name="line.14"></a>
+<span class="sourceLineNo">014</span>                                SimpleEdge.&lt;Casilla&gt;create(),"laberinto.txt", 8, 6);<a name="line.14"></a>
 <span class="sourceLineNo">015</span>                AStarAlgorithm&lt;Casilla,SimpleEdge&lt;Casilla&gt;&gt; d = <a name="line.15"></a>
 <span class="sourceLineNo">016</span>                                Algoritmos.createAStar(g, Casilla.create(0, 5), Casilla.create(7, 5));<a name="line.16"></a>
 <span class="sourceLineNo">017</span>                GraphPath&lt;Casilla,SimpleEdge&lt;Casilla&gt;&gt; p = d.getPath();<a name="line.17"></a>

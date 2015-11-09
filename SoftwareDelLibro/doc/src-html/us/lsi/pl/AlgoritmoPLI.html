@@ -8,68 +8,154 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package us.lsi.pl;<a name="line.1"></a>
 <span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span>import lpsolve.LpSolve;<a name="line.3"></a>
-<span class="sourceLineNo">004</span>import lpsolve.LpSolveException;<a name="line.4"></a>
+<span class="sourceLineNo">003</span>import java.util.List;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.function.Function;<a name="line.4"></a>
 <span class="sourceLineNo">005</span><a name="line.5"></a>
-<span class="sourceLineNo">006</span>public class AlgoritmoPLI implements SolutionPL {<a name="line.6"></a>
+<span class="sourceLineNo">006</span>import com.google.common.collect.Lists;<a name="line.6"></a>
 <span class="sourceLineNo">007</span><a name="line.7"></a>
-<span class="sourceLineNo">008</span>        public static AlgoritmoPLI create(IProblemaPL p, String fichero) {<a name="line.8"></a>
-<span class="sourceLineNo">009</span>                p.toStringConstraints(fichero);<a name="line.9"></a>
-<span class="sourceLineNo">010</span>                return new AlgoritmoPLI(fichero);<a name="line.10"></a>
-<span class="sourceLineNo">011</span>        }<a name="line.11"></a>
-<span class="sourceLineNo">012</span>        <a name="line.12"></a>
-<span class="sourceLineNo">013</span>        public static AlgoritmoPLI create(String fichero) {<a name="line.13"></a>
-<span class="sourceLineNo">014</span>                return new AlgoritmoPLI(fichero);<a name="line.14"></a>
-<span class="sourceLineNo">015</span>        }<a name="line.15"></a>
-<span class="sourceLineNo">016</span>        <a name="line.16"></a>
-<span class="sourceLineNo">017</span>        private double[] solutionPoint;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>        private double solutionValue;<a name="line.18"></a>
+<span class="sourceLineNo">008</span>import us.lsi.algoritmos.AbstractAlgoritmo;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import us.lsi.common.StringExtensions2;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import lpsolve.LpSolve;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import lpsolve.LpSolveException;<a name="line.11"></a>
+<span class="sourceLineNo">012</span><a name="line.12"></a>
+<span class="sourceLineNo">013</span>public class AlgoritmoPLI  extends AbstractAlgoritmo implements SolutionPL{<a name="line.13"></a>
+<span class="sourceLineNo">014</span><a name="line.14"></a>
+<span class="sourceLineNo">015</span>        public static AlgoritmoPLI create(IProblemaPL p, String fichero) {<a name="line.15"></a>
+<span class="sourceLineNo">016</span>                p.toStringConstraints(fichero);<a name="line.16"></a>
+<span class="sourceLineNo">017</span>                return new AlgoritmoPLI(fichero);<a name="line.17"></a>
+<span class="sourceLineNo">018</span>        }<a name="line.18"></a>
 <span class="sourceLineNo">019</span>        <a name="line.19"></a>
-<span class="sourceLineNo">020</span>        private String fichero;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>        <a name="line.21"></a>
-<span class="sourceLineNo">022</span>        private LpSolve solver;<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
-<span class="sourceLineNo">024</span>        private AlgoritmoPLI(String fichero) {<a name="line.24"></a>
-<span class="sourceLineNo">025</span>                super();<a name="line.25"></a>
-<span class="sourceLineNo">026</span>                this.fichero = fichero;<a name="line.26"></a>
-<span class="sourceLineNo">027</span>        }<a name="line.27"></a>
-<span class="sourceLineNo">028</span>        <a name="line.28"></a>
-<span class="sourceLineNo">029</span>        /**<a name="line.29"></a>
-<span class="sourceLineNo">030</span>         * @return El coste total del objetivo<a name="line.30"></a>
-<span class="sourceLineNo">031</span>         */<a name="line.31"></a>
-<span class="sourceLineNo">032</span>        public double getObjetivo(){<a name="line.32"></a>
-<span class="sourceLineNo">033</span>                return solutionValue;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>        }<a name="line.34"></a>
+<span class="sourceLineNo">020</span>        public static AlgoritmoPLI create(String fichero) {<a name="line.20"></a>
+<span class="sourceLineNo">021</span>                return new AlgoritmoPLI(fichero);<a name="line.21"></a>
+<span class="sourceLineNo">022</span>        }<a name="line.22"></a>
+<span class="sourceLineNo">023</span>        <a name="line.23"></a>
+<span class="sourceLineNo">024</span>        public static AlgoritmoPLI create() {<a name="line.24"></a>
+<span class="sourceLineNo">025</span>                return new AlgoritmoPLI("intermedio.txt");<a name="line.25"></a>
+<span class="sourceLineNo">026</span>        }<a name="line.26"></a>
+<span class="sourceLineNo">027</span>        <a name="line.27"></a>
+<span class="sourceLineNo">028</span>        private double[] solutionPoint;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>        private double solutionValue;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>        private List&lt;String&gt; names;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>        <a name="line.31"></a>
+<span class="sourceLineNo">032</span>        private String fichero;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>        <a name="line.33"></a>
+<span class="sourceLineNo">034</span>        private LpSolve solver;<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>
-<span class="sourceLineNo">036</span>        /**<a name="line.36"></a>
-<span class="sourceLineNo">037</span>         * @return El punto solución<a name="line.37"></a>
-<span class="sourceLineNo">038</span>         */<a name="line.38"></a>
-<span class="sourceLineNo">039</span>        public double[] getSolucion() {<a name="line.39"></a>
-<span class="sourceLineNo">040</span>                return solutionPoint;<a name="line.40"></a>
-<span class="sourceLineNo">041</span>        }<a name="line.41"></a>
-<span class="sourceLineNo">042</span><a name="line.42"></a>
-<span class="sourceLineNo">043</span>        <a name="line.43"></a>
-<span class="sourceLineNo">044</span>        <a name="line.44"></a>
-<span class="sourceLineNo">045</span>        <a name="line.45"></a>
-<span class="sourceLineNo">046</span>        public void ejecuta(){<a name="line.46"></a>
-<span class="sourceLineNo">047</span>                try {<a name="line.47"></a>
-<span class="sourceLineNo">048</span>                        solver = LpSolve.readLp(this.fichero, 1, "Problema");<a name="line.48"></a>
-<span class="sourceLineNo">049</span><a name="line.49"></a>
-<span class="sourceLineNo">050</span>                        solver.solve();<a name="line.50"></a>
-<span class="sourceLineNo">051</span>                        solutionPoint = solver.getPtrVariables();<a name="line.51"></a>
-<span class="sourceLineNo">052</span>                        solutionValue = solver.getObjective();<a name="line.52"></a>
-<span class="sourceLineNo">053</span><a name="line.53"></a>
-<span class="sourceLineNo">054</span>                        // delete the problem and free memory<a name="line.54"></a>
-<span class="sourceLineNo">055</span>                        solver.deleteLp();<a name="line.55"></a>
-<span class="sourceLineNo">056</span>                } catch (LpSolveException e) {<a name="line.56"></a>
-<span class="sourceLineNo">057</span>                        e.printStackTrace();<a name="line.57"></a>
-<span class="sourceLineNo">058</span>                }<a name="line.58"></a>
-<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">036</span>        private AlgoritmoPLI(String fichero) {<a name="line.36"></a>
+<span class="sourceLineNo">037</span>                super();<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                this.fichero = fichero;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>        }<a name="line.39"></a>
+<span class="sourceLineNo">040</span>        <a name="line.40"></a>
+<span class="sourceLineNo">041</span>        /**<a name="line.41"></a>
+<span class="sourceLineNo">042</span>         * @return El coste total del objetivo<a name="line.42"></a>
+<span class="sourceLineNo">043</span>         */<a name="line.43"></a>
+<span class="sourceLineNo">044</span>        public double getObjetivo(){<a name="line.44"></a>
+<span class="sourceLineNo">045</span>                return solutionValue;<a name="line.45"></a>
+<span class="sourceLineNo">046</span>        }<a name="line.46"></a>
+<span class="sourceLineNo">047</span><a name="line.47"></a>
+<span class="sourceLineNo">048</span>        /**<a name="line.48"></a>
+<span class="sourceLineNo">049</span>         * @return El punto solución<a name="line.49"></a>
+<span class="sourceLineNo">050</span>         */<a name="line.50"></a>
+<span class="sourceLineNo">051</span>        public double[] getSolucion() {<a name="line.51"></a>
+<span class="sourceLineNo">052</span>                return solutionPoint;<a name="line.52"></a>
+<span class="sourceLineNo">053</span>        }<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>        /**<a name="line.55"></a>
+<span class="sourceLineNo">056</span>         * @return La solución de la variable i<a name="line.56"></a>
+<span class="sourceLineNo">057</span>         */<a name="line.57"></a>
+<span class="sourceLineNo">058</span>        public double getSolucion(int i) {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>                return solutionPoint[i];<a name="line.59"></a>
 <span class="sourceLineNo">060</span>        }<a name="line.60"></a>
-<span class="sourceLineNo">061</span>        <a name="line.61"></a>
-<span class="sourceLineNo">062</span>        <a name="line.62"></a>
-<span class="sourceLineNo">063</span>        <a name="line.63"></a>
-<span class="sourceLineNo">064</span>}<a name="line.64"></a>
+<span class="sourceLineNo">061</span>                <a name="line.61"></a>
+<span class="sourceLineNo">062</span>        public List&lt;String&gt; getNames() {<a name="line.62"></a>
+<span class="sourceLineNo">063</span>                return names;<a name="line.63"></a>
+<span class="sourceLineNo">064</span>        }<a name="line.64"></a>
+<span class="sourceLineNo">065</span><a name="line.65"></a>
+<span class="sourceLineNo">066</span>        public String getName(int i) {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>                return names.get(i);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>        }<a name="line.68"></a>
+<span class="sourceLineNo">069</span>        <a name="line.69"></a>
+<span class="sourceLineNo">070</span>        public int getNumVar() {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>                return solutionPoint.length;<a name="line.71"></a>
+<span class="sourceLineNo">072</span>        }<a name="line.72"></a>
+<span class="sourceLineNo">073</span>        <a name="line.73"></a>
+<span class="sourceLineNo">074</span>        <a name="line.74"></a>
+<span class="sourceLineNo">075</span>        public String getFichero() {<a name="line.75"></a>
+<span class="sourceLineNo">076</span>                return fichero;<a name="line.76"></a>
+<span class="sourceLineNo">077</span>        }<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>        public void setConstraints(String r){<a name="line.79"></a>
+<span class="sourceLineNo">080</span>                StringExtensions2.toFile(r,this.getFichero());<a name="line.80"></a>
+<span class="sourceLineNo">081</span>        }<a name="line.81"></a>
+<span class="sourceLineNo">082</span>        <a name="line.82"></a>
+<span class="sourceLineNo">083</span>        public void ejecuta(){<a name="line.83"></a>
+<span class="sourceLineNo">084</span>                <a name="line.84"></a>
+<span class="sourceLineNo">085</span>                <a name="line.85"></a>
+<span class="sourceLineNo">086</span>                try {<a name="line.86"></a>
+<span class="sourceLineNo">087</span>                        <a name="line.87"></a>
+<span class="sourceLineNo">088</span>                        solver = LpSolve.readLp(this.fichero, 1, "Problema");<a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>                        solver.solve();<a name="line.90"></a>
+<span class="sourceLineNo">091</span>                        solutionPoint = solver.getPtrVariables();<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                        solutionValue = solver.getObjective();<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                        names = Lists.newArrayList();<a name="line.93"></a>
+<span class="sourceLineNo">094</span>                        for (int j = 1; j &lt;= solutionPoint.length; j++) {<a name="line.94"></a>
+<span class="sourceLineNo">095</span>                                names.add(solver.getOrigcolName(j));<a name="line.95"></a>
+<span class="sourceLineNo">096</span>                        }<a name="line.96"></a>
+<span class="sourceLineNo">097</span>                        solver.deleteLp();<a name="line.97"></a>
+<span class="sourceLineNo">098</span>                        <a name="line.98"></a>
+<span class="sourceLineNo">099</span>                } catch (LpSolveException e) {<a name="line.99"></a>
+<span class="sourceLineNo">100</span>                        throw new IllegalStateException("Se ha producido una excepción en LpSolve");<a name="line.100"></a>
+<span class="sourceLineNo">101</span>                }<a name="line.101"></a>
+<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">103</span>        }<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>        public static String getFactor(Integer num, String symbol){<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                return num+"*"+symbol;<a name="line.106"></a>
+<span class="sourceLineNo">107</span>        }<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>        public static String getSumVariable(String name, int i1, int i2){<a name="line.109"></a>
+<span class="sourceLineNo">110</span>                String r = "";<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                for(int i =i1;i&lt;i2;i++){<a name="line.111"></a>
+<span class="sourceLineNo">112</span>                        if (i!=i1) r = r+"+";<a name="line.112"></a>
+<span class="sourceLineNo">113</span>                        r = r +AlgoritmoPLI.getVariable(name,i);<a name="line.113"></a>
+<span class="sourceLineNo">114</span>                }       <a name="line.114"></a>
+<span class="sourceLineNo">115</span>                return r;<a name="line.115"></a>
+<span class="sourceLineNo">116</span>        }<a name="line.116"></a>
+<span class="sourceLineNo">117</span>        <a name="line.117"></a>
+<span class="sourceLineNo">118</span>        public static String getSumFactor(Function&lt;Integer,Double&gt; f, String name, int i1, int i2){<a name="line.118"></a>
+<span class="sourceLineNo">119</span>                String r = "";<a name="line.119"></a>
+<span class="sourceLineNo">120</span>                for(int i =i1;i&lt;i2;i++){<a name="line.120"></a>
+<span class="sourceLineNo">121</span>                        if (i!=i1) r = r+"+";<a name="line.121"></a>
+<span class="sourceLineNo">122</span>                        r = r +f.apply(i)+"+"+AlgoritmoPLI.getVariable(name,i);<a name="line.122"></a>
+<span class="sourceLineNo">123</span>                }       <a name="line.123"></a>
+<span class="sourceLineNo">124</span>                return r;<a name="line.124"></a>
+<span class="sourceLineNo">125</span>        }<a name="line.125"></a>
+<span class="sourceLineNo">126</span>        <a name="line.126"></a>
+<span class="sourceLineNo">127</span>        public static String getVariable(String name, int i, int j, int k){<a name="line.127"></a>
+<span class="sourceLineNo">128</span>                return name+i+"_"+j+"_"+k;<a name="line.128"></a>
+<span class="sourceLineNo">129</span>        }<a name="line.129"></a>
+<span class="sourceLineNo">130</span><a name="line.130"></a>
+<span class="sourceLineNo">131</span>        public static String getVariable(String name, int i, int j){<a name="line.131"></a>
+<span class="sourceLineNo">132</span>                return name+i+"_"+j;<a name="line.132"></a>
+<span class="sourceLineNo">133</span>        }<a name="line.133"></a>
+<span class="sourceLineNo">134</span><a name="line.134"></a>
+<span class="sourceLineNo">135</span>        public static String getVariable(String name, int index){<a name="line.135"></a>
+<span class="sourceLineNo">136</span>                return name+index;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>        }<a name="line.137"></a>
+<span class="sourceLineNo">138</span>        <a name="line.138"></a>
+<span class="sourceLineNo">139</span>        public static String intVariables(String name, int i1, int i2) {<a name="line.139"></a>
+<span class="sourceLineNo">140</span>                String r = "";<a name="line.140"></a>
+<span class="sourceLineNo">141</span>                r = r +"int ";<a name="line.141"></a>
+<span class="sourceLineNo">142</span>                for(int i =i1;i&lt;i2;i++){<a name="line.142"></a>
+<span class="sourceLineNo">143</span>                        if (i!=0) r = r+",";<a name="line.143"></a>
+<span class="sourceLineNo">144</span>                        r = r +AlgoritmoPLI.getVariable("x",i);<a name="line.144"></a>
+<span class="sourceLineNo">145</span>                }<a name="line.145"></a>
+<span class="sourceLineNo">146</span>                r = r+";\n\n";<a name="line.146"></a>
+<span class="sourceLineNo">147</span>                return r;<a name="line.147"></a>
+<span class="sourceLineNo">148</span>        }<a name="line.148"></a>
+<span class="sourceLineNo">149</span>        <a name="line.149"></a>
+<span class="sourceLineNo">150</span>}<a name="line.150"></a>
 
 
 

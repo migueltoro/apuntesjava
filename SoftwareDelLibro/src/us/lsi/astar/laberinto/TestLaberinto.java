@@ -11,7 +11,7 @@ public class TestLaberinto {
 	
 	public static void main(String[] args) {
 		LaberintoCaminoMinimo g = new LaberintoCaminoMinimo(
-				SimpleEdge.<Casilla>getFactoria(),"laberinto.txt", 8, 6);
+				SimpleEdge.<Casilla>create(),"laberinto.txt", 8, 6);
 		AStarAlgorithm<Casilla,SimpleEdge<Casilla>> d = 
 				Algoritmos.createAStar(g, Casilla.create(0, 5), Casilla.create(7, 5));
 		GraphPath<Casilla,SimpleEdge<Casilla>> p = d.getPath();

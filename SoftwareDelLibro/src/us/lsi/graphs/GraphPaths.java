@@ -9,6 +9,12 @@ import org.jgrapht.graph.GraphPathImpl;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
+/**
+ * @author Miguel Toro
+ * 
+ * <a> Clase de factoría para el tipo GraphPath&lt;V,E&gt; </a>
+ *
+ */
 public class GraphPaths {
 
 	public static <V,E> GraphPath<V,E> addGraphPath(GraphPath<V,E> r1, GraphPath<V,E> r2){

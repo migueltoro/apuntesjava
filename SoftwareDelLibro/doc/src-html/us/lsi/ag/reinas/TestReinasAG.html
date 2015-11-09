@@ -13,50 +13,53 @@
 <span class="sourceLineNo">005</span><a name="line.5"></a>
 <span class="sourceLineNo">006</span><a name="line.6"></a>
 <span class="sourceLineNo">007</span><a name="line.7"></a>
-<span class="sourceLineNo">008</span><a name="line.8"></a>
+<span class="sourceLineNo">008</span>import org.apache.commons.math3.genetics.Chromosome;<a name="line.8"></a>
 <span class="sourceLineNo">009</span><a name="line.9"></a>
-<span class="sourceLineNo">010</span><a name="line.10"></a>
-<span class="sourceLineNo">011</span><a name="line.11"></a>
-<span class="sourceLineNo">012</span><a name="line.12"></a>
-<span class="sourceLineNo">013</span>import org.apache.commons.math3.genetics.Chromosome;<a name="line.13"></a>
-<span class="sourceLineNo">014</span><a name="line.14"></a>
-<span class="sourceLineNo">015</span>import us.lsi.ag.AlgoritmoAG;<a name="line.15"></a>
-<span class="sourceLineNo">016</span>import us.lsi.ag.AlgoritmoAGRandomKey;<a name="line.16"></a>
-<span class="sourceLineNo">017</span>import us.lsi.ag.ProblemaAGBag;<a name="line.17"></a>
-<span class="sourceLineNo">018</span>import us.lsi.algoritmos.Algoritmos;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import us.lsi.bt.reinas.Reina;<a name="line.19"></a>
+<span class="sourceLineNo">010</span>import us.lsi.ag.AlgoritmoAG;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import us.lsi.ag.ProblemaAGIndex;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import us.lsi.ag.agchromosomes.ChromosomeFactory;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>import us.lsi.ag.agchromosomes.ChromosomeFactory.CrossoverType;<a name="line.14"></a>
+<span class="sourceLineNo">015</span>import us.lsi.ag.agstopping.StoppingConditionFactory;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>import us.lsi.ag.agstopping.StoppingConditionFactory.StoppingConditionType;<a name="line.16"></a>
+<span class="sourceLineNo">017</span>import us.lsi.algoritmos.Algoritmos;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import us.lsi.bt.reinas.Reina;<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
-<span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>public class TestReinasAG {<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
-<span class="sourceLineNo">024</span>        <a name="line.24"></a>
-<span class="sourceLineNo">025</span><a name="line.25"></a>
-<span class="sourceLineNo">026</span>        public static void main(String[] args){<a name="line.26"></a>
-<span class="sourceLineNo">027</span>                AlgoritmoAG.NUM_GENERATIONS = 150000;<a name="line.27"></a>
-<span class="sourceLineNo">028</span>                AlgoritmoAG.ELITISM_RATE  = 0.20;<a name="line.28"></a>
-<span class="sourceLineNo">029</span>                AlgoritmoAG.CROSSOVER_RATE = 0.8;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>                AlgoritmoAG.MUTATION_RATE = 0.8;<a name="line.30"></a>
-<span class="sourceLineNo">031</span>                AlgoritmoAG.POPULATION_SIZE = 400;<a name="line.31"></a>
-<span class="sourceLineNo">032</span>                AlgoritmoAG.SOLUTIONS_NUMBER = 1;<a name="line.32"></a>
-<span class="sourceLineNo">033</span>                AlgoritmoAG.FITNESS = 0.;<a name="line.33"></a>
-<span class="sourceLineNo">034</span>                AlgoritmoAG.stoppingConditionType = AlgoritmoAG.StoppingConditionType.SolutionsNumber;<a name="line.34"></a>
-<span class="sourceLineNo">035</span>                AlgoritmoAG.crossoverType = AlgoritmoAG.CrossoverType.OnePoint;<a name="line.35"></a>
-<span class="sourceLineNo">036</span>                ProblemaReinasAG.numeroDeReinas = 20;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>                ProblemaAGBag&lt;List&lt;Reina&gt;&gt; p = ProblemaReinasAG.create();<a name="line.37"></a>
-<span class="sourceLineNo">038</span>                AlgoritmoAGRandomKey ap = Algoritmos.createAGRandomKey(p);<a name="line.38"></a>
-<span class="sourceLineNo">039</span>                ap.ejecuta();<a name="line.39"></a>
-<span class="sourceLineNo">040</span>                System.out.println("================================");<a name="line.40"></a>
-<span class="sourceLineNo">041</span>                <a name="line.41"></a>
-<span class="sourceLineNo">042</span>                System.out.println("================================");<a name="line.42"></a>
-<span class="sourceLineNo">043</span>                for (Chromosome c: AlgoritmoAG.bestChromosomes) {<a name="line.43"></a>
-<span class="sourceLineNo">044</span>                        System.out.println(p.getSolucion(AlgoritmoAG.asCromosoma(c)));<a name="line.44"></a>
-<span class="sourceLineNo">045</span>                }<a name="line.45"></a>
-<span class="sourceLineNo">046</span>                System.out.println("================================");<a name="line.46"></a>
-<span class="sourceLineNo">047</span>                System.out.println(AlgoritmoAG.bestChromosomes.size());<a name="line.47"></a>
-<span class="sourceLineNo">048</span>        }       <a name="line.48"></a>
-<span class="sourceLineNo">049</span><a name="line.49"></a>
-<span class="sourceLineNo">050</span>}<a name="line.50"></a>
-<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">021</span>public class TestReinasAG {<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>        <a name="line.23"></a>
+<span class="sourceLineNo">024</span><a name="line.24"></a>
+<span class="sourceLineNo">025</span>        public static void main(String[] args){<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                <a name="line.26"></a>
+<span class="sourceLineNo">027</span>                AlgoritmoAG.ELITISM_RATE  = 0.20;<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                AlgoritmoAG.CROSSOVER_RATE = 0.8;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>                AlgoritmoAG.MUTATION_RATE = 0.8;<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                AlgoritmoAG.POPULATION_SIZE = 400;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                <a name="line.31"></a>
+<span class="sourceLineNo">032</span>                StoppingConditionFactory.NUM_GENERATIONS = 1500;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>                StoppingConditionFactory.SOLUTIONS_NUMBER_MIN = 10;<a name="line.33"></a>
+<span class="sourceLineNo">034</span>                StoppingConditionFactory.FITNESS_MIN = 0.;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>                StoppingConditionFactory.stoppingConditionType = StoppingConditionType.SolutionsNumber;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>                <a name="line.36"></a>
+<span class="sourceLineNo">037</span>                ChromosomeFactory.crossoverType = CrossoverType.OnePoint;<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                <a name="line.38"></a>
+<span class="sourceLineNo">039</span>                ProblemaReinasAG.numeroDeReinas = 8;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                ProblemaAGIndex&lt;List&lt;Reina&gt;&gt; p = ProblemaReinasAG.create();<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                AlgoritmoAG ap = Algoritmos.createAG(ChromosomeType.PermutationIndex,p);<a name="line.41"></a>
+<span class="sourceLineNo">042</span>                ap.ejecuta();<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                System.out.println("================================");<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                <a name="line.44"></a>
+<span class="sourceLineNo">045</span>                System.out.println("================================");<a name="line.45"></a>
+<span class="sourceLineNo">046</span>                for (Chromosome c: AlgoritmoAG.bestChromosomes) {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>                        System.out.println(p.getSolucion(ChromosomeFactory.asIndex(c)));<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                }<a name="line.48"></a>
+<span class="sourceLineNo">049</span>                System.out.println("================================");<a name="line.49"></a>
+<span class="sourceLineNo">050</span>                System.out.println(AlgoritmoAG.bestChromosomes.size());<a name="line.50"></a>
+<span class="sourceLineNo">051</span>        }       <a name="line.51"></a>
+<span class="sourceLineNo">052</span><a name="line.52"></a>
+<span class="sourceLineNo">053</span>}<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
 
 
 

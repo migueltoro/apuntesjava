@@ -3,7 +3,7 @@ package us.lsi.graphs;
 import java.util.Set;
 
 /**
- * El tipo representa un vértice de un grafo virtual dirigido
+ * <a>El tipo representa un vértice de un grafo virtual dirigido </a>
  * 
  * @author Miguel Toro
  *

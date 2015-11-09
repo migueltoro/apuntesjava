@@ -97,7 +97,7 @@
 <span class="sourceLineNo">089</span>        <a name="line.89"></a>
 <span class="sourceLineNo">090</span>        public Set&lt;SimpleEdge&lt;EstadoPuzzle&gt;&gt; edgesOf(){<a name="line.90"></a>
 <span class="sourceLineNo">091</span>                return this.getNeighborListOf().stream()<a name="line.91"></a>
-<span class="sourceLineNo">092</span>                   .&lt;SimpleEdge&lt;EstadoPuzzle&gt;&gt;map(x-&gt;SimpleEdge.&lt;EstadoPuzzle&gt;getFactoria().createEdge(this,x))<a name="line.92"></a>
+<span class="sourceLineNo">092</span>                   .&lt;SimpleEdge&lt;EstadoPuzzle&gt;&gt;map(x-&gt;SimpleEdge.&lt;EstadoPuzzle&gt;create().createEdge(this,x))<a name="line.92"></a>
 <span class="sourceLineNo">093</span>                   .collect(Collectors.&lt;SimpleEdge&lt;EstadoPuzzle&gt;&gt;toSet());<a name="line.93"></a>
 <span class="sourceLineNo">094</span>        }<a name="line.94"></a>
 <span class="sourceLineNo">095</span>        <a name="line.95"></a>

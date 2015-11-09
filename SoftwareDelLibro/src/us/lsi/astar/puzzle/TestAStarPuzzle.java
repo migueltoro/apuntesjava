@@ -31,7 +31,7 @@ public class TestAStarPuzzle {
 */		
 		AStarGraph<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> graph = 
 				PuzzleGraph3.create(
-						SimpleEdge.<EstadoPuzzle>getFactoria());
+						SimpleEdge.<EstadoPuzzle>create());
 		AStarAlgorithm<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> d = 
 				Algoritmos.createAStar(graph, p1, Sets.newHashSet(p2,p3));
 		GraphPath<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> path = d.getPath();

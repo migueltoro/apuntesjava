@@ -292,7 +292,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un StreamBuilder
 	 */
 	public static <E> Builder<E> builder() {
-		return Stream.builder();
+		return Stream.<E>builder();
 	}
 	
 	/**

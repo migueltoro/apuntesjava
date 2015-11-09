@@ -1,5 +1,9 @@
 us.lsi.ag
+us.lsi.ag.agchromosomes
+us.lsi.ag.agoperators
+us.lsi.ag.agstopping
 us.lsi.ag.anuncios
+us.lsi.ag.expression
 us.lsi.ag.mochila
 us.lsi.ag.real
 us.lsi.ag.reinas
@@ -50,6 +54,5 @@ us.lsi.sa.sudoku
 us.lsi.stream
 us.lsi.swing
 us.lsi.test
-us.lsi.testxtend
 us.lsi.tipos
 us.lsi.voraz

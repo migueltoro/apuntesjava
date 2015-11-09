@@ -23,7 +23,7 @@ public class TestMochilaGrafo {
 		Predicate<MochilaVertex> predicate = (MochilaVertex p)->p.getProblema().isFinal();
 		AStarGraph<MochilaVertex,SimpleEdge<MochilaVertex>> graph = 
 				MochilaGrafo.create(
-						SimpleEdge.<MochilaVertex>getFactoria());
+						SimpleEdge.<MochilaVertex>create());
 		AStarAlgorithm<MochilaVertex,SimpleEdge<MochilaVertex>> d = 
 				Algoritmos.createAStar(graph, p1, predicate);
 		GraphPath<MochilaVertex,SimpleEdge<MochilaVertex>> path = d.getPath();

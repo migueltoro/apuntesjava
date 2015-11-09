@@ -8,18 +8,15 @@ import org.jgrapht.*;
  * <p> Implementación de un grafo virtual simple 
  * Asumimos que los vértices son subtipo de VirtualVertex &lt; V,E &gt;
  * Asumimos que las aristas son subtipos de SimpleEdge &lt; V &gt; 
- * Si se invoca una operación para modificar el grafo se disparará 
- * la excepción UnsupportedOperationException
  * </p>
  * 
- * <p> El grafo es no es modificable por lo que no están permitadas las operación de moficación </p>
+ * <p> El grafo es inmutable por lo que no están permitadas las operación de modificación.
+ *  Si se invoca una operación para modificar el grafo se disparará 
+ * la excepción UnsupportedOperationException </p>
  * 
  * @see us.lsi.graphs.VirtualVertex
  * 
- *
  * 
- * @constraint Asumimos que los objetos creados del tipo VirtualVertex 
- * deben ser vértices válidos del grafo virtual
  * 
  * @author Miguel Toro
  *

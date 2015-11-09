@@ -31,7 +31,7 @@
 <span class="sourceLineNo">023</span>                Predicate&lt;MochilaVertex&gt; predicate = (MochilaVertex p)-&gt;p.getProblema().isFinal();<a name="line.23"></a>
 <span class="sourceLineNo">024</span>                AStarGraph&lt;MochilaVertex,SimpleEdge&lt;MochilaVertex&gt;&gt; graph = <a name="line.24"></a>
 <span class="sourceLineNo">025</span>                                MochilaGrafo.create(<a name="line.25"></a>
-<span class="sourceLineNo">026</span>                                                SimpleEdge.&lt;MochilaVertex&gt;getFactoria());<a name="line.26"></a>
+<span class="sourceLineNo">026</span>                                                SimpleEdge.&lt;MochilaVertex&gt;create());<a name="line.26"></a>
 <span class="sourceLineNo">027</span>                AStarAlgorithm&lt;MochilaVertex,SimpleEdge&lt;MochilaVertex&gt;&gt; d = <a name="line.27"></a>
 <span class="sourceLineNo">028</span>                                Algoritmos.createAStar(graph, p1, predicate);<a name="line.28"></a>
 <span class="sourceLineNo">029</span>                GraphPath&lt;MochilaVertex,SimpleEdge&lt;MochilaVertex&gt;&gt; path = d.getPath();<a name="line.29"></a>

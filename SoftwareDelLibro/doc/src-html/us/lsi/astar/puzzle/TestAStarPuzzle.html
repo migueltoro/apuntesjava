@@ -39,7 +39,7 @@
 <span class="sourceLineNo">031</span>*/              <a name="line.31"></a>
 <span class="sourceLineNo">032</span>                AStarGraph&lt;EstadoPuzzle,SimpleEdge&lt;EstadoPuzzle&gt;&gt; graph = <a name="line.32"></a>
 <span class="sourceLineNo">033</span>                                PuzzleGraph3.create(<a name="line.33"></a>
-<span class="sourceLineNo">034</span>                                                SimpleEdge.&lt;EstadoPuzzle&gt;getFactoria());<a name="line.34"></a>
+<span class="sourceLineNo">034</span>                                                SimpleEdge.&lt;EstadoPuzzle&gt;create());<a name="line.34"></a>
 <span class="sourceLineNo">035</span>                AStarAlgorithm&lt;EstadoPuzzle,SimpleEdge&lt;EstadoPuzzle&gt;&gt; d = <a name="line.35"></a>
 <span class="sourceLineNo">036</span>                                Algoritmos.createAStar(graph, p1, Sets.newHashSet(p2,p3));<a name="line.36"></a>
 <span class="sourceLineNo">037</span>                GraphPath&lt;EstadoPuzzle,SimpleEdge&lt;EstadoPuzzle&gt;&gt; path = d.getPath();<a name="line.37"></a>

@@ -16,7 +16,7 @@ import org.jgrapht.Graph;
  * 
  * El fichero debe tener una estructura como la siguiente. 
  * 
- * Cada línea en la sección de véetices representa un vértice. 
+ * Cada línea en la sección de vértices representa un vértice. 
  * El primer campo debe ser un identificador único para el mismo
  * Los otros campos propiedades
  * 

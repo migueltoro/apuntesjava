@@ -16,117 +16,130 @@
 <span class="sourceLineNo">008</span>import org.jgrapht.ext.*;<a name="line.8"></a>
 <span class="sourceLineNo">009</span><a name="line.9"></a>
 <span class="sourceLineNo">010</span>/**<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * Clase adecuada para salvar un grafo en un fichero en un formato gv.<a name="line.11"></a>
+<span class="sourceLineNo">011</span> * <a name="line.11"></a>
 <span class="sourceLineNo">012</span> * <a name="line.12"></a>
 <span class="sourceLineNo">013</span> * @author Miguel Toro<a name="line.13"></a>
 <span class="sourceLineNo">014</span> *<a name="line.14"></a>
-<span class="sourceLineNo">015</span> */<a name="line.15"></a>
-<span class="sourceLineNo">016</span>public class GraphsFileExporter {       <a name="line.16"></a>
-<span class="sourceLineNo">017</span>        <a name="line.17"></a>
+<span class="sourceLineNo">015</span> *&lt;a&gt; Clase adecuada para salvar un grafo en un fichero en un formato gv.&lt;/a&gt;<a name="line.15"></a>
+<span class="sourceLineNo">016</span> */<a name="line.16"></a>
+<span class="sourceLineNo">017</span>public class GraphsFileExporter {       <a name="line.17"></a>
 <span class="sourceLineNo">018</span>        <a name="line.18"></a>
-<span class="sourceLineNo">019</span>        public static &lt;V, E&gt; void saveFile(Graph&lt;V, E&gt; graph, String s, VertexNameProvider&lt;V&gt; vertexIDProvider,<a name="line.19"></a>
-<span class="sourceLineNo">020</span>            VertexNameProvider&lt;V&gt; vertexLabelProvider,<a name="line.20"></a>
-<span class="sourceLineNo">021</span>            EdgeNameProvider&lt;E&gt; edgeLabelProvider,<a name="line.21"></a>
-<span class="sourceLineNo">022</span>            ComponentAttributeProvider&lt;V&gt; vertexAttributeProvider,<a name="line.22"></a>
-<span class="sourceLineNo">023</span>            ComponentAttributeProvider&lt;E&gt; edgeAttributeProvider){<a name="line.23"></a>
-<span class="sourceLineNo">024</span>                File f = new File(s);<a name="line.24"></a>
-<span class="sourceLineNo">025</span>                Writer wr = null;<a name="line.25"></a>
-<span class="sourceLineNo">026</span>                try {<a name="line.26"></a>
-<span class="sourceLineNo">027</span>                        wr = new PrintWriter(f);<a name="line.27"></a>
-<span class="sourceLineNo">028</span>                } catch (FileNotFoundException e) {<a name="line.28"></a>
-<span class="sourceLineNo">029</span>                        throw new IllegalArgumentException("No se ha podido crear el fichero "+s);<a name="line.29"></a>
-<span class="sourceLineNo">030</span>                }<a name="line.30"></a>
-<span class="sourceLineNo">031</span>                DOTExporter&lt;V,E&gt; de = new DOTExporter&lt;V,E&gt;(vertexIDProvider,<a name="line.31"></a>
-<span class="sourceLineNo">032</span>                vertexLabelProvider,<a name="line.32"></a>
-<span class="sourceLineNo">033</span>                edgeLabelProvider,<a name="line.33"></a>
-<span class="sourceLineNo">034</span>                vertexAttributeProvider,<a name="line.34"></a>
-<span class="sourceLineNo">035</span>                edgeAttributeProvider);<a name="line.35"></a>
-<span class="sourceLineNo">036</span>                de.export(wr, graph);<a name="line.36"></a>
-<span class="sourceLineNo">037</span>                try {<a name="line.37"></a>
-<span class="sourceLineNo">038</span>                        wr.close();<a name="line.38"></a>
-<span class="sourceLineNo">039</span>                } catch (IOException e) {<a name="line.39"></a>
-<span class="sourceLineNo">040</span>                        throw new IllegalArgumentException("No se ha podido cerrar el fichero "+s);<a name="line.40"></a>
-<span class="sourceLineNo">041</span>                }<a name="line.41"></a>
-<span class="sourceLineNo">042</span>        }<a name="line.42"></a>
-<span class="sourceLineNo">043</span>        <a name="line.43"></a>
-<span class="sourceLineNo">044</span>        /**<a name="line.44"></a>
-<span class="sourceLineNo">045</span>         * Se construye un fichero con información asociada a vértices y <a name="line.45"></a>
-<span class="sourceLineNo">046</span>         * aristas dada por sus respectivas toString()<a name="line.46"></a>
-<span class="sourceLineNo">047</span>         * <a name="line.47"></a>
-<span class="sourceLineNo">048</span>         * @param graph Grafo<a name="line.48"></a>
-<span class="sourceLineNo">049</span>         * @param file Fichero<a name="line.49"></a>
-<span class="sourceLineNo">050</span>         * @param &lt;V&gt; El tipo de los vértices<a name="line.50"></a>
-<span class="sourceLineNo">051</span>         * @param &lt;E&gt; El tipo de las aristas<a name="line.51"></a>
-<span class="sourceLineNo">052</span>         */<a name="line.52"></a>
-<span class="sourceLineNo">053</span>        public static &lt;V, E&gt; void saveFile(Graph&lt;V, E&gt; graph, String file){<a name="line.53"></a>
-<span class="sourceLineNo">054</span>                saveFile(graph, file, new StringNameProvider&lt;V&gt;(),null,null,null,null);<a name="line.54"></a>
+<span class="sourceLineNo">019</span>        <a name="line.19"></a>
+<span class="sourceLineNo">020</span>        /**<a name="line.20"></a>
+<span class="sourceLineNo">021</span>         * @param graph Un grafo<a name="line.21"></a>
+<span class="sourceLineNo">022</span>         * @param s Un nombre de fichero de salida<a name="line.22"></a>
+<span class="sourceLineNo">023</span>         * @param vertexIDProvider Suministrador de identificadores para los vértices del grafo<a name="line.23"></a>
+<span class="sourceLineNo">024</span>         * @param vertexLabelProvider Suministrador de etiquetas para los vértices del grafo<a name="line.24"></a>
+<span class="sourceLineNo">025</span>         * @param edgeLabelProvider Suministrador de etiquetas para las aristas del grafo<a name="line.25"></a>
+<span class="sourceLineNo">026</span>         * @param vertexAttributeProvider Suministrador de atributos para los vértices del grafo<a name="line.26"></a>
+<span class="sourceLineNo">027</span>         * @param edgeAttributeProvider Suministrador de atributos para las aristas del grafo<a name="line.27"></a>
+<span class="sourceLineNo">028</span>         * @param &lt;V&gt; El tipo de los vértices<a name="line.28"></a>
+<span class="sourceLineNo">029</span>         * @param &lt;E&gt; El tipo de las aristas<a name="line.29"></a>
+<span class="sourceLineNo">030</span>         * <a name="line.30"></a>
+<span class="sourceLineNo">031</span>         */<a name="line.31"></a>
+<span class="sourceLineNo">032</span>        public static &lt;V, E&gt; void saveFile(Graph&lt;V, E&gt; graph, String s, VertexNameProvider&lt;V&gt; vertexIDProvider,<a name="line.32"></a>
+<span class="sourceLineNo">033</span>            VertexNameProvider&lt;V&gt; vertexLabelProvider,<a name="line.33"></a>
+<span class="sourceLineNo">034</span>            EdgeNameProvider&lt;E&gt; edgeLabelProvider,<a name="line.34"></a>
+<span class="sourceLineNo">035</span>            ComponentAttributeProvider&lt;V&gt; vertexAttributeProvider,<a name="line.35"></a>
+<span class="sourceLineNo">036</span>            ComponentAttributeProvider&lt;E&gt; edgeAttributeProvider){<a name="line.36"></a>
+<span class="sourceLineNo">037</span>                File f = new File(s);<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                Writer wr = null;<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                try {<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                        wr = new PrintWriter(f);<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                } catch (FileNotFoundException e) {<a name="line.41"></a>
+<span class="sourceLineNo">042</span>                        throw new IllegalArgumentException("No se ha podido crear el fichero "+s);<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                }<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                DOTExporter&lt;V,E&gt; de = new DOTExporter&lt;V,E&gt;(vertexIDProvider,<a name="line.44"></a>
+<span class="sourceLineNo">045</span>                vertexLabelProvider,<a name="line.45"></a>
+<span class="sourceLineNo">046</span>                edgeLabelProvider,<a name="line.46"></a>
+<span class="sourceLineNo">047</span>                vertexAttributeProvider,<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                edgeAttributeProvider);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>                de.export(wr, graph);<a name="line.49"></a>
+<span class="sourceLineNo">050</span>                try {<a name="line.50"></a>
+<span class="sourceLineNo">051</span>                        wr.close();<a name="line.51"></a>
+<span class="sourceLineNo">052</span>                } catch (IOException e) {<a name="line.52"></a>
+<span class="sourceLineNo">053</span>                        throw new IllegalArgumentException("No se ha podido cerrar el fichero "+s);<a name="line.53"></a>
+<span class="sourceLineNo">054</span>                }<a name="line.54"></a>
 <span class="sourceLineNo">055</span>        }<a name="line.55"></a>
 <span class="sourceLineNo">056</span>        <a name="line.56"></a>
 <span class="sourceLineNo">057</span>        /**<a name="line.57"></a>
-<span class="sourceLineNo">058</span>         * Se construye un fichero con información asociada a vértices y <a name="line.58"></a>
-<span class="sourceLineNo">059</span>         * aristas dada por sus respectivas toString()<a name="line.59"></a>
+<span class="sourceLineNo">058</span>         * &lt;a&gt; Se construye un fichero con información asociada a vértices y <a name="line.58"></a>
+<span class="sourceLineNo">059</span>         * aristas dada por sus respectivas toString() &lt;/a&gt;<a name="line.59"></a>
 <span class="sourceLineNo">060</span>         * <a name="line.60"></a>
-<span class="sourceLineNo">061</span>         * Los vértices especiales tienen iconos diferentes, <a name="line.61"></a>
-<span class="sourceLineNo">062</span>         * igualmente ocurre con las aristas especiales<a name="line.62"></a>
-<span class="sourceLineNo">063</span>         * <a name="line.63"></a>
-<span class="sourceLineNo">064</span>         * @param graph Grafo <a name="line.64"></a>
-<span class="sourceLineNo">065</span>         * @param file Fichero<a name="line.65"></a>
-<span class="sourceLineNo">066</span>         * @param specialVertexSet Vértices especiales<a name="line.66"></a>
-<span class="sourceLineNo">067</span>         * @param specialEdgeSet Aristas especiales <a name="line.67"></a>
-<span class="sourceLineNo">068</span>         * @param &lt;V&gt; El tipo de los vértices<a name="line.68"></a>
-<span class="sourceLineNo">069</span>         * @param &lt;E&gt; El tipo de las aristas<a name="line.69"></a>
-<span class="sourceLineNo">070</span>         */<a name="line.70"></a>
-<span class="sourceLineNo">071</span>        public static &lt;V, E&gt; void saveFile(Graph&lt;V, E&gt; graph, String file, Set&lt;V&gt; specialVertexSet, Set&lt;E&gt; specialEdgeSet){<a name="line.71"></a>
-<span class="sourceLineNo">072</span>                GraphsFileExporter.saveFile(graph, file, new StringNameProvider&lt;V&gt;(),<a name="line.72"></a>
-<span class="sourceLineNo">073</span>                                null,null,<a name="line.73"></a>
-<span class="sourceLineNo">074</span>                                new EtiquetasVerticesEspeciales&lt;V&gt;(specialVertexSet),<a name="line.74"></a>
-<span class="sourceLineNo">075</span>                                new EtiquetasAristasEspeciales&lt;E&gt;(specialEdgeSet));<a name="line.75"></a>
-<span class="sourceLineNo">076</span>        }<a name="line.76"></a>
-<span class="sourceLineNo">077</span>        <a name="line.77"></a>
-<span class="sourceLineNo">078</span>        <a name="line.78"></a>
-<span class="sourceLineNo">079</span>        private static class EtiquetasVerticesEspeciales&lt;V&gt; implements ComponentAttributeProvider&lt;V&gt;{<a name="line.79"></a>
-<span class="sourceLineNo">080</span>                <a name="line.80"></a>
-<span class="sourceLineNo">081</span>                private Set&lt;V&gt; set;<a name="line.81"></a>
-<span class="sourceLineNo">082</span>        <a name="line.82"></a>
-<span class="sourceLineNo">083</span>                public EtiquetasVerticesEspeciales(Set&lt;V&gt; set) {<a name="line.83"></a>
-<span class="sourceLineNo">084</span>                        super();<a name="line.84"></a>
-<span class="sourceLineNo">085</span>                        this.set = set;<a name="line.85"></a>
-<span class="sourceLineNo">086</span>                }<a name="line.86"></a>
-<span class="sourceLineNo">087</span>                <a name="line.87"></a>
-<span class="sourceLineNo">088</span>                @Override<a name="line.88"></a>
-<span class="sourceLineNo">089</span>                public Map&lt;String, String&gt; getComponentAttributes(V v) {<a name="line.89"></a>
-<span class="sourceLineNo">090</span>                        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();<a name="line.90"></a>
-<span class="sourceLineNo">091</span>                        if(set.contains(v)){<a name="line.91"></a>
-<span class="sourceLineNo">092</span>                                map.put("style", "dotted");<a name="line.92"></a>
-<span class="sourceLineNo">093</span>                        }<a name="line.93"></a>
-<span class="sourceLineNo">094</span>                        return map;<a name="line.94"></a>
-<span class="sourceLineNo">095</span>                }<a name="line.95"></a>
-<span class="sourceLineNo">096</span>                <a name="line.96"></a>
-<span class="sourceLineNo">097</span>        }<a name="line.97"></a>
-<span class="sourceLineNo">098</span>        <a name="line.98"></a>
-<span class="sourceLineNo">099</span>        private static class EtiquetasAristasEspeciales&lt;E&gt; implements ComponentAttributeProvider&lt;E&gt;{<a name="line.99"></a>
+<span class="sourceLineNo">061</span>         * @param graph Grafo<a name="line.61"></a>
+<span class="sourceLineNo">062</span>         * @param file Fichero<a name="line.62"></a>
+<span class="sourceLineNo">063</span>         * @param &lt;V&gt; El tipo de los vértices<a name="line.63"></a>
+<span class="sourceLineNo">064</span>         * @param &lt;E&gt; El tipo de las aristas<a name="line.64"></a>
+<span class="sourceLineNo">065</span>         */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>        public static &lt;V, E&gt; void saveFile(Graph&lt;V, E&gt; graph, String file){<a name="line.66"></a>
+<span class="sourceLineNo">067</span>                saveFile(graph, file, new StringNameProvider&lt;V&gt;(),null,null,null,null);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>        }<a name="line.68"></a>
+<span class="sourceLineNo">069</span>        <a name="line.69"></a>
+<span class="sourceLineNo">070</span>        /**<a name="line.70"></a>
+<span class="sourceLineNo">071</span>         * &lt;a&gt; Se construye un fichero con información asociada a vértices y <a name="line.71"></a>
+<span class="sourceLineNo">072</span>         * aristas dada por sus respectivas toString() &lt;/a&gt;<a name="line.72"></a>
+<span class="sourceLineNo">073</span>         * <a name="line.73"></a>
+<span class="sourceLineNo">074</span>         * &lt;a&gt; Los vértices especiales tienen iconos diferentes, <a name="line.74"></a>
+<span class="sourceLineNo">075</span>         * igualmente ocurre con las aristas especiales &lt;/a&gt;<a name="line.75"></a>
+<span class="sourceLineNo">076</span>         * <a name="line.76"></a>
+<span class="sourceLineNo">077</span>         * @param graph Grafo <a name="line.77"></a>
+<span class="sourceLineNo">078</span>         * @param file Fichero<a name="line.78"></a>
+<span class="sourceLineNo">079</span>         * @param specialVertexSet Vértices especiales<a name="line.79"></a>
+<span class="sourceLineNo">080</span>         * @param specialEdgeSet Aristas especiales <a name="line.80"></a>
+<span class="sourceLineNo">081</span>         * @param &lt;V&gt; El tipo de los vértices<a name="line.81"></a>
+<span class="sourceLineNo">082</span>         * @param &lt;E&gt; El tipo de las aristas<a name="line.82"></a>
+<span class="sourceLineNo">083</span>         */<a name="line.83"></a>
+<span class="sourceLineNo">084</span>        public static &lt;V, E&gt; void saveFile(Graph&lt;V, E&gt; graph, String file, Set&lt;V&gt; specialVertexSet, Set&lt;E&gt; specialEdgeSet){<a name="line.84"></a>
+<span class="sourceLineNo">085</span>                GraphsFileExporter.saveFile(graph, file, new StringNameProvider&lt;V&gt;(),<a name="line.85"></a>
+<span class="sourceLineNo">086</span>                                null,null,<a name="line.86"></a>
+<span class="sourceLineNo">087</span>                                new EtiquetasVerticesEspeciales&lt;V&gt;(specialVertexSet),<a name="line.87"></a>
+<span class="sourceLineNo">088</span>                                new EtiquetasAristasEspeciales&lt;E&gt;(specialEdgeSet));<a name="line.88"></a>
+<span class="sourceLineNo">089</span>        }<a name="line.89"></a>
+<span class="sourceLineNo">090</span>        <a name="line.90"></a>
+<span class="sourceLineNo">091</span>        <a name="line.91"></a>
+<span class="sourceLineNo">092</span>        private static class EtiquetasVerticesEspeciales&lt;V&gt; implements ComponentAttributeProvider&lt;V&gt;{<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                <a name="line.93"></a>
+<span class="sourceLineNo">094</span>                private Set&lt;V&gt; set;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>        <a name="line.95"></a>
+<span class="sourceLineNo">096</span>                public EtiquetasVerticesEspeciales(Set&lt;V&gt; set) {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>                        super();<a name="line.97"></a>
+<span class="sourceLineNo">098</span>                        this.set = set;<a name="line.98"></a>
+<span class="sourceLineNo">099</span>                }<a name="line.99"></a>
 <span class="sourceLineNo">100</span>                <a name="line.100"></a>
-<span class="sourceLineNo">101</span>                private Set&lt;E&gt; set;<a name="line.101"></a>
-<span class="sourceLineNo">102</span>        <a name="line.102"></a>
-<span class="sourceLineNo">103</span>                public EtiquetasAristasEspeciales(Set&lt;E&gt; set) {<a name="line.103"></a>
-<span class="sourceLineNo">104</span>                        super();<a name="line.104"></a>
-<span class="sourceLineNo">105</span>                        this.set = set;<a name="line.105"></a>
-<span class="sourceLineNo">106</span>                }<a name="line.106"></a>
-<span class="sourceLineNo">107</span>                <a name="line.107"></a>
-<span class="sourceLineNo">108</span>                @Override<a name="line.108"></a>
-<span class="sourceLineNo">109</span>                public Map&lt;String, String&gt; getComponentAttributes(E e) {<a name="line.109"></a>
-<span class="sourceLineNo">110</span>                        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();<a name="line.110"></a>
-<span class="sourceLineNo">111</span>                        if(set.contains(e)){<a name="line.111"></a>
-<span class="sourceLineNo">112</span>                                map.put("style", "dotted");<a name="line.112"></a>
-<span class="sourceLineNo">113</span>                        }<a name="line.113"></a>
-<span class="sourceLineNo">114</span>                        return map;<a name="line.114"></a>
-<span class="sourceLineNo">115</span>                }<a name="line.115"></a>
-<span class="sourceLineNo">116</span>                <a name="line.116"></a>
-<span class="sourceLineNo">117</span>        }<a name="line.117"></a>
-<span class="sourceLineNo">118</span>        <a name="line.118"></a>
-<span class="sourceLineNo">119</span>        <a name="line.119"></a>
-<span class="sourceLineNo">120</span>        <a name="line.120"></a>
-<span class="sourceLineNo">121</span>}<a name="line.121"></a>
+<span class="sourceLineNo">101</span>                @Override<a name="line.101"></a>
+<span class="sourceLineNo">102</span>                public Map&lt;String, String&gt; getComponentAttributes(V v) {<a name="line.102"></a>
+<span class="sourceLineNo">103</span>                        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();<a name="line.103"></a>
+<span class="sourceLineNo">104</span>                        if(set.contains(v)){<a name="line.104"></a>
+<span class="sourceLineNo">105</span>                                map.put("style", "dotted");<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                        }<a name="line.106"></a>
+<span class="sourceLineNo">107</span>                        return map;<a name="line.107"></a>
+<span class="sourceLineNo">108</span>                }<a name="line.108"></a>
+<span class="sourceLineNo">109</span>                <a name="line.109"></a>
+<span class="sourceLineNo">110</span>        }<a name="line.110"></a>
+<span class="sourceLineNo">111</span>        <a name="line.111"></a>
+<span class="sourceLineNo">112</span>        private static class EtiquetasAristasEspeciales&lt;E&gt; implements ComponentAttributeProvider&lt;E&gt;{<a name="line.112"></a>
+<span class="sourceLineNo">113</span>                <a name="line.113"></a>
+<span class="sourceLineNo">114</span>                private Set&lt;E&gt; set;<a name="line.114"></a>
+<span class="sourceLineNo">115</span>        <a name="line.115"></a>
+<span class="sourceLineNo">116</span>                public EtiquetasAristasEspeciales(Set&lt;E&gt; set) {<a name="line.116"></a>
+<span class="sourceLineNo">117</span>                        super();<a name="line.117"></a>
+<span class="sourceLineNo">118</span>                        this.set = set;<a name="line.118"></a>
+<span class="sourceLineNo">119</span>                }<a name="line.119"></a>
+<span class="sourceLineNo">120</span>                <a name="line.120"></a>
+<span class="sourceLineNo">121</span>                @Override<a name="line.121"></a>
+<span class="sourceLineNo">122</span>                public Map&lt;String, String&gt; getComponentAttributes(E e) {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>                        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();<a name="line.123"></a>
+<span class="sourceLineNo">124</span>                        if(set.contains(e)){<a name="line.124"></a>
+<span class="sourceLineNo">125</span>                                map.put("style", "dotted");<a name="line.125"></a>
+<span class="sourceLineNo">126</span>                        }<a name="line.126"></a>
+<span class="sourceLineNo">127</span>                        return map;<a name="line.127"></a>
+<span class="sourceLineNo">128</span>                }<a name="line.128"></a>
+<span class="sourceLineNo">129</span>                <a name="line.129"></a>
+<span class="sourceLineNo">130</span>        }<a name="line.130"></a>
+<span class="sourceLineNo">131</span>        <a name="line.131"></a>
+<span class="sourceLineNo">132</span>        <a name="line.132"></a>
+<span class="sourceLineNo">133</span>        <a name="line.133"></a>
+<span class="sourceLineNo">134</span>}<a name="line.134"></a>
 
 
 

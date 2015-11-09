@@ -13,7 +13,7 @@ public class TestIteratorPuzzle {
 		// TODO Auto-generated method stub
 		EstadoPuzzle p1 = EstadoPuzzle.create(1,2,3,4,0,5,6,7,8);
 		Graph<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> graph = 
-				PuzzleGraph1.create(SimpleEdge.<EstadoPuzzle>getFactoria());
+				PuzzleGraph1.create(SimpleEdge.<EstadoPuzzle>create());
 		Set<SimpleEdge<EstadoPuzzle>> ss = graph.edgesOf(p1);
 		System.out.println("p1 = \n"+p1);
 		for (SimpleEdge<EstadoPuzzle> e: ss){

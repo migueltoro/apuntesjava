@@ -3,12 +3,12 @@ package us.lsi.graphs;
 import org.jgrapht.EdgeFactory;
 
 /**
- * Tipo que deben implementar la aristas de un grafo que queremos leer de un fichero cuyas líneas
- * representa una arista. Las líneas deben ser de la forma
+ * <a> Tipo que deben implementar la aristas de un grafo que queremos leer de un fichero cuyas líneas
+ * representa una arista. Las líneas deben ser de la forma: </a>
  * 
- * s1,s2,v1,v2,v3
+ * <a> s1,s2,v1,v2,v3 </a>
  * 
- * Dónde s1 y s2 son idenficadores únicos de vértices y v1, ... propiedades de la arista
+ * <a> Dónde s1 y s2 son idenficadores únicos de vértices y v1, ... propiedades de la arista </a>
  * 
  * @author Miguel Toro
  *

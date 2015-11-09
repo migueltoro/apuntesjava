@@ -89,7 +89,7 @@ public class EstadoPuzzle implements VirtualVertex<EstadoPuzzle,SimpleEdge<Estad
 	
 	public Set<SimpleEdge<EstadoPuzzle>> edgesOf(){
 		return this.getNeighborListOf().stream()
-		   .<SimpleEdge<EstadoPuzzle>>map(x->SimpleEdge.<EstadoPuzzle>getFactoria().createEdge(this,x))
+		   .<SimpleEdge<EstadoPuzzle>>map(x->SimpleEdge.<EstadoPuzzle>create().createEdge(this,x))
 		   .collect(Collectors.<SimpleEdge<EstadoPuzzle>>toSet());
 	}
 	

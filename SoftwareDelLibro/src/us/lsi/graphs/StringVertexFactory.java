@@ -2,12 +2,12 @@ package us.lsi.graphs;
 
 
 /**
- * Tipo que deben los vértices de un grafo que queremos leer de un fichero cuyas líneas
- * representan una arista. Las líneas deben ser de la forma
+ * <a> Tipo que deben los vértices de un grafo que queremos leer de un fichero cuyas líneas
+ * representan una arista. Las líneas deben ser de la forma </a>
  * 
- * s1,v1,v2,v3
+ * <a>s1,v1,v2,v3 </a>
  * 
- * Dónde s1 es un identificador únicos del vértice y v1, ... propiedades de la arista
+ * <a>Dónde s1 es un identificador únicos del vértice y v1, ... propiedades de la arista </a>
  * 
  * @author Miguel Toro
  *

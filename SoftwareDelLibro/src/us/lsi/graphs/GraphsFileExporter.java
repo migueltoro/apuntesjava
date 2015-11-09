@@ -8,14 +8,27 @@ import org.jgrapht.*;
 import org.jgrapht.ext.*;
 
 /**
- * Clase adecuada para salvar un grafo en un fichero en un formato gv.
+ * 
  * 
  * @author Miguel Toro
  *
+ *<a> Clase adecuada para salvar un grafo en un fichero en un formato gv.</a>
  */
 public class GraphsFileExporter {	
 	
 	
+	/**
+	 * @param graph Un grafo
+	 * @param s Un nombre de fichero de salida
+	 * @param vertexIDProvider Suministrador de identificadores para los vértices del grafo
+	 * @param vertexLabelProvider Suministrador de etiquetas para los vértices del grafo
+	 * @param edgeLabelProvider Suministrador de etiquetas para las aristas del grafo
+	 * @param vertexAttributeProvider Suministrador de atributos para los vértices del grafo
+	 * @param edgeAttributeProvider Suministrador de atributos para las aristas del grafo
+	 * @param <V> El tipo de los vértices
+	 * @param <E> El tipo de las aristas
+	 * 
+	 */
 	public static <V, E> void saveFile(Graph<V, E> graph, String s, VertexNameProvider<V> vertexIDProvider,
             VertexNameProvider<V> vertexLabelProvider,
             EdgeNameProvider<E> edgeLabelProvider,
@@ -42,8 +55,8 @@ public class GraphsFileExporter {
 	}
 	
 	/**
-	 * Se construye un fichero con información asociada a vértices y 
-	 * aristas dada por sus respectivas toString()
+	 * <a> Se construye un fichero con información asociada a vértices y 
+	 * aristas dada por sus respectivas toString() </a>
 	 * 
 	 * @param graph Grafo
 	 * @param file Fichero
@@ -55,11 +68,11 @@ public class GraphsFileExporter {
 	}
 	
 	/**
-	 * Se construye un fichero con información asociada a vértices y 
-	 * aristas dada por sus respectivas toString()
+	 * <a> Se construye un fichero con información asociada a vértices y 
+	 * aristas dada por sus respectivas toString() </a>
 	 * 
-	 * Los vértices especiales tienen iconos diferentes, 
-	 * igualmente ocurre con las aristas especiales
+	 * <a> Los vértices especiales tienen iconos diferentes, 
+	 * igualmente ocurre con las aristas especiales </a>
 	 * 
 	 * @param graph Grafo 
 	 * @param file Fichero

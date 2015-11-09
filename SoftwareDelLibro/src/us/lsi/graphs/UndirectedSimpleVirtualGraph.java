@@ -15,7 +15,7 @@ import org.jgrapht.UndirectedGraph;
  * 
  * @see us.lsi.graphs.VirtualDirectedVertex
  * 
- * <p> El grafo es no moficable por lo que no están permitadas las operación de moficación </p>
+ * <p> El grafo es inmutable por lo que no están permitadas las operación de moficación.  </p>
  * 
  * @author Miguel Toro
  *

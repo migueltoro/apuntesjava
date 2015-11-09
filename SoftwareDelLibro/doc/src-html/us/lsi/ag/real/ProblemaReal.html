@@ -11,8 +11,8 @@
 <span class="sourceLineNo">003</span>import java.util.ArrayList;<a name="line.3"></a>
 <span class="sourceLineNo">004</span>import java.util.List;<a name="line.4"></a>
 <span class="sourceLineNo">005</span><a name="line.5"></a>
-<span class="sourceLineNo">006</span>import us.lsi.ag.Cromosoma;<a name="line.6"></a>
-<span class="sourceLineNo">007</span>import us.lsi.ag.ProblemaAGReal;<a name="line.7"></a>
+<span class="sourceLineNo">006</span>import us.lsi.ag.ProblemaAGReal;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import us.lsi.ag.agchromosomes.IRealChromosome;<a name="line.7"></a>
 <span class="sourceLineNo">008</span>import us.lsi.common.Par;<a name="line.8"></a>
 <span class="sourceLineNo">009</span><a name="line.9"></a>
 <span class="sourceLineNo">010</span>public class ProblemaReal implements ProblemaAGReal&lt;List&lt;Double&gt;&gt; {<a name="line.10"></a>
@@ -22,7 +22,7 @@
 <span class="sourceLineNo">014</span>        }<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
 <span class="sourceLineNo">016</span>        @Override<a name="line.16"></a>
-<span class="sourceLineNo">017</span>        public List&lt;Double&gt; getSolucion(Cromosoma&lt;Double&gt; chromosome) {<a name="line.17"></a>
+<span class="sourceLineNo">017</span>        public List&lt;Double&gt; getSolucion(IRealChromosome chromosome) {<a name="line.17"></a>
 <span class="sourceLineNo">018</span>                return chromosome.decode();<a name="line.18"></a>
 <span class="sourceLineNo">019</span>        }<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
@@ -34,24 +34,24 @@
 <span class="sourceLineNo">026</span>        @Override<a name="line.26"></a>
 <span class="sourceLineNo">027</span>        public List&lt;Par&lt;Double, Double&gt;&gt; getLimites() {<a name="line.27"></a>
 <span class="sourceLineNo">028</span>                List&lt;Par&lt;Double,Double&gt;&gt; ls = new ArrayList&lt;&gt;();<a name="line.28"></a>
-<span class="sourceLineNo">029</span>                ls.add(Par.create(0., 1.));<a name="line.29"></a>
-<span class="sourceLineNo">030</span>                ls.add(Par.create(0., 15.));<a name="line.30"></a>
+<span class="sourceLineNo">029</span>                ls.add(Par.create(0., 15.));<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                ls.add(Par.create(-15., 15.));<a name="line.30"></a>
 <span class="sourceLineNo">031</span>                return ls;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>        }<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
 <span class="sourceLineNo">034</span>        @Override<a name="line.34"></a>
-<span class="sourceLineNo">035</span>        public Double fitnessFunction(List&lt;Double&gt; ls) {<a name="line.35"></a>
-<span class="sourceLineNo">036</span>                Double a = ls.get(0);<a name="line.36"></a>
-<span class="sourceLineNo">037</span>                Double b = ls.get(1);<a name="line.37"></a>
-<span class="sourceLineNo">038</span>//              return (100 * Math.pow(Math.pow(a,2) - b,2) + Math.pow(1 - a,2))-constraint(a,b);<a name="line.38"></a>
-<span class="sourceLineNo">039</span>                return -(a*a+b*b)+constraint(a,b);<a name="line.39"></a>
-<span class="sourceLineNo">040</span>        }<a name="line.40"></a>
-<span class="sourceLineNo">041</span>            <a name="line.41"></a>
-<span class="sourceLineNo">042</span>            private double constraint(Double a, Double b){<a name="line.42"></a>
-<span class="sourceLineNo">043</span>                boolean r = true;<a name="line.43"></a>
-<span class="sourceLineNo">044</span>//              r = r &amp;&amp; (a*b + a - b + 1.5) &lt;=0;<a name="line.44"></a>
-<span class="sourceLineNo">045</span>//              r = r &amp;&amp; (10 - a*b &lt;=0);<a name="line.45"></a>
-<span class="sourceLineNo">046</span>                return r?0:10000000;<a name="line.46"></a>
+<span class="sourceLineNo">035</span>        public Double fitnessFunction(IRealChromosome chromosome) {<a name="line.35"></a>
+<span class="sourceLineNo">036</span>                List&lt;Double&gt; ls = chromosome.decode();<a name="line.36"></a>
+<span class="sourceLineNo">037</span>                Double a = ls.get(0);<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                Double b = ls.get(1);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                Double k = 10000000.;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                return (a*a+b*b)- k*r1(a,b);<a name="line.40"></a>
+<span class="sourceLineNo">041</span>        }<a name="line.41"></a>
+<span class="sourceLineNo">042</span>            <a name="line.42"></a>
+<span class="sourceLineNo">043</span>            private double r1(Double a, Double b){<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                // (-a + b) &gt;=0;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>                Double r = -a + b -1;           <a name="line.45"></a>
+<span class="sourceLineNo">046</span>                return r*r;<a name="line.46"></a>
 <span class="sourceLineNo">047</span>            }<a name="line.47"></a>
 <span class="sourceLineNo">048</span>                <a name="line.48"></a>
 <span class="sourceLineNo">049</span>}<a name="line.49"></a>

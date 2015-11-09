@@ -4,6 +4,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author Miguel Toro
+ *
+ * @param <A> Tipo de la acción
+ * @param <V> Tipo del vértice
+ * 
+ * <a> Tipo adecuado para modelar un vértice de un grafo virtual simple cuyas aristas están 
+ * definidas por un conjunto finito de acciones codificadas en un tipo enumerado A </a>
+ */
 public abstract class EnumVirtualVertex<A extends Enum<A>, V extends EnumVirtualVertex<A,V>> 
 			implements VirtualVertex<V, SimpleEdge<V>> {
 
@@ -25,7 +34,7 @@ public abstract class EnumVirtualVertex<A extends Enum<A>, V extends EnumVirtual
 	 */
 	public abstract boolean isApplicable(A a);
 	/**
-	 * Para ser implementado por el subtipo
+	 * <a>Para ser implementado por el subtipo </a>
 	 * @param v Vértice opuesto
 	 * @return Devuelve una arista del vértice actual al opuesto
 	 */

@@ -3,8 +3,8 @@ package us.lsi.graphs;
 import org.jgrapht.EdgeFactory;
 
 /**
- * Un arista simple entre dos vértices de tipo V
- * El tipo también implementa la factoría de aristas
+ * <a> Un arista simple entre dos vértices de tipo V
+ * El tipo también implementa la factoría de aristas </a>
  * 
  * @author Miguel Toro
  *
@@ -20,7 +20,7 @@ public class SimpleEdge<V> implements EdgeFactory<V, SimpleEdge<V>> {
 	 * @param <E> El tipo de las aristas
 	 * @return La factoría de aristas
 	 */
-	public static <E> SimpleEdge<E> getFactoria() {
+	public static <E> SimpleEdge<E> create() {
 		return  new SimpleEdge<E>(null,null);
 	}
 
@@ -93,10 +93,7 @@ public class SimpleEdge<V> implements EdgeFactory<V, SimpleEdge<V>> {
 		} else if (!target.equals(other.target))
 			return false;
 		return true;
-	}
-
-	
-	
+	}	
 	
 }
 

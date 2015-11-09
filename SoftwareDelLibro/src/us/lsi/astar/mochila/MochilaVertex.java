@@ -54,7 +54,7 @@ public class MochilaVertex implements VirtualVertex<MochilaVertex, SimpleEdge<Mo
 		return getNeighborListOf()
 				.stream()
 				.<SimpleEdge<MochilaVertex>>map(
-						(MochilaVertex x)->SimpleEdge.<MochilaVertex>getFactoria().createEdge(this, x))
+						(MochilaVertex x)->SimpleEdge.<MochilaVertex>create().createEdge(this, x))
 				.collect(Collectors.<SimpleEdge<MochilaVertex>>toSet());
 	}
 
