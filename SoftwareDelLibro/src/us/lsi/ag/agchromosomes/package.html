@@ -1,0 +1,52 @@
+</BODY>
+</HTML>
+
+<HTML>
+<BODY>
+
+<p> Implmentaciones de distintos tipos de cromosomas.<p>
+
+<p> Las tipos de cromosomas definidos definidos son: </p>
+
+<p> <ul>
+<li> El tipo {@link us.lsi.ag.agchromosomes.IChromosome IChromosome} representa un cromomosoma en general.
+<li> El tipo {@link us.lsi.ag.agchromosomes.IBinaryChromosome IBinaryChromosome} representa un cromomosoma binario. Es decir uno cuya valor decodificado es
+una lista de ceros y unos.
+<li> El tipo {@link us.lsi.ag.agchromosomes.IndexChromosome IndexChromosome} representa un cromomosoma adecuado para 
+resolver problemas cuya solución es un Multiset o una lista, posiblemente con elementoss repetidos, formados con elementos de un conjunto dado  
+<li> El tipo {@link us.lsi.ag.agchromosomes.IExpressionChromosome IExpressionChromosome} representa un cromosoma cuyo valor decodificado es
+una expresión formada por un conjunto de operadores dados, un conjunto de variables y un conjunto de constantes.
+<li> El tipo {@link us.lsi.ag.agchromosomes.IRealChromosome IRealChromosome} representa un cromomosoma 
+cuyo valor decodificado es un lista de número reales
+</ul> </p> 
+
+<p> Implementaciones de distintos tipos de cromosomas.<p>
+
+<p> Las clases usadas en el paquete son: </p>
+
+<p> <ul>
+<li> La clase {@link us.lsi.ag.agchromosomes.BinaryChromosomeModified BinaryChromosomeModified} implementa 
+el tipo {@link us.lsi.ag.agchromosomes.IBinaryChromosome IBinaryChromosome}.
+la implementación es una adaptación de la clase de Apache
+<a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/genetics/BinaryChromosome.html"> BinaryChromosome</a>
+<li> La clase {@link us.lsi.ag.agchromosomes.BinaryIndexChromosome BinaryIndexChromosome} implementa el tipo {@link us.lsi.ag.agchromosomes.IndexChromosome IndexChromosome}. 
+El valor decodificado de este cromosoma es un subconjunto de la secuencia normal definida en el problema.
+La implementación reutiliza la clase de Apache
+<a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/genetics/BinaryChromosome.html"> BinaryChromosome</a>
+<li> La clase {@link us.lsi.ag.agchromosomes.IntegerIndexChromosome IntegerIndexChromosome} implementa el tipo {@link us.lsi.ag.agchromosomes.IndexChromosome IndexChromosome}. 
+El valor decodificado de este cromosoma está formada por una lista de  tamaño <i> n </i> cuyos elementos para cada <i> i </i> están en el rango
+rango 0..m(i), siendo m(i) la multiplicidad máxima para i definida en el problema.
+<li> La clase {@link us.lsi.ag.agchromosomes.PermutationIndexChromosom PermutationIndexChromosom} implementa el tipo {@link us.lsi.ag.agchromosomes.IndexChromosome IndexChromosome}.
+El valor decodificado de este cromosoma es una permutación de la secuencia normal definida en el problema.
+La implementación reutiliza mediante herencia la clase de Apache <a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/genetics/RandomKey.html"> RandomKey</a>
+<li> La clase {@link us.lsi.ag.agchromosomes.PermutationIndexSubListChromosome PermutationIndexSubListChromosome} implementa el tipo {@link us.lsi.ag.agchromosomes.IndexChromosome IndexChromosome}.
+El valor decodificado de este cromosoma es un subconjunto de una permutación de la secuencia normal definida en el problema.
+La implementación reutiliza mediante composición las clases de Apache <a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/genetics/RandomKey.html"> RandomKey</a> y
+<a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/genetics/BinaryChromosome.html"> BinaryChromosome</a>
+<li> La clase {@link us.lsi.ag.agchromosomes.ExpressionChromosom ExpressionChromosome} implementa el tipo {@link us.lsi.ag.agchromosomes.IExpressionChromosome IExpressionChromosome}.
+La implementación sigue las ideas de <a href="https://en.wikipedia.org/wiki/Gene_expression_programming"> Gene expression programming</a>
+<li> La clase {@link us.lsi.ag.agchromosomes.ChromosomeFactory ChromosomeFactory} implementa una factoría de cromosomas de los tipos anteriores
+</ul> </p> 
+
+</BODY>
+</HTML>

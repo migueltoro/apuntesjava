@@ -3,6 +3,15 @@ package us.lsi.common;
 import java.util.function.BiFunction;
 
 
+/**
+ * @author Miguel Toro
+ * 
+ * <p> Expresión binaria
+ *
+ * @param <R> Tipo del resultado 
+ * @param <T1> Tipo del primer operando
+ * @param <T2> Tipo del segundo operando
+ */
 public class BinaryExp<R,T1,T2> extends Exp<R> {
 
 	protected Exp<T1> op1 = null;

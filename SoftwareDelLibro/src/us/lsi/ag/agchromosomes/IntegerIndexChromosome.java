@@ -17,14 +17,14 @@ import us.lsi.math.Math2;
  * @author Miguel Toro
  * 
  * 
- * Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
- * Asumimos que el número de objetos es n. Usa una  secuencia normal implícita de tamaño n de la forma (0,1,2, ..., n-1). 
+ * <p> Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
+ * Asumimos que el número de objetos es n. Usa una  secuencia normal implícita de tamaño n de la forma (0,1,2, ..., n-1). </p>
  * 
- * La lista decodificada está formada por una lista de  tamaño n cuyos elementos para cada i son 
- *  valores en en rango [0,m(i)], sinendo m(i) la multiplicidad máxima para i.
+ * <p> La lista decodificada está formada por una lista de  tamaño n cuyos elementos para cada i son 
+ *  valores en en rango [0,m(i)], sinendo m(i) la multiplicidad máxima para i. </p>
  * 
- * La implementación usa un cromosoma binario del tamaño n*nbits. 
- * Siendo nbits el número de bits usados para representar cada uno de los enteros.
+ * <p> La implementación usa un cromosoma binario del tamaño n*nbits. 
+ * Siendo nbits el número de bits usados para representar cada uno de los enteros. </p>
  * 
  * <p> Es un cromosoma adecuado para codificar problemas de subconjuntos de multiconjuntos</p>
  *
@@ -94,7 +94,7 @@ public class IntegerIndexChromosome extends BinaryChromosome implements IndexChr
 	private double ft;
 	
 	private double calculateFt(){
-		return IntegerIndexChromosome.problema.fitnessFunction(this.decode());
+		return IntegerIndexChromosome.problema.fitnessFunction(this);
 	}
 
 	@Override

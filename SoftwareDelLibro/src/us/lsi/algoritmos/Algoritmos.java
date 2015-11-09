@@ -117,13 +117,11 @@ public class Algoritmos {
 	}
 	
 	
-	/**<p> Algoritmo específico para algoritmos genéticos con números reales con codificación binaria.
+	/**
 	 *
-	 * 
-	 *
-	 *
+	 * @param tipo El tipo del cromomosoma
 	 * @param p Problema
-	 * @return AlgoritmoAGReal
+	 * @return AlgoritmoAG
 	 */
 	
 	public static AlgoritmoAG createAG(ChromosomeType tipo, ProblemaAG p) {

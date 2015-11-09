@@ -29,15 +29,15 @@ import com.google.common.collect.Lists;
  * @author Miguel Toro
  * 
  * 
- * Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
- * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es n y el tamaño de la secuencia normal r. 
+ * <p> Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
+ * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es n y el tamaño de la secuencia normal r. </p>
  *  
- * La lista decodificada está formada por una lista de  tamaño menor o igual que r, cuyos valores son 
+ * <p> La lista decodificada está formada por una lista de  tamaño menor o igual que r, cuyos valores son 
  * índices en el rango [0,n-1], y cada índice i se puede repetir un máximo número de veces dado por la multiplicidad máxima del objeto i
- * definida en el problema.
+ * definida en el problema. </p>
  * 
- * La implementación usa un cromosoma binario y otro de tipo clave aleatoria. Ambos de tamaño r.
- * Es un cromosoma adecuado para codificar problemas de permutaciones de subconjuntos de multiconjuntos
+ * <p> La implementación usa un cromosoma binario y otro de tipo clave aleatoria. Ambos de tamaño r.
+ * Es un cromosoma adecuado para codificar problemas de permutaciones de subconjuntos de multiconjuntos </p>
  *
  */
 public class PermutationIndexSubListChromosome extends Chromosome implements IndexChromosome {
@@ -109,7 +109,7 @@ public class PermutationIndexSubListChromosome extends Chromosome implements Ind
 	private Double ft;
 	
 	private double calculateFt(){
-		return PermutationIndexSubListChromosome.problema.fitnessFunction(this.decode());
+		return PermutationIndexSubListChromosome.problema.fitnessFunction(this);
 	}
 	
 	@Override

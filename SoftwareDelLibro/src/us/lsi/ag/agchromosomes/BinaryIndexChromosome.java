@@ -17,14 +17,15 @@ import com.google.common.base.Preconditions;
  * @author Miguel Toro
  * 
  * 
- * Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
- * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es n y el tamaño de la secuencia normal r. 
+ * <p> Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
+ * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es <code> n </code> 
+ * y el tamaño de la secuencia normal <code> r </code>. </p>
  *  
- * La lista decodificada está formada por una lista de  tamaño menor o igual a r cuyos valores son 
- * índices en el rango [0,n-1], y cada índice i se puede repetir un máximo número de veces dado por la multiplicidad máxima del objeto i
- * definida en el problema.
+ * <p> La lista decodificada está formada por una lista de  tamaño menor o igual a <code> r </code> cuyos valores son 
+ * índices en el rango <code> 0..n-1 </code>, y cada índice <code> i </code> se puede repetir un máximo número de veces dado por la multiplicidad máxima del objeto i
+ * definida en el problema. La lista decodificada es, por lo tanto, un subconjunto de la secuencia normal definida en el problema. </p>
  * 
- * La implementación usa un cromosoma binario del tamaño de la secuencia normal.
+ * <p> La implementación usa un cromosoma binario del tamaño de la secuencia normal. </p>
  * 
  * <p> Es un cromosoma adecuado para codificar problemas de subconjuntos de multiconjuntos</p>
  *
@@ -95,7 +96,7 @@ public class BinaryIndexChromosome extends BinaryChromosome implements IndexChro
 	private Double ft = null;
 	
 	private double calculateFt(){
-		return BinaryIndexChromosome.problema.fitnessFunction(this.decode());
+		return BinaryIndexChromosome.problema.fitnessFunction(this);
 	}
 
 	@Override

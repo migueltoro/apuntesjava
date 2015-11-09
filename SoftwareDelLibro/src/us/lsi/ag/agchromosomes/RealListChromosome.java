@@ -18,18 +18,18 @@ import us.lsi.common.Lists2;
  * @author Miguel Toro
  * 
  * 
- * Una implementación del tipo Cromosoma&lt;Double&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGReal.
- * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es n y el tamaño de la secuencia normal r. 
+ * <p> Una implementación del tipo Cromosoma&lt;Double&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGReal.
+ * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es n y el tamaño de la secuencia normal r. </p>
  *  
- * La lista decodificada está formada por una lista de  tamaño nv,  cuyos elementos son valores en reales en el rango [li(i),ls(i)].
+ * <p> La lista decodificada está formada por una lista de  tamaño nv,  cuyos elementos son valores en reales en el rango [li(i),ls(i)].</p>
  * 
  * 
  * 
- * La implementación usa un cromosoma binario  de tamaño nv*nbits.
- * Es un cromosoma adecuado para codificar problemas de funciones  reales en un espacio de nv dimensiones
+ * <p> La implementación usa un cromosoma binario  de tamaño nv*nbits.
+ * Es un cromosoma adecuado para codificar problemas de funciones  reales en un espacio de n dimensiones </p>
  *
  */
-public class RealListChromosome extends BinaryChromosome implements RealChromosome {
+public class RealListChromosome extends BinaryChromosome implements IRealChromosome {
 
 	
 	public static Integer numeroDeBits = 10;
@@ -68,7 +68,7 @@ public class RealListChromosome extends BinaryChromosome implements RealChromoso
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> ls) {
 		return new RealListChromosome(ls);
 	}
-	
+	@Override
 	public List<Double> decode() {
 		List<Integer> ls = super.getRepresentation();
 		List<Double> r = new ArrayList<Double>();
@@ -85,7 +85,7 @@ public class RealListChromosome extends BinaryChromosome implements RealChromoso
 		}
 		return r;
 	}
-
+	@Override
 	public List<Integer> getRepresentation(){
 		return super.getRepresentation();
 	}
@@ -103,7 +103,7 @@ public class RealListChromosome extends BinaryChromosome implements RealChromoso
 	private double ft;
 	
 	private double calculateFt(){
-		return RealListChromosome.problema.fitnessFunction(this.decode());
+		return RealListChromosome.problema.fitnessFunction(this);
 	}
 	
 	@SuppressWarnings("unchecked")

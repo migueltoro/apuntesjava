@@ -20,22 +20,43 @@ import us.lsi.common.NaryExp;
 import us.lsi.common.VariableExp;
 import us.lsi.math.Math2;
 
+/**
+ * @author Miguel Toro
+ *
+ * @param <T> Tipo del resultado de la expresión
+ * 
+ * <p> Implementa el tipo {@link us.lsi.ag.agchromosomes.IExpressionChromosome IExpressionChromosome}.
+ * La implementación 
+ * sigue las ideas de <a href="https://en.wikipedia.org/wiki/Gene_expression_programming"> Gene expression programming</a></p>
+ */
 public class ExpressionChromosome<T> extends BinaryChromosome implements IExpressionChromosome<T> {
 
 	
+	/**
+	 * Número de bits para codificar cada uno de los valores enteros resultantes
+	 */
 	public static Integer numeroDeBits = 5;
 
+	/**
+	 * Problema a resolver
+	 */
 	public static ProblemaAGExpression<?,?> problem;
 
+	/**
+	 * Longitud de la cabeza de cada uno de los genes
+	 */
 	public static Integer headLeng;	
 
 	private static Integer tailLeng;
 	
+	/**
+	 * Número de Genes del cromosoma
+	 */
 	public static Integer numGenes;
 	
-	public static Integer numItemsPorGen;
+	private static Integer numItemsPorGen;
 
-	public static Integer numItems;
+	private static Integer numItems;
 	
 	private static Integer constantsIndex;
 	
@@ -43,8 +64,12 @@ public class ExpressionChromosome<T> extends BinaryChromosome implements IExpres
 	 * Dimensión del cromosoma
 	 */
 
-	public static int DIMENSION;
+	static int DIMENSION;
 
+	/**
+	 * @pos Inicializa los parámetros de la clase
+	 * @param problema El problema a resolver
+	 */
 	public static <T> void iniValues(ProblemaAG problema) {
 		ExpressionChromosome.problem = (ProblemaAGExpression<?, ?>) problema;
 		int maxArity = ExpressionChromosome.problem.getOperators().stream()
@@ -57,6 +82,10 @@ public class ExpressionChromosome<T> extends BinaryChromosome implements IExpres
 		ExpressionChromosome.DIMENSION = ExpressionChromosome.numeroDeBits*ExpressionChromosome.numItems;
 	}
 	
+	/**
+	 * @param i Un indice a 
+	 * @return
+	 */
 	private Integer getMax(int i) {		
 		Integer r = null;
 		if (i>=ExpressionChromosome.constantsIndex) {
@@ -109,6 +138,7 @@ public class ExpressionChromosome<T> extends BinaryChromosome implements IExpres
 		this.ft = this.calculateFt();
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	public ExpressionChromosome(List<Integer> representation)
 			throws InvalidRepresentationException {
@@ -126,8 +156,6 @@ public class ExpressionChromosome<T> extends BinaryChromosome implements IExpres
 	    int index1 = 0;
 		for (int i = 0; i < ExpressionChromosome.numGenes; i++) {
 			int index2 = index1 +  ExpressionChromosome.numItemsPorGen;
-//			System.out.println(index1+","+index2);
-//			System.out.println(this.items.subList(index1, index2)+","+ operatorIndex+","+ ls);
 			List<List<Exp<T>>> levels = Exp.levels(this.items.subList(index1, index2), operatorIndex, ls);
 			Exp<T> expression = levels.get(0).get(0);
 			index1 = index1+ ExpressionChromosome.numItemsPorGen;
@@ -143,7 +171,8 @@ public class ExpressionChromosome<T> extends BinaryChromosome implements IExpres
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> ls) {
 		return new ExpressionChromosome<T>(ls);
 	}
-
+	
+	@Override
 	public Exp<T> decode() {
 		return this.getExp();
 	}
@@ -161,11 +190,12 @@ public class ExpressionChromosome<T> extends BinaryChromosome implements IExpres
 		}
 		return r;
 	}
-
+	
+	@Override
 	public List<Integer> getRepresentation() {
 		return super.getRepresentation();
 	}
-
+	
 	public static ExpressionChromosome<?> getInitialChromosome() {
 		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(ExpressionChromosome.DIMENSION);
 		return new ExpressionChromosome<>(ls);
@@ -225,6 +255,9 @@ public class ExpressionChromosome<T> extends BinaryChromosome implements IExpres
 		return this;
 	}	
 
+	/**
+	 * Identificadores de las variables a usar
+	 */
 	public static List<String> nombres = Arrays.asList("x","y","z"+"t","u","v"+"w");
 			
 	private List<VariableExp<T>> getNumVariables(int num){

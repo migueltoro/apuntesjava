@@ -30,7 +30,8 @@ public class ProblemaReinasAG implements ProblemaAGIndex<List<Reina>> {
 	}
 
 	@Override
-	public Double fitnessFunction(List<Integer> ls) {
+	public Double fitnessFunction(IndexChromosome chromosome) {
+		List<Integer> ls = chromosome.decode();
 		TableroDeReinas tr = TableroDeReinas.create(ls);
 		Double r = tr.getObjetivo();
 		return -2000*r*r;

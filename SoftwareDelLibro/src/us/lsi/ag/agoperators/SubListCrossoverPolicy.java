@@ -13,10 +13,11 @@ import com.google.common.base.Preconditions;
 
 /**
  * <p>
- * Un operador de cruce adecaudo para cromosomas de tipo mixto y que reutiliza
+ * Un operador de cruce adecuado para cromosomas de tipo mixto y que reutiliza
  * los operadores de cruce proporcionados en <a href=
  * "http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/genetics/package-summary.html"
  * target="_blank"> Apache Genetics </a>
+ * </p>
  * 
  * @author Miguel Toro
  *

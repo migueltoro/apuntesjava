@@ -1,21 +1,32 @@
 package us.lsi.ag;
 
-import java.util.List;
 
 import us.lsi.ag.agchromosomes.IBinaryChromosome;
 
+/**
+ * @author Miguel Toro
+ *
+ * @param <S> El tipo de la solcuión del problema
+ * 
+ * 
+ * <p> Un problema cuya solución puede ser modelada con variables binarias. Usa un cromomosoma de tipo IBinaryChromosom</p>
+ */
 public interface ProblemaAGBinario<S> extends ProblemaAG {
 	
-	int getDimensionDelChromosoma();
 	/**
-	 * @param ls Lista de índices del cromosoma
-	 * @pre ls.size() == getDimension()
-	 * @return Fitness del cromosoma
+	 * @return Dimensión del cromosoma. Es el número de variables binarias del problema
 	 */
-	Double fitnessFunction(List<Integer> ls);
+	int getDimensionDelChromosoma();
 	
 	/**
-	 * @param cr Un cromosoma que representa indices de objetos
+	 * @param cr Un cromosoma
+	 * @return La función de fitness del cromosoma
+	 */
+	
+	Double fitnessFunction(IBinaryChromosome cr);
+	
+	/**
+	 * @param cr Un cromosoma
 	 * @return La solución definida por el cromosoma
 	 */
 	S getSolucion(IBinaryChromosome cr);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import us.lsi.ag.ProblemaAGReal;
-import us.lsi.ag.agchromosomes.RealChromosome;
+import us.lsi.ag.agchromosomes.IRealChromosome;
 import us.lsi.common.Par;
 
 public class ProblemaReal implements ProblemaAGReal<List<Double>> {
@@ -14,7 +14,7 @@ public class ProblemaReal implements ProblemaAGReal<List<Double>> {
 	}
 
 	@Override
-	public List<Double> getSolucion(RealChromosome chromosome) {
+	public List<Double> getSolucion(IRealChromosome chromosome) {
 		return chromosome.decode();
 	}
 
@@ -32,7 +32,8 @@ public class ProblemaReal implements ProblemaAGReal<List<Double>> {
 	}
 
 	@Override
-	public Double fitnessFunction(List<Double> ls) {
+	public Double fitnessFunction(IRealChromosome chromosome) {
+		List<Double> ls = chromosome.decode();
 		Double a = ls.get(0);
 		Double b = ls.get(1);
 		Double k = 10000000.;

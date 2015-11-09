@@ -291,7 +291,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @param <E> El tipo de los elementos del stream
 	 * @return Un StreamBuilder
 	 */
-	public static <E> Stream.Builder<E> builder() {
+	public static <E> Builder<E> builder() {
 		return Stream.builder();
 	}
 	

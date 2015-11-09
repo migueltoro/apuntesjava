@@ -29,7 +29,8 @@ public class ProblemaMochilaAG implements ProblemaAGIndex<SolucionMochila>{
 	private Double fitness = null;
 	
 	@Override
-	public Double fitnessFunction(List<Integer> ls) {
+	public Double fitnessFunction(IndexChromosome c) {
+		List<Integer> ls = c.decode();
 		double r;
 		double valor=0.;
 		double dif=0.;

@@ -23,7 +23,8 @@ public class ProblemaAnunciosAG extends ProblemaAnuncios implements ProblemaAGIn
 	
 
 	@Override
-	public Double fitnessFunction(List<Integer> list) {		
+	public Double fitnessFunction(IndexChromosome c) {	
+		List<Integer> list = c.decode();
 		ListaDeAnunciosAEmitir ls = ListaDeAnunciosAEmitir.create(list);
 		Double valor = ls.getValor();
 		Integer nIncompatibles = ls.getNumAnunciosIncompatibles();

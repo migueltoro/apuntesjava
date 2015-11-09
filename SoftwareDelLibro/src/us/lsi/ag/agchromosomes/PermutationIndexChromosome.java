@@ -18,11 +18,11 @@ import com.google.common.base.Preconditions;
  * <p> Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
  * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es n y el tamaño de la secuencia normal r. 
  *  
- * La lista decodificada está formada por una lista de  tamaño r, cuyos valores son 
+ * <p> La lista decodificada está formada por una lista de  tamaño r, cuyos valores son 
  * índices en el rango [0,n-1], y cada índice i se  repite un número de veces dado por la multiplicidad máxima del objeto i
- * definida en el problema.
+ * definida en el problema. </p>
  * 
- * La implementación usa un cromosoma de clave aleatoria de tamaño r.
+ * <p> La implementación usa un cromosoma de clave aleatoria de tamaño r.
  * Es un cromosoma adecuado para codificar problemas de permutaciones </p>
  *
  */
@@ -83,7 +83,7 @@ public class PermutationIndexChromosome extends RandomKey<Integer> implements In
 	private double ft;
 	
 	private double calculateFt(){
-		return PermutationIndexChromosome.problema.fitnessFunction(this.decode());
+		return PermutationIndexChromosome.problema.fitnessFunction(this);
 	}
 
 	@Override

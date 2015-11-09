@@ -26,7 +26,6 @@ import us.lsi.algoritmos.AbstractAlgoritmo;
  * 
  * @author Miguel Toro
  *
- * @param <E> Tipo de los elementos de los cromosomas: Integer o Double
  */
 public class AlgoritmoAG extends AbstractAlgoritmo {
 
@@ -94,9 +93,10 @@ public class AlgoritmoAG extends AbstractAlgoritmo {
 	protected Population finalPopulation;
 	
 	
+	
 	/**
-	 * 
-	 * 
+	 * @param tipo El tipo del chromosoma
+	 * @param problema Problema a resolver
 	 */
 	public AlgoritmoAG(ChromosomeType tipo, ProblemaAG problema) {
 		super();

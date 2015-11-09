@@ -20,12 +20,26 @@ import us.lsi.ag.agoperators.SubListMutationPolicy;
 import com.google.common.base.Preconditions;
 
 
+/**
+ * @author Miguel Toro
+ * 
+ * <p> Una factoría de cromosomas de los distintos tipos implementados. </p>
+ *
+ */
 public class ChromosomeFactory {
 	
+	/**
+	 * Los diferentes tipos de cromosmomas implementados
+	 *
+	 */
 	public enum ChromosomeType {Binary,BinaryIndex,IntegerIndex,PermutationIndex,PermutationIndexSubList, Real, Expression}
 	
 	public static ChromosomeType tipo;
 
+	/**
+	 * @param tipo El tipo de cromosoma
+	 * @return Un cromosoma aleatorio del tipo indicado
+	 */
 	public static IChromosome<?> randomChromosome(ChromosomeType tipo){
 		IChromosome<?> chromosome = null;
 		switch(tipo){
@@ -69,7 +83,11 @@ public class ChromosomeFactory {
 	 */
 	public static double RATIO_UNIFORMCROSSOVER = 0.7;
 	
-	public static <E> CrossoverPolicy getCrossoverPolicy(ChromosomeType tipo){
+	/**
+	 * @param tipo El tipo del cromosoma
+	 * @return Un operador de cruce adecuado para un cromosma del tipo indicado
+	 */
+	public static CrossoverPolicy getCrossoverPolicy(ChromosomeType tipo){
 		CrossoverPolicy crossOverPolicyBin = null;	
 		switch(crossoverType){
 		case Cycle: crossOverPolicyBin = new CycleCrossover<Integer>();break;
@@ -100,6 +118,10 @@ public class ChromosomeFactory {
 		return crossOverPolicy;
 	}
 	
+	/**
+	 * @param tipo El tipo del cromosoma
+	 * @return Un operador de mutación adecuado para un cromosoma del tipo indicado
+	 */
 	public static MutationPolicy getMutationPolicy(ChromosomeType tipo){
 		MutationPolicy mutationPolicy = null;
 		switch(tipo){
@@ -129,12 +151,20 @@ public class ChromosomeFactory {
 	
 	public static int TOURNAMENT_ARITY = 2;
 	
+	/**
+	 * @return Un operador que implementa la política de selección escogida
+	 */
 	public static SelectionPolicy getSelectionPolicy(){	
 		SelectionPolicy selectionPolicy = new TournamentSelection(TOURNAMENT_ARITY);
 		Preconditions.checkState(selectionPolicy!=null);
 		return selectionPolicy;
 	}
 	
+	/**
+	 * @param tipo Tipo de cromosoma
+	 * @param problema El problema a resolver 
+	 * @pos El método inicializa los parámetros relevantes de la clase que implementa el tipo indicado de cromosoma
+	 */
 	public static void iniValues(ChromosomeType tipo, ProblemaAG problema){
 		switch(tipo){
 		case Binary: BinaryChromosomeModified.iniValues(problema);break;
@@ -147,21 +177,44 @@ public class ChromosomeFactory {
 		}
 	}
 	
+	/**
+	 * @pre Es un IBinaryChromosome
+	 * @param cr Un cromosoma instancia de la clase Chromosome de Apache.
+	 * @return Un cromosoma de tipo IBinaryChromosome
+	 */
 	public static IBinaryChromosome asBinary(Chromosome cr){
 		Preconditions.checkArgument(cr instanceof IBinaryChromosome);
 		return (IBinaryChromosome) cr;
 	}
 	
-	public static RealChromosome asReal(Chromosome cr){
-		Preconditions.checkArgument(cr instanceof RealChromosome);
-		return (RealChromosome) cr;
+	/**
+	 * @pre Es un RealChromosome
+	 * @param cr Un cromosoma instancia de la clase Chromosome de Apache.
+	 * @return Un cromosoma de tipo RealChromosome
+	 */
+	public static IRealChromosome asReal(Chromosome cr){
+		Preconditions.checkArgument(cr instanceof IRealChromosome);
+		return (IRealChromosome) cr;
 	}
 	
+	/**
+	 * @pre Es un IndexChromosome
+	 * @param cr Un cromosoma instancia de la clase Chromosome de Apache.
+	 * @return Un cromosoma de tipo IndexChromosome
+	 */
 	public static IndexChromosome asIndex(Chromosome cr){
 		Preconditions.checkArgument(cr instanceof IndexChromosome);
 		return (IndexChromosome) cr;
 	}
 
+	
+	/**
+	 * @pre Es un IExpressionChromosome&lt;T&gt;
+	 * @param <T> El tipo del resultado de la expresión 
+	 * @param cr Un cromosoma instancia de la clase Chromosome de Apache.
+	 * @return Un cromosoma de tipo IExpressionChromosome&lt;T&gt;
+	 */
+	
 	@SuppressWarnings("unchecked")
 	public static <T> IExpressionChromosome<T> asExpression(Chromosome cr) {
 		Preconditions.checkArgument(cr instanceof IExpressionChromosome);

@@ -14,6 +14,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 
+/**
+ * <p> Tipo que modela una expresión
+ * 
+ * @author Miguel Toro
+ *
+ * @param <R> Tipo del resultado de la expresión
+ */
 public abstract class Exp<R> {	
 	
 	public static <R> VariableExp<R> createVariable(R value, String name) {
@@ -67,27 +74,47 @@ public abstract class Exp<R> {
 	}
 	
 	public Exp() {}
+	/**
+	 * @return Número de operandos de la expresión
+	 */
 	public abstract Integer getArity(); 
+	/**
+	 * @return Valor devuelto por la expresión
+	 */
 	public abstract R eval();
+	
+	/**
+	 * @return Copia profunda de la expresión
+	 */
 	public abstract Exp<R> clone();
-	
-	
+		
+	/**
+	 * @return Vista de la expresión como una variable si es posible.
+	 */
 	public VariableExp<R> asVariable() {
 		throw new IllegalStateException("Not a subtype");
 	}
-
+	/**
+	 * @return Vista de la expresión como una constante si es posible.
+	 */
 	public ConstantExp<R> asConstant() {
 		throw new IllegalStateException("Not a subtype");
 	}
-
+	/**
+	 * @return Vista de la expresión como una expresión unaria si es posible.
+	 */
 	public UnaryExpS<R> asUnary() {
 		throw new IllegalStateException("Not a subtype");
 	}
-
+	/**
+	 * @return Vista de la expresión como una expresión binaria si es posible.
+	 */
 	public BinaryExpS<R> asBinary() {
 		throw new IllegalStateException("Not a subtype");
 	}
-
+	/**
+	 * @return Vista de la expresión como una expresión ternaria si es posible.
+	 */
 	public TernaryExpS<R> asTernary() {
 		throw new IllegalStateException("Not a subtype");
 	}
@@ -96,12 +123,12 @@ public abstract class Exp<R> {
 	
 	/**
 	 * @param items Una lista de enteros cada uno de los cuales indexa una variable,
-	 * una constante o un operador de la lista expressions
+	 * una constante o un operador de la lista <code> expressions </code>
 	 * @param operatorIndex El primer índice dónde se encuentran los operadores
 	 * @param expressions Una lista de expresiones elementales de las que se construirá la expresión resultante.
 	 * Primero las variables, luego las constantes y por último los operadores
 	 * @return Una lista con los niveles de un árbol que representa una expresión. 
-	 * Cada nivel es una lista de elementos del árbol. Laa expresión completa está en el elemneto 0 del nivel 0.
+	 * Cada nivel es una lista de elementos del árbol. La expresión completa está en el elemneto 0 del nivel 0.
 	 */
 	public static <S> List<List<Exp<S>>> levels(List<Integer> items, Integer operatorIndex, List<Exp<S>> expressions) {
 		List<Exp<S>> nodeListLast;
@@ -174,7 +201,7 @@ public abstract class Exp<R> {
 	 * @param i Un indice en la lista expressions
 	 * @param operatorIndex La primera posición de los operadores en la lista 
 	 * @param expressions Una lista de expresiones elementales. Primero las variables, luego las constantes y por último los operadores
-	 * @return Una copia del elemento i de expresión o el mismo elmento si es variable o constante
+	 * @return Una copia del elemento i de expresión o el mismo elemento si es variable o constante
 	 */
 	private static <S> Exp<S> getExpCopy(int i, int operatorIndex, List<Exp<S>> expressions) {
 		Exp<S> r = null;
