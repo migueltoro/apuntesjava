@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.ag.expression;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.Arrays;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.List;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>import com.google.common.base.Preconditions;<a name="line.6"></a>
+<span class="sourceLineNo">007</span><a name="line.7"></a>
+<span class="sourceLineNo">008</span>import us.lsi.ag.ProblemaAGExpression;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import us.lsi.ag.agchromosomes.IExpressionChromosome;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import us.lsi.common.BinaryExpS;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import us.lsi.common.Exp;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import us.lsi.common.NaryExp;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import us.lsi.common.UnaryExp;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>import us.lsi.common.UnaryExpS;<a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
+<span class="sourceLineNo">016</span>public class Expression implements ProblemaAGExpression&lt;Exp&lt;Double&gt;, Double&gt; {<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>        public static List&lt;Double&gt; lsx = Arrays.asList(0.0,50.0,100.0,150.0,200.0,250.0,300.0,350.0,400.0,450.0,500.0,550.0,600.0,650.0,700.0,750.0,800.0,850.0,900.0,950.0);<a name="line.18"></a>
+<span class="sourceLineNo">019</span>        public static List&lt;Double&gt; lsv = Arrays.asList(7.0,214.07106781186548,417.0,619.2474487139159,821.142135623731,1022.8113883008419,<a name="line.19"></a>
+<span class="sourceLineNo">020</span>                        1224.3205080756888,1425.7082869338697,1627.0,1828.2132034355964,2029.3606797749978,2230.4520787991173,2431.494897427832,<a name="line.20"></a>
+<span class="sourceLineNo">021</span>                        2632.495097567964,2833.457513110646,3034.3861278752584,3235.284271247462,3436.1547594742265,3637.0,3837.822070014845);<a name="line.21"></a>
+<span class="sourceLineNo">022</span>                           <a name="line.22"></a>
+<span class="sourceLineNo">023</span>        <a name="line.23"></a>
+<span class="sourceLineNo">024</span>        @Override<a name="line.24"></a>
+<span class="sourceLineNo">025</span>        public Integer getNumOperators() {<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                return this.getOperators().size();<a name="line.26"></a>
+<span class="sourceLineNo">027</span>        }<a name="line.27"></a>
+<span class="sourceLineNo">028</span><a name="line.28"></a>
+<span class="sourceLineNo">029</span>        @Override<a name="line.29"></a>
+<span class="sourceLineNo">030</span>        public Integer getNumVariables() {<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                return 1;<a name="line.31"></a>
+<span class="sourceLineNo">032</span>        }<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>        @Override<a name="line.34"></a>
+<span class="sourceLineNo">035</span>        public Integer getNumConstants() {<a name="line.35"></a>
+<span class="sourceLineNo">036</span>                return 3;<a name="line.36"></a>
+<span class="sourceLineNo">037</span>        }<a name="line.37"></a>
+<span class="sourceLineNo">038</span><a name="line.38"></a>
+<span class="sourceLineNo">039</span>        @Override<a name="line.39"></a>
+<span class="sourceLineNo">040</span>        public Integer getMaxValueConstant() {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                return 10;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>        }<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>        @Override<a name="line.44"></a>
+<span class="sourceLineNo">045</span>        public List&lt;Exp&lt;Double&gt;&gt; getOperators() {<a name="line.45"></a>
+<span class="sourceLineNo">046</span>                BinaryExpS&lt;Double&gt; plus = Exp.createBinaryS((x,y)-&gt;x+y, "+");<a name="line.46"></a>
+<span class="sourceLineNo">047</span>                BinaryExpS&lt;Double&gt; multiply = Exp.createBinaryS((x,y)-&gt;x*y, "*");<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                UnaryExpS&lt;Double&gt; sqrt = Exp.&lt;Double&gt;createUnaryS(x-&gt;Math.sqrt(x), "Q", UnaryExp.Tipo.Pre);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>                UnaryExpS&lt;Double&gt; pot2 = Exp.createUnaryS(x-&gt;x*x, "^2", UnaryExp.Tipo.Pos);<a name="line.49"></a>
+<span class="sourceLineNo">050</span>                UnaryExpS&lt;Double&gt; pot3 = Exp.createUnaryS(x-&gt;x*x*x, "^3", UnaryExp.Tipo.Pos);<a name="line.50"></a>
+<span class="sourceLineNo">051</span>                List&lt;Exp&lt;Double&gt;&gt; exp = Arrays.&lt;Exp&lt;Double&gt;&gt;asList(plus,multiply,pot2,pot3,sqrt);<a name="line.51"></a>
+<span class="sourceLineNo">052</span>                return exp;<a name="line.52"></a>
+<span class="sourceLineNo">053</span>        }<a name="line.53"></a>
+<span class="sourceLineNo">054</span><a name="line.54"></a>
+<span class="sourceLineNo">055</span>        @Override<a name="line.55"></a>
+<span class="sourceLineNo">056</span>        public Double convert(Integer e) {<a name="line.56"></a>
+<span class="sourceLineNo">057</span>                return (double) e.floatValue();<a name="line.57"></a>
+<span class="sourceLineNo">058</span>        }<a name="line.58"></a>
+<span class="sourceLineNo">059</span><a name="line.59"></a>
+<span class="sourceLineNo">060</span>        @Override<a name="line.60"></a>
+<span class="sourceLineNo">061</span>        public Double fitnessFunction(IExpressionChromosome&lt;Double&gt; cr) {<a name="line.61"></a>
+<span class="sourceLineNo">062</span>                Preconditions.checkArgument(lsx.size()==lsv.size());<a name="line.62"></a>
+<span class="sourceLineNo">063</span>                Double r =0.;<a name="line.63"></a>
+<span class="sourceLineNo">064</span>                Double r2;<a name="line.64"></a>
+<span class="sourceLineNo">065</span>                for(int i=0;i&lt;lsx.size();i++){<a name="line.65"></a>
+<span class="sourceLineNo">066</span>                        cr.getVariable(0).setValue(lsx.get(i));<a name="line.66"></a>
+<span class="sourceLineNo">067</span>                        r2 = cr.getExp().eval()-lsv.get(i);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>                        r = r + r2*r2;                  <a name="line.68"></a>
+<span class="sourceLineNo">069</span>                }<a name="line.69"></a>
+<span class="sourceLineNo">070</span>                return -r;<a name="line.70"></a>
+<span class="sourceLineNo">071</span>        }<a name="line.71"></a>
+<span class="sourceLineNo">072</span><a name="line.72"></a>
+<span class="sourceLineNo">073</span>        @Override<a name="line.73"></a>
+<span class="sourceLineNo">074</span>        public Exp&lt;Double&gt; getSolucion(IExpressionChromosome&lt;Double&gt; chromosome) {<a name="line.74"></a>
+<span class="sourceLineNo">075</span>                return chromosome.getExp();<a name="line.75"></a>
+<span class="sourceLineNo">076</span>        }<a name="line.76"></a>
+<span class="sourceLineNo">077</span><a name="line.77"></a>
+<span class="sourceLineNo">078</span>        @Override<a name="line.78"></a>
+<span class="sourceLineNo">079</span>        public String toString() {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>                return "Problem Expression [getOperators()=" + getOperators() + "]";<a name="line.80"></a>
+<span class="sourceLineNo">081</span>        }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>        @Override<a name="line.83"></a>
+<span class="sourceLineNo">084</span>        public NaryExp&lt;Double&gt; getNaryExp() {<a name="line.84"></a>
+<span class="sourceLineNo">085</span>                return Exp.createNary(null, (x,y)-&gt;x+y, "+");<a name="line.85"></a>
+<span class="sourceLineNo">086</span>        }<a name="line.86"></a>
+<span class="sourceLineNo">087</span>        <a name="line.87"></a>
+<span class="sourceLineNo">088</span>        <a name="line.88"></a>
+<span class="sourceLineNo">089</span><a name="line.89"></a>
+<span class="sourceLineNo">090</span>}<a name="line.90"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
