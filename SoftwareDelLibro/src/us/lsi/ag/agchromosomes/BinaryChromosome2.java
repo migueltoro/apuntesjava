@@ -17,7 +17,7 @@ import us.lsi.ag.ProblemaAGBinario;
  * La implementación es una adaptación de la clase {@link org.apache.commons.math3.genetics.Chromosome Chromosome} de Apache. </p>
  *
  */
-public class BinaryChromosomeModified extends BinaryChromosome implements IBinaryChromosome {
+public class BinaryChromosome2 extends BinaryChromosome implements IBinaryChromosome {
 	
 	public static ProblemaAGBinario<?> problema;
 	
@@ -28,16 +28,16 @@ public class BinaryChromosomeModified extends BinaryChromosome implements IBinar
 	protected static int DIMENSION;
 	
 	public static void iniValues(ProblemaAG problema){
-		BinaryChromosomeModified.problema = (ProblemaAGBinario<?>) problema; 
-		BinaryChromosomeModified.DIMENSION = BinaryChromosomeModified.problema.getDimensionDelChromosoma();
+		BinaryChromosome2.problema = (ProblemaAGBinario<?>) problema; 
+		BinaryChromosome2.DIMENSION = BinaryChromosome2.problema.getDimensionDelChromosoma();
 	}
 
-	public BinaryChromosomeModified(List<Integer> representation) throws InvalidRepresentationException {
+	public BinaryChromosome2(List<Integer> representation) throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
 
-	public BinaryChromosomeModified(Integer[] representation) throws InvalidRepresentationException {
+	public BinaryChromosome2(Integer[] representation) throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
@@ -55,12 +55,12 @@ public class BinaryChromosomeModified extends BinaryChromosome implements IBinar
 	private Double ft = null;
 	
 	private double calculateFt(){
-		return BinaryChromosomeModified.problema.fitnessFunction(this);
+		return BinaryChromosome2.problema.fitnessFunction(this);
 	}
 
 	@Override
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> ar) {
-		return new BinaryChromosomeModified(ar);
+		return new BinaryChromosome2(ar);
 	}
 
 	public ProblemaAGBinario<?> getProblema() {
@@ -68,7 +68,7 @@ public class BinaryChromosomeModified extends BinaryChromosome implements IBinar
 	}
 
 	public static int getDimension() {
-		return BinaryChromosomeModified.problema.getDimensionDelChromosoma();
+		return BinaryChromosome2.problema.getDimensionDelChromosoma();
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class BinaryChromosomeModified extends BinaryChromosome implements IBinar
 	}
 	
 	public static IBinaryChromosome getInitialChromosome() {
-		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(BinaryChromosomeModified.getDimension());
-		return new BinaryChromosomeModified(ls);
+		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(BinaryChromosome2.getDimension());
+		return new BinaryChromosome2(ls);
 	}
 }

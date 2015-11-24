@@ -29,7 +29,7 @@ import com.google.common.collect.Lists;
  * @author Miguel Toro
  * 
  * 
- * <p> Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
+ * <p> Una implementación del tipo IChromosome&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGIndex.
  * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es n y el tamaño de la secuencia normal r. </p>
  *  
  * <p> La lista decodificada está formada por una lista de  tamaño menor o igual que r, cuyos valores son 
@@ -40,7 +40,7 @@ import com.google.common.collect.Lists;
  * Es un cromosoma adecuado para codificar problemas de permutaciones de subconjuntos de multiconjuntos </p>
  *
  */
-public class PermutationIndexSubListChromosome extends Chromosome implements IndexChromosome {
+public class IndexChromosomePermutationSubList extends Chromosome implements IndexChromosome {
 
 	public static List<Integer> normalSequence;
 	
@@ -54,9 +54,9 @@ public class PermutationIndexSubListChromosome extends Chromosome implements Ind
 	
 	
 	public static void iniValues(ProblemaAG problema){
-		PermutationIndexSubListChromosome.problema = (ProblemaAGIndex<?>) problema; 
-		PermutationIndexSubListChromosome.normalSequence = PermutationIndexSubListChromosome.problema.getNormalSequence();
-		PermutationIndexSubListChromosome.DIMENSION = PermutationIndexSubListChromosome.normalSequence.size();
+		IndexChromosomePermutationSubList.problema = (ProblemaAGIndex<?>) problema; 
+		IndexChromosomePermutationSubList.normalSequence = IndexChromosomePermutationSubList.problema.getNormalSequence();
+		IndexChromosomePermutationSubList.DIMENSION = IndexChromosomePermutationSubList.normalSequence.size();
 	}
 	
 	private BinaryChromosome2 binary;
@@ -68,7 +68,7 @@ public class PermutationIndexSubListChromosome extends Chromosome implements Ind
 	 * @param binary Un cromosoma binario
 	 * @param randomKey Un cromosoma randomKey
 	 */
-	public PermutationIndexSubListChromosome(Chromosome binary, Chromosome randomKey) {
+	public IndexChromosomePermutationSubList(Chromosome binary, Chromosome randomKey) {
 		super();
 		if(binary instanceof BinaryChromosome2){
 			this.binary = (BinaryChromosome2)binary;
@@ -85,7 +85,7 @@ public class PermutationIndexSubListChromosome extends Chromosome implements Ind
 	/**
 	 * Un constructor adecuado para crear un objeto por defecto de este tipo
 	 */
-	public PermutationIndexSubListChromosome() {
+	public IndexChromosomePermutationSubList() {
 		super();
 		List<Integer> ls1 = BinaryChromosome2.randomBinaryRepresentation(100);
 		List<Double>  ls2 = RandomKey2.randomPermutation(100);
@@ -109,29 +109,29 @@ public class PermutationIndexSubListChromosome extends Chromosome implements Ind
 	private Double ft;
 	
 	private double calculateFt(){
-		return PermutationIndexSubListChromosome.problema.fitnessFunction(this);
+		return IndexChromosomePermutationSubList.problema.fitnessFunction(this);
 	}
 	
 	@Override
 	public ProblemaAGIndex<?> getProblem() {
-		return PermutationIndexSubListChromosome.problema;
+		return IndexChromosomePermutationSubList.problema;
 	}
 
 	@Override
 	public Integer getObjectsNumber() {
-		return PermutationIndexSubListChromosome.problema.getObjectsNumber();
+		return IndexChromosomePermutationSubList.problema.getObjectsNumber();
 	}
 
 	@Override
 	public Integer getMax(int i) {
-		return PermutationIndexSubListChromosome.problema.getMax(i);
+		return IndexChromosomePermutationSubList.problema.getMax(i);
 	}
 	
 	
 	public int compareTo(Chromosome another) {
-		if (!(another instanceof PermutationIndexSubListChromosome))
+		if (!(another instanceof IndexChromosomePermutationSubList))
 			throw new IllegalArgumentException();;
-		PermutationIndexSubListChromosome other = (PermutationIndexSubListChromosome) another;
+		IndexChromosomePermutationSubList other = (IndexChromosomePermutationSubList) another;
 		Double f1 = this.fitness();
 		Double f2 = other.fitness();
 		return f1.compareTo(f2);
@@ -172,9 +172,9 @@ public class PermutationIndexSubListChromosome extends Chromosome implements Ind
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof PermutationIndexSubListChromosome))
+		if (!(obj instanceof IndexChromosomePermutationSubList))
 			return false;
-		PermutationIndexSubListChromosome other = (PermutationIndexSubListChromosome) obj;
+		IndexChromosomePermutationSubList other = (IndexChromosomePermutationSubList) obj;
 		if (binary == null) {
 			if (other.binary != null)
 				return false;
@@ -218,16 +218,16 @@ public class PermutationIndexSubListChromosome extends Chromosome implements Ind
 	 * @return Un cromosoma mixto aleatorio
 	 * 
 	 */
-	private static PermutationIndexSubListChromosome random(Integer dimension){
+	private static IndexChromosomePermutationSubList random(Integer dimension){
 		List<Integer> ls1 = BinaryChromosome2.randomBinaryRepresentation(dimension);
 		List<Double>  ls2 = RandomKey2.randomPermutation(dimension);
 		BinaryChromosome2 c1 = new BinaryChromosome2(ls1);
 		RandomKey2 c2 = new RandomKey2(ls2);
-		return new PermutationIndexSubListChromosome(c1, c2);
+		return new IndexChromosomePermutationSubList(c1, c2);
 	}
 	
-	public static PermutationIndexSubListChromosome getInitialChromosome() {
-		return PermutationIndexSubListChromosome.random(PermutationIndexSubListChromosome.DIMENSION);
+	public static IndexChromosomePermutationSubList getInitialChromosome() {
+		return IndexChromosomePermutationSubList.random(IndexChromosomePermutationSubList.DIMENSION);
 	}
 
 	private static class BinaryChromosome2 extends BinaryChromosome {		

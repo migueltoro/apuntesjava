@@ -1,19 +1,18 @@
 package us.lsi.ag.reinas;
 
 import java.util.List;
+import java.util.Set;
 
-
-
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import us.lsi.ag.ProblemaAGIndex;
 import us.lsi.ag.agchromosomes.IndexChromosome;
 import us.lsi.bt.reinas.Reina;
-import us.lsi.bt.reinas.TableroDeReinas;
 
 public class ProblemaReinasAG implements ProblemaAGIndex<List<Reina>> {
 
-	public static int numeroDeReinas = 8;
+public static int numeroDeReinas = 8;
 	
 	public static ProblemaReinasAG create() {
 		return new ProblemaReinasAG();
@@ -25,15 +24,23 @@ public class ProblemaReinasAG implements ProblemaAGIndex<List<Reina>> {
 	@Override
 	public List<Reina> getSolucion(IndexChromosome chromosome) {
 		List<Integer> ls = chromosome.decode();
-		TableroDeReinas tr = TableroDeReinas.create(ls);
-		return tr.getReinas();
+		List<Reina> r = Lists.newArrayList();
+		for (int i = 0; i < ls.size(); i++) {
+			r.add(Reina.create(i, ls.get(i)));
+		}
+		return r;
 	}
 
 	@Override
 	public Double fitnessFunction(IndexChromosome chromosome) {
 		List<Integer> ls = chromosome.decode();
-		TableroDeReinas tr = TableroDeReinas.create(ls);
-		Double r = tr.getObjetivo();
+		Set<Integer> dp = Sets.newHashSet();
+		Set<Integer> ds = Sets.newHashSet();
+		for (int i = 0; i < ls.size(); i++) {
+			dp.add(ls.get(i)-i);
+			ds.add(ls.get(i)+i);
+		}
+		Double r = 2.*ProblemaReinasAG.numeroDeReinas-dp.size()-ds.size();
 		return -2000*r*r;
 	}
 
@@ -42,4 +49,5 @@ public class ProblemaReinasAG implements ProblemaAGIndex<List<Reina>> {
 		return numeroDeReinas;
 	}	
 	
+
 }

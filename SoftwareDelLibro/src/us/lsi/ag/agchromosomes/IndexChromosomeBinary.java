@@ -17,11 +17,11 @@ import us.lsi.math.Math2;
  * @author Miguel Toro
  * 
  * 
- * <p> Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
+ * <p> Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGIndex.
  * Asumimos que el número de objetos es n. Usa una  secuencia normal implícita de tamaño n de la forma (0,1,2, ..., n-1). </p>
  * 
  * <p> La lista decodificada está formada por una lista de  tamaño n cuyos elementos para cada i son 
- *  valores en en rango [0,m(i)], sinendo m(i) la multiplicidad máxima para i. </p>
+ *  valores en en rango [0,m(i)], siendo m(i) la multiplicidad máxima para i. </p>
  * 
  * <p> La implementación usa un cromosoma binario del tamaño n*nbits. 
  * Siendo nbits el número de bits usados para representar cada uno de los enteros. </p>
@@ -29,7 +29,7 @@ import us.lsi.math.Math2;
  * <p> Es un cromosoma adecuado para codificar problemas de subconjuntos de multiconjuntos</p>
  *
  */
-public class IntegerIndexChromosome extends BinaryChromosome implements IndexChromosome {
+public class IndexChromosomeBinary extends BinaryChromosome implements IndexChromosome {
 	
 	public static Integer numeroDeBits = 5;
 	
@@ -42,25 +42,25 @@ public class IntegerIndexChromosome extends BinaryChromosome implements IndexChr
 	public static int DIMENSION;
 	
 	public static void iniValues(ProblemaAG problema){
-		IntegerIndexChromosome.problema = (ProblemaAGIndex<?>) problema; 
-		IntegerIndexChromosome.DIMENSION = IntegerIndexChromosome.numeroDeBits*IntegerIndexChromosome.problema.getObjectsNumber();
+		IndexChromosomeBinary.problema = (ProblemaAGIndex<?>) problema; 
+		IndexChromosomeBinary.DIMENSION = IndexChromosomeBinary.numeroDeBits*IndexChromosomeBinary.problema.getObjectsNumber();
 	}
 	
 	private static Integer pow = Math2.pow(2., numeroDeBits).intValue();
 	
-	public IntegerIndexChromosome(Integer[] representation) throws InvalidRepresentationException {
+	public IndexChromosomeBinary(Integer[] representation) throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
 
-	public IntegerIndexChromosome(List<Integer> representation) throws InvalidRepresentationException {
+	public IndexChromosomeBinary(List<Integer> representation) throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
 
 	@Override
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> ls) {
-		return new IntegerIndexChromosome(ls);
+		return new IndexChromosomeBinary(ls);
 	}
 	
 	public List<Integer> decode() {
@@ -81,9 +81,9 @@ public class IntegerIndexChromosome extends BinaryChromosome implements IndexChr
 		return super.getRepresentation();
 	}
 	
-	public static IntegerIndexChromosome getInitialChromosome() {
-		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(IntegerIndexChromosome.DIMENSION);
-		return new IntegerIndexChromosome(ls);
+	public static IndexChromosomeBinary getInitialChromosome() {
+		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(IndexChromosomeBinary.DIMENSION);
+		return new IndexChromosomeBinary(ls);
 	}
 
 	@Override
@@ -94,22 +94,22 @@ public class IntegerIndexChromosome extends BinaryChromosome implements IndexChr
 	private double ft;
 	
 	private double calculateFt(){
-		return IntegerIndexChromosome.problema.fitnessFunction(this);
+		return IndexChromosomeBinary.problema.fitnessFunction(this);
 	}
 
 	@Override
 	public Integer getObjectsNumber() {
-		return IntegerIndexChromosome.problema.getObjectsNumber();
+		return IndexChromosomeBinary.problema.getObjectsNumber();
 	}
 
 	@Override
 	public Integer getMax(int i) {
-		return IntegerIndexChromosome.problema.getMax(i);
+		return IndexChromosomeBinary.problema.getMax(i);
 	}
 
 	@Override
 	public ProblemaAGIndex<?> getProblem() {
-		return IntegerIndexChromosome.problema;
+		return IndexChromosomeBinary.problema;
 	}
 
 	@Override

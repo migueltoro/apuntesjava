@@ -14,6 +14,7 @@ import org.apache.commons.math3.genetics.TournamentSelection;
 import org.apache.commons.math3.genetics.UniformCrossover;
 
 import us.lsi.ag.ProblemaAG;
+import us.lsi.ag.ProblemaAGListInteger;
 import us.lsi.ag.agoperators.SubListCrossoverPolicy;
 import us.lsi.ag.agoperators.SubListMutationPolicy;
 
@@ -32,7 +33,7 @@ public class ChromosomeFactory {
 	 * Los diferentes tipos de cromosmomas implementados
 	 *
 	 */
-	public enum ChromosomeType {Binary,BinaryIndex,IntegerIndex,PermutationIndex,PermutationIndexSubList, Real, Expression}
+	public enum ChromosomeType {Binary,ListInteger,BinaryIndex,IntegerIndex,PermutationIndex,PermutationIndexSubList,Real,Expression}
 	
 	public static ChromosomeType tipo;
 
@@ -43,11 +44,12 @@ public class ChromosomeFactory {
 	public static IChromosome<?> randomChromosome(ChromosomeType tipo){
 		IChromosome<?> chromosome = null;
 		switch(tipo){
-		case Binary: chromosome = BinaryChromosomeModified.getInitialChromosome(); break;
-		case BinaryIndex: chromosome = BinaryIndexChromosome.getInitialChromosome(); break;
-		case IntegerIndex: chromosome = IntegerIndexChromosome.getInitialChromosome(); break;
-		case PermutationIndex: chromosome = PermutationIndexChromosome.getInitialChromosome(); break;
-		case PermutationIndexSubList: chromosome = PermutationIndexSubListChromosome.getInitialChromosome(); break;
+		case Binary: chromosome = BinaryChromosome2.getInitialChromosome(); break;
+		case BinaryIndex: chromosome = IndexChromosomeSubList.getInitialChromosome(); break;
+		case ListInteger: chromosome = ListIntegerChromosome.getInitialChromosome(); break;
+		case IntegerIndex: chromosome = IndexChromosomeBinary.getInitialChromosome(); break;
+		case PermutationIndex: chromosome = IndexChromosomePermutationRandomKey.getInitialChromosome(); break;
+		case PermutationIndexSubList: chromosome = IndexChromosomePermutationSubList.getInitialChromosome(); break;
 		case Real: chromosome = RealListChromosome.getInitialChromosome(); break;
 		case Expression: chromosome = ExpressionChromosome.getInitialChromosome(); break;
 		}
@@ -108,6 +110,7 @@ public class ChromosomeFactory {
 		switch(tipo){
 		case Binary: crossOverPolicy = crossOverPolicyBin; break;
 		case BinaryIndex: crossOverPolicy = crossOverPolicyBin; break;
+		case ListInteger: crossOverPolicy = crossOverPolicyBin; break;
 		case IntegerIndex: crossOverPolicy = crossOverPolicyBin; break;
 		case PermutationIndex: crossOverPolicy = crossOverPolicyKey; break;
 		case PermutationIndexSubList: crossOverPolicy = new SubListCrossoverPolicy(crossOverPolicyBin,crossOverPolicyKey); break;
@@ -122,11 +125,12 @@ public class ChromosomeFactory {
 	 * @param tipo El tipo del cromosoma
 	 * @return Un operador de mutación adecuado para un cromosoma del tipo indicado
 	 */
-	public static MutationPolicy getMutationPolicy(ChromosomeType tipo){
+	public static MutationPolicy getMutationPolicy(ChromosomeType tipo, ProblemaAG problema){
 		MutationPolicy mutationPolicy = null;
 		switch(tipo){
 		case Binary:  mutationPolicy = new BinaryMutation()	; break;
 		case BinaryIndex: mutationPolicy = new BinaryMutation(); break;
+		case ListInteger: mutationPolicy = ((ProblemaAGListInteger<?>)problema).getMutationPolicy(); break;
 		case IntegerIndex: mutationPolicy = new BinaryMutation();	; break;
 		case PermutationIndex: mutationPolicy = new RandomKeyMutation(); break;
 		case PermutationIndexSubList: mutationPolicy = new SubListMutationPolicy(); break;
@@ -167,11 +171,12 @@ public class ChromosomeFactory {
 	 */
 	public static void iniValues(ChromosomeType tipo, ProblemaAG problema){
 		switch(tipo){
-		case Binary: BinaryChromosomeModified.iniValues(problema);break;
-		case BinaryIndex: BinaryIndexChromosome.iniValues(problema);break;
-		case IntegerIndex: IntegerIndexChromosome.iniValues(problema); break;
-		case PermutationIndex: PermutationIndexChromosome.iniValues(problema);break;
-		case PermutationIndexSubList: PermutationIndexSubListChromosome.iniValues(problema);break;
+		case Binary: BinaryChromosome2.iniValues(problema);break;
+		case BinaryIndex: IndexChromosomeSubList.iniValues(problema);break;
+		case ListInteger: ListIntegerChromosome.iniValues(problema);break;
+		case IntegerIndex: IndexChromosomeBinary.iniValues(problema); break;
+		case PermutationIndex: IndexChromosomePermutationRandomKey.iniValues(problema);break;
+		case PermutationIndexSubList: IndexChromosomePermutationSubList.iniValues(problema);break;
 		case Real: RealListChromosome.iniValues(problema);break;
 		case Expression: ExpressionChromosome.iniValues(problema);break;
 		}
@@ -185,6 +190,16 @@ public class ChromosomeFactory {
 	public static IBinaryChromosome asBinary(Chromosome cr){
 		Preconditions.checkArgument(cr instanceof IBinaryChromosome);
 		return (IBinaryChromosome) cr;
+	}
+	
+	/**
+	 * @pre Es un ListIntegerChromosome
+	 * @param cr Un cromosoma instancia de la clase Chromosome de Apache.
+	 * @return Un cromosoma de tipo ListIntegerChromosome
+	 */
+	public static ListIntegerChromosome asListInteger(Chromosome cr){
+		Preconditions.checkArgument(cr instanceof ListIntegerChromosome);
+		return (ListIntegerChromosome) cr;
 	}
 	
 	/**

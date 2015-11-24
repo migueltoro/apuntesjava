@@ -193,7 +193,7 @@ public class Math2 {
 		    return u;
 	}
 	
-    private static Random rnd   = new Random(System.nanoTime());
+    public static Random rnd   = new Random(System.nanoTime());
 	    
 	
     /**
@@ -247,7 +247,7 @@ public class Math2 {
 	 * @pre b &gt; a
 	 * @param a Límite inferior
 	 * @param b Límte Superior
-	 * @return Un dounble aleatorio que  está en el intervalo  a &lt; = r &lt; b
+	 * @return Un double aleatorio que  está en el intervalo  a &lt; = r &lt; b
 	 */
 	public static Double getDoubleAleatorio(Double a, Double b){   	
 	    	Preconditions.checkArgument(b>a,a+","+b);

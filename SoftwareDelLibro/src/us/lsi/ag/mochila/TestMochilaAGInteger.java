@@ -3,7 +3,7 @@ package us.lsi.ag.mochila;
 import us.lsi.ag.AlgoritmoAG;
 import us.lsi.ag.ProblemaAGIndex;
 import us.lsi.ag.agchromosomes.ChromosomeFactory;
-import us.lsi.ag.agchromosomes.IntegerIndexChromosome;
+import us.lsi.ag.agchromosomes.IndexChromosomeBinary;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
 import us.lsi.ag.agstopping.SolutionsNumber;
 import us.lsi.ag.agstopping.StoppingConditionFactory;
@@ -33,7 +33,7 @@ public class TestMochilaAGInteger {
 		ap.ejecuta();
 		
 		System.out.println(ProblemaMochila.getObjetosDisponibles());
-		System.out.println(IntegerIndexChromosome.numeroDeBits);
+		System.out.println(IndexChromosomeBinary.numeroDeBits);
 		System.out.println("================================");
 		System.out.println(ChromosomeFactory.asIndex(ap.getBestFinal()).decode());
 		System.out.println(p.getSolucion(ChromosomeFactory.asIndex(ap.getBestFinal())));

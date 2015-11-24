@@ -78,20 +78,20 @@ public final class AStarAlgorithm<V, E> {
 		this.goalSet =goalSet;
 		
 		
-		if (!graph.containsVertex(endVertex)) {
+		if (endVertex!=null && !graph.containsVertex(endVertex)) {
 			throw new IllegalArgumentException(
 					"graph must contain the end vertex");
 		}
 
 		iterator = new AStarIterator<V, E>(graph, startVertex, endVertex, goal, goalSet, radius);
-
-		while (iterator.hasNext()) {
-
+		
+		while (iterator.hasNext()) {		
+			
 			V vertex = iterator.next();
+			
 			if (this.goalSet != null) {
 				this.goalSet.remove(vertex);
 			}
-
 			
 			if (this.goal == null && this.goalSet == null && vertex.equals(this.endVertex)
 					|| (this.goal != null && this.goal.test(vertex))
@@ -100,6 +100,8 @@ public final class AStarAlgorithm<V, E> {
 				path = createEdgeList(graph, iterator, startVertex, vertex);
 				return;
 			}
+			
+			
 		}
 
 		path = null;

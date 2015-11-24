@@ -15,7 +15,7 @@ import com.google.common.base.Preconditions;
 /**
  * @author Miguel Toro
  * 
- * <p> Una implementación del tipo Cromosoma&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGBag.
+ * <p> Una implementación del tipo IndexChromosome. Toma como información la definición de un problema que implementa el interfaz ProblemaAGIndex.
  * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es n y el tamaño de la secuencia normal r. 
  *  
  * <p> La lista decodificada está formada por una lista de  tamaño r, cuyos valores son 
@@ -26,7 +26,7 @@ import com.google.common.base.Preconditions;
  * Es un cromosoma adecuado para codificar problemas de permutaciones </p>
  *
  */
-public class PermutationIndexChromosome extends RandomKey<Integer> implements IndexChromosome {
+public class IndexChromosomePermutationRandomKey extends RandomKey<Integer> implements IndexChromosome {
 
 	public static List<Integer> normalSequence = null;
 	public static ProblemaAGIndex<?> problema;
@@ -38,19 +38,19 @@ public class PermutationIndexChromosome extends RandomKey<Integer> implements In
 	public static int DIMENSION;
 	
 	public static void iniValues(ProblemaAG problema){
-		PermutationIndexChromosome.problema = (ProblemaAGIndex<?>) problema; 
-		PermutationIndexChromosome.normalSequence = PermutationIndexChromosome.problema.getNormalSequence();
-		PermutationIndexChromosome.DIMENSION = PermutationIndexChromosome.normalSequence.size();
+		IndexChromosomePermutationRandomKey.problema = (ProblemaAGIndex<?>) problema; 
+		IndexChromosomePermutationRandomKey.normalSequence = IndexChromosomePermutationRandomKey.problema.getNormalSequence();
+		IndexChromosomePermutationRandomKey.DIMENSION = IndexChromosomePermutationRandomKey.normalSequence.size();
 	}
 
 	
-	public PermutationIndexChromosome(List<Double> representation)
+	public IndexChromosomePermutationRandomKey(List<Double> representation)
 			throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
 
-	public PermutationIndexChromosome(Double[] representation)
+	public IndexChromosomePermutationRandomKey(Double[] representation)
 			throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
@@ -58,20 +58,20 @@ public class PermutationIndexChromosome extends RandomKey<Integer> implements In
 
 	@Override
 	public AbstractListChromosome<Double> newFixedLengthChromosome(List<Double> ls) {
-		return new PermutationIndexChromosome(ls);
+		return new IndexChromosomePermutationRandomKey(ls);
 		
 	}
 
 	@Override
 	public List<Integer> decode() {
-		Preconditions.checkArgument(PermutationIndexChromosome.normalSequence!=null);
-		return this.decode(PermutationIndexChromosome.normalSequence);
+		Preconditions.checkArgument(IndexChromosomePermutationRandomKey.normalSequence!=null);
+		return this.decode(IndexChromosomePermutationRandomKey.normalSequence);
 	}
 	
 	
-	public static PermutationIndexChromosome getInitialChromosome() {
-		List<Double> ls = RandomKey.randomPermutation(PermutationIndexChromosome.DIMENSION);
-		return new PermutationIndexChromosome(ls);
+	public static IndexChromosomePermutationRandomKey getInitialChromosome() {
+		List<Double> ls = RandomKey.randomPermutation(IndexChromosomePermutationRandomKey.DIMENSION);
+		return new IndexChromosomePermutationRandomKey(ls);
 	}
 
 	
@@ -83,22 +83,22 @@ public class PermutationIndexChromosome extends RandomKey<Integer> implements In
 	private double ft;
 	
 	private double calculateFt(){
-		return PermutationIndexChromosome.problema.fitnessFunction(this);
+		return IndexChromosomePermutationRandomKey.problema.fitnessFunction(this);
 	}
 
 	@Override
 	public ProblemaAGIndex<?> getProblem() {
-		return PermutationIndexChromosome.problema;
+		return IndexChromosomePermutationRandomKey.problema;
 	}
 
 	@Override
 	public Integer getObjectsNumber() {
-		return PermutationIndexChromosome.problema.getObjectsNumber();
+		return IndexChromosomePermutationRandomKey.problema.getObjectsNumber();
 	}
 
 	@Override
 	public Integer getMax(int i) {
-		return PermutationIndexChromosome.problema.getMax(i);
+		return IndexChromosomePermutationRandomKey.problema.getMax(i);
 	}
 	
 	@Override

@@ -2,11 +2,6 @@ package us.lsi.ag.reinas;
 
 import java.util.List;
 
-
-
-
-import org.apache.commons.math3.genetics.Chromosome;
-
 import us.lsi.ag.AlgoritmoAG;
 import us.lsi.ag.ProblemaAGIndex;
 import us.lsi.ag.agchromosomes.ChromosomeFactory;
@@ -29,25 +24,27 @@ public class TestReinasAG {
 		AlgoritmoAG.MUTATION_RATE = 0.8;
 		AlgoritmoAG.POPULATION_SIZE = 400;
 		
-		StoppingConditionFactory.NUM_GENERATIONS = 1500;
-		StoppingConditionFactory.SOLUTIONS_NUMBER_MIN = 10;
+		StoppingConditionFactory.NUM_GENERATIONS = 2000;
+		StoppingConditionFactory.SOLUTIONS_NUMBER_MIN = 1;
 		StoppingConditionFactory.FITNESS_MIN = 0.;
 		StoppingConditionFactory.stoppingConditionType = StoppingConditionType.SolutionsNumber;
 		
 		ChromosomeFactory.crossoverType = CrossoverType.OnePoint;
 		
-		ProblemaReinasAG.numeroDeReinas = 8;
+		ProblemaReinasAG.numeroDeReinas = 20;
 		ProblemaAGIndex<List<Reina>> p = ProblemaReinasAG.create();
 		AlgoritmoAG ap = Algoritmos.createAG(ChromosomeType.PermutationIndex,p);
 		ap.ejecuta();
 		System.out.println("================================");
 		
 		System.out.println("================================");
-		for (Chromosome c: AlgoritmoAG.bestChromosomes) {
-			System.out.println(p.getSolucion(ChromosomeFactory.asIndex(c)));
+/*		Set<Chromosome> s = AlgoritmoAG.bestChromosomes.stream().collect(Collectors.toSet());
+		for (Chromosome c: s) {
+			System.out.println(ChromosomeFactory.asIndex(c).fitness()+","+p.getSolucion(ChromosomeFactory.asIndex(c)));
 		}
 		System.out.println("================================");
-		System.out.println(AlgoritmoAG.bestChromosomes.size());
+		System.out.println(s.size());
+*/		System.out.println(p.getSolucion(ChromosomeFactory.asIndex(ap.getBestFinal()))+","+ChromosomeFactory.asIndex(ap.getBestFinal()).fitness());
 	}	
 
 }

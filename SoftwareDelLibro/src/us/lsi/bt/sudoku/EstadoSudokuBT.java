@@ -1,101 +1,92 @@
 package us.lsi.bt.sudoku;
 
-import us.lsi.bt.EstadoBT;
-import us.lsi.stream.Stream2;
-
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+
+import us.lsi.bt.EstadoBT;
+import us.lsi.sa.sudoku.CuadroSudoku;
 
 public class EstadoSudokuBT implements EstadoBT<CuadroSudoku, Integer> {
 
+	public static EstadoSudokuBT create(List<Integer> alternativasYaEscogidas) {
+		return new EstadoSudokuBT(alternativasYaEscogidas);
+	}
+
 	public static EstadoSudokuBT create() {
-		return new EstadoSudokuBT();
+		return new EstadoSudokuBT(Lists.newArrayList());
 	}
-
-	public static EstadoSudokuBT create(CuadroSudoku cuadro, Integer pos) {
-		return new EstadoSudokuBT(cuadro, pos);
-	}
-
-	public CuadroSudoku cuadro;
-	public Integer pos;
-	private int x;
-	private int y;
 	
-	private EstadoSudokuBT() {
+	private int pos;
+	private List<Integer> alternativasYaEscogidas;
+	private CuadroSudoku cuadro;
+		
+	private EstadoSudokuBT(List<Integer> alternativasYaEscogidas) {
 		super();
-		this.cuadro = CuadroSudoku.create();
-		this.pos = 0;
-		calculaDerivadas();
+		this.pos = alternativasYaEscogidas.size();
+		this.alternativasYaEscogidas = alternativasYaEscogidas;
+		this.cuadro = CuadroSudoku.create(completa(this.alternativasYaEscogidas));
 	}
 	
-	private EstadoSudokuBT(CuadroSudoku cuadro, Integer pos) {
-		super();
-		this.cuadro = CuadroSudoku.create(cuadro);		
-		this.pos = pos;	
-		calculaDerivadas();
-	}
-	
-	private void calculaDerivadas() {	
-		if (this.size() >0) {
-			Casilla casilla = ProblemaSudoku.getCasilla(ProblemaSudoku.posicionesLibres.get(pos));
-			this.x = casilla.x;
-			this.y = casilla.y;
-		}
+	private List<Integer> completa(List<Integer> ls){
+		List<Integer> plus = Collections.nCopies(CuadroSudoku.numPosicionesLibres-ls.size(), 0);
+		List<Integer> r = Lists.newArrayList(ls);
+		r.addAll(plus);
+		return r;
 	}
 	
 	@Override
 	public void avanza(Integer a) {
-		this.cuadro.setInfo(this.x, this.y, a);		
-		this.pos = this.pos+1;
-		calculaDerivadas();
+		this.alternativasYaEscogidas.add(a);
+		this.pos = this.alternativasYaEscogidas.size();	
+		this.cuadro = CuadroSudoku.create(completa(this.alternativasYaEscogidas));
 	}
 
 	@Override
-	public void retrocede(Integer a) {		
-		this.pos = this.pos-1;
-		calculaDerivadas();
-		this.cuadro.setInfo(x, y, 0);	
+	public void retrocede(Integer a) {
+		this.alternativasYaEscogidas.remove(pos-1);
+		this.pos = this.alternativasYaEscogidas.size();
+		this.cuadro = CuadroSudoku.create(completa(this.alternativasYaEscogidas));
 	}
 
 	@Override
 	public int size() {
-		return ProblemaSudoku.posicionesLibres.size()-pos;
+		return CuadroSudoku.numPosicionesLibres-this.pos;
 	}
 
 	@Override
-	public boolean isFinal() {		
-		return this.size()==0;
-	}
-
-	@Override
-	public List<Integer> getAlternativas() {
-		List<Integer> r;
-		if (this.size() <= 0) {
-			r = Stream2.<Integer> empty().toList();
-		} else {
-			Stream<Integer> st = IntStream
-					.rangeClosed(1, ProblemaSudoku.numeroDeFilas)
-					.filter((int a) -> !this.cuadro.getValoresOcupadosEnPos(this.pos).contains(a)).boxed();
-			r = Stream2.create(st).toList();
-		}
+	public boolean isFinal() {
+		boolean r = this.pos == CuadroSudoku.numPosicionesLibres;
 		return r;
 	}
 
 	@Override
+	public List<Integer> getAlternativas() {
+		List<Integer> ls = cuadro.getValoresLibresEnPos(CuadroSudoku.posicionesLibres.get(this.pos)).stream().collect(Collectors.toList());
+		return ls;
+	}
+
+	@Override
 	public CuadroSudoku getSolucion() {
-		return CuadroSudoku.create(this.cuadro);
+		return this.cuadro;
 	}
 
 	@Override
 	public Double getObjetivo() {
-		return 0.;
+		return Double.MIN_VALUE;
 	}
 
 	@Override
 	public Double getObjetivoEstimado(Integer a) {
 		return Double.MAX_VALUE;
 	}
+
+	public List<Integer> getAlternativasYaEscogidas() {
+		return alternativasYaEscogidas;
+	}
+
+	
 	
 }

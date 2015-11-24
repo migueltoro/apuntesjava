@@ -3,7 +3,7 @@ package us.lsi.ag.mochila;
 
 import us.lsi.ag.AlgoritmoAG;
 import us.lsi.ag.ProblemaAGIndex;
-import us.lsi.ag.agchromosomes.BinaryIndexChromosome;
+import us.lsi.ag.agchromosomes.IndexChromosomeSubList;
 import us.lsi.ag.agchromosomes.ChromosomeFactory;
 import us.lsi.ag.agchromosomes.IndexChromosome;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
@@ -36,7 +36,7 @@ public class TestMochilaAGBinary {
 		ap.ejecuta();
 		
 		System.out.println(ProblemaMochila.getObjetosDisponibles());
-		System.out.println(BinaryIndexChromosome.normalSequence);
+		System.out.println(IndexChromosomeSubList.normalSequence);
 		System.out.println("================================");
 		IndexChromosome cr = ChromosomeFactory.asIndex(ap.getBestFinal());
 		System.out.println(p.getSolucion(cr));

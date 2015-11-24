@@ -25,8 +25,6 @@ import us.lsi.pl.AlgoritmoPL;
 import us.lsi.pl.AlgoritmoPLI;
 import us.lsi.pl.ProblemaPL;
 import us.lsi.sa.AlgoritmoSA;
-import us.lsi.sa.EstadoSA;
-import us.lsi.sa.ProblemaSA;
 import us.lsi.voraz.AlgoritmoVZ;
 import us.lsi.voraz.EstadoVZ;
 import us.lsi.voraz.ProblemaVZ;
@@ -49,20 +47,19 @@ public class Algoritmos {
 	}
 	
 	/**
-	 * @param <E> El tipo del estado
-	 * @param <S> El tipo de la solución
-	 * @param <A> El tipo de la alternativa
-	 * @param p - Problema a resolver
-	 * @return Algoritmo de Simulated Annealing para resolver el problema
+	 *
+	 * @param tipo El tipo del cromomosoma
+	 * @param p Problema
+	 * @return AlgoritmoSA
 	 */
-	public static <E extends EstadoSA<E,S,A>,S,A> AlgoritmoSA<E,S,A> createSA(ProblemaSA<E,S,A> p) {
-		return new AlgoritmoSA<E,S,A>(p);
-	}
 	
+	public static  AlgoritmoSA createSA(ChromosomeType tipo, ProblemaAG p) {
+		return new AlgoritmoSA(tipo,p);
+	}
 	
 	/**
 	 * 
-	 * @param <E> El tipo de la solcuión parcial
+	 * @param <E> El tipo de la solución parcial
 	 * @param <S> El tipo de la solución
 	 * @param p - Problema a resolver
 	 * @return Algoritmo de Divide y Vencerás Sin Memoria para resolver el problema
@@ -73,7 +70,7 @@ public class Algoritmos {
 	
 	/**
 	 * 
-	 * @param <E> El tipo de la solcuión parcial
+	 * @param <E> El tipo de la solución parcial
 	 * @param <S> El tipo de la solución
 	 * @param p - Problema a resolver
 	 * @return Algoritmo de Divide y Vencerás Con Memoria para resolver el problema

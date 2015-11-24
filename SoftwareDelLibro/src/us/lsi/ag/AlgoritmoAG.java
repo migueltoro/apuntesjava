@@ -100,13 +100,13 @@ public class AlgoritmoAG extends AbstractAlgoritmo {
 	 */
 	public AlgoritmoAG(ChromosomeType tipo, ProblemaAG problema) {
 		super();
-		this.tipo = tipo;
-		ChromosomeFactory.iniValues(tipo, problema);		
+		this.tipo = tipo;				
 		this.selectionPolicy =  ChromosomeFactory.getSelectionPolicy();
-		this.mutationPolicy = ChromosomeFactory.getMutationPolicy(this.tipo);
-		this.crossOverPolicy = ChromosomeFactory.getCrossoverPolicy(this.tipo);
+		this.mutationPolicy = ChromosomeFactory.getMutationPolicy(tipo, problema);
+		this.crossOverPolicy = ChromosomeFactory.getCrossoverPolicy(tipo);
 		this.stopCond = StoppingConditionFactory.getStoppingCondition();
-		JDKRandomGenerator random = new JDKRandomGenerator();
+		ChromosomeFactory.iniValues(tipo, problema);
+		JDKRandomGenerator random = new JDKRandomGenerator();		
 		random.setSeed((int)System.currentTimeMillis());
 		GeneticAlgorithm.setRandomGenerator(random);
 	}

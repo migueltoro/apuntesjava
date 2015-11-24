@@ -8,7 +8,7 @@ import org.apache.commons.math3.genetics.MutationPolicy;
 import org.apache.commons.math3.genetics.RandomKey;
 import org.apache.commons.math3.genetics.RandomKeyMutation;
 
-import us.lsi.ag.agchromosomes.PermutationIndexSubListChromosome;
+import us.lsi.ag.agchromosomes.IndexChromosomePermutationSubList;
 
 import com.google.common.base.Preconditions;
 
@@ -33,9 +33,9 @@ public class SubListMutationPolicy implements MutationPolicy {
 	
 	@Override
 	public Chromosome mutate(Chromosome chr0) throws MathIllegalArgumentException {
-		if (!(chr0 instanceof PermutationIndexSubListChromosome))
+		if (!(chr0 instanceof IndexChromosomePermutationSubList))
 			throw new IllegalArgumentException();;
-		PermutationIndexSubListChromosome c0 = (PermutationIndexSubListChromosome) chr0;		
+		IndexChromosomePermutationSubList c0 = (IndexChromosomePermutationSubList) chr0;		
 		BinaryChromosome binary = c0.getBinary();
 		RandomKey<Integer> randomKey = c0.getRandomKey();
 		Preconditions.checkArgument(binary != null);		
@@ -44,7 +44,7 @@ public class SubListMutationPolicy implements MutationPolicy {
 		Preconditions.checkArgument(c1 instanceof BinaryChromosome);
 		Chromosome c2 = randomKeyOperator.mutate(randomKey);		
 		Preconditions.checkArgument(c2 instanceof RandomKey);
-		return new PermutationIndexSubListChromosome(c1,c2);
+		return new IndexChromosomePermutationSubList(c1,c2);
 	}	
 	
 }

@@ -5,7 +5,6 @@ import java.util.*;
 import us.lsi.common.Lists2;
 import us.lsi.common.ParInteger;
 import us.lsi.math.Math2;
-import us.lsi.sa.anuncios.AlternativaAnuncios;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -13,6 +12,8 @@ import com.google.common.collect.Sets;
 
 public class ListaDeAnunciosAEmitir {
 
+	public enum Opcion {Insertar,Eliminar, Intercambiar};
+	
 	private List<Integer> anunciosDecididosParaEmitir;
 	private Set<Integer> anunciosDecididosParaEmitirSet;
 	private Integer tiempoConsumido;
@@ -193,9 +194,9 @@ public class ListaDeAnunciosAEmitir {
 		return Math2.getParAleatorioYDistinto(0, this.anunciosDecididosParaEmitir.size());	
 	}
 
-	public List<AlternativaAnuncios.Opcion> getTiposDeOpcionesAlternativasPosibles(){
-		List<AlternativaAnuncios.Opcion> ls = Lists.newArrayList();
-		for(AlternativaAnuncios.Opcion op : AlternativaAnuncios.Opcion.values()){
+	public List<Opcion> getTiposDeOpcionesAlternativasPosibles(){
+		List<Opcion> ls = Lists.newArrayList();
+		for(Opcion op : Opcion.values()){
 			switch(op){
 			case Insertar :
 				if(!this.getAnunciosDisponibles().isEmpty()){
