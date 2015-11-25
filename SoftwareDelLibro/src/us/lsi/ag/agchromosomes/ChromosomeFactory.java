@@ -47,7 +47,7 @@ public class ChromosomeFactory {
 		case Binary: chromosome = BinaryChromosome2.getInitialChromosome(); break;
 		case BinaryIndex: chromosome = IndexChromosomeSubList.getInitialChromosome(); break;
 		case ListInteger: chromosome = ListIntegerChromosome.getInitialChromosome(); break;
-		case IntegerIndex: chromosome = IndexChromosomeBinary.getInitialChromosome(); break;
+		case IntegerIndex: chromosome = IndexChromosomeRange.getInitialChromosome(); break;
 		case PermutationIndex: chromosome = IndexChromosomePermutationRandomKey.getInitialChromosome(); break;
 		case PermutationIndexSubList: chromosome = IndexChromosomePermutationSubList.getInitialChromosome(); break;
 		case Real: chromosome = RealListChromosome.getInitialChromosome(); break;
@@ -123,6 +123,7 @@ public class ChromosomeFactory {
 	
 	/**
 	 * @param tipo El tipo del cromosoma
+	 * @param problema El problema a resolver
 	 * @return Un operador de mutación adecuado para un cromosoma del tipo indicado
 	 */
 	public static MutationPolicy getMutationPolicy(ChromosomeType tipo, ProblemaAG problema){
@@ -174,7 +175,7 @@ public class ChromosomeFactory {
 		case Binary: BinaryChromosome2.iniValues(problema);break;
 		case BinaryIndex: IndexChromosomeSubList.iniValues(problema);break;
 		case ListInteger: ListIntegerChromosome.iniValues(problema);break;
-		case IntegerIndex: IndexChromosomeBinary.iniValues(problema); break;
+		case IntegerIndex: IndexChromosomeRange.iniValues(problema); break;
 		case PermutationIndex: IndexChromosomePermutationRandomKey.iniValues(problema);break;
 		case PermutationIndexSubList: IndexChromosomePermutationSubList.iniValues(problema);break;
 		case Real: RealListChromosome.iniValues(problema);break;
@@ -187,9 +188,9 @@ public class ChromosomeFactory {
 	 * @param cr Un cromosoma instancia de la clase Chromosome de Apache.
 	 * @return Un cromosoma de tipo IBinaryChromosome
 	 */
-	public static IBinaryChromosome asBinary(Chromosome cr){
-		Preconditions.checkArgument(cr instanceof IBinaryChromosome);
-		return (IBinaryChromosome) cr;
+	public static BinaryChromosome2 asBinary(Chromosome cr){
+		Preconditions.checkArgument(cr instanceof BinaryChromosome2);
+		return (BinaryChromosome2) cr;
 	}
 	
 	/**

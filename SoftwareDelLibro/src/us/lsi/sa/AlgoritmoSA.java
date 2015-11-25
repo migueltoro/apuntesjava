@@ -86,6 +86,7 @@ public class AlgoritmoSA extends AbstractAlgoritmo {
 		
 		/**
 		 * @param p Problema a resolver
+		 * @param type El tipo del cromosoma
 		 */
 		public AlgoritmoSA(ChromosomeFactory.ChromosomeType type, ProblemaAG p){
 			this.type = type;

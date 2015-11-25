@@ -8,23 +8,56 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package us.lsi.sa.sudoku;<a name="line.1"></a>
 <span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span><a name="line.3"></a>
-<span class="sourceLineNo">004</span>public class Test2 {<a name="line.4"></a>
-<span class="sourceLineNo">005</span><a name="line.5"></a>
-<span class="sourceLineNo">006</span>        public static void main(String[] args) {<a name="line.6"></a>
-<span class="sourceLineNo">007</span>                EstadoSudokuSAAp1 e = new ProblemaSudokuSAAp1("sudoku.txt").getEstadoInicial();<a name="line.7"></a>
-<span class="sourceLineNo">008</span>                e.cuadro.show();<a name="line.8"></a>
-<span class="sourceLineNo">009</span>                for(int i=0; i&lt; 100;i++){<a name="line.9"></a>
-<span class="sourceLineNo">010</span>                        double obj = e.getObjetivo();<a name="line.10"></a>
-<span class="sourceLineNo">011</span>                        e = e.next(e.getAlternativa());<a name="line.11"></a>
-<span class="sourceLineNo">012</span>                        System.out.println(obj-e.getObjetivo());<a name="line.12"></a>
-<span class="sourceLineNo">013</span>                }<a name="line.13"></a>
-<span class="sourceLineNo">014</span>/*              for(int x=0; x &lt; ProblemaSudoku.numeroDeFilas; x++){<a name="line.14"></a>
-<span class="sourceLineNo">015</span>                        System.out.println(e.cuadro.getValoresOcupadosEnX().get(x).size());<a name="line.15"></a>
-<span class="sourceLineNo">016</span>                }<a name="line.16"></a>
-<span class="sourceLineNo">017</span>*/      }<a name="line.17"></a>
-<span class="sourceLineNo">018</span><a name="line.18"></a>
-<span class="sourceLineNo">019</span>}<a name="line.19"></a>
+<span class="sourceLineNo">003</span>import org.apache.commons.math3.genetics.MutationPolicy;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>import com.google.common.collect.HashMultiset;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import com.google.common.collect.Multiset;<a name="line.6"></a>
+<span class="sourceLineNo">007</span><a name="line.7"></a>
+<span class="sourceLineNo">008</span>import us.lsi.ag.agchromosomes.ListIntegerChromosome;;<a name="line.8"></a>
+<span class="sourceLineNo">009</span><a name="line.9"></a>
+<span class="sourceLineNo">010</span>public class Test2 {<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>        <a name="line.12"></a>
+<span class="sourceLineNo">013</span><a name="line.13"></a>
+<span class="sourceLineNo">014</span>        public static void main(String[] args) {<a name="line.14"></a>
+<span class="sourceLineNo">015</span>                <a name="line.15"></a>
+<span class="sourceLineNo">016</span>                CuadroSudoku.tamSubCuadro = 3;          <a name="line.16"></a>
+<span class="sourceLineNo">017</span>                CuadroSudoku.iniDatos("sudoku.txt");<a name="line.17"></a>
+<span class="sourceLineNo">018</span>                CuadroSudoku c = CuadroSudoku.create();<a name="line.18"></a>
+<span class="sourceLineNo">019</span>                c.show();<a name="line.19"></a>
+<span class="sourceLineNo">020</span>                CuadroSudoku.asignaValoresUnicos();<a name="line.20"></a>
+<span class="sourceLineNo">021</span>                CuadroSudoku.sortPosicionesLibresPorPos();<a name="line.21"></a>
+<span class="sourceLineNo">022</span>                ProblemaSudokuAGListInteger p = new ProblemaSudokuAGListInteger();<a name="line.22"></a>
+<span class="sourceLineNo">023</span>                c = ProblemaSudokuAGListInteger.inicial;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>                c.show();       <a name="line.24"></a>
+<span class="sourceLineNo">025</span>                Multiset&lt;Integer&gt; ms = HashMultiset.create();<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                ms.addAll(c.getListDatos());<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                System.out.println(ms); <a name="line.27"></a>
+<span class="sourceLineNo">028</span>                CuadroSudoku c2 = CuadroSudoku.create();<a name="line.28"></a>
+<span class="sourceLineNo">029</span>                c2.show();<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                System.out.println(CuadroSudoku.comienzoDeFilas+","+CuadroSudoku.numPosicionesLibres+","+CuadroSudoku.posicionesLibres.size()); <a name="line.30"></a>
+<span class="sourceLineNo">031</span>                for (int i = 0; i &lt; CuadroSudoku.posicionesLibres.size(); i++) {<a name="line.31"></a>
+<span class="sourceLineNo">032</span>                        System.out.println(i+","+Casilla.create(CuadroSudoku.posicionesLibres.get(i)));<a name="line.32"></a>
+<span class="sourceLineNo">033</span>                }<a name="line.33"></a>
+<span class="sourceLineNo">034</span>                <a name="line.34"></a>
+<span class="sourceLineNo">035</span>                MutationPolicy m = p.getMutationPolicy();<a name="line.35"></a>
+<span class="sourceLineNo">036</span>                ListIntegerChromosome.iniValues(p);<a name="line.36"></a>
+<span class="sourceLineNo">037</span>                for (int i = 0; i &lt; 50; i++) {<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                        System.out.println(i);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                        c = CuadroSudoku.create(((ListIntegerChromosome) m<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                                        .mutate(new ListIntegerChromosome(c<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                                                        .getValoresEnPosicionesLibres()))).decode());<a name="line.41"></a>
+<span class="sourceLineNo">042</span>                        c.show();<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                        ms = HashMultiset.create();<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                        ms.addAll(c.getListDatos());<a name="line.44"></a>
+<span class="sourceLineNo">045</span>                        System.out.println(ms);         <a name="line.45"></a>
+<span class="sourceLineNo">046</span>                }<a name="line.46"></a>
+<span class="sourceLineNo">047</span>                c = CuadroSudoku.createCompletadoPorPosicionesLibres();<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                c.show();<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>        }<a name="line.50"></a>
+<span class="sourceLineNo">051</span><a name="line.51"></a>
+<span class="sourceLineNo">052</span>}<a name="line.52"></a>
 
 
 

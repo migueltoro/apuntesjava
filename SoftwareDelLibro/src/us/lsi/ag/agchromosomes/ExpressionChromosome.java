@@ -69,6 +69,7 @@ public class ExpressionChromosome<T> extends BinaryChromosome implements IExpres
 	/**
 	 * @pos Inicializa los parámetros de la clase
 	 * @param problema El problema a resolver
+	 * @param <T> El tipo de la expresión que representa el cromosoma
 	 */
 	public static <T> void iniValues(ProblemaAG problema) {
 		ExpressionChromosome.problem = (ProblemaAGExpression<?, ?>) problema;

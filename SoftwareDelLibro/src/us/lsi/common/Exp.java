@@ -122,6 +122,7 @@ public abstract class Exp<R> {
 	
 	
 	/**
+	 * @param <S> El tipo de la expresión 
 	 * @param items Una lista de enteros cada uno de los cuales indexa una variable,
 	 * una constante o un operador de la lista <code> expressions </code>
 	 * @param operatorIndex El primer índice dónde se encuentran los operadores

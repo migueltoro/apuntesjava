@@ -120,7 +120,7 @@ public class CuadroSudoku {
 	
 	/**
 	 * @param valoresEnPosicionesLibres Valores asignados a las posiciones libres en la lista CuadroSudoku.posicionesLibres
-	 * @return
+	 * @return El cuadro creado
 	 */
 	public static CuadroSudoku create(List<Integer> valoresEnPosicionesLibres) {
 		return new CuadroSudoku(valoresEnPosicionesLibres);

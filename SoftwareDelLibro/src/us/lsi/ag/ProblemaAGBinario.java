@@ -1,12 +1,12 @@
 package us.lsi.ag;
 
+import us.lsi.ag.agchromosomes.BinaryChromosome2;
 
-import us.lsi.ag.agchromosomes.IBinaryChromosome;
 
 /**
  * @author Miguel Toro
  *
- * @param <S> El tipo de la solcuión del problema
+ * @param <S> El tipo de la solución del problema
  * 
  * 
  * <p> Un problema cuya solución puede ser modelada con variables binarias. Usa un cromomosoma de tipo IBinaryChromosom</p>
@@ -23,11 +23,11 @@ public interface ProblemaAGBinario<S> extends ProblemaAG {
 	 * @return La función de fitness del cromosoma
 	 */
 	
-	Double fitnessFunction(IBinaryChromosome cr);
+	Double fitnessFunction(BinaryChromosome2 cr);
 	
 	/**
 	 * @param cr Un cromosoma
 	 * @return La solución definida por el cromosoma
 	 */
-	S getSolucion(IBinaryChromosome cr);
+	S getSolucion(BinaryChromosome2 cr);
 }

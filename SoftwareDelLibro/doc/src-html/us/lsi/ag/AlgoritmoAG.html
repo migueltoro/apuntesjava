@@ -108,13 +108,13 @@
 <span class="sourceLineNo">100</span>         */<a name="line.100"></a>
 <span class="sourceLineNo">101</span>        public AlgoritmoAG(ChromosomeType tipo, ProblemaAG problema) {<a name="line.101"></a>
 <span class="sourceLineNo">102</span>                super();<a name="line.102"></a>
-<span class="sourceLineNo">103</span>                this.tipo = tipo;<a name="line.103"></a>
-<span class="sourceLineNo">104</span>                ChromosomeFactory.iniValues(tipo, problema);            <a name="line.104"></a>
-<span class="sourceLineNo">105</span>                this.selectionPolicy =  ChromosomeFactory.getSelectionPolicy();<a name="line.105"></a>
-<span class="sourceLineNo">106</span>                this.mutationPolicy = ChromosomeFactory.getMutationPolicy(this.tipo);<a name="line.106"></a>
-<span class="sourceLineNo">107</span>                this.crossOverPolicy = ChromosomeFactory.getCrossoverPolicy(this.tipo);<a name="line.107"></a>
-<span class="sourceLineNo">108</span>                this.stopCond = StoppingConditionFactory.getStoppingCondition();<a name="line.108"></a>
-<span class="sourceLineNo">109</span>                JDKRandomGenerator random = new JDKRandomGenerator();<a name="line.109"></a>
+<span class="sourceLineNo">103</span>                this.tipo = tipo;                               <a name="line.103"></a>
+<span class="sourceLineNo">104</span>                this.selectionPolicy =  ChromosomeFactory.getSelectionPolicy();<a name="line.104"></a>
+<span class="sourceLineNo">105</span>                this.mutationPolicy = ChromosomeFactory.getMutationPolicy(tipo, problema);<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                this.crossOverPolicy = ChromosomeFactory.getCrossoverPolicy(tipo);<a name="line.106"></a>
+<span class="sourceLineNo">107</span>                this.stopCond = StoppingConditionFactory.getStoppingCondition();<a name="line.107"></a>
+<span class="sourceLineNo">108</span>                ChromosomeFactory.iniValues(tipo, problema);<a name="line.108"></a>
+<span class="sourceLineNo">109</span>                JDKRandomGenerator random = new JDKRandomGenerator();           <a name="line.109"></a>
 <span class="sourceLineNo">110</span>                random.setSeed((int)System.currentTimeMillis());<a name="line.110"></a>
 <span class="sourceLineNo">111</span>                GeneticAlgorithm.setRandomGenerator(random);<a name="line.111"></a>
 <span class="sourceLineNo">112</span>        }<a name="line.112"></a>

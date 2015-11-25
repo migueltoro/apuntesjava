@@ -201,7 +201,7 @@
 <span class="sourceLineNo">193</span>                    return u;<a name="line.193"></a>
 <span class="sourceLineNo">194</span>        }<a name="line.194"></a>
 <span class="sourceLineNo">195</span>        <a name="line.195"></a>
-<span class="sourceLineNo">196</span>    private static Random rnd   = new Random(System.nanoTime());<a name="line.196"></a>
+<span class="sourceLineNo">196</span>    public static Random rnd   = new Random(System.nanoTime());<a name="line.196"></a>
 <span class="sourceLineNo">197</span>            <a name="line.197"></a>
 <span class="sourceLineNo">198</span>        <a name="line.198"></a>
 <span class="sourceLineNo">199</span>    /**<a name="line.199"></a>
@@ -255,7 +255,7 @@
 <span class="sourceLineNo">247</span>         * @pre b &amp;gt; a<a name="line.247"></a>
 <span class="sourceLineNo">248</span>         * @param a Límite inferior<a name="line.248"></a>
 <span class="sourceLineNo">249</span>         * @param b Límte Superior<a name="line.249"></a>
-<span class="sourceLineNo">250</span>         * @return Un dounble aleatorio que  está en el intervalo  a &amp;lt; = r &amp;lt; b<a name="line.250"></a>
+<span class="sourceLineNo">250</span>         * @return Un double aleatorio que  está en el intervalo  a &amp;lt; = r &amp;lt; b<a name="line.250"></a>
 <span class="sourceLineNo">251</span>         */<a name="line.251"></a>
 <span class="sourceLineNo">252</span>        public static Double getDoubleAleatorio(Double a, Double b){    <a name="line.252"></a>
 <span class="sourceLineNo">253</span>                Preconditions.checkArgument(b&gt;a,a+","+b);<a name="line.253"></a>

@@ -7,11 +7,13 @@ us.lsi.ag.expression
 us.lsi.ag.mochila
 us.lsi.ag.real
 us.lsi.ag.reinas
+us.lsi.ag.sudoku
 us.lsi.algoritmos
 us.lsi.astar
 us.lsi.astar.laberinto
 us.lsi.astar.mochila
 us.lsi.astar.puzzle
+us.lsi.astar.sudoku
 us.lsi.astar.vuelos
 us.lsi.basictypes
 us.lsi.beans

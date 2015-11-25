@@ -13,11 +13,11 @@ import us.lsi.ag.ProblemaAGBinario;
 /**
  * @author Miguel Toro
  * 
- * <p> Implementa el tipo {@link us.lsi.ag.agchromosomes.IBinaryChromosome IBinaryChromosome}. 
+ * <p> 
  * La implementación es una adaptación de la clase {@link org.apache.commons.math3.genetics.Chromosome Chromosome} de Apache. </p>
  *
  */
-public class BinaryChromosome2 extends BinaryChromosome implements IBinaryChromosome {
+public class BinaryChromosome2 extends BinaryChromosome implements IChromosome<List<Integer>> {
 	
 	public static ProblemaAGBinario<?> problema;
 	
@@ -76,7 +76,7 @@ public class BinaryChromosome2 extends BinaryChromosome implements IBinaryChromo
 		return this;
 	}
 	
-	public static IBinaryChromosome getInitialChromosome() {
+	public static BinaryChromosome2 getInitialChromosome() {
 		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(BinaryChromosome2.getDimension());
 		return new BinaryChromosome2(ls);
 	}

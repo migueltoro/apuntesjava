@@ -8,34 +8,35 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package us.lsi.sa.reinas;<a name="line.1"></a>
 <span class="sourceLineNo">002</span><a name="line.2"></a>
-<span class="sourceLineNo">003</span>import java.util.List;<a name="line.3"></a>
-<span class="sourceLineNo">004</span><a name="line.4"></a>
-<span class="sourceLineNo">005</span>import us.lsi.algoritmos.Algoritmos;<a name="line.5"></a>
-<span class="sourceLineNo">006</span>import us.lsi.bt.reinas.Reina;<a name="line.6"></a>
-<span class="sourceLineNo">007</span>import us.lsi.common.ParInteger;<a name="line.7"></a>
-<span class="sourceLineNo">008</span>import us.lsi.sa.AlgoritmoSA;<a name="line.8"></a>
-<span class="sourceLineNo">009</span>import us.lsi.sa.ProblemaSA;<a name="line.9"></a>
-<span class="sourceLineNo">010</span><a name="line.10"></a>
-<span class="sourceLineNo">011</span>public class TestReinasSA {<a name="line.11"></a>
-<span class="sourceLineNo">012</span>        <a name="line.12"></a>
-<span class="sourceLineNo">013</span>        /**<a name="line.13"></a>
-<span class="sourceLineNo">014</span>         * @param args Argumentos<a name="line.14"></a>
-<span class="sourceLineNo">015</span>         */<a name="line.15"></a>
+<span class="sourceLineNo">003</span><a name="line.3"></a>
+<span class="sourceLineNo">004</span>import org.apache.commons.math3.genetics.Chromosome;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>import us.lsi.ag.agchromosomes.ChromosomeFactory;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import us.lsi.ag.reinas.ProblemaReinasAG;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import us.lsi.algoritmos.Algoritmos;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import us.lsi.sa.AlgoritmoSA;<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>public class TestReinasSA {<a name="line.12"></a>
+<span class="sourceLineNo">013</span><a name="line.13"></a>
+<span class="sourceLineNo">014</span>        <a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
 <span class="sourceLineNo">016</span>        public static void main(String[] args) {<a name="line.16"></a>
-<span class="sourceLineNo">017</span>                ProblemaReinasSA.numeroDeReinas = 100;<a name="line.17"></a>
+<span class="sourceLineNo">017</span>                ProblemaReinasAG.numeroDeReinas = 8;<a name="line.17"></a>
 <span class="sourceLineNo">018</span>                AlgoritmoSA.temperaturaInicial = 100;<a name="line.18"></a>
 <span class="sourceLineNo">019</span>                AlgoritmoSA.alfa = 0.98;<a name="line.19"></a>
 <span class="sourceLineNo">020</span>                AlgoritmoSA.numeroDeIteracionesPorIntento = 1000;<a name="line.20"></a>
 <span class="sourceLineNo">021</span>                AlgoritmoSA.numeroDeIteracionesALaMismaTemperatura = 100;<a name="line.21"></a>
 <span class="sourceLineNo">022</span>                AlgoritmoSA.numeroDeIntentos = 8;<a name="line.22"></a>
-<span class="sourceLineNo">023</span>                ProblemaSA&lt;EstadoReinasSA,List&lt;Reina&gt;,ParInteger&gt; p = ProblemaReinasSA.create();<a name="line.23"></a>
-<span class="sourceLineNo">024</span>                AlgoritmoSA&lt;EstadoReinasSA,List&lt;Reina&gt;,ParInteger&gt; ap = Algoritmos.createSA(p);<a name="line.24"></a>
+<span class="sourceLineNo">023</span>                ProblemaReinasAG p = ProblemaReinasAG.create();<a name="line.23"></a>
+<span class="sourceLineNo">024</span>                AlgoritmoSA ap = Algoritmos.createSA(ChromosomeType.PermutationIndex,p);<a name="line.24"></a>
 <span class="sourceLineNo">025</span>                ap.ejecuta();           <a name="line.25"></a>
-<span class="sourceLineNo">026</span>                for(List&lt;Reina&gt; s: ap.soluciones){<a name="line.26"></a>
-<span class="sourceLineNo">027</span>                        System.out.println("Solucion =  "+s);<a name="line.27"></a>
+<span class="sourceLineNo">026</span>                for(Chromosome s: ap.soluciones){<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                        System.out.println("Solucion =  "+p.getSolucion(ChromosomeFactory.asIndex(s)));<a name="line.27"></a>
 <span class="sourceLineNo">028</span>                }<a name="line.28"></a>
-<span class="sourceLineNo">029</span>        }       <a name="line.29"></a>
-<span class="sourceLineNo">030</span>}<a name="line.30"></a>
+<span class="sourceLineNo">029</span>        }<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>}<a name="line.31"></a>
 
 
 
