@@ -68,7 +68,7 @@ public class CuadroSudokuVertex implements VirtualVertex<CuadroSudokuVertex, Sim
 	@Override
 	public Set<SimpleEdge<CuadroSudokuVertex>> edgesOf() {
 		return getNeighborListOf().stream()
-				.map(x->SimpleEdge.<CuadroSudokuVertex>create().createEdge(this, x))
+				.map(x->SimpleEdge.create(this, x))
 				.collect(Collectors.toSet());
 	}
 

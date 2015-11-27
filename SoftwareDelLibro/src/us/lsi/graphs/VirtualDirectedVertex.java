@@ -12,7 +12,7 @@ import java.util.Set;
  * 
  */
 
-public interface VirtualDirectedVertex<V extends VirtualDirectedVertex<V,E>,E> extends VirtualVertex<V,E> {
+public interface VirtualDirectedVertex<V extends VirtualDirectedVertex<V,E>,E extends SimpleEdge<V>> extends VirtualVertex<V,E> {
 	/**
 	 * @return Conjunto de vecinos entrantes
 	 */

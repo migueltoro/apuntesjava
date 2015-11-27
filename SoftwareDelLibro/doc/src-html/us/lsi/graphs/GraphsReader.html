@@ -51,7 +51,7 @@
 <span class="sourceLineNo">043</span> */<a name="line.43"></a>
 <span class="sourceLineNo">044</span>public class GraphsReader {<a name="line.44"></a>
 <span class="sourceLineNo">045</span><a name="line.45"></a>
-<span class="sourceLineNo">046</span>        private static String[] eliminaBlancos(String[] s) {<a name="line.46"></a>
+<span class="sourceLineNo">046</span>        public static String[] eliminaBlancos(String[] s) {<a name="line.46"></a>
 <span class="sourceLineNo">047</span>                String[] r = new String[s.length];<a name="line.47"></a>
 <span class="sourceLineNo">048</span>                for (int i = 0; i &lt; r.length; i++) {<a name="line.48"></a>
 <span class="sourceLineNo">049</span>                        r[i] = s[i].trim();<a name="line.49"></a>
@@ -79,17 +79,17 @@
 <span class="sourceLineNo">071</span>                try {<a name="line.71"></a>
 <span class="sourceLineNo">072</span>                        sc = new Scanner(new File(file));<a name="line.72"></a>
 <span class="sourceLineNo">073</span>                } catch (FileNotFoundException e1) {<a name="line.73"></a>
-<span class="sourceLineNo">074</span>                        throw new IllegalArgumentException("Fichero " + file<a name="line.74"></a>
-<span class="sourceLineNo">075</span>                                        + " no encontrado");<a name="line.75"></a>
-<span class="sourceLineNo">076</span>                }<a name="line.76"></a>
-<span class="sourceLineNo">077</span><a name="line.77"></a>
-<span class="sourceLineNo">078</span>                List&lt;String&gt; filas = new ArrayList&lt;&gt;();<a name="line.78"></a>
-<span class="sourceLineNo">079</span><a name="line.79"></a>
-<span class="sourceLineNo">080</span>                while (sc.hasNext()) {<a name="line.80"></a>
-<span class="sourceLineNo">081</span>                        filas.add(sc.next());<a name="line.81"></a>
-<span class="sourceLineNo">082</span>                }<a name="line.82"></a>
-<span class="sourceLineNo">083</span><a name="line.83"></a>
-<span class="sourceLineNo">084</span>                sc.close();<a name="line.84"></a>
+<span class="sourceLineNo">074</span>                        throw new IllegalArgumentException("Fichero " + file + " no encontrado");<a name="line.74"></a>
+<span class="sourceLineNo">075</span>                }<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>                List&lt;String&gt; filas = new ArrayList&lt;&gt;();<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span>                while (sc.hasNext()) {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>                        filas.add(sc.nextLine());<a name="line.80"></a>
+<span class="sourceLineNo">081</span>                }<a name="line.81"></a>
+<span class="sourceLineNo">082</span><a name="line.82"></a>
+<span class="sourceLineNo">083</span>                sc.close();<a name="line.83"></a>
+<span class="sourceLineNo">084</span>                <a name="line.84"></a>
 <span class="sourceLineNo">085</span>                try {<a name="line.85"></a>
 <span class="sourceLineNo">086</span>                        List&lt;String&gt; vertices = filas.subList(1, filas.indexOf("#EDGE#"));<a name="line.86"></a>
 <span class="sourceLineNo">087</span>                        List&lt;String&gt; aristas = filas.subList(filas.indexOf("#EDGE#") + 1,<a name="line.87"></a>
@@ -107,33 +107,32 @@
 <span class="sourceLineNo">099</span>                                ret.addVertex(vertex);<a name="line.99"></a>
 <span class="sourceLineNo">100</span>                                idVertices.put(vertice[0], vertex);<a name="line.100"></a>
 <span class="sourceLineNo">101</span>                        }<a name="line.101"></a>
-<span class="sourceLineNo">102</span><a name="line.102"></a>
+<span class="sourceLineNo">102</span>                        <a name="line.102"></a>
 <span class="sourceLineNo">103</span>                        for (String aristaStr : aristas) {<a name="line.103"></a>
 <span class="sourceLineNo">104</span>                                String[] arista = eliminaBlancos(aristaStr.split(","));<a name="line.104"></a>
-<span class="sourceLineNo">105</span><a name="line.105"></a>
+<span class="sourceLineNo">105</span>                                <a name="line.105"></a>
 <span class="sourceLineNo">106</span>                                if (arista.length &lt; 2)<a name="line.106"></a>
-<span class="sourceLineNo">107</span>                                        throw new IllegalArgumentException(<a name="line.107"></a>
-<span class="sourceLineNo">108</span>                                                        "El número de vértices de la arista no es correcto");<a name="line.108"></a>
-<span class="sourceLineNo">109</span><a name="line.109"></a>
-<span class="sourceLineNo">110</span>                                if (arista.length == 2) {<a name="line.110"></a>
-<span class="sourceLineNo">111</span>                                        ret.addEdge(idVertices.get(arista[0]),<a name="line.111"></a>
-<span class="sourceLineNo">112</span>                                                        idVertices.get(arista[1]));<a name="line.112"></a>
-<span class="sourceLineNo">113</span>                                } else if (arista.length &gt; 2) {<a name="line.113"></a>
-<span class="sourceLineNo">114</span>                                        E edge = ef.createEdge(idVertices.get(arista[0]),<a name="line.114"></a>
-<span class="sourceLineNo">115</span>                                                        idVertices.get(arista[1]), arista);<a name="line.115"></a>
-<span class="sourceLineNo">116</span>                                        ret.addEdge(idVertices.get(arista[0]),<a name="line.116"></a>
-<span class="sourceLineNo">117</span>                                                        idVertices.get(arista[1]), edge);<a name="line.117"></a>
-<span class="sourceLineNo">118</span>                                }<a name="line.118"></a>
-<span class="sourceLineNo">119</span>                        }<a name="line.119"></a>
-<span class="sourceLineNo">120</span><a name="line.120"></a>
-<span class="sourceLineNo">121</span>                        return ret;<a name="line.121"></a>
-<span class="sourceLineNo">122</span><a name="line.122"></a>
-<span class="sourceLineNo">123</span>                } catch (IndexOutOfBoundsException e) {<a name="line.123"></a>
-<span class="sourceLineNo">124</span>                        throw new IllegalArgumentException(<a name="line.124"></a>
-<span class="sourceLineNo">125</span>                                        "La composición del fichero no es correcta");<a name="line.125"></a>
-<span class="sourceLineNo">126</span>                }<a name="line.126"></a>
-<span class="sourceLineNo">127</span>        }<a name="line.127"></a>
-<span class="sourceLineNo">128</span>}<a name="line.128"></a>
+<span class="sourceLineNo">107</span>                                        throw new IllegalArgumentException("El número de vértices de la arista no es correcto");<a name="line.107"></a>
+<span class="sourceLineNo">108</span><a name="line.108"></a>
+<span class="sourceLineNo">109</span>                                if (arista.length == 2) {<a name="line.109"></a>
+<span class="sourceLineNo">110</span>                                        ret.addEdge(idVertices.get(arista[0]),<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                                                        idVertices.get(arista[1]));<a name="line.111"></a>
+<span class="sourceLineNo">112</span>                                } else if (arista.length &gt; 2) {<a name="line.112"></a>
+<span class="sourceLineNo">113</span>                                        E edge = ef.createEdge(idVertices.get(arista[0]),<a name="line.113"></a>
+<span class="sourceLineNo">114</span>                                                        idVertices.get(arista[1]), arista);<a name="line.114"></a>
+<span class="sourceLineNo">115</span>                                        ret.addEdge(idVertices.get(arista[0]),<a name="line.115"></a>
+<span class="sourceLineNo">116</span>                                                        idVertices.get(arista[1]), edge);<a name="line.116"></a>
+<span class="sourceLineNo">117</span>                                }<a name="line.117"></a>
+<span class="sourceLineNo">118</span>                        }<a name="line.118"></a>
+<span class="sourceLineNo">119</span><a name="line.119"></a>
+<span class="sourceLineNo">120</span>                        return ret;<a name="line.120"></a>
+<span class="sourceLineNo">121</span><a name="line.121"></a>
+<span class="sourceLineNo">122</span>                } catch (IndexOutOfBoundsException e) {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>                        throw new IllegalArgumentException(<a name="line.123"></a>
+<span class="sourceLineNo">124</span>                                        "La composición del fichero no es correcta");<a name="line.124"></a>
+<span class="sourceLineNo">125</span>                }<a name="line.125"></a>
+<span class="sourceLineNo">126</span>        }<a name="line.126"></a>
+<span class="sourceLineNo">127</span>}<a name="line.127"></a>
 
 
 

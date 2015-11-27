@@ -1,7 +1,7 @@
 package us.lsi.astar.sudoku;
 
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import org.jgrapht.EdgeFactory;
 
@@ -13,8 +13,7 @@ public class SudokuGraph extends UndirectedSimpleVirtualGraph<CuadroSudokuVertex
     AStarGraph<CuadroSudokuVertex, SimpleEdge<CuadroSudokuVertex>> {
 
 	public static SudokuGraph create() {
-		EdgeFactory<CuadroSudokuVertex, SimpleEdge<CuadroSudokuVertex>> edgeFactory = SimpleEdge.create();
-		return new SudokuGraph(edgeFactory);
+		return new SudokuGraph(SimpleEdge::create);
 	}
 
 	private SudokuGraph(EdgeFactory<CuadroSudokuVertex, SimpleEdge<CuadroSudokuVertex>> edgeFactory) {
@@ -35,9 +34,9 @@ public class SudokuGraph extends UndirectedSimpleVirtualGraph<CuadroSudokuVertex
 
 	@Override
 	public double getWeightToEnd(CuadroSudokuVertex actual,
-			CuadroSudokuVertex endVertex, Predicate<CuadroSudokuVertex> goal,
+			CuadroSudokuVertex endVertex, Function<CuadroSudokuVertex,Double> goalDistance,
 			Set<CuadroSudokuVertex> goalSet) {
-		return actual.getCuadro().getObjetivoMin();
+		return goalDistance.apply(actual);
 	}
 
 	@Override

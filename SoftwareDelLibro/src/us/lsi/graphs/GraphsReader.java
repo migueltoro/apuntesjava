@@ -43,7 +43,7 @@ import org.jgrapht.Graph;
  */
 public class GraphsReader {
 
-	private static String[] eliminaBlancos(String[] s) {
+	public static String[] eliminaBlancos(String[] s) {
 		String[] r = new String[s.length];
 		for (int i = 0; i < r.length; i++) {
 			r[i] = s[i].trim();
@@ -71,17 +71,17 @@ public class GraphsReader {
 		try {
 			sc = new Scanner(new File(file));
 		} catch (FileNotFoundException e1) {
-			throw new IllegalArgumentException("Fichero " + file
-					+ " no encontrado");
+			throw new IllegalArgumentException("Fichero " + file + " no encontrado");
 		}
 
 		List<String> filas = new ArrayList<>();
 
 		while (sc.hasNext()) {
-			filas.add(sc.next());
+			filas.add(sc.nextLine());
 		}
 
 		sc.close();
+		
 		try {
 			List<String> vertices = filas.subList(1, filas.indexOf("#EDGE#"));
 			List<String> aristas = filas.subList(filas.indexOf("#EDGE#") + 1,
@@ -99,13 +99,12 @@ public class GraphsReader {
 				ret.addVertex(vertex);
 				idVertices.put(vertice[0], vertex);
 			}
-
+			
 			for (String aristaStr : aristas) {
 				String[] arista = eliminaBlancos(aristaStr.split(","));
-
+				
 				if (arista.length < 2)
-					throw new IllegalArgumentException(
-							"El número de vértices de la arista no es correcto");
+					throw new IllegalArgumentException("El número de vértices de la arista no es correcto");
 
 				if (arista.length == 2) {
 					ret.addEdge(idVertices.get(arista[0]),

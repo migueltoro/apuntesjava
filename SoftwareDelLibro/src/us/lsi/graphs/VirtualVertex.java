@@ -10,7 +10,7 @@ import java.util.Set;
  * @param <V> Tipo de los vértices
  * @param <E> Tipo de las aristas
  */
-public interface VirtualVertex<V extends VirtualVertex<V,E>, E> {	
+public interface VirtualVertex<V extends VirtualVertex<V,E>, E extends SimpleEdge<V>> {	
 	/**
 	 * @return Si es un valor válido del tipo
 	 */
@@ -20,12 +20,15 @@ public interface VirtualVertex<V extends VirtualVertex<V,E>, E> {
 	 */
 	Set<V> getNeighborListOf();
 	/**
-	 * @return Conjunto de las arista hacia los vértices vecinos
+	 * @return Conjunto de las aristas hacia los vértices vecinos
 	 */
-	Set<E> edgesOf();
+	Set<E> edgesOf(); 
+	
 	/**
-	 * @param e Vértice que se pregunta si es vecino
+	 * @param v Vértice que se pregunta si es vecino
 	 * @return Si el vértice es vecino
 	 */
-	boolean isNeighbor(V e);
+	default boolean isNeighbor(V v) {
+		return getNeighborListOf().contains(v);
+	}
 }

@@ -10,7 +10,7 @@
 <span class="sourceLineNo">002</span><a name="line.2"></a>
 <span class="sourceLineNo">003</span>import java.util.List;<a name="line.3"></a>
 <span class="sourceLineNo">004</span>import java.util.Set;<a name="line.4"></a>
-<span class="sourceLineNo">005</span>import java.util.function.Predicate;<a name="line.5"></a>
+<span class="sourceLineNo">005</span>import java.util.function.Function;<a name="line.5"></a>
 <span class="sourceLineNo">006</span><a name="line.6"></a>
 <span class="sourceLineNo">007</span>import us.lsi.ag.AlgoritmoAG;<a name="line.7"></a>
 <span class="sourceLineNo">008</span>import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;<a name="line.8"></a>
@@ -138,8 +138,8 @@
 <span class="sourceLineNo">130</span>         * @return Algoritmo de red de flujo que resuelve el problema especificado en el fichero<a name="line.130"></a>
 <span class="sourceLineNo">131</span>         */<a name="line.131"></a>
 <span class="sourceLineNo">132</span>        public static FlowAlgorithm createFlow(String fichero) {<a name="line.132"></a>
-<span class="sourceLineNo">133</span>                FlowGraph f = new FlowGraph(FlowEdge.factory);<a name="line.133"></a>
-<span class="sourceLineNo">134</span>                f = (FlowGraph) GraphsReader.newGraph(fichero, FlowVertex.factory, FlowEdge.factory,f);<a name="line.134"></a>
+<span class="sourceLineNo">133</span>                FlowGraph f = FlowGraph.create(FlowEdge::createEdge);<a name="line.133"></a>
+<span class="sourceLineNo">134</span>                f = (FlowGraph) GraphsReader.newGraph(fichero,FlowVertex::createVertex,FlowEdge::createEdge,f);<a name="line.134"></a>
 <span class="sourceLineNo">135</span>                return FlowAlgorithm.create(f);<a name="line.135"></a>
 <span class="sourceLineNo">136</span>        }<a name="line.136"></a>
 <span class="sourceLineNo">137</span><a name="line.137"></a>
@@ -151,7 +151,7 @@
 <span class="sourceLineNo">143</span>         * @param graph Grafo <a name="line.143"></a>
 <span class="sourceLineNo">144</span>         * @param startVertex Vértice origen<a name="line.144"></a>
 <span class="sourceLineNo">145</span>         * @param endVertex Vértice destino<a name="line.145"></a>
-<span class="sourceLineNo">146</span>         * @return Algortimo AStar<a name="line.146"></a>
+<span class="sourceLineNo">146</span>         * @return Algoritmo AStar<a name="line.146"></a>
 <span class="sourceLineNo">147</span>         * <a name="line.147"></a>
 <span class="sourceLineNo">148</span>         */<a name="line.148"></a>
 <span class="sourceLineNo">149</span>        public static &lt;V, E&gt; AStarAlgorithm&lt;V, E&gt; createAStar(<a name="line.149"></a>
@@ -164,13 +164,13 @@
 <span class="sourceLineNo">156</span>         * @param &lt;E&gt; Tipo de la arista<a name="line.156"></a>
 <span class="sourceLineNo">157</span>         * @param graph Grafo<a name="line.157"></a>
 <span class="sourceLineNo">158</span>         * @param startVertex Vértice origen<a name="line.158"></a>
-<span class="sourceLineNo">159</span>         * @param goal Predicado que debe cumplir el vértice destino. <a name="line.159"></a>
-<span class="sourceLineNo">160</span>         * @return Algortimo AStar<a name="line.160"></a>
+<span class="sourceLineNo">159</span>         * @param goalDistance Distancia a un objetivo <a name="line.159"></a>
+<span class="sourceLineNo">160</span>         * @return Algoritmo AStar<a name="line.160"></a>
 <span class="sourceLineNo">161</span>         */<a name="line.161"></a>
 <span class="sourceLineNo">162</span>        <a name="line.162"></a>
 <span class="sourceLineNo">163</span>        public static &lt;V, E&gt; AStarAlgorithm&lt;V, E&gt; createAStar(<a name="line.163"></a>
-<span class="sourceLineNo">164</span>                        AStarGraph&lt;V, E&gt; graph, V startVertex, Predicate&lt;V&gt; goal) {<a name="line.164"></a>
-<span class="sourceLineNo">165</span>                return new AStarAlgorithm&lt;V, E&gt;(graph, startVertex, goal);<a name="line.165"></a>
+<span class="sourceLineNo">164</span>                        AStarGraph&lt;V, E&gt; graph, V startVertex, Function&lt;V,Double&gt; goalDistance) {<a name="line.164"></a>
+<span class="sourceLineNo">165</span>                return new AStarAlgorithm&lt;V, E&gt;(graph, startVertex, goalDistance);<a name="line.165"></a>
 <span class="sourceLineNo">166</span>        }<a name="line.166"></a>
 <span class="sourceLineNo">167</span><a name="line.167"></a>
 <span class="sourceLineNo">168</span>        /**<a name="line.168"></a>
@@ -181,7 +181,7 @@
 <span class="sourceLineNo">173</span>         * @param graph Grafo<a name="line.173"></a>
 <span class="sourceLineNo">174</span>         * @param startVertex Vértice origen<a name="line.174"></a>
 <span class="sourceLineNo">175</span>         * @param goalSet Conjunto de vértices objetivo <a name="line.175"></a>
-<span class="sourceLineNo">176</span>         * @return Algortimo AStar<a name="line.176"></a>
+<span class="sourceLineNo">176</span>         * @return Algoritmo AStar<a name="line.176"></a>
 <span class="sourceLineNo">177</span>         * <a name="line.177"></a>
 <span class="sourceLineNo">178</span>         */<a name="line.178"></a>
 <span class="sourceLineNo">179</span>        public static &lt;V, E&gt; AStarAlgorithm&lt;V, E&gt; createAStar(<a name="line.179"></a>

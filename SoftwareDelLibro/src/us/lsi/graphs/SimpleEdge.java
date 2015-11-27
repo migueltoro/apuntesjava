@@ -1,35 +1,56 @@
 package us.lsi.graphs;
 
-import org.jgrapht.EdgeFactory;
-
 /**
- * <a> Un arista simple entre dos vértices de tipo V
- * El tipo también implementa la factoría de aristas </a>
+ * <p> Un arista simple entre dos vértices de tipo V </p>
  * 
  * @author Miguel Toro
  *
  * @param <V> El tipo de los vértices de la arista
  */
-public class SimpleEdge<V> implements EdgeFactory<V, SimpleEdge<V>> {
+public class SimpleEdge<V> {
 
 	private V source;
 	private V target;
+	private double weight;
+
+		
+	/**
+	 * @param v1 Un vértice
+	 * @param v2 Un segundo vértice
+	 * @param <V> El tipo de los vértices que une la arista
+	 * @return Una arista entre ambos vértices
+	 */
+	public static <V> SimpleEdge<V> create(V v1, V v2) {
+		return new SimpleEdge<>(v1,v2);
+	}
 	
 	/**
-	 * 
-	 * @param <E> El tipo de las aristas
-	 * @return La factoría de aristas
+	 * @param v1 Un vértice
+	 * @param v2 Un segundo vértice
+	 * @param weight El peso de la arista
+	 * @param <V> el tipo de los vértices
+	 * @return Una arista entre ambos vértices
 	 */
-	public static <E> SimpleEdge<E> create() {
-		return  new SimpleEdge<E>(null,null);
+	public static <V> SimpleEdge<V> create(V v1, V v2, double weight) {
+		return new SimpleEdge<V>(v1, v2, weight);
 	}
+
 
 	protected SimpleEdge(V c1, V c2) {
 		super();
 		this.source = c1;
 		this.target = c2;
+		this.weight = 1.;
 	}
 
+	private SimpleEdge(V c1, V c2, double weight) {
+		super();
+		this.source = c1;
+		this.target = c2;
+		this.weight = weight;
+	}
+	
+	
 	/**
 	 * @return El vértice origen
 	 */
@@ -48,20 +69,13 @@ public class SimpleEdge<V> implements EdgeFactory<V, SimpleEdge<V>> {
 	 * @return El peso asociado a la arista
 	 */
 	public double getEdgeWeight(){
-		return 1.;
+		return this.weight;
 	}
+	
 	
 	@Override
 	public String toString() {
-		return this.source+","+this.target;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jgrapht.EdgeFactory#createEdge(java.lang.Object, java.lang.Object)
-	 */
-	@Override
-	public SimpleEdge<V> createEdge(V v1, V v2) {
-		return new SimpleEdge<V>(v1,v2);
+		return "("+this.source+","+this.target+")";
 	}
 
 	@Override

@@ -14,7 +14,7 @@ Sevilla,Cadiz
 Sevilla,Malaga
 Malaga,Cadiz
 Malaga,Cordoba
-Malaga, Granada
+Malaga,Granada
 Cordoba,Malaga
 Cordoba,Jaen
 Cordoba,Granada

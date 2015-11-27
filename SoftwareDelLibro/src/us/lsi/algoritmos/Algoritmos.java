@@ -2,7 +2,7 @@ package us.lsi.algoritmos;
 
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import us.lsi.ag.AlgoritmoAG;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
@@ -130,8 +130,8 @@ public class Algoritmos {
 	 * @return Algoritmo de red de flujo que resuelve el problema especificado en el fichero
 	 */
 	public static FlowAlgorithm createFlow(String fichero) {
-		FlowGraph f = new FlowGraph(FlowEdge.factory);
-		f = (FlowGraph) GraphsReader.newGraph(fichero, FlowVertex.factory, FlowEdge.factory,f);
+		FlowGraph f = FlowGraph.create(FlowEdge::createEdge);
+		f = (FlowGraph) GraphsReader.newGraph(fichero,FlowVertex::createVertex,FlowEdge::createEdge,f);
 		return FlowAlgorithm.create(f);
 	}
 
@@ -143,7 +143,7 @@ public class Algoritmos {
 	 * @param graph Grafo 
 	 * @param startVertex Vértice origen
 	 * @param endVertex Vértice destino
-	 * @return Algortimo AStar
+	 * @return Algoritmo AStar
 	 * 
 	 */
 	public static <V, E> AStarAlgorithm<V, E> createAStar(
@@ -156,13 +156,13 @@ public class Algoritmos {
 	 * @param <E> Tipo de la arista
 	 * @param graph Grafo
 	 * @param startVertex Vértice origen
-	 * @param goal Predicado que debe cumplir el vértice destino. 
-	 * @return Algortimo AStar
+	 * @param goalDistance Distancia a un objetivo 
+	 * @return Algoritmo AStar
 	 */
 	
 	public static <V, E> AStarAlgorithm<V, E> createAStar(
-			AStarGraph<V, E> graph, V startVertex, Predicate<V> goal) {
-		return new AStarAlgorithm<V, E>(graph, startVertex, goal);
+			AStarGraph<V, E> graph, V startVertex, Function<V,Double> goalDistance) {
+		return new AStarAlgorithm<V, E>(graph, startVertex, goalDistance);
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class Algoritmos {
 	 * @param graph Grafo
 	 * @param startVertex Vértice origen
 	 * @param goalSet Conjunto de vértices objetivo 
-	 * @return Algortimo AStar
+	 * @return Algoritmo AStar
 	 * 
 	 */
 	public static <V, E> AStarAlgorithm<V, E> createAStar(

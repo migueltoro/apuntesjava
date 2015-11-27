@@ -1,18 +1,9 @@
 package us.lsi.pd.floyd;
 
-import us.lsi.graphs.StringVertexFactory;
+public class Ciudad  {
 
-public class Ciudad implements StringVertexFactory<Ciudad> {
-
-	private static Ciudad r = new Ciudad("");
-
-	@Override
-	public Ciudad createVertex(String[] formato) {
+	public static Ciudad create(String[] formato) {
 		return new Ciudad(formato[0]);
-	}
-
-	public static StringVertexFactory<Ciudad> getFactory() {
-		return r;
 	}
 
 	private String nombre;

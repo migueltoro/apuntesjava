@@ -1,6 +1,5 @@
 package us.lsi.astar.puzzle;
 
-import us.lsi.graphs.SimpleEdge;
 
 public class TestPuzzle {
 
@@ -11,7 +10,7 @@ public class TestPuzzle {
 		EstadoPuzzle e3 = EstadoPuzzle.create(1,2,3,4,0,5,6,7,8);
 		System.out.println(e.equals(e2));
 		System.out.println(e.hashCode()+","+e2.hashCode()+","+e3.hashCode());
-		for (SimpleEdge<EstadoPuzzle> v: e.edgesOf()) {
+		for (EstadoPuzzle v: e.getNeighborListOf()) {
 			System.out.println(v+"\n");
 		}
 	}

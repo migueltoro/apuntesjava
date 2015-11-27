@@ -1,6 +1,5 @@
 package us.lsi.flowgraph;
 import us.lsi.flowgraph.FlowGraph.TipoDeVertice;
-import us.lsi.graphs.*;
 
 /**
  * Un vértice de una Red de Fujo.
@@ -17,8 +16,11 @@ public class FlowVertex {
 	private Double min=0.;
 	private Double max=Double.MAX_VALUE;
 	private Double cost=0.;
-	public static StringVertexFactory<FlowVertex> factory = new Factoria();
 
+	public static FlowVertex createVertex(String[] formato) {
+		return new FlowVertex(formato);
+	}
+	
 	private FlowVertex(String formato) {
 		super();
 		this.nombre = formato;
@@ -111,14 +113,6 @@ public class FlowVertex {
 	@Override
 	public String toString() {
 		return nombre;
-	}
-	
-	private static class Factoria implements StringVertexFactory<FlowVertex>{
-
-		@Override
-		public FlowVertex createVertex(String[] formato) {
-			return new FlowVertex(formato);
-		}
 	}
 	
 }

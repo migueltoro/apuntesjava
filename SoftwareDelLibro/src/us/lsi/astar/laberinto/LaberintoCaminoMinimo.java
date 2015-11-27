@@ -1,8 +1,7 @@
 package us.lsi.astar.laberinto;
 
 import java.util.Set;
-import java.util.function.Predicate;
-
+import java.util.function.Function;
 import org.jgrapht.EdgeFactory;
 
 import us.lsi.astar.AStarGraph;
@@ -34,7 +33,7 @@ public class LaberintoCaminoMinimo extends UndirectedSimpleVirtualGraph<Casilla,
 	}
 
 	@Override
-	public double getWeightToEnd(Casilla startVertex, Casilla endVertex, Predicate<Casilla> p, Set<Casilla> s) {
+	public double getWeightToEnd(Casilla startVertex, Casilla endVertex, Function<Casilla,Double> f, Set<Casilla> s) {
 		int x = Math.abs(endVertex.getX()-startVertex.getX())+ Math.abs(endVertex.getY()-startVertex.getY());
 		return x;
 	}

@@ -18,7 +18,7 @@
 <span class="sourceLineNo">010</span> * @param &lt;V&gt; Tipo de los vértices<a name="line.10"></a>
 <span class="sourceLineNo">011</span> * @param &lt;E&gt; Tipo de las aristas<a name="line.11"></a>
 <span class="sourceLineNo">012</span> */<a name="line.12"></a>
-<span class="sourceLineNo">013</span>public interface VirtualVertex&lt;V extends VirtualVertex&lt;V,E&gt;, E&gt; {       <a name="line.13"></a>
+<span class="sourceLineNo">013</span>public interface VirtualVertex&lt;V extends VirtualVertex&lt;V,E&gt;, E extends SimpleEdge&lt;V&gt;&gt; { <a name="line.13"></a>
 <span class="sourceLineNo">014</span>        /**<a name="line.14"></a>
 <span class="sourceLineNo">015</span>         * @return Si es un valor válido del tipo<a name="line.15"></a>
 <span class="sourceLineNo">016</span>         */<a name="line.16"></a>
@@ -28,15 +28,18 @@
 <span class="sourceLineNo">020</span>         */<a name="line.20"></a>
 <span class="sourceLineNo">021</span>        Set&lt;V&gt; getNeighborListOf();<a name="line.21"></a>
 <span class="sourceLineNo">022</span>        /**<a name="line.22"></a>
-<span class="sourceLineNo">023</span>         * @return Conjunto de las arista hacia los vértices vecinos<a name="line.23"></a>
+<span class="sourceLineNo">023</span>         * @return Conjunto de las aristas hacia los vértices vecinos<a name="line.23"></a>
 <span class="sourceLineNo">024</span>         */<a name="line.24"></a>
-<span class="sourceLineNo">025</span>        Set&lt;E&gt; edgesOf();<a name="line.25"></a>
-<span class="sourceLineNo">026</span>        /**<a name="line.26"></a>
-<span class="sourceLineNo">027</span>         * @param e Vértice que se pregunta si es vecino<a name="line.27"></a>
-<span class="sourceLineNo">028</span>         * @return Si el vértice es vecino<a name="line.28"></a>
-<span class="sourceLineNo">029</span>         */<a name="line.29"></a>
-<span class="sourceLineNo">030</span>        boolean isNeighbor(V e);<a name="line.30"></a>
-<span class="sourceLineNo">031</span>}<a name="line.31"></a>
+<span class="sourceLineNo">025</span>        Set&lt;E&gt; edgesOf(); <a name="line.25"></a>
+<span class="sourceLineNo">026</span>        <a name="line.26"></a>
+<span class="sourceLineNo">027</span>        /**<a name="line.27"></a>
+<span class="sourceLineNo">028</span>         * @param v Vértice que se pregunta si es vecino<a name="line.28"></a>
+<span class="sourceLineNo">029</span>         * @return Si el vértice es vecino<a name="line.29"></a>
+<span class="sourceLineNo">030</span>         */<a name="line.30"></a>
+<span class="sourceLineNo">031</span>        default boolean isNeighbor(V v) {<a name="line.31"></a>
+<span class="sourceLineNo">032</span>                return getNeighborListOf().contains(v);<a name="line.32"></a>
+<span class="sourceLineNo">033</span>        }<a name="line.33"></a>
+<span class="sourceLineNo">034</span>}<a name="line.34"></a>
 
 
 

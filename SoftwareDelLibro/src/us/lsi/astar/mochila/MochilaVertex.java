@@ -53,9 +53,8 @@ public class MochilaVertex implements VirtualVertex<MochilaVertex, SimpleEdge<Mo
 	public Set<SimpleEdge<MochilaVertex>> edgesOf() {
 		return getNeighborListOf()
 				.stream()
-				.<SimpleEdge<MochilaVertex>>map(
-						(MochilaVertex x)->SimpleEdge.<MochilaVertex>create().createEdge(this, x))
-				.collect(Collectors.<SimpleEdge<MochilaVertex>>toSet());
+				.map(x->SimpleEdge.create(this, x))
+				.collect(Collectors.toSet());
 	}
 
 	@Override

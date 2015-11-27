@@ -117,8 +117,8 @@ public class Casilla implements VirtualVertex<Casilla,SimpleEdge<Casilla>> {
 	@Override
 	public Set<SimpleEdge<Casilla>> edgesOf() {
 		return getNeighborListOf().stream()
-				.<SimpleEdge<Casilla>>map((Casilla c)->SimpleEdge.<Casilla>create().createEdge(this,c))
-				.collect(Collectors.<SimpleEdge<Casilla>>toSet());
+				.map(c->SimpleEdge.create(this,c))
+				.collect(Collectors.toSet());
 	}
 
 	@Override

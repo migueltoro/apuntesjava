@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 
 
+
 import com.google.common.collect.Lists;
 
 import us.lsi.common.*;
@@ -13,6 +14,10 @@ import us.lsi.graphs.VirtualVertex;
 
 public class EstadoPuzzle implements VirtualVertex<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> {
 	
+	/**
+	 * @param d Lista de valores del puzzle dados por filas de abajo arriba
+	 * @return Un EstadoPuzzle
+	 */
 	public static EstadoPuzzle create(Integer... d) {
 		return new EstadoPuzzle(d);
 	}
@@ -20,7 +25,7 @@ public class EstadoPuzzle implements VirtualVertex<EstadoPuzzle,SimpleEdge<Estad
 	private Integer[][] datos; 
 	private int i0;
 	private int j0;
-	public static int numFilas = 4;
+	public static int numFilas = 3;
 	
 	private EstadoPuzzle(Integer... d) {
 		super(); 
@@ -89,7 +94,7 @@ public class EstadoPuzzle implements VirtualVertex<EstadoPuzzle,SimpleEdge<Estad
 	
 	public Set<SimpleEdge<EstadoPuzzle>> edgesOf(){
 		return this.getNeighborListOf().stream()
-		   .<SimpleEdge<EstadoPuzzle>>map(x->SimpleEdge.<EstadoPuzzle>create().createEdge(this,x))
+		   .map(x->SimpleEdge.create(this,x))
 		   .collect(Collectors.<SimpleEdge<EstadoPuzzle>>toSet());
 	}
 	
@@ -99,7 +104,13 @@ public class EstadoPuzzle implements VirtualVertex<EstadoPuzzle,SimpleEdge<Estad
 	}
 
 	public boolean isValid() {
-		return true;
+		Set<Integer> s = new HashSet<Integer>();	
+		for (int j = 0; j < EstadoPuzzle.numFilas; j++) {
+			for (int i = 0; i < EstadoPuzzle.numFilas; i++) {
+				s.add(datos[i][j]);
+			}
+		}
+		return s.size()== EstadoPuzzle.numFilas*EstadoPuzzle.numFilas;
 	}
 	
 	public Integer getNumDiferentes(EstadoPuzzle e){
@@ -114,7 +125,6 @@ public class EstadoPuzzle implements VirtualVertex<EstadoPuzzle,SimpleEdge<Estad
 		return s;
 	}
 	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -154,11 +164,6 @@ public class EstadoPuzzle implements VirtualVertex<EstadoPuzzle,SimpleEdge<Estad
 		}
 		return s;
 	}
-
-
-	
-
-
 	
 	
 }

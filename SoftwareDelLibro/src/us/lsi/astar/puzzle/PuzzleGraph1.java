@@ -1,9 +1,12 @@
 package us.lsi.astar.puzzle;
 
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import org.jgrapht.EdgeFactory;
+
+
+
 
 
 
@@ -41,7 +44,7 @@ public class PuzzleGraph1 extends UndirectedSimpleVirtualGraph<EstadoPuzzle, Sim
 	}
 
 	@Override
-	public double getWeightToEnd(EstadoPuzzle startVertex,EstadoPuzzle endVertex, Predicate<EstadoPuzzle> goal,
+	public double getWeightToEnd(EstadoPuzzle startVertex,EstadoPuzzle endVertex, Function<EstadoPuzzle,Double> goalDistance, 
 			Set<EstadoPuzzle> goalSet) {
 		if(startVertex==null || endVertex==null)
 			throw new IllegalArgumentException("El vértice inicial y final no pueden ser null");

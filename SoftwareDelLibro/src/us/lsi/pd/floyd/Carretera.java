@@ -3,28 +3,19 @@ package us.lsi.pd.floyd;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-import us.lsi.graphs.StringEdgeFactory;
-
-public class Carretera extends DefaultWeightedEdge implements StringEdgeFactory<Ciudad, Carretera> {
+public class Carretera extends DefaultWeightedEdge {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static Carretera r = new Carretera();
 
-	@Override
-	public Carretera createEdge(Ciudad c1, Ciudad c2) {
+	public static Carretera create(Ciudad c1, Ciudad c2) {
 		return new Carretera();
 	}
 
-	@Override
-	public Carretera createEdge(Ciudad c1, Ciudad c2, String[] formato) {
+	public static Carretera create(Ciudad c1, Ciudad c2, String[] formato) {
 		return new Carretera(c1,c2,formato);
-	}
-
-	public static StringEdgeFactory<Ciudad, Carretera> getFactory() {
-		return r;
 	}
 
 	private static int ultimo = 0;

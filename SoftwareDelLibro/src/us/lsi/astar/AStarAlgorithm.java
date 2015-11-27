@@ -3,7 +3,7 @@ package us.lsi.astar;
 	
 	
 import java.util.*;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
@@ -26,7 +26,7 @@ public final class AStarAlgorithm<V, E> {
 	private AStarGraph<V, E> graph;
 	private V startVertex;
 	private V endVertex;
-	private Predicate<V> goal=null;
+	private Function<V,Double> goalDistance=null;
 	private Set<V> goalSet=null;
 	
 	/**
@@ -46,11 +46,11 @@ public final class AStarAlgorithm<V, E> {
 	 * El algoritmo para cuando alcanza el primer vértice que cumple el predicado
 	 * @param graph Grafo
 	 * @param startVertex Vértice origen
-	 * @param goal Predicado que debe cumplir el vértice destino. 
+	 * @param goalDistance Distancia a un objetivo
 	 * 
 	 */
-	public AStarAlgorithm(AStarGraph<V, E> graph, V startVertex, Predicate<V> goal) {
-		this(graph, startVertex, null, goal, null,
+	public AStarAlgorithm(AStarGraph<V, E> graph, V startVertex, Function<V,Double> goalDistance) {
+		this(graph, startVertex, null, goalDistance, null,
 				Double.POSITIVE_INFINITY);
 	}
 	/**
@@ -62,19 +62,17 @@ public final class AStarAlgorithm<V, E> {
 	 * 
 	 */
 	public AStarAlgorithm(AStarGraph<V, E> graph, V startVertex, Set<V> goalSet) {
-		this(graph, startVertex, null, null, goalSet,
+		this(graph, startVertex, null, null,goalSet,
 				Double.POSITIVE_INFINITY);
 	}
 
-	private AStarAlgorithm(AStarGraph<V, E> graph,
-			V startVertex, V endVertex, Predicate<V> goal, Set<V> goalSet,
-			double radius) {
+	private AStarAlgorithm(AStarGraph<V, E> graph, V startVertex, V endVertex, Function<V,Double> goalDistance, Set<V> goalSet, double radius) {
 
 		
 		this.graph=graph;
 		this.startVertex = startVertex;
 		this.endVertex = endVertex;
-		this.goal = goal;
+		this.goalDistance = goalDistance;
 		this.goalSet =goalSet;
 		
 		
@@ -83,19 +81,16 @@ public final class AStarAlgorithm<V, E> {
 					"graph must contain the end vertex");
 		}
 
-		iterator = new AStarIterator<V, E>(graph, startVertex, endVertex, goal, goalSet, radius);
+		iterator = new AStarIterator<V, E>(graph, startVertex, endVertex, goalDistance, goalSet, radius);
 		
 		while (iterator.hasNext()) {		
 			
 			V vertex = iterator.next();
 			
-			if (this.goalSet != null) {
-				this.goalSet.remove(vertex);
-			}
 			
-			if (this.goal == null && this.goalSet == null && vertex.equals(this.endVertex)
-					|| (this.goal != null && this.goal.test(vertex))
-					|| (this.goalSet != null && this.goalSet.isEmpty())) {
+			if (this.goalDistance == null && this.goalSet == null && vertex.equals(this.endVertex)
+					|| (this.goalDistance != null && this.goalDistance.apply(vertex)==0.)
+					|| (this.goalSet != null && this.goalSet.contains(vertex))) {
 				
 				path = createEdgeList(graph, iterator, startVertex, vertex);
 				return;

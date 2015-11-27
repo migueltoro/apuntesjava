@@ -12,13 +12,17 @@ import java.util.*;
 
 import us.lsi.graphs.*;
 
+import us.lsi.pd.floyd.Carretera;
+import us.lsi.pd.floyd.Ciudad;
+
+
 public class AndaluciaTest {
 
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Graph<Ciudad,Carretera> g = (UndirectedGraph<Ciudad,Carretera>) new SimpleGraph<Ciudad,Carretera>(Carretera.factoria);
-		g =  GraphsReader.newGraph("andalucia.txt",Ciudad.factoria, Carretera.factoria,g);
+		Graph<Ciudad,Carretera> g =  new SimpleGraph<Ciudad,Carretera>(Carretera::create);
+		g =  GraphsReader.newGraph("andalucia.txt",Ciudad::create, Carretera::create,g);
 		int r = ChromaticNumber.findGreedyChromaticNumber((UndirectedGraph<Ciudad,Carretera>)g);
 //		Map<Integer,Set<String>> m = ChromaticNumber.findGreedyColoredGroups(g);
 		Map<Integer,Set<Ciudad>> m = ChromaticNumber.findGreedyColoredGroups((UndirectedGraph<Ciudad,Carretera>)g);

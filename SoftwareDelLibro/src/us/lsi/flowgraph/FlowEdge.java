@@ -1,8 +1,6 @@
 package us.lsi.flowgraph;
 import org.jgraph.graph.DefaultEdge;
 
-import us.lsi.graphs.*;
-
 /**
  * Una arista simple de una Red de Fujo.
  * Cada arista de este tipo tiene asociado un coste unitario, un flujo máximo y otro mínimo 
@@ -19,8 +17,14 @@ public class FlowEdge extends DefaultEdge {
 	private Double min=0.;
 	private Double max=Double.MAX_VALUE;
 	private Double cost=0.;
-	public static StringEdgeFactory<FlowVertex,FlowEdge> factory = new Factoria();
 	
+	public static FlowEdge createEdge(FlowVertex v1, FlowVertex v2, String[] formato) {
+		return new FlowEdge(v1,v2,formato);
+	}
+	
+	public static FlowEdge createEdge(FlowVertex v1, FlowVertex v2) {
+		return new FlowEdge(v1,v2);
+	}
 	
 	private FlowEdge(FlowVertex from, FlowVertex to, Double min, Double max,Double cost)  {
 		super();
@@ -108,25 +112,6 @@ public class FlowEdge extends DefaultEdge {
 		return true;
 	}
 
+	
 
-
-	private static class Factoria implements StringEdgeFactory<FlowVertex,FlowEdge> {
-		
-		public Factoria() {
-			super();
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public FlowEdge createEdge(FlowVertex v1, FlowVertex v2) {
-			return new FlowEdge(v1,v2);
-		}
-
-		@Override
-		public FlowEdge createEdge(FlowVertex v1, FlowVertex v2, String[] formato) {
-			// TODO Auto-generated method stub
-			return new FlowEdge(v1,v2,formato);
-		}
-		
-	}
 }

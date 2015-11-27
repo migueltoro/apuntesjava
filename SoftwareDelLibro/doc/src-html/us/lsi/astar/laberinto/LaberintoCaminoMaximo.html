@@ -9,7 +9,7 @@
 <pre><span class="sourceLineNo">001</span>package us.lsi.astar.laberinto;<a name="line.1"></a>
 <span class="sourceLineNo">002</span><a name="line.2"></a>
 <span class="sourceLineNo">003</span>import java.util.Set;<a name="line.3"></a>
-<span class="sourceLineNo">004</span>import java.util.function.Predicate;<a name="line.4"></a>
+<span class="sourceLineNo">004</span>import java.util.function.Function;<a name="line.4"></a>
 <span class="sourceLineNo">005</span><a name="line.5"></a>
 <span class="sourceLineNo">006</span>import org.jgrapht.EdgeFactory;<a name="line.6"></a>
 <span class="sourceLineNo">007</span><a name="line.7"></a>
@@ -45,7 +45,7 @@
 <span class="sourceLineNo">037</span>        }<a name="line.37"></a>
 <span class="sourceLineNo">038</span><a name="line.38"></a>
 <span class="sourceLineNo">039</span>        @Override<a name="line.39"></a>
-<span class="sourceLineNo">040</span>        public double getWeightToEnd(Casilla startVertex, Casilla endVertex, Predicate&lt;Casilla&gt; p, Set&lt;Casilla&gt; s) {<a name="line.40"></a>
+<span class="sourceLineNo">040</span>        public double getWeightToEnd(Casilla startVertex, Casilla endVertex, Function&lt;Casilla,Double&gt; f, Set&lt;Casilla&gt; s) {<a name="line.40"></a>
 <span class="sourceLineNo">041</span>                // TODO Auto-generated method stub<a name="line.41"></a>
 <span class="sourceLineNo">042</span>                int x = Math.abs(endVertex.getX()-startVertex.getX())+ Math.abs(endVertex.getY()-startVertex.getY());<a name="line.42"></a>
 <span class="sourceLineNo">043</span>                return -x;<a name="line.43"></a>

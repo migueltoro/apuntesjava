@@ -23,12 +23,20 @@ public class FlowGraph extends SimpleDirectedGraph<FlowVertex, FlowEdge> {
 	 */
 	public enum TipoDeVertice{Source,Sink,Intermedio};	
 
-	public FlowGraph(Class<? extends FlowEdge> arg0) {
+	public static FlowGraph create(EdgeFactory<FlowVertex, FlowEdge> arg0) {
+		return new FlowGraph(arg0);
+	}
+
+	public static FlowGraph create(Class<? extends FlowEdge> arg0) {
+		return new FlowGraph(arg0);
+	}
+
+	private FlowGraph(Class<? extends FlowEdge> arg0) {
 		super(arg0);
 		Preconditions.checkArgument(check());
 	}
 
-	public FlowGraph(EdgeFactory<FlowVertex, FlowEdge> arg0) {
+	private FlowGraph(EdgeFactory<FlowVertex, FlowEdge> arg0) {
 		super(arg0);		
 	}
 	

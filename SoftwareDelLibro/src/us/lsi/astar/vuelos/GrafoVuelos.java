@@ -1,7 +1,7 @@
 package us.lsi.astar.vuelos;
 
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import org.jgrapht.EdgeFactory;
 import org.jgrapht.graph.*;
@@ -19,13 +19,11 @@ public class GrafoVuelos extends DirectedMultigraph<String,Vuelo> implements ASt
 
 	public GrafoVuelos(Class<? extends Vuelo> arg0) {
 		super(arg0);
-		// TODO Auto-generated constructor stub
 	}
 
 
 	public GrafoVuelos(EdgeFactory<String, Vuelo> arg0) {
 		super(arg0);
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -42,21 +40,18 @@ public class GrafoVuelos extends DirectedMultigraph<String,Vuelo> implements ASt
 	
 */	
 	@Override
-	public double getEdgeWeight(Vuelo v) {
-		// TODO Auto-generated method stub
+	public double getEdgeWeight(Vuelo v){
 		return v.getDuracion();
 	}
 
 	
 	@Override
 	public double getVertexWeight(String vertex) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public double getVertexWeight(String vertex, Vuelo edgeIn, Vuelo edgeOut) {
-		// TODO Auto-generated method stub
 		double r;
 		double horaDeLlegada;
 		if(edgeIn==null){
@@ -72,7 +67,7 @@ public class GrafoVuelos extends DirectedMultigraph<String,Vuelo> implements ASt
 	}
 
 	@Override
-	public double getWeightToEnd(String startVertex, String endVertex, Predicate<String> p, Set<String> s) {
+	public double getWeightToEnd(String startVertex, String endVertex, Function<String,Double> p, Set<String> s) {
 		return 0;
 	}
 

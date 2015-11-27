@@ -1,6 +1,6 @@
 package us.lsi.astar.mochila;
 
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import org.jgrapht.GraphPath;
 import org.jgrapht.Graphs;
@@ -20,15 +20,12 @@ public class TestMochilaGrafo {
 		ProblemaMochila.capacidadInicial = 78;
 		MochilaVertex p1 = MochilaVertex.create();
 		System.out.println("Problema Inicial = "+p1);
-		Predicate<MochilaVertex> predicate = (MochilaVertex p)->p.getProblema().isFinal();
-		AStarGraph<MochilaVertex,SimpleEdge<MochilaVertex>> graph = 
-				MochilaGrafo.create(
-						SimpleEdge.<MochilaVertex>create());
-		AStarAlgorithm<MochilaVertex,SimpleEdge<MochilaVertex>> d = 
-				Algoritmos.createAStar(graph, p1, predicate);
-		GraphPath<MochilaVertex,SimpleEdge<MochilaVertex>> path = d.getPath();
+		Function<MochilaVertex,Double> d = (MochilaVertex p)-> 1.*ProblemaMochila.getObjetosDisponibles().size() - p.getProblema().getIndex();
+		AStarGraph<MochilaVertex,SimpleEdge<MochilaVertex>> graph = MochilaGrafo.create(SimpleEdge::create);
+		AStarAlgorithm<MochilaVertex,SimpleEdge<MochilaVertex>> a = Algoritmos.createAStar(graph, p1, d);
+		GraphPath<MochilaVertex,SimpleEdge<MochilaVertex>> path = a.getPath();
 		System.out.println(Graphs.getPathVertexList(path));
 		System.out.println(MochilaVertex.getSolucion(Graphs.getPathVertexList(path)));
-		System.out.println(d.getPathLength());
+		System.out.println(a.getPathLength());
 	}
 }

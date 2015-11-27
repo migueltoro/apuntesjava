@@ -1,7 +1,7 @@
 package us.lsi.astar.puzzle;
 
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import org.jgrapht.EdgeFactory;
 
@@ -20,14 +20,11 @@ public class PuzzleGraph3 extends PuzzleGraph1 {
 	}
 
 	@Override
-	public double getWeightToEnd(EstadoPuzzle startVertex,EstadoPuzzle endVertex, Predicate<EstadoPuzzle> goal,
+	public double getWeightToEnd(EstadoPuzzle startVertex,EstadoPuzzle endVertex, Function<EstadoPuzzle,Double> goal,
 			Set<EstadoPuzzle> goalSet) {
 		if(startVertex==null || goalSet==null)
 			throw new IllegalArgumentException("El vértice inicial y el goalSet no pueden ser null");
-		Double r = 0.;
-		for(EstadoPuzzle e: goalSet){
-			r = r+startVertex.getNumDiferentes(e);
-		}	
-		return r;
+		
+		return goalSet.stream().mapToDouble(e->startVertex.getNumDiferentes(e)).min().getAsDouble();
 	}
 }

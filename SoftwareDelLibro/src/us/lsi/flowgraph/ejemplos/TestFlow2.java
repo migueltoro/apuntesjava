@@ -16,8 +16,8 @@ public class TestFlow2 {
 
 	public static void main(String[] args){
 
-		FlowGraph f = new FlowGraph(FlowEdge.factory);
-		f = (FlowGraph) GraphsReader.newGraph("flow3.txt", FlowVertex.factory, FlowEdge.factory,f);
+		FlowGraph f = FlowGraph.create(FlowEdge::createEdge);
+		f = (FlowGraph) GraphsReader.newGraph("flow3.txt", FlowVertex::createVertex, FlowEdge::createEdge,f);
 		System.out.println(f);
 		
 		FlowAlgorithm ff = FlowAlgorithm.create(f, false);

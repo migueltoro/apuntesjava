@@ -59,8 +59,8 @@ public class FlowGraphFileExporter {
 			String fileConstraints,
 			boolean conNombres,
 			boolean min) {
-		FlowGraph fg = new FlowGraph(FlowEdge.factory);
-		fg = (FlowGraph) GraphsReader.newGraph(fileIn, FlowVertex.factory, FlowEdge.factory, fg);
+		FlowGraph fg = FlowGraph.create(FlowEdge::createEdge);
+		fg = (FlowGraph) GraphsReader.newGraph(fileIn, FlowVertex::createVertex, FlowEdge::createEdge, fg);
 		FlowAlgorithm fa = FlowAlgorithm.create(fg, min);
 		ProblemaPL p = fa.getProblemaLP();
 		AlgoritmoPL a = Algoritmos.createPL(p);

@@ -1,7 +1,5 @@
 package us.lsi.graphs;
 
-import org.jgrapht.EdgeFactory;
-
 /**
  * <a> Tipo que deben implementar la aristas de un grafo que queremos leer de un fichero cuyas líneas
  * representa una arista. Las líneas deben ser de la forma: </a>
@@ -14,7 +12,7 @@ import org.jgrapht.EdgeFactory;
  *
  * @param <V> Tipo de los vértices
  */
-public interface StringEdgeFactory<V, E> extends EdgeFactory<V, E> {
+public interface StringEdgeFactory<V, E> {
 	/**
 	 * @param v1 Vértice origen
 	 * @param v2 Vértice destino

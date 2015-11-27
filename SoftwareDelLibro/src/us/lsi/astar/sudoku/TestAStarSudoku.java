@@ -1,7 +1,7 @@
 package us.lsi.astar.sudoku;
 
 
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import org.jgrapht.GraphPath;
 
@@ -21,7 +21,7 @@ public class TestAStarSudoku {
 		CuadroSudoku.asignaValoresUnicos();
 		AStarGraph<CuadroSudokuVertex,SimpleEdge<CuadroSudokuVertex>> graph = SudokuGraph.create();
 		CuadroSudokuVertex initial = CuadroSudokuVertex.create();
-		Predicate<CuadroSudokuVertex> p = (CuadroSudokuVertex c)->c.getCuadro().getObjetivoMin()==0;
+		Function<CuadroSudokuVertex,Double> p = (CuadroSudokuVertex c)->(double)c.getCuadro().getObjetivoMin();
 		AStarAlgorithm<CuadroSudokuVertex,SimpleEdge<CuadroSudokuVertex>> d = Algoritmos.createAStar(graph, initial, p);
 		GraphPath<CuadroSudokuVertex,SimpleEdge<CuadroSudokuVertex>> path = d.getPath();
 		if (path!=null) {

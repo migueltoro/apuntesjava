@@ -125,8 +125,8 @@
 <span class="sourceLineNo">117</span>        @Override<a name="line.117"></a>
 <span class="sourceLineNo">118</span>        public Set&lt;SimpleEdge&lt;Casilla&gt;&gt; edgesOf() {<a name="line.118"></a>
 <span class="sourceLineNo">119</span>                return getNeighborListOf().stream()<a name="line.119"></a>
-<span class="sourceLineNo">120</span>                                .&lt;SimpleEdge&lt;Casilla&gt;&gt;map((Casilla c)-&gt;SimpleEdge.&lt;Casilla&gt;create().createEdge(this,c))<a name="line.120"></a>
-<span class="sourceLineNo">121</span>                                .collect(Collectors.&lt;SimpleEdge&lt;Casilla&gt;&gt;toSet());<a name="line.121"></a>
+<span class="sourceLineNo">120</span>                                .map(c-&gt;SimpleEdge.create(this,c))<a name="line.120"></a>
+<span class="sourceLineNo">121</span>                                .collect(Collectors.toSet());<a name="line.121"></a>
 <span class="sourceLineNo">122</span>        }<a name="line.122"></a>
 <span class="sourceLineNo">123</span><a name="line.123"></a>
 <span class="sourceLineNo">124</span>        @Override<a name="line.124"></a>

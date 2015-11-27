@@ -1,7 +1,7 @@
 package us.lsi.astar.laberinto;
 
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import org.jgrapht.EdgeFactory;
 
@@ -32,7 +32,7 @@ public class LaberintoSumaPesosMaximo extends UndirectedSimpleVirtualGraph<Casil
 	}
 
 	@Override
-	public double getWeightToEnd(Casilla startVertex, Casilla endVertex, Predicate<Casilla> p, Set<Casilla> s) {
+	public double getWeightToEnd(Casilla startVertex, Casilla endVertex, Function<Casilla,Double> f, Set<Casilla> s) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

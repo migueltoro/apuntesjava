@@ -36,8 +36,8 @@ public class TestFlow {
 		Nodo n2 = Nodo.factory.createVertex(f2);
 		Arista a = Arista.factory.createEdge(n1,n2,f3);
 		System.out.println(n1+","+n2+","+a);
-*/		FlowGraph f = new FlowGraph(FlowEdge.factory);
-		f = (FlowGraph) GraphsReader.newGraph("flow.txt", FlowVertex.factory, FlowEdge.factory,f);
+*/		FlowGraph f = FlowGraph.create(FlowEdge::createEdge);
+		f = (FlowGraph) GraphsReader.newGraph("flow.txt", FlowVertex::createVertex, FlowEdge::createEdge,f);
 		System.out.println(f);
 		
 		FlowAlgorithm ff = FlowAlgorithm.create(f);

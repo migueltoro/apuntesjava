@@ -1,7 +1,7 @@
 package us.lsi.astar.mochila;
 
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import org.jgrapht.EdgeFactory;
 
@@ -53,7 +53,7 @@ public class MochilaGrafo extends
 	@Override
 	public double getWeightToEnd(MochilaVertex startVertex,
 			MochilaVertex endVertex,
-			Predicate<MochilaVertex> goal,
+			Function<MochilaVertex,Double> goal,
 			Set<MochilaVertex> goalSet) {
 		ProblemaMochila actual = startVertex.getProblema();
 		return -actual.getCotaSuperiorValorEstimado();

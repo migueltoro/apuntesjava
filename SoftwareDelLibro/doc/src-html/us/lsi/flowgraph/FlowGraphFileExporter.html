@@ -67,8 +67,8 @@
 <span class="sourceLineNo">059</span>                        String fileConstraints,<a name="line.59"></a>
 <span class="sourceLineNo">060</span>                        boolean conNombres,<a name="line.60"></a>
 <span class="sourceLineNo">061</span>                        boolean min) {<a name="line.61"></a>
-<span class="sourceLineNo">062</span>                FlowGraph fg = new FlowGraph(FlowEdge.factory);<a name="line.62"></a>
-<span class="sourceLineNo">063</span>                fg = (FlowGraph) GraphsReader.newGraph(fileIn, FlowVertex.factory, FlowEdge.factory, fg);<a name="line.63"></a>
+<span class="sourceLineNo">062</span>                FlowGraph fg = FlowGraph.create(FlowEdge::createEdge);<a name="line.62"></a>
+<span class="sourceLineNo">063</span>                fg = (FlowGraph) GraphsReader.newGraph(fileIn, FlowVertex::createVertex, FlowEdge::createEdge, fg);<a name="line.63"></a>
 <span class="sourceLineNo">064</span>                FlowAlgorithm fa = FlowAlgorithm.create(fg, min);<a name="line.64"></a>
 <span class="sourceLineNo">065</span>                ProblemaPL p = fa.getProblemaLP();<a name="line.65"></a>
 <span class="sourceLineNo">066</span>                AlgoritmoPL a = Algoritmos.createPL(p);<a name="line.66"></a>

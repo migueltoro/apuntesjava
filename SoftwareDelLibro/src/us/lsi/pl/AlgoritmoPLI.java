@@ -53,6 +53,7 @@ public class AlgoritmoPLI  extends AbstractAlgoritmo implements SolutionPL{
 	}
 
 	/**
+	 * @param i El valor de la variable i
 	 * @return La solución de la variable i
 	 */
 	public double getSolucion(int i) {
@@ -65,7 +66,7 @@ public class AlgoritmoPLI  extends AbstractAlgoritmo implements SolutionPL{
 
 	/**
 	 * @param i Un índice de variable en el rango 0..getNumVar()-1
-	 * @return
+	 * @return Elvalor de la variable i
 	 */
 	public String getName(int i) {
 		return names.get(i);
@@ -124,29 +125,13 @@ public class AlgoritmoPLI  extends AbstractAlgoritmo implements SolutionPL{
 	 * @param name Un nombre de variable
 	 * @param i1 Límite inferior del índice de la variable
 	 * @param i2 Límite superior del índice de la variable
-	 * @return El sumatorio de las varaibles cuyos índices están en el rango indicado
+	 * @return El sumatorio de las variables cuyos índices están en el rango indicado
 	 */
 	public static String getSumVariable(String name, int i1, int i2){
 		String r = "";
 		for(int i =i1;i<i2;i++){
 			if (i!=i1) r = r+"+";
 			r = r +AlgoritmoPLI.getVariable(name,i);
-		}	
-		return r;
-	}
-	
-	/**
-	 * @param f
-	 * @param name
-	 * @param i1
-	 * @param i2
-	 * @return
-	 */
-	public static String getSumFactor(Function<Integer,Double> f, String name, int i1, int i2){
-		String r = "";
-		for(int i =i1;i<i2;i++){
-			if (i!=i1) r = r+"+";
-			r = r +f.apply(i)+"+"+AlgoritmoPLI.getVariable(name,i);
 		}	
 		return r;
 	}

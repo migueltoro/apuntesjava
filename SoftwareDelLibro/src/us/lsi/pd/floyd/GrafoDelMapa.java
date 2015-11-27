@@ -21,8 +21,8 @@ public class GrafoDelMapa {
 	}
 
 	public void leeDatos(String fichero){
-		this.grafo = new SimpleWeightedGraph<Ciudad,Carretera>(Carretera.getFactory());
-		this.grafo = (WeightedGraph<Ciudad, Carretera>) GraphsReader.newGraph(fichero, Ciudad.getFactory(),Carretera.getFactory(),grafo);			
+		this.grafo = new SimpleWeightedGraph<Ciudad,Carretera>(Carretera::create);
+		this.grafo = (WeightedGraph<Ciudad, Carretera>) GraphsReader.newGraph(fichero, Ciudad::create,Carretera::create,grafo);			
 		for(Carretera c: grafo.edgeSet()){
 			grafo.setEdgeWeight(c, c.getKm());
 		}		

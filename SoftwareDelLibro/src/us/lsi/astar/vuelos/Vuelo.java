@@ -1,15 +1,21 @@
 package us.lsi.astar.vuelos;
 
-import us.lsi.graphs.StringEdgeFactory;
 
-
-public class Vuelo implements StringEdgeFactory<String, Vuelo>{
+public class Vuelo {
 	
 	private String from;
 	private String to;
 	private double horaDeSalida;
 	private double duracion;
-	private static Vuelo factory = new Vuelo();
+	
+	public static  Vuelo create(String from, String to, String[] s) {
+		return new Vuelo(from, to, new Double(s[2]),new Double(s[3]));
+	}
+	
+	public static Vuelo create(String c1, String c2) {
+		return create(c1,c2,0.0, 1.0);
+	}
+	
 	
 	Vuelo(String from, String to, double horaDeSalida, double duracion) {
 		super();
@@ -101,19 +107,7 @@ public class Vuelo implements StringEdgeFactory<String, Vuelo>{
 		return new Vuelo(from, to, timeSalida, duracion);
 	}
 
-	public Vuelo createEdge(String from, String to, String[] s) {
-		return new Vuelo(from, to, new Double(s[2]),new Double(s[3]));
-	}
 	
-	@Override
-	public Vuelo createEdge(String c1, String c2) {
-		// TODO Auto-generated method stub
-		return create(c1,c2,0.0, 1.0);
-	}
-	
-	public static StringEdgeFactory<String,Vuelo> getFactory(){
-		return factory;
-	}
 
 	
 }
