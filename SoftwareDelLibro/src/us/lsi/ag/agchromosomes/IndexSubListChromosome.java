@@ -30,7 +30,7 @@ import com.google.common.base.Preconditions;
  * <p> Es un cromosoma adecuado para codificar problemas de subconjuntos de multiconjuntos</p>
  *
  */
-public class IndexChromosomeSubList extends BinaryChromosome implements IndexChromosome {
+public class IndexSubListChromosome extends BinaryChromosome implements IndexChromosome {
 
 	public static ProblemaAGIndex<?> problema;
 	
@@ -43,18 +43,18 @@ public class IndexChromosomeSubList extends BinaryChromosome implements IndexChr
 	public static int DIMENSION;
 	
 	public static void iniValues(ProblemaAG problema){
-		IndexChromosomeSubList.problema = (ProblemaAGIndex<?>) problema; 
-		IndexChromosomeSubList.normalSequence = IndexChromosomeSubList.problema.getNormalSequence();
-		IndexChromosomeSubList.DIMENSION = IndexChromosomeSubList.normalSequence.size();
+		IndexSubListChromosome.problema = (ProblemaAGIndex<?>) problema; 
+		IndexSubListChromosome.normalSequence = IndexSubListChromosome.problema.getNormalSequence();
+		IndexSubListChromosome.DIMENSION = IndexSubListChromosome.normalSequence.size();
 	}
 	
-	public IndexChromosomeSubList(List<Integer> representation)
+	public IndexSubListChromosome(List<Integer> representation)
 			throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
 
-	public IndexChromosomeSubList(Integer[] representation)
+	public IndexSubListChromosome(Integer[] representation)
 			throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
@@ -62,7 +62,7 @@ public class IndexChromosomeSubList extends BinaryChromosome implements IndexChr
 
 	@Override
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> ls) {
-		return new IndexChromosomeSubList(ls);
+		return new IndexSubListChromosome(ls);
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class IndexChromosomeSubList extends BinaryChromosome implements IndexChr
 	 */
 	@Override
 	public List<Integer> decode() {	
-		List<Integer> r = Lists2.<Integer>nCopias(IndexChromosomeSubList.problema.getObjectsNumber(), 0);
+		List<Integer> r = Lists2.<Integer>nCopias(IndexSubListChromosome.problema.getObjectsNumber(), 0);
 		List<Integer> bn = this.getRepresentation();
 		Preconditions.checkArgument(normalSequence.size() == bn.size(),normalSequence.size()+","+bn.size());
 		for (int i = 0; i < normalSequence.size(); i++) {
@@ -83,9 +83,9 @@ public class IndexChromosomeSubList extends BinaryChromosome implements IndexChr
 		return r;
 	}
 	
-	public static IndexChromosomeSubList getInitialChromosome() {
-		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(IndexChromosomeSubList.DIMENSION);
-		return new IndexChromosomeSubList(ls);
+	public static IndexSubListChromosome getInitialChromosome() {
+		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(IndexSubListChromosome.DIMENSION);
+		return new IndexSubListChromosome(ls);
 	}
 
 	@Override
@@ -96,22 +96,22 @@ public class IndexChromosomeSubList extends BinaryChromosome implements IndexChr
 	private Double ft = null;
 	
 	private double calculateFt(){
-		return IndexChromosomeSubList.problema.fitnessFunction(this);
+		return IndexSubListChromosome.problema.fitnessFunction(this);
 	}
 
 	@Override
 	public ProblemaAGIndex<?> getProblem() {
-		return IndexChromosomeSubList.problema;
+		return IndexSubListChromosome.problema;
 	}
 
 	@Override
 	public Integer getObjectsNumber() {
-		return IndexChromosomeSubList.problema.getObjectsNumber();
+		return IndexSubListChromosome.problema.getObjectsNumber();
 	}
 
 	@Override
 	public Integer getMax(int i) {
-		return IndexChromosomeSubList.problema.getMax(i);
+		return IndexSubListChromosome.problema.getMax(i);
 	}
 
 	@Override

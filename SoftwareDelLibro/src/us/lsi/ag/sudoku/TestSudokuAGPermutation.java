@@ -35,7 +35,7 @@ public class TestSudokuAGPermutation {
 		CuadroSudoku.asignaValoresUnicos();
 		
 		ProblemaSudokuAGPermutation p = new ProblemaSudokuAGPermutation();		
-		AlgoritmoAG a = Algoritmos.createAG(ChromosomeFactory.ChromosomeType.PermutationIndex ,p);		
+		AlgoritmoAG a = Algoritmos.createAG(ChromosomeFactory.ChromosomeType.IndexPermutation ,p);		
 		a.ejecuta();
 		System.out.println("Mejor Solución =");
 		CuadroSudoku c = CuadroSudoku.create(ChromosomeFactory.asIndex(a.getBestFinal()).decode());

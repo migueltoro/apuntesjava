@@ -11,7 +11,7 @@ import us.lsi.ag.agchromosomes.BinaryChromosome2;
  * 
  * <p> Un problema cuya solución puede ser modelada con variables binarias. Usa un cromomosoma de tipo IBinaryChromosom</p>
  */
-public interface ProblemaAGBinario<S> extends ProblemaAG {
+public interface ProblemaAGBinary<S> extends ProblemaAG {
 	
 	/**
 	 * @return Dimensión del cromosoma. Es el número de variables binarias del problema

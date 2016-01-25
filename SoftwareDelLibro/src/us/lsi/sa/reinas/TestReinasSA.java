@@ -21,7 +21,7 @@ public class TestReinasSA {
 		AlgoritmoSA.numeroDeIteracionesALaMismaTemperatura = 100;
 		AlgoritmoSA.numeroDeIntentos = 8;
 		ProblemaReinasAG p = ProblemaReinasAG.create();
-		AlgoritmoSA ap = Algoritmos.createSA(ChromosomeType.PermutationIndex,p);
+		AlgoritmoSA ap = Algoritmos.createSA(ChromosomeType.IndexPermutation,p);
 		ap.ejecuta();		
 		for(Chromosome s: ap.soluciones){
 			System.out.println("Solucion =  "+p.getSolucion(ChromosomeFactory.asIndex(s)));

@@ -26,7 +26,7 @@ import com.google.common.base.Preconditions;
  * Es un cromosoma adecuado para codificar problemas de permutaciones </p>
  *
  */
-public class IndexChromosomePermutationRandomKey extends RandomKey<Integer> implements IndexChromosome {
+public class IndexPermutationRandomKeyChromosome extends RandomKey<Integer> implements IndexChromosome {
 
 	public static List<Integer> normalSequence = null;
 	public static ProblemaAGIndex<?> problema;
@@ -38,19 +38,19 @@ public class IndexChromosomePermutationRandomKey extends RandomKey<Integer> impl
 	public static int DIMENSION;
 	
 	public static void iniValues(ProblemaAG problema){
-		IndexChromosomePermutationRandomKey.problema = (ProblemaAGIndex<?>) problema; 
-		IndexChromosomePermutationRandomKey.normalSequence = IndexChromosomePermutationRandomKey.problema.getNormalSequence();
-		IndexChromosomePermutationRandomKey.DIMENSION = IndexChromosomePermutationRandomKey.normalSequence.size();
+		IndexPermutationRandomKeyChromosome.problema = (ProblemaAGIndex<?>) problema; 
+		IndexPermutationRandomKeyChromosome.normalSequence = IndexPermutationRandomKeyChromosome.problema.getNormalSequence();
+		IndexPermutationRandomKeyChromosome.DIMENSION = IndexPermutationRandomKeyChromosome.normalSequence.size();
 	}
 
 	
-	public IndexChromosomePermutationRandomKey(List<Double> representation)
+	public IndexPermutationRandomKeyChromosome(List<Double> representation)
 			throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
 
-	public IndexChromosomePermutationRandomKey(Double[] representation)
+	public IndexPermutationRandomKeyChromosome(Double[] representation)
 			throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
@@ -58,20 +58,20 @@ public class IndexChromosomePermutationRandomKey extends RandomKey<Integer> impl
 
 	@Override
 	public AbstractListChromosome<Double> newFixedLengthChromosome(List<Double> ls) {
-		return new IndexChromosomePermutationRandomKey(ls);
+		return new IndexPermutationRandomKeyChromosome(ls);
 		
 	}
 
 	@Override
 	public List<Integer> decode() {
-		Preconditions.checkArgument(IndexChromosomePermutationRandomKey.normalSequence!=null);
-		return this.decode(IndexChromosomePermutationRandomKey.normalSequence);
+		Preconditions.checkArgument(IndexPermutationRandomKeyChromosome.normalSequence!=null);
+		return this.decode(IndexPermutationRandomKeyChromosome.normalSequence);
 	}
 	
 	
-	public static IndexChromosomePermutationRandomKey getInitialChromosome() {
-		List<Double> ls = RandomKey.randomPermutation(IndexChromosomePermutationRandomKey.DIMENSION);
-		return new IndexChromosomePermutationRandomKey(ls);
+	public static IndexPermutationRandomKeyChromosome getInitialChromosome() {
+		List<Double> ls = RandomKey.randomPermutation(IndexPermutationRandomKeyChromosome.DIMENSION);
+		return new IndexPermutationRandomKeyChromosome(ls);
 	}
 
 	
@@ -83,22 +83,22 @@ public class IndexChromosomePermutationRandomKey extends RandomKey<Integer> impl
 	private double ft;
 	
 	private double calculateFt(){
-		return IndexChromosomePermutationRandomKey.problema.fitnessFunction(this);
+		return IndexPermutationRandomKeyChromosome.problema.fitnessFunction(this);
 	}
 
 	@Override
 	public ProblemaAGIndex<?> getProblem() {
-		return IndexChromosomePermutationRandomKey.problema;
+		return IndexPermutationRandomKeyChromosome.problema;
 	}
 
 	@Override
 	public Integer getObjectsNumber() {
-		return IndexChromosomePermutationRandomKey.problema.getObjectsNumber();
+		return IndexPermutationRandomKeyChromosome.problema.getObjectsNumber();
 	}
 
 	@Override
 	public Integer getMax(int i) {
-		return IndexChromosomePermutationRandomKey.problema.getMax(i);
+		return IndexPermutationRandomKeyChromosome.problema.getMax(i);
 	}
 	
 	@Override

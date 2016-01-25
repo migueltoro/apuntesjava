@@ -29,7 +29,7 @@ public class TestAnunciosAG {
 		ProblemaAnuncios.tiempoTotal = 30;
 		System.out.println(AlgoritmoAG.getRaiz()+"anuncios.txt");
 		ProblemaAGIndex<ListaDeAnunciosAEmitir> p = new ProblemaAnunciosAG(AlgoritmoAG.getRaiz()+"anuncios.txt");		
-		AlgoritmoAG ap = Algoritmos.createAG(ChromosomeType.PermutationIndexSubList,p);
+		AlgoritmoAG ap = Algoritmos.createAG(ChromosomeType.IndexPermutationSubList,p);
 		ap.ejecuta();
 		
 		

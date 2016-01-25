@@ -166,7 +166,7 @@ public class Algoritmos {
 	}
 
 	/**
-	 * Un algoritmo AStar para ir del vértice de inicio hasta alcanzar todos los vértices objetivo
+	 * Un algoritmo AStar para ir del vértice de inicio hasta alcanzar uno de los vértices objetivo
 	 * 
 	 * @param <V> Tipo del vértice
 	 * @param <E> Tipo de la arista

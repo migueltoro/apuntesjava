@@ -30,7 +30,7 @@ public final class AStarAlgorithm<V, E> {
 	private Set<V> goalSet=null;
 	
 	/**
-	 * El algoritmo para cuando alcanza el vértice destino
+	 * <p> El algoritmo para alcanzar el vértice destino </p>
 	 * 
 	 * @param graph Grafo 
 	 * @param startVertex Vértice origen
@@ -43,7 +43,8 @@ public final class AStarAlgorithm<V, E> {
 	}
 
 	/**
-	 * El algoritmo para cuando alcanza el primer vértice que cumple el predicado
+	 * <p> El algoritmo para alcanzae el primer vértice cuya distancia al objetivo es cero </p>
+	 * 
 	 * @param graph Grafo
 	 * @param startVertex Vértice origen
 	 * @param goalDistance Distancia a un objetivo
@@ -54,7 +55,7 @@ public final class AStarAlgorithm<V, E> {
 				Double.POSITIVE_INFINITY);
 	}
 	/**
-	 * El algoritmo para cuando alcanza todos los vértices objetivo
+	 * <p> El algoritmo para alcanzar uno los vértices objetivo </p>
 	 * 
 	 * @param graph Grafo
 	 * @param startVertex Vértice origen

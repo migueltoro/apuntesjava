@@ -32,7 +32,7 @@ public class TestAnunciosSA {
 		AlgoritmoSA.numeroDeIteracionesALaMismaTemperatura = 20;
 		AlgoritmoSA.numeroDeIntentos = 4;
 		ProblemaAGIndex<ListaDeAnunciosAEmitir> p = new ProblemaAnunciosAG(AlgoritmoAG.getRaiz()+"anuncios.txt");		
-		AlgoritmoSA ap = Algoritmos.createSA(ChromosomeType.PermutationIndexSubList,p);
+		AlgoritmoSA ap = Algoritmos.createSA(ChromosomeType.IndexPermutationSubList,p);
 		ap.ejecuta();		
 		System.out.println("------");
 		System.out.println(ProblemaAnuncios.todosLosAnunciosDisponibles);

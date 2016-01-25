@@ -33,7 +33,7 @@ public class TestReinasAG {
 		
 		ProblemaReinasAG.numeroDeReinas = 20;
 		ProblemaAGIndex<List<Reina>> p = ProblemaReinasAG.create();
-		AlgoritmoAG ap = Algoritmos.createAG(ChromosomeType.PermutationIndex,p);
+		AlgoritmoAG ap = Algoritmos.createAG(ChromosomeType.IndexPermutation,p);
 		ap.ejecuta();
 		System.out.println("================================");
 		

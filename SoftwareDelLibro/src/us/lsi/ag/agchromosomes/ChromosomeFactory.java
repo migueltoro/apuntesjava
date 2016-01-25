@@ -33,7 +33,7 @@ public class ChromosomeFactory {
 	 * Los diferentes tipos de cromosmomas implementados
 	 *
 	 */
-	public enum ChromosomeType {Binary,ListInteger,BinaryIndex,IntegerIndex,PermutationIndex,PermutationIndexSubList,Real,Expression}
+	public enum ChromosomeType {Binary,ListInteger,IndexSubList,IndexRange,IndexPermutation,IndexPermutationSubList,Real,Expression}
 	
 	public static ChromosomeType tipo;
 
@@ -45,12 +45,12 @@ public class ChromosomeFactory {
 		IChromosome<?> chromosome = null;
 		switch(tipo){
 		case Binary: chromosome = BinaryChromosome2.getInitialChromosome(); break;
-		case BinaryIndex: chromosome = IndexChromosomeSubList.getInitialChromosome(); break;
+		case IndexSubList: chromosome = IndexSubListChromosome.getInitialChromosome(); break;
 		case ListInteger: chromosome = ListIntegerChromosome.getInitialChromosome(); break;
-		case IntegerIndex: chromosome = IndexChromosomeRange.getInitialChromosome(); break;
-		case PermutationIndex: chromosome = IndexChromosomePermutationRandomKey.getInitialChromosome(); break;
-		case PermutationIndexSubList: chromosome = IndexChromosomePermutationSubList.getInitialChromosome(); break;
-		case Real: chromosome = RealListChromosome.getInitialChromosome(); break;
+		case IndexRange: chromosome = IndexRangeChromosome.getInitialChromosome(); break;
+		case IndexPermutation: chromosome = IndexPermutationRandomKeyChromosome.getInitialChromosome(); break;
+		case IndexPermutationSubList: chromosome = IndexPermutationSubListChromosome.getInitialChromosome(); break;
+		case Real: chromosome = RealChromosome.getInitialChromosome(); break;
 		case Expression: chromosome = ExpressionChromosome.getInitialChromosome(); break;
 		}
 		return chromosome;
@@ -109,11 +109,11 @@ public class ChromosomeFactory {
 		CrossoverPolicy crossOverPolicy = null;	
 		switch(tipo){
 		case Binary: crossOverPolicy = crossOverPolicyBin; break;
-		case BinaryIndex: crossOverPolicy = crossOverPolicyBin; break;
+		case IndexSubList: crossOverPolicy = crossOverPolicyBin; break;
 		case ListInteger: crossOverPolicy = crossOverPolicyBin; break;
-		case IntegerIndex: crossOverPolicy = crossOverPolicyBin; break;
-		case PermutationIndex: crossOverPolicy = crossOverPolicyKey; break;
-		case PermutationIndexSubList: crossOverPolicy = new SubListCrossoverPolicy(crossOverPolicyBin,crossOverPolicyKey); break;
+		case IndexRange: crossOverPolicy = crossOverPolicyBin; break;
+		case IndexPermutation: crossOverPolicy = crossOverPolicyKey; break;
+		case IndexPermutationSubList: crossOverPolicy = new SubListCrossoverPolicy(crossOverPolicyBin,crossOverPolicyKey); break;
 		case Real: crossOverPolicy = crossOverPolicyBin; break;
 		case Expression: crossOverPolicy = crossOverPolicyBin; break;
 		}
@@ -130,11 +130,11 @@ public class ChromosomeFactory {
 		MutationPolicy mutationPolicy = null;
 		switch(tipo){
 		case Binary:  mutationPolicy = new BinaryMutation()	; break;
-		case BinaryIndex: mutationPolicy = new BinaryMutation(); break;
+		case IndexSubList: mutationPolicy = new BinaryMutation(); break;
 		case ListInteger: mutationPolicy = ((ProblemaAGListInteger<?>)problema).getMutationPolicy(); break;
-		case IntegerIndex: mutationPolicy = new BinaryMutation();	; break;
-		case PermutationIndex: mutationPolicy = new RandomKeyMutation(); break;
-		case PermutationIndexSubList: mutationPolicy = new SubListMutationPolicy(); break;
+		case IndexRange: mutationPolicy = new BinaryMutation();	; break;
+		case IndexPermutation: mutationPolicy = new RandomKeyMutation(); break;
+		case IndexPermutationSubList: mutationPolicy = new SubListMutationPolicy(); break;
 		case Real: mutationPolicy = new BinaryMutation();	; break;
 		case Expression: mutationPolicy = new BinaryMutation();	; break;
 		}
@@ -173,12 +173,12 @@ public class ChromosomeFactory {
 	public static void iniValues(ChromosomeType tipo, ProblemaAG problema){
 		switch(tipo){
 		case Binary: BinaryChromosome2.iniValues(problema);break;
-		case BinaryIndex: IndexChromosomeSubList.iniValues(problema);break;
+		case IndexSubList: IndexSubListChromosome.iniValues(problema);break;
 		case ListInteger: ListIntegerChromosome.iniValues(problema);break;
-		case IntegerIndex: IndexChromosomeRange.iniValues(problema); break;
-		case PermutationIndex: IndexChromosomePermutationRandomKey.iniValues(problema);break;
-		case PermutationIndexSubList: IndexChromosomePermutationSubList.iniValues(problema);break;
-		case Real: RealListChromosome.iniValues(problema);break;
+		case IndexRange: IndexRangeChromosome.iniValues(problema); break;
+		case IndexPermutation: IndexPermutationRandomKeyChromosome.iniValues(problema);break;
+		case IndexPermutationSubList: IndexPermutationSubListChromosome.iniValues(problema);break;
+		case Real: RealChromosome.iniValues(problema);break;
 		case Expression: ExpressionChromosome.iniValues(problema);break;
 		}
 	}

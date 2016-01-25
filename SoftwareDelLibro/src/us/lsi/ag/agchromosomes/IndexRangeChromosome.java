@@ -29,7 +29,7 @@ import us.lsi.math.Math2;
  * <p> Es un cromosoma adecuado para codificar problemas de subconjuntos de multiconjuntos</p>
  *
  */
-public class IndexChromosomeRange extends BinaryChromosome implements IndexChromosome {
+public class IndexRangeChromosome extends BinaryChromosome implements IndexChromosome {
 	
 	public static Integer numeroDeBits = 5;
 	
@@ -42,25 +42,25 @@ public class IndexChromosomeRange extends BinaryChromosome implements IndexChrom
 	public static int DIMENSION;
 	
 	public static void iniValues(ProblemaAG problema){
-		IndexChromosomeRange.problema = (ProblemaAGIndex<?>) problema; 
-		IndexChromosomeRange.DIMENSION = IndexChromosomeRange.numeroDeBits*IndexChromosomeRange.problema.getObjectsNumber();
+		IndexRangeChromosome.problema = (ProblemaAGIndex<?>) problema; 
+		IndexRangeChromosome.DIMENSION = IndexRangeChromosome.numeroDeBits*IndexRangeChromosome.problema.getObjectsNumber();
 	}
 	
 	private static Integer pow = Math2.pow(2., numeroDeBits).intValue();
 	
-	public IndexChromosomeRange(Integer[] representation) throws InvalidRepresentationException {
+	public IndexRangeChromosome(Integer[] representation) throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
 
-	public IndexChromosomeRange(List<Integer> representation) throws InvalidRepresentationException {
+	public IndexRangeChromosome(List<Integer> representation) throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
 
 	@Override
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> ls) {
-		return new IndexChromosomeRange(ls);
+		return new IndexRangeChromosome(ls);
 	}
 	
 	public List<Integer> decode() {
@@ -81,9 +81,9 @@ public class IndexChromosomeRange extends BinaryChromosome implements IndexChrom
 		return super.getRepresentation();
 	}
 	
-	public static IndexChromosomeRange getInitialChromosome() {
-		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(IndexChromosomeRange.DIMENSION);
-		return new IndexChromosomeRange(ls);
+	public static IndexRangeChromosome getInitialChromosome() {
+		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(IndexRangeChromosome.DIMENSION);
+		return new IndexRangeChromosome(ls);
 	}
 
 	@Override
@@ -94,22 +94,22 @@ public class IndexChromosomeRange extends BinaryChromosome implements IndexChrom
 	private double ft;
 	
 	private double calculateFt(){
-		return IndexChromosomeRange.problema.fitnessFunction(this);
+		return IndexRangeChromosome.problema.fitnessFunction(this);
 	}
 
 	@Override
 	public Integer getObjectsNumber() {
-		return IndexChromosomeRange.problema.getObjectsNumber();
+		return IndexRangeChromosome.problema.getObjectsNumber();
 	}
 
 	@Override
 	public Integer getMax(int i) {
-		return IndexChromosomeRange.problema.getMax(i);
+		return IndexRangeChromosome.problema.getMax(i);
 	}
 
 	@Override
 	public ProblemaAGIndex<?> getProblem() {
-		return IndexChromosomeRange.problema;
+		return IndexRangeChromosome.problema;
 	}
 
 	@Override

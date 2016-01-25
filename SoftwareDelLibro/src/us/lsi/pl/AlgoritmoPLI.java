@@ -1,7 +1,6 @@
 package us.lsi.pl;
 
 import java.util.List;
-import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 

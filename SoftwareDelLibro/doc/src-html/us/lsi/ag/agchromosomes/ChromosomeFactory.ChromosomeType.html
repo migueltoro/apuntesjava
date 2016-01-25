@@ -41,7 +41,7 @@
 <span class="sourceLineNo">033</span>         * Los diferentes tipos de cromosmomas implementados<a name="line.33"></a>
 <span class="sourceLineNo">034</span>         *<a name="line.34"></a>
 <span class="sourceLineNo">035</span>         */<a name="line.35"></a>
-<span class="sourceLineNo">036</span>        public enum ChromosomeType {Binary,ListInteger,BinaryIndex,IntegerIndex,PermutationIndex,PermutationIndexSubList,Real,Expression}<a name="line.36"></a>
+<span class="sourceLineNo">036</span>        public enum ChromosomeType {Binary,ListInteger,IndexSubList,IndexRange,IndexPermutation,IndexPermutationSubList,Real,Expression}<a name="line.36"></a>
 <span class="sourceLineNo">037</span>        <a name="line.37"></a>
 <span class="sourceLineNo">038</span>        public static ChromosomeType tipo;<a name="line.38"></a>
 <span class="sourceLineNo">039</span><a name="line.39"></a>
@@ -53,12 +53,12 @@
 <span class="sourceLineNo">045</span>                IChromosome&lt;?&gt; chromosome = null;<a name="line.45"></a>
 <span class="sourceLineNo">046</span>                switch(tipo){<a name="line.46"></a>
 <span class="sourceLineNo">047</span>                case Binary: chromosome = BinaryChromosome2.getInitialChromosome(); break;<a name="line.47"></a>
-<span class="sourceLineNo">048</span>                case BinaryIndex: chromosome = IndexChromosomeSubList.getInitialChromosome(); break;<a name="line.48"></a>
+<span class="sourceLineNo">048</span>                case IndexSubList: chromosome = IndexSubListChromosome.getInitialChromosome(); break;<a name="line.48"></a>
 <span class="sourceLineNo">049</span>                case ListInteger: chromosome = ListIntegerChromosome.getInitialChromosome(); break;<a name="line.49"></a>
-<span class="sourceLineNo">050</span>                case IntegerIndex: chromosome = IndexChromosomeRange.getInitialChromosome(); break;<a name="line.50"></a>
-<span class="sourceLineNo">051</span>                case PermutationIndex: chromosome = IndexChromosomePermutationRandomKey.getInitialChromosome(); break;<a name="line.51"></a>
-<span class="sourceLineNo">052</span>                case PermutationIndexSubList: chromosome = IndexChromosomePermutationSubList.getInitialChromosome(); break;<a name="line.52"></a>
-<span class="sourceLineNo">053</span>                case Real: chromosome = RealListChromosome.getInitialChromosome(); break;<a name="line.53"></a>
+<span class="sourceLineNo">050</span>                case IndexRange: chromosome = IndexRangeChromosome.getInitialChromosome(); break;<a name="line.50"></a>
+<span class="sourceLineNo">051</span>                case IndexPermutation: chromosome = IndexPermutationRandomKeyChromosome.getInitialChromosome(); break;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>                case IndexPermutationSubList: chromosome = IndexPermutationSubListChromosome.getInitialChromosome(); break;<a name="line.52"></a>
+<span class="sourceLineNo">053</span>                case Real: chromosome = RealChromosome.getInitialChromosome(); break;<a name="line.53"></a>
 <span class="sourceLineNo">054</span>                case Expression: chromosome = ExpressionChromosome.getInitialChromosome(); break;<a name="line.54"></a>
 <span class="sourceLineNo">055</span>                }<a name="line.55"></a>
 <span class="sourceLineNo">056</span>                return chromosome;<a name="line.56"></a>
@@ -117,11 +117,11 @@
 <span class="sourceLineNo">109</span>                CrossoverPolicy crossOverPolicy = null; <a name="line.109"></a>
 <span class="sourceLineNo">110</span>                switch(tipo){<a name="line.110"></a>
 <span class="sourceLineNo">111</span>                case Binary: crossOverPolicy = crossOverPolicyBin; break;<a name="line.111"></a>
-<span class="sourceLineNo">112</span>                case BinaryIndex: crossOverPolicy = crossOverPolicyBin; break;<a name="line.112"></a>
+<span class="sourceLineNo">112</span>                case IndexSubList: crossOverPolicy = crossOverPolicyBin; break;<a name="line.112"></a>
 <span class="sourceLineNo">113</span>                case ListInteger: crossOverPolicy = crossOverPolicyBin; break;<a name="line.113"></a>
-<span class="sourceLineNo">114</span>                case IntegerIndex: crossOverPolicy = crossOverPolicyBin; break;<a name="line.114"></a>
-<span class="sourceLineNo">115</span>                case PermutationIndex: crossOverPolicy = crossOverPolicyKey; break;<a name="line.115"></a>
-<span class="sourceLineNo">116</span>                case PermutationIndexSubList: crossOverPolicy = new SubListCrossoverPolicy(crossOverPolicyBin,crossOverPolicyKey); break;<a name="line.116"></a>
+<span class="sourceLineNo">114</span>                case IndexRange: crossOverPolicy = crossOverPolicyBin; break;<a name="line.114"></a>
+<span class="sourceLineNo">115</span>                case IndexPermutation: crossOverPolicy = crossOverPolicyKey; break;<a name="line.115"></a>
+<span class="sourceLineNo">116</span>                case IndexPermutationSubList: crossOverPolicy = new SubListCrossoverPolicy(crossOverPolicyBin,crossOverPolicyKey); break;<a name="line.116"></a>
 <span class="sourceLineNo">117</span>                case Real: crossOverPolicy = crossOverPolicyBin; break;<a name="line.117"></a>
 <span class="sourceLineNo">118</span>                case Expression: crossOverPolicy = crossOverPolicyBin; break;<a name="line.118"></a>
 <span class="sourceLineNo">119</span>                }<a name="line.119"></a>
@@ -138,11 +138,11 @@
 <span class="sourceLineNo">130</span>                MutationPolicy mutationPolicy = null;<a name="line.130"></a>
 <span class="sourceLineNo">131</span>                switch(tipo){<a name="line.131"></a>
 <span class="sourceLineNo">132</span>                case Binary:  mutationPolicy = new BinaryMutation()     ; break;<a name="line.132"></a>
-<span class="sourceLineNo">133</span>                case BinaryIndex: mutationPolicy = new BinaryMutation(); break;<a name="line.133"></a>
+<span class="sourceLineNo">133</span>                case IndexSubList: mutationPolicy = new BinaryMutation(); break;<a name="line.133"></a>
 <span class="sourceLineNo">134</span>                case ListInteger: mutationPolicy = ((ProblemaAGListInteger&lt;?&gt;)problema).getMutationPolicy(); break;<a name="line.134"></a>
-<span class="sourceLineNo">135</span>                case IntegerIndex: mutationPolicy = new BinaryMutation();       ; break;<a name="line.135"></a>
-<span class="sourceLineNo">136</span>                case PermutationIndex: mutationPolicy = new RandomKeyMutation(); break;<a name="line.136"></a>
-<span class="sourceLineNo">137</span>                case PermutationIndexSubList: mutationPolicy = new SubListMutationPolicy(); break;<a name="line.137"></a>
+<span class="sourceLineNo">135</span>                case IndexRange: mutationPolicy = new BinaryMutation(); ; break;<a name="line.135"></a>
+<span class="sourceLineNo">136</span>                case IndexPermutation: mutationPolicy = new RandomKeyMutation(); break;<a name="line.136"></a>
+<span class="sourceLineNo">137</span>                case IndexPermutationSubList: mutationPolicy = new SubListMutationPolicy(); break;<a name="line.137"></a>
 <span class="sourceLineNo">138</span>                case Real: mutationPolicy = new BinaryMutation();       ; break;<a name="line.138"></a>
 <span class="sourceLineNo">139</span>                case Expression: mutationPolicy = new BinaryMutation(); ; break;<a name="line.139"></a>
 <span class="sourceLineNo">140</span>                }<a name="line.140"></a>
@@ -181,12 +181,12 @@
 <span class="sourceLineNo">173</span>        public static void iniValues(ChromosomeType tipo, ProblemaAG problema){<a name="line.173"></a>
 <span class="sourceLineNo">174</span>                switch(tipo){<a name="line.174"></a>
 <span class="sourceLineNo">175</span>                case Binary: BinaryChromosome2.iniValues(problema);break;<a name="line.175"></a>
-<span class="sourceLineNo">176</span>                case BinaryIndex: IndexChromosomeSubList.iniValues(problema);break;<a name="line.176"></a>
+<span class="sourceLineNo">176</span>                case IndexSubList: IndexSubListChromosome.iniValues(problema);break;<a name="line.176"></a>
 <span class="sourceLineNo">177</span>                case ListInteger: ListIntegerChromosome.iniValues(problema);break;<a name="line.177"></a>
-<span class="sourceLineNo">178</span>                case IntegerIndex: IndexChromosomeRange.iniValues(problema); break;<a name="line.178"></a>
-<span class="sourceLineNo">179</span>                case PermutationIndex: IndexChromosomePermutationRandomKey.iniValues(problema);break;<a name="line.179"></a>
-<span class="sourceLineNo">180</span>                case PermutationIndexSubList: IndexChromosomePermutationSubList.iniValues(problema);break;<a name="line.180"></a>
-<span class="sourceLineNo">181</span>                case Real: RealListChromosome.iniValues(problema);break;<a name="line.181"></a>
+<span class="sourceLineNo">178</span>                case IndexRange: IndexRangeChromosome.iniValues(problema); break;<a name="line.178"></a>
+<span class="sourceLineNo">179</span>                case IndexPermutation: IndexPermutationRandomKeyChromosome.iniValues(problema);break;<a name="line.179"></a>
+<span class="sourceLineNo">180</span>                case IndexPermutationSubList: IndexPermutationSubListChromosome.iniValues(problema);break;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>                case Real: RealChromosome.iniValues(problema);break;<a name="line.181"></a>
 <span class="sourceLineNo">182</span>                case Expression: ExpressionChromosome.iniValues(problema);break;<a name="line.182"></a>
 <span class="sourceLineNo">183</span>                }<a name="line.183"></a>
 <span class="sourceLineNo">184</span>        }<a name="line.184"></a>

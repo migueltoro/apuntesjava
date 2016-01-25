@@ -8,7 +8,7 @@ import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.InvalidRepresentationException;
 
 import us.lsi.ag.ProblemaAG;
-import us.lsi.ag.ProblemaAGBinario;
+import us.lsi.ag.ProblemaAGBinary;
 
 /**
  * @author Miguel Toro
@@ -19,7 +19,7 @@ import us.lsi.ag.ProblemaAGBinario;
  */
 public class BinaryChromosome2 extends BinaryChromosome implements IChromosome<List<Integer>> {
 	
-	public static ProblemaAGBinario<?> problema;
+	public static ProblemaAGBinary<?> problema;
 	
 	/**
 	 * Dimensión del cromosoma
@@ -28,7 +28,7 @@ public class BinaryChromosome2 extends BinaryChromosome implements IChromosome<L
 	protected static int DIMENSION;
 	
 	public static void iniValues(ProblemaAG problema){
-		BinaryChromosome2.problema = (ProblemaAGBinario<?>) problema; 
+		BinaryChromosome2.problema = (ProblemaAGBinary<?>) problema; 
 		BinaryChromosome2.DIMENSION = BinaryChromosome2.problema.getDimensionDelChromosoma();
 	}
 
@@ -63,7 +63,7 @@ public class BinaryChromosome2 extends BinaryChromosome implements IChromosome<L
 		return new BinaryChromosome2(ar);
 	}
 
-	public ProblemaAGBinario<?> getProblema() {
+	public ProblemaAGBinary<?> getProblema() {
 		return problema;
 	}
 

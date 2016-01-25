@@ -29,7 +29,7 @@ import us.lsi.common.Lists2;
  * Es un cromosoma adecuado para codificar problemas de funciones  reales en un espacio de n dimensiones </p>
  *
  */
-public class RealListChromosome extends BinaryChromosome implements IRealChromosome {
+public class RealChromosome extends BinaryChromosome implements IRealChromosome {
 
 	
 	public static Integer numeroDeBits = 10;
@@ -43,16 +43,16 @@ public class RealListChromosome extends BinaryChromosome implements IRealChromos
 	public static int DIMENSION;
 	
 	public static void iniValues(ProblemaAG problema){
-		RealListChromosome.problema = (ProblemaAGReal<?>) problema;
-		RealListChromosome.DIMENSION = RealListChromosome.problema.getNumeroDeVariables()*RealListChromosome.numeroDeBits;
+		RealChromosome.problema = (ProblemaAGReal<?>) problema;
+		RealChromosome.DIMENSION = RealChromosome.problema.getNumeroDeVariables()*RealChromosome.numeroDeBits;
 	}
 	
-	public RealListChromosome(Integer[] representation) throws InvalidRepresentationException {
+	public RealChromosome(Integer[] representation) throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
 
-	public RealListChromosome(List<Integer> representation) throws InvalidRepresentationException {
+	public RealChromosome(List<Integer> representation) throws InvalidRepresentationException {
 		super(representation);
 		this.ft = this.calculateFt();
 	}
@@ -66,7 +66,7 @@ public class RealListChromosome extends BinaryChromosome implements IRealChromos
 
 	@Override
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> ls) {
-		return new RealListChromosome(ls);
+		return new RealChromosome(ls);
 	}
 	@Override
 	public List<Double> decode() {
@@ -90,9 +90,9 @@ public class RealListChromosome extends BinaryChromosome implements IRealChromos
 		return super.getRepresentation();
 	}
 	
-	public static RealListChromosome getInitialChromosome() {
-		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(RealListChromosome.DIMENSION);
-		return new RealListChromosome(ls);
+	public static RealChromosome getInitialChromosome() {
+		List<Integer> ls = BinaryChromosome.randomBinaryRepresentation(RealChromosome.DIMENSION);
+		return new RealChromosome(ls);
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class RealListChromosome extends BinaryChromosome implements IRealChromos
 	private double ft;
 	
 	private double calculateFt(){
-		return RealListChromosome.problema.fitnessFunction(this);
+		return RealChromosome.problema.fitnessFunction(this);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -116,7 +116,7 @@ public class RealListChromosome extends BinaryChromosome implements IRealChromos
 	 */
 	@Override
 	public Integer getNum() {
-		return RealListChromosome.problema.getNumeroDeVariables();
+		return RealChromosome.problema.getNumeroDeVariables();
 	}
 
 	/* (non-Javadoc)
@@ -124,7 +124,7 @@ public class RealListChromosome extends BinaryChromosome implements IRealChromos
 	 */
 	@Override
 	public Double getSup(int i) {
-		return RealListChromosome.problema.getLimites().get(i).p2;
+		return RealChromosome.problema.getLimites().get(i).p2;
 	}
 
 	/* (non-Javadoc)
@@ -132,12 +132,12 @@ public class RealListChromosome extends BinaryChromosome implements IRealChromos
 	 */
 	@Override
 	public Double getInf(int i) {
-		return RealListChromosome.problema.getLimites().get(i).p1;
+		return RealChromosome.problema.getLimites().get(i).p1;
 	}
 
 	@Override
 	public ProblemaAGReal<?> getProblema() {
-		return RealListChromosome.problema;
+		return RealChromosome.problema;
 	}
 	
 	@Override
