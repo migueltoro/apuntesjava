@@ -31,12 +31,15 @@ import us.lsi.math.Math2;
  */
 public class IndexRangeChromosome extends BinaryChromosome implements IndexChromosome {
 	
+	/**
+	 * Número de bits usado para representar un entero. El rango de enteros que podemos obtener dependerá de este número de bits.
+	 */
 	public static Integer numeroDeBits = 5;
 	
 	public static ProblemaAGIndex<?> problema;
 	
 	/**
-	 * Dimensión del cromosoma
+	 * Dimensión del cromosoma igual a numeroDeBits*getObjectsNumber()
 	 */
 	
 	public static int DIMENSION;
