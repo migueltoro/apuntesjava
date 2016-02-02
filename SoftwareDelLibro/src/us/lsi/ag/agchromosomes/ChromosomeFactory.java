@@ -48,7 +48,7 @@ public class ChromosomeFactory {
 		case IndexSubList: chromosome = IndexSubListChromosome.getInitialChromosome(); break;
 		case ListInteger: chromosome = ListIntegerChromosome.getInitialChromosome(); break;
 		case IndexRange: chromosome = IndexRangeChromosome.getInitialChromosome(); break;
-		case IndexPermutation: chromosome = IndexPermutationRandomKeyChromosome.getInitialChromosome(); break;
+		case IndexPermutation: chromosome = IndexPermutationChromosome.getInitialChromosome(); break;
 		case IndexPermutationSubList: chromosome = IndexPermutationSubListChromosome.getInitialChromosome(); break;
 		case Real: chromosome = RealChromosome.getInitialChromosome(); break;
 		case Expression: chromosome = ExpressionChromosome.getInitialChromosome(); break;
@@ -176,7 +176,7 @@ public class ChromosomeFactory {
 		case IndexSubList: IndexSubListChromosome.iniValues(problema);break;
 		case ListInteger: ListIntegerChromosome.iniValues(problema);break;
 		case IndexRange: IndexRangeChromosome.iniValues(problema); break;
-		case IndexPermutation: IndexPermutationRandomKeyChromosome.iniValues(problema);break;
+		case IndexPermutation: IndexPermutationChromosome.iniValues(problema);break;
 		case IndexPermutationSubList: IndexPermutationSubListChromosome.iniValues(problema);break;
 		case Real: RealChromosome.iniValues(problema);break;
 		case Expression: ExpressionChromosome.iniValues(problema);break;
