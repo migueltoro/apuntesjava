@@ -33,8 +33,7 @@ public class RealChromosome extends BinaryChromosome implements IRealChromosome 
 
 	
 	/**
-	 * El número de bits usados para representar un real del valor proporcionado por el cromosoa. 
-	 * La precisión del real depende del número de bits usados
+	 * El número de bits usados para representar un real de la lista proporcionado por el cromosoa. La precisión del real depende del número de bits usados
 	 */
 	public static Integer numeroDeBits = 10;
 	private static Double fact = null;
