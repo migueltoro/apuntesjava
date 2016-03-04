@@ -36,7 +36,7 @@ public class ProblemaReinasPDTodas implements ProblemaPD<Set<List<Reina>>, Integ
 
 	@Override
 	public us.lsi.pd.ProblemaPD.Tipo getTipo() {
-		return Tipo.Todas;
+		return Tipo.Otro;
 	}
 	
 	@Override

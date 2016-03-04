@@ -8,9 +8,9 @@ import us.lsi.pd.mochila.ObjetoMochila;
 import us.lsi.pd.mochila.ProblemaMochila;
 import us.lsi.pd.mochila.SolucionMochila;
 
-public class ProblemaMochilaAG implements ProblemaAGIndex<SolucionMochila>{
+public class ProblemaMochilaAGRange implements ProblemaAGIndex<SolucionMochila>{
 
-	public ProblemaMochilaAG(String fichero) {
+	public ProblemaMochilaAGRange(String fichero) {
 		ProblemaMochila.leeObjetosDisponibles(fichero);
 	}	
 

@@ -17,7 +17,7 @@ import us.lsi.pd.AlgoritmoPD.Sp;
  */
 public interface ProblemaPD<S,A>  {	
 	
-	public enum Tipo{Min,Max,Todas}
+	public enum Tipo{Min,Max,Otro}
 	
 	
 	/**
@@ -137,16 +137,32 @@ public interface ProblemaPD<S,A>  {
 	 * <code> getObjetivoEstimado(a) &gt;   AlgoritmoPD.getMejorValor() </code>.
 	 * </ul>
 	 * <p> Si no es posible estimar esa cota entonces devolverá MIN_VALUE si el problema es de minimización
-	 *  y MAX_VALUE si es de maximización</p>
+	 *  y MAX_VALUE si es de maximización. Estos son los valores por defecto. </p>
 	 * @param a - Alternativa elegida
 	 * @return El valor objetivo estimado si seguimos <code> a </code>
 	 */
-	Double getObjetivoEstimado(A a);
+	default Double getObjetivoEstimado(A a) {
+		Double r = null; 
+		switch(getTipo()) {
+		case Min: r = Double.MIN_VALUE;
+		case Max: r = Double.MAX_VALUE;
+		case Otro: r = Double.MAX_VALUE;
+		}
+		return r;
+	}
 	/**
 	 * Se asume que se llama al método sólo cuando se ha resuelto el problema y por lo tanto sabemos el valor de la propiedad solución.
-	 * En muchos caso se puede calcular sumando un valor acumlado al valor conocido de la solución.
-	 * @pos Si no es posible calcularla  se devolverá MAX_VALUE si el problema es de minimización y MIN_VALUE si es de maximización. 
+	 * En muchos casos se puede calcular sumando un valor acumulado al valor conocido de la solución.
+	 * @pos Si no es posible calcularla  se devolverá MAX_VALUE si el problema es de minimización y MIN_VALUE si es de maximización. Estos son los valores por defecto.
 	 * @return Valor de propiedad objetivo del problema inicial asumiendo que estamos en el problema actual   
 	 */
-	Double getObjetivo();
+	default Double getObjetivo() {
+		Double r = null; 
+		switch(getTipo()) {
+		case Min: r = Double.MAX_VALUE;
+		case Max: r = Double.MIN_VALUE;
+		case Otro: r = Double.MAX_VALUE;
+		}
+		return r;
+	}
 }

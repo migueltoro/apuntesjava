@@ -33,7 +33,7 @@ public class NumeroDeArboles implements ProblemaPD<Integer, Integer> {
 
 	@Override
 	public ProblemaPD.Tipo getTipo() {
-		return Tipo.Todas;
+		return Tipo.Otro;
 	}
 
 	@Override
