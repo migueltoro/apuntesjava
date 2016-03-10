@@ -12,6 +12,7 @@ import us.lsi.ag.ProblemaAGIndex;
 import us.lsi.common.Lists2;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 /**
  * @author Miguel Toro
@@ -71,13 +72,12 @@ public class IndexSubListChromosome extends BinaryChromosome implements IndexChr
 	 */
 	@Override
 	public List<Integer> decode() {	
-		List<Integer> r = Lists2.<Integer>nCopias(IndexSubListChromosome.problema.getObjectsNumber(), 0);
+		List<Integer> r = Lists.newArrayList();
 		List<Integer> bn = this.getRepresentation();
 		Preconditions.checkArgument(normalSequence.size() == bn.size(),normalSequence.size()+","+bn.size());
 		for (int i = 0; i < normalSequence.size(); i++) {
 			if (bn.get(i) == 1) {
-				int k = normalSequence.get(i);
-				r.set(k,r.get(k)+1);
+				r.add(normalSequence.get(i));
 			}
 		}
 		return r;
