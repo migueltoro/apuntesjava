@@ -74,7 +74,7 @@ public class Tarea {
 	}
 	@Override
 	public String toString() {
-		return "Tarea [id= " + id + ", duracion= " + duracion + "]";
+		return "("+id + "," + duracion + ")";
 	}
 	
 	

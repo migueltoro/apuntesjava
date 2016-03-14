@@ -9,7 +9,6 @@ import org.apache.commons.math3.genetics.InvalidRepresentationException;
 
 import us.lsi.ag.ProblemaAG;
 import us.lsi.ag.ProblemaAGIndex;
-import us.lsi.common.Lists2;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

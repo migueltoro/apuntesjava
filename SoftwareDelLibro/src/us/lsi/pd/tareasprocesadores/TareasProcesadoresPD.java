@@ -40,10 +40,9 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 	}
 	
 	private int index;
-	private List<Double> cargaProcesadoresAcumulada; //tp
-	private Double tiempoAcumulado; // t. Calculado hacia abajo
-	private Double  tiempoSolucion = Double.MAX_VALUE; // tiempo de la solución del problema. 
-					                                   // Calculado hacia arriba o el valor por defecto
+	private List<Double> cargaProcesadoresAcumulada;
+	private Double tiempoAcumulado; 
+
 	
 	
 	private TareasProcesadoresPD(int index, List<Double> cargaProcesadoresAcumulada) {
@@ -70,15 +69,15 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 
 	@Override
 	public Sp<Integer> getSolucionCasoBase() {	
-		Sol r = Sol.create(0,Lists2.nCopias(numeroDeProcesadores, 0.));
-		tiempoSolucion = 0.;
+		Sp<Integer> r = Sp.create(0,this.tiempoAcumulado);
+//		tiempoSolucion = 0.;
 		return r;
 	}
 
 	@Override 
 	public Sp<Integer> seleccionaAlternativa(List<Sp<Integer>> ls) {
 		Sp<Integer> r = ls.stream().min(Comparator.naturalOrder()).get();
-		tiempoSolucion = r.propiedad;
+//		tiempoSolucion = r.propiedad;
 		return r;
 	}
 	
@@ -91,9 +90,7 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 
 	@Override
 	public Sp<Integer> combinaSolucionesParciales(Integer a, List<Sp<Integer>> ls) {
-		List<Double> carga = Lists.newArrayList(Sol.asSol(ls.get(0)).carga);
-		carga = actualizaCarga(index, a, carga);
-		Sol s = Sol.create(a, carga);
+		Sp<Integer> s = Sp.create(a, ls.get(0).propiedad);
 		return s;
 	}
 
@@ -133,7 +130,7 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 
 	@Override
 	public Double getObjetivo() {
-		return tiempoAcumulado+tiempoSolucion;
+		return tiempoAcumulado;
 	}
 	
 	private static List<Double> actualizaCarga(int t, int p, List<Double> carga) {
@@ -180,24 +177,5 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 		return "(" + index
 				+ "," + cargaProcesadoresAcumulada
 				+ ")";
-	}
-	
-	public static class Sol extends Sp<Integer> {
-
-		public List<Double> carga;
-		
-		public static Sol asSol(Sp<Integer> s){
-			return (Sol)s;
-		}
-		
-		public static Sol create(Integer alternativa, List<Double> carga) {
-			Double t = carga.stream().max(Comparator.naturalOrder()).get();
-			return new Sol(alternativa, t, carga);
-		}
-		
-		private Sol(Integer alternativa, Double propiedad, List<Double> info) {
-			super(alternativa, propiedad);
-			this.carga = info;
-		}		
 	}
 }

@@ -27,7 +27,7 @@ public  class AbstractAlgoritmo  {
 		}
 	}
 	
-	private static String raiz = "C:\\Boss\\git\\SoftwareDelLibro\\ficheros\\";
+	private static String raiz = "C:\\Users\\Boss\\Documents\\apuntesjava\\SoftwareDelLibro\\ficheros\\";
 			
 	public static String getRaiz(){
 		return raiz;

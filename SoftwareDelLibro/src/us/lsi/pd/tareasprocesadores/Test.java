@@ -2,6 +2,7 @@ package us.lsi.pd.tareasprocesadores;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import us.lsi.algoritmos.Algoritmos;
 import us.lsi.pd.AlgoritmoPD;
@@ -16,7 +17,11 @@ public class Test {
 		AlgoritmoPD<Map<Integer,List<Tarea>>,Integer> a = Algoritmos.createPD(p);
 		a.ejecuta();
 		System.out.println("Solucion Del Problema " +a.getSolucionParcial(p));
-		System.out.println(a.getSolucion(p));
+		String s = a.getSolucion(p).entrySet()
+				.stream()
+				.map(x->x.toString())
+				.collect(Collectors.joining("\n"));			
+		System.out.println(s);
 		a.showAllGraph("C:\\Users\\Boss\\Desktop\\Ficheros\\Procesadores.gv", "Grafo", p);
 	}
 
