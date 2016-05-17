@@ -21,7 +21,7 @@ public class Test2 {
 //		System.out.println(Metricas.getMetricas().toString());
 //		System.out.println(p1.getCotaValor(61));
 //		System.out.println(p1.getCotaValor(60));		
-		a.showAllGraph(ruta+"pruebaMochilaSinFiltro.gv","Mochila",p);
+		a.showAllGraph(ruta+"pruebaMochilaConFiltro.gv","Mochila",p);
 		System.out.println("Solucion= "+SolucionMochila.create(a.getSolucion(p)));
 	}
 
