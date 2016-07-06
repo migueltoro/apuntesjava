@@ -80,7 +80,7 @@ public class AlgoritmoBT<S, A> extends AbstractAlgoritmo {
 	 }
 	
 	 private static boolean isTodas(){
-	    	return tipo.equals(Tipo.Todas);
+	    	return tipo.equals(Tipo.Otro);
 	 }
 	
 	/**

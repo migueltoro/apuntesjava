@@ -14,7 +14,7 @@ package us.lsi.bt;
  */
 public interface ProblemaBT<S, A> {
 	
-	public enum Tipo{Min,Max,Todas}
+	public enum Tipo{Min,Max,Otro}
 	
 	
 	/**

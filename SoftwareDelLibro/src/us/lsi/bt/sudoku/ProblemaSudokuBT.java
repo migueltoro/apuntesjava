@@ -9,7 +9,7 @@ public class ProblemaSudokuBT implements ProblemaBT<CuadroSudoku, Integer>{
 
 	@Override
 	public us.lsi.bt.ProblemaBT.Tipo getTipo() {
-		return Tipo.Todas;
+		return Tipo.Otro;
 	}
 
 	@Override
