@@ -117,12 +117,10 @@ public class IndexPermutationSubListChromosome extends Chromosome implements Ind
 		return IndexPermutationSubListChromosome.problema;
 	}
 
-	@Override
 	public Integer getObjectsNumber() {
 		return IndexPermutationSubListChromosome.problema.getObjectsNumber();
 	}
 
-	@Override
 	public Integer getMax(int i) {
 		return IndexPermutationSubListChromosome.problema.getMax(i);
 	}

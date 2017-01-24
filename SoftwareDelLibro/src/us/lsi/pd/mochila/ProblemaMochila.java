@@ -204,7 +204,7 @@ public class ProblemaMochila {
 		Double nu;
 		int index = getIndex();
 		while(true) {
-			if(index > ProblemaMochila.objetosDisponibles.size() || c<= 0.) break;		
+			if(index >= ProblemaMochila.objetosDisponibles.size() || c<= 0.) break;		
 			nu = ProblemaMochila.numeroRealMaximoDeUnidades(index,c);	
 			r = r+nu*ProblemaMochila.getValorObjeto(index);
 			c = c-nu*ProblemaMochila.getPesoObjeto(index);

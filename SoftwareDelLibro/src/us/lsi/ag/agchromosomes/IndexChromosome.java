@@ -16,13 +16,5 @@ public interface IndexChromosome extends IChromosome<List<Integer>> {
 	 * @return El problema a resolver
 	 */
 	ProblemaAGIndex<?> getProblem();
-	/**
-	 * @return Número de objetos distintos definidos en el problema
-	 */
-	Integer getObjectsNumber();
-	/**
-	 * @param i El índice de un objeto en el rango <code> 0..getObjectsNumber()-1 </code>
-	 * @return El máximo número de repeticiones del objeto de índice <code> i </code>
-	 */
-	Integer getMax(int i);
+	
 }

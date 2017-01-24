@@ -3,7 +3,6 @@ package us.lsi.pd.secuencias;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import us.lsi.graphs.VirtualVertex;
 
 
@@ -60,6 +59,8 @@ public class Secuencia implements VirtualVertex<Secuencia, SecuenciaEdge> {
 		return this.getNeighborListOf().contains(e);
 	}
 
+	
+	
 	public Secuencia getNeighbor(Accion a){
 		StringBuilder s = new StringBuilder(cadena);
 		int index = this.index;

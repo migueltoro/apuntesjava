@@ -100,12 +100,10 @@ public class IndexRangeChromosome extends BinaryChromosome implements IndexChrom
 		return IndexRangeChromosome.problema.fitnessFunction(this);
 	}
 
-	@Override
 	public Integer getObjectsNumber() {
 		return IndexRangeChromosome.problema.getObjectsNumber();
 	}
 
-	@Override
 	public Integer getMax(int i) {
 		return IndexRangeChromosome.problema.getMax(i);
 	}

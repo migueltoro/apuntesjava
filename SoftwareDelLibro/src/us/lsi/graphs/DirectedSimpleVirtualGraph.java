@@ -1,12 +1,9 @@
 package us.lsi.graphs;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.DirectedGraph;
-import org.jgrapht.EdgeFactory;
 /**
  * <p> Implementación de un grafo virtual simple y dirigido
  * Asumimos que los vértices son subtipo de VirtualDirectedVertex &lt; V,E &gt;
@@ -28,26 +25,17 @@ public class DirectedSimpleVirtualGraph<V extends VirtualDirectedVertex<V,E>, E 
 		implements DirectedGraph<V, E> {
 		
 
-	private Map<V, Set<E>> incomingEdgesOf;
-	private Map<V, Set<E>> outgoingEdgesOf;
-	private Map<V, Integer> inDegreeOf;
-	private Map<V, Integer> outDegreeOf;
-
-	public DirectedSimpleVirtualGraph(EdgeFactory<V,E> edgeFactory, V[] vs) {
-		super(edgeFactory,vs);
-		this.incomingEdgesOf = new HashMap<>();
-		this.outgoingEdgesOf = new HashMap<>();
-		this.inDegreeOf = new HashMap<>();
-		this.outDegreeOf = new HashMap<>();
+	public DirectedSimpleVirtualGraph() {
+		super();
+	}
+		
+	@SafeVarargs
+	public DirectedSimpleVirtualGraph(V... vertexSet) {
+		super(vertexSet);
 	}
 
-	public DirectedSimpleVirtualGraph(EdgeFactory<V,E> edgeFactory) {
-		super(edgeFactory);
-		this.incomingEdgesOf = new HashMap<>();
-		this.outgoingEdgesOf = new HashMap<>();
-		this.inDegreeOf = new HashMap<>();
-		this.outDegreeOf = new HashMap<>();
-	}
+
+
 	@Override
 	public Set<E> edgesOf(V v) {
 		Set<E> r = new HashSet<>(this.incomingEdgesOf(v));
@@ -57,53 +45,22 @@ public class DirectedSimpleVirtualGraph<V extends VirtualDirectedVertex<V,E>, E 
 	
 	@Override
 	public int inDegreeOf(V v) {
-		Integer r;
-		if (inDegreeOf.containsKey(v)) {
-			r = inDegreeOf.get(v);
-		} else {
-			r = this.edgesOf(v).size();
-			inDegreeOf.put(v, r);
-		}
-		return r;
+		return v.incomingEdgesOf().size();
 	}
 
 	@Override
 	public Set<E> incomingEdgesOf(V v) {
-		Set<E> r;
-		if (incomingEdgesOf.containsKey(v)) {
-			r = incomingEdgesOf.get(v);
-		} else {
-			r = v.incomingEdgesOf();
-			incomingEdgesOf.put(v, r);
-		}
-		return r;
+		return v.incomingEdgesOf();
 	}
 
 	@Override
 	public int outDegreeOf(V v) {
-		Integer r;
-		if (outDegreeOf.containsKey(v)) {
-			r = outDegreeOf.get(v);
-		} else {
-			r = this.edgesOf(v).size();
-			outDegreeOf.put(v, r);
-		}
-		return r;
+		return v.outgoingEdgesOf().size();
 	}
 
 	@Override
 	public Set<E> outgoingEdgesOf(V v) {
-		Set<E> r;
-		if (outgoingEdgesOf.containsKey(v)) {
-			r = outgoingEdgesOf.get(v);
-		} else {
-			r = v.outgoingEdgesOf();
-			outgoingEdgesOf.put(v, r);
-		}
-		return r;
+		return v.outgoingEdgesOf();
 	}
 	
-	public Integer getNumVertexInOutgoingEdgesOf(){
-		return outgoingEdgesOf.size();
-	}
 }

@@ -2,10 +2,12 @@ package us.lsi.sa.sudoku;
 
 import java.util.List;
 
+import org.apache.commons.math3.genetics.CrossoverPolicy;
 import org.apache.commons.math3.genetics.MutationPolicy;
 
 import us.lsi.ag.ProblemaAGListInteger;
 import us.lsi.ag.agchromosomes.ListIntegerChromosome;
+import us.lsi.ag.agoperators.NoCrossoverPolicy;
 import us.lsi.ag.agoperators.PermutationIntMutation;
 
 public class ProblemaSudokuAGListInteger implements ProblemaAGListInteger<CuadroSudoku>{
@@ -21,7 +23,7 @@ public class ProblemaSudokuAGListInteger implements ProblemaAGListInteger<Cuadro
 	public double fitnessFunction(ListIntegerChromosome cr) {
 		List<Integer> d = cr.decode();
 		CuadroSudoku c = CuadroSudoku.create(d);
-		Double r = 1.*c.getObjetivoMax();
+		Double r = -1.*c.getObjetivoMin();
 		return r;
 	}
 
@@ -32,17 +34,24 @@ public class ProblemaSudokuAGListInteger implements ProblemaAGListInteger<Cuadro
 	}
 
 	private static MutationPolicy mp = new PermutationIntMutation();
+	private static CrossoverPolicy cp = new NoCrossoverPolicy();
 	
 	@Override
 	public MutationPolicy getMutationPolicy() {		
 		return mp;
 	}
-
+	
+	
 	@Override
 	public CuadroSudoku getSolucion(ListIntegerChromosome c) {
 		List<Integer> d = c.decode();
 		CuadroSudoku cr = CuadroSudoku.create(d);
 		return cr;
+	}
+
+	@Override
+	public CrossoverPolicy getCrossoverPolicy() {
+		return cp;
 	}
 
 }

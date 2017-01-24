@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Comparator;
 
-import us.lsi.common.Lists2;
 import us.lsi.pd.AlgoritmoPD.Sp;
 import us.lsi.pd.ProblemaPD;
 
@@ -18,38 +17,39 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 
 	public static Integer numeroDeProcesadores;
 	public static Integer numeroDeTareas;
-	public static List<Double> duracionDeTareas;
 	public static TareasProcesadoresPD inicial;
 	
 	public static TareasProcesadoresPD create(String fichero, Integer np) {
 		Tarea.leeTareas(fichero);
 		numeroDeProcesadores = np;
 		numeroDeTareas = Tarea.tareas.size();
-		duracionDeTareas = Tarea.tareas.stream().map(t->t.getDuracion()).collect(Collectors.toList());
-		List<Double> cargaProcesadoresAcumulada = tp0();
+		CargaDeProcesadores cargaProcesadoresAcumulada = CargaDeProcesadores.create(np);
 		inicial = new TareasProcesadoresPD(0, cargaProcesadoresAcumulada);
 		return inicial;
 	}
 	
-	public static TareasProcesadoresPD create(int index, List<Double> cargaProcesadoresAcumulada) {
+	public static TareasProcesadoresPD create(int index, CargaDeProcesadores cargaProcesadoresAcumulada) {
 		return new TareasProcesadoresPD(index, cargaProcesadoresAcumulada);
-	}
-
-	public static List<Double> tp0(){
-		return Lists2.nCopias(numeroDeProcesadores, 0.);
 	}
 	
 	private int index;
-	private List<Double> cargaProcesadoresAcumulada;
-	private Double tiempoAcumulado; 
+	private CargaDeProcesadores cargaProcesadoresAcumulada;
+	private Double tiempoMaximo; //el del procesador más cargado
+	
+	private TareasProcesadoresPD(String fichero, Integer np){
+		Tarea.leeTareas(fichero);
+		numeroDeProcesadores = np;
+		numeroDeTareas = Tarea.tareas.size();
+		this.index = 0;
+		this.cargaProcesadoresAcumulada = CargaDeProcesadores.create(np);
+		this.tiempoMaximo = this.cargaProcesadoresAcumulada.getTiempoDelMasCargado();
+	}
 
-	
-	
-	private TareasProcesadoresPD(int index, List<Double> cargaProcesadoresAcumulada) {
+	private TareasProcesadoresPD(int index, CargaDeProcesadores cargaProcesadoresAcumulada) {
 		super();
 		this.index = index;
 		this.cargaProcesadoresAcumulada = cargaProcesadoresAcumulada;
-		this.tiempoAcumulado = this.cargaProcesadoresAcumulada.stream().max(Comparator.naturalOrder()).get();
+		this.tiempoMaximo = this.cargaProcesadoresAcumulada.getTiempoDelMasCargado();
 	}
 
 	@Override
@@ -69,22 +69,20 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 
 	@Override
 	public Sp<Integer> getSolucionCasoBase() {	
-		Sp<Integer> r = Sp.create(0,this.tiempoAcumulado);
-//		tiempoSolucion = 0.;
+		Sp<Integer> r = Sp.create(0,this.tiempoMaximo);
 		return r;
 	}
 
 	@Override 
 	public Sp<Integer> seleccionaAlternativa(List<Sp<Integer>> ls) {
 		Sp<Integer> r = ls.stream().min(Comparator.naturalOrder()).get();
-//		tiempoSolucion = r.propiedad;
 		return r;
 	}
 	
 	@Override
 	public ProblemaPD<Map<Integer, List<Tarea>>, Integer> getSubProblema(Integer a, int np) {
-		List<Double> duracion = actualizaCarga(index,a,cargaProcesadoresAcumulada);
-		TareasProcesadoresPD p = TareasProcesadoresPD.create(index+1, duracion);
+		CargaDeProcesadores carga = this.cargaProcesadoresAcumulada.addTareaAProcesador(index, a);
+		TareasProcesadoresPD p = TareasProcesadoresPD.create(index+1, carga);
 		return p;
 	}
 
@@ -125,20 +123,15 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 
 	@Override
 	public Double getObjetivoEstimado(Integer a) {
-		return tiempoAcumulado;
+	    CargaDeProcesadores carga = this.cargaProcesadoresAcumulada;
+	    carga = carga.addTareaAProcesador(index, a);
+		return carga.getTiempoDelMasCargado();
 	}
 
 	@Override
 	public Double getObjetivo() {
-		return tiempoAcumulado;
+		return this.tiempoMaximo;
 	}
-	
-	private static List<Double> actualizaCarga(int t, int p, List<Double> carga) {
-		List<Double>  ls  = Lists.newArrayList(carga);
-		ls.set(p, ls.get(p)+duracionDeTareas.get(t));
-		return ls;
-	}
-
 	
 	@Override
 	public int hashCode() {

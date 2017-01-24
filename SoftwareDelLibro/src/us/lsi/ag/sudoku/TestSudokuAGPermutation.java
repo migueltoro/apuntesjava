@@ -11,7 +11,7 @@ import us.lsi.ag.agstopping.StoppingConditionFactory;
 import us.lsi.ag.agstopping.StoppingConditionFactory.StoppingConditionType;
 import us.lsi.algoritmos.Algoritmos;
 import us.lsi.sa.sudoku.CuadroSudoku;
-import us.lsi.sa.sudoku.ProblemaSudokuAGPermutation;
+import us.lsi.sa.sudoku.ProblemaSudokuAGListInteger;
 
 public class TestSudokuAGPermutation {
 
@@ -34,7 +34,7 @@ public class TestSudokuAGPermutation {
 		CuadroSudoku.iniDatos("sudoku.txt");
 		CuadroSudoku.asignaValoresUnicos();
 		
-		ProblemaSudokuAGPermutation p = new ProblemaSudokuAGPermutation();		
+		ProblemaSudokuAGListInteger p = new ProblemaSudokuAGListInteger();		
 		AlgoritmoAG a = Algoritmos.createAG(ChromosomeFactory.ChromosomeType.IndexPermutation ,p);		
 		a.ejecuta();
 		System.out.println("Mejor Solución =");

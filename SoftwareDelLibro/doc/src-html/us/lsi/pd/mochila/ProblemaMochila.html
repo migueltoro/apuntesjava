@@ -212,7 +212,7 @@
 <span class="sourceLineNo">204</span>                Double nu;<a name="line.204"></a>
 <span class="sourceLineNo">205</span>                int index = getIndex();<a name="line.205"></a>
 <span class="sourceLineNo">206</span>                while(true) {<a name="line.206"></a>
-<span class="sourceLineNo">207</span>                        if(index &gt; ProblemaMochila.objetosDisponibles.size() || c&lt;= 0.) break;          <a name="line.207"></a>
+<span class="sourceLineNo">207</span>                        if(index &gt;= ProblemaMochila.objetosDisponibles.size() || c&lt;= 0.) break;         <a name="line.207"></a>
 <span class="sourceLineNo">208</span>                        nu = ProblemaMochila.numeroRealMaximoDeUnidades(index,c);       <a name="line.208"></a>
 <span class="sourceLineNo">209</span>                        r = r+nu*ProblemaMochila.getValorObjeto(index);<a name="line.209"></a>
 <span class="sourceLineNo">210</span>                        c = c-nu*ProblemaMochila.getPesoObjeto(index);<a name="line.210"></a>

@@ -1,9 +1,8 @@
 package us.lsi.astar.mochila;
 
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.jgrapht.GraphPath;
-import org.jgrapht.Graphs;
 
 import us.lsi.algoritmos.Algoritmos;
 import us.lsi.astar.AStarAlgorithm;
@@ -15,17 +14,17 @@ import us.lsi.pd.mochila.ProblemaMochila;
 public class TestMochilaGrafo {
 
 	public static void main(String[] args) {
-		ProblemaMochila.leeObjetosDisponibles("objetosmochila.txt");
+		ProblemaMochila.leeObjetosDisponibles("ficheros\\objetosmochila.txt");
 		System.out.println(ProblemaMochila.getObjetosDisponibles());
-		ProblemaMochila.capacidadInicial = 78;
+		ProblemaMochila.capacidadInicial = 534;
 		MochilaVertex p1 = MochilaVertex.create();
 		System.out.println("Problema Inicial = "+p1);
-		Function<MochilaVertex,Double> d = (MochilaVertex p)-> 1.*ProblemaMochila.getObjetosDisponibles().size() - p.getProblema().getIndex();
-		AStarGraph<MochilaVertex,SimpleEdge<MochilaVertex>> graph = MochilaGrafo.create(SimpleEdge::create);
-		AStarAlgorithm<MochilaVertex,SimpleEdge<MochilaVertex>> a = Algoritmos.createAStar(graph, p1, d);
+		Predicate<MochilaVertex> goal = (MochilaVertex p)-> ProblemaMochila.getObjetosDisponibles().size()==p.getProblema().getIndex();
+		AStarGraph<MochilaVertex,SimpleEdge<MochilaVertex>> graph = MochilaGrafo.create(p1);
+		AStarAlgorithm<MochilaVertex,SimpleEdge<MochilaVertex>> a = Algoritmos.createAStar(graph, p1, goal);
 		GraphPath<MochilaVertex,SimpleEdge<MochilaVertex>> path = a.getPath();
-		System.out.println(Graphs.getPathVertexList(path));
-		System.out.println(MochilaVertex.getSolucion(Graphs.getPathVertexList(path)));
-		System.out.println(a.getPathLength());
+		System.out.println(a.getPathVertexList());
+		System.out.println(MochilaVertex.getSolucion(a.getPathVertexList()));
+		System.out.println(path);
 	}
 }

@@ -1,10 +1,6 @@
 package us.lsi.graphs;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
-import org.jgrapht.EdgeFactory;
 import org.jgrapht.UndirectedGraph;
 
 /**
@@ -26,50 +22,24 @@ import org.jgrapht.UndirectedGraph;
 public class UndirectedSimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEdge<V>>
 		extends SimpleVirtualGraph<V,E> 
 		implements UndirectedGraph<V,E>{
-
-	private Map<V,Set<E>> edgesOf;	
-	private Map<V,Integer> degreeOf;
 	
 	
-	
-	public UndirectedSimpleVirtualGraph(EdgeFactory<V,E> edgeFactory, V[] vs) {
-		super(edgeFactory,vs);
-		this.edgesOf = new HashMap<>();		
-		this.degreeOf = new HashMap<>();
-	}
-	
-	public UndirectedSimpleVirtualGraph(EdgeFactory<V,E> edgeFactory) {
-		super(edgeFactory);
-		this.edgesOf = new HashMap<>();		
-		this.degreeOf = new HashMap<>();
-	}
-	
-	@Override
-	public Set<E> edgesOf(V v) {
-		Set<E> r;
-		if(edgesOf.containsKey(v)){
-			r = edgesOf.get(v);
-		}else {
-			r = v.edgesOf();
-			edgesOf.put(v, r);
-		}			
-		return r;
-	}
-
-	
-	@Override
-	public int degreeOf(V v) {
-		Integer r;		
-		if (degreeOf.containsKey(v)) {
-			r = degreeOf.get(v);
-		}else {
-			r = this.edgesOf(v).size();
-			degreeOf.put(v, r);
-		}
-		return r;
+	public UndirectedSimpleVirtualGraph() {
+		super();
 	}	
 	
-	public Integer getNumVertexInEdgesOf(){
-		return edgesOf.size();
+	@SafeVarargs
+	public UndirectedSimpleVirtualGraph(V... vertexSet) {
+		super(vertexSet);
 	}
+
+
+	
+	
+
+	@Override
+	public int degreeOf(V v) {
+		return v.edgesOf().size();
+	}	
+	
 }

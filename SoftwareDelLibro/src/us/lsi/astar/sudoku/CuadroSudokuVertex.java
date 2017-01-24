@@ -78,8 +78,6 @@ public class CuadroSudokuVertex implements VirtualVertex<CuadroSudokuVertex, Sim
 		return getNeighborListOf().contains(e);
 	}
 
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -108,8 +106,6 @@ public class CuadroSudokuVertex implements VirtualVertex<CuadroSudokuVertex, Sim
 	@Override
 	public String toString() {
 		return pos+","+cuadro.getObjetivoMin()+","+casillasOcupadas;
-	}
-	
-	
+	}	
 
 }

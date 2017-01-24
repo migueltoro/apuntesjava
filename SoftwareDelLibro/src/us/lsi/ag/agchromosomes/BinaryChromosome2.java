@@ -14,10 +14,11 @@ import us.lsi.ag.ProblemaAGBinary;
  * @author Miguel Toro
  * 
  * <p> 
+ * Un cromosoma cuya valor decodificado es una lista de ceros y unos del tamaño especificado en el problema.
  * La implementación es una adaptación de la clase {@link org.apache.commons.math3.genetics.Chromosome Chromosome} de Apache. </p>
  *
  */
-public class BinaryChromosome2 extends BinaryChromosome implements IChromosome<List<Integer>> {
+public class BinaryChromosome2 extends BinaryChromosome implements IBinaryChromosome {
 	
 	public static ProblemaAGBinary<?> problema;
 	

@@ -16,6 +16,11 @@
 	<classpathentry kind="lib" path="lib/lpsolve55j.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.18-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jgraph.jar"/>
-	<classpathentry kind="lib" path="lib/guava-18.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Boss/Desktop/Jars/guava-21.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Boss/Desktop/Jars/guava-21.0.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/Boss/Desktop/Jars/guava-21.0-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

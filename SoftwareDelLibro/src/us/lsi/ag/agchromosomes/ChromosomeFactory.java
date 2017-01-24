@@ -87,9 +87,10 @@ public class ChromosomeFactory {
 	
 	/**
 	 * @param tipo El tipo del cromosoma
+	 * @param problema Las propiedades del probblema a resolver
 	 * @return Un operador de cruce adecuado para un cromosma del tipo indicado
 	 */
-	public static CrossoverPolicy getCrossoverPolicy(ChromosomeType tipo){
+	public static CrossoverPolicy getCrossoverPolicy(ChromosomeType tipo, ProblemaAG problema){
 		CrossoverPolicy crossOverPolicyBin = null;	
 		switch(crossoverType){
 		case Cycle: crossOverPolicyBin = new CycleCrossover<Integer>();break;
@@ -110,7 +111,7 @@ public class ChromosomeFactory {
 		switch(tipo){
 		case Binary: crossOverPolicy = crossOverPolicyBin; break;
 		case IndexSubList: crossOverPolicy = crossOverPolicyBin; break;
-		case ListInteger: crossOverPolicy = crossOverPolicyBin; break;
+		case ListInteger: crossOverPolicy = ((ProblemaAGListInteger<?>)problema).getCrossoverPolicy(); break;
 		case IndexRange: crossOverPolicy = crossOverPolicyBin; break;
 		case IndexPermutation: crossOverPolicy = crossOverPolicyKey; break;
 		case IndexPermutationSubList: crossOverPolicy = new SubListCrossoverPolicy(crossOverPolicyBin,crossOverPolicyKey); break;

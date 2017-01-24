@@ -1,16 +1,20 @@
 package us.lsi.graphs;
 
+import org.jgraph.graph.DefaultEdge;
+
 /**
- * <p> Un arista simple entre dos vértices de tipo V </p>
+ * <p> Una arista simple entre dos vértices de tipo V </p>
  * 
  * @author Miguel Toro
  *
  * @param <V> El tipo de los vértices de la arista
  */
-public class SimpleEdge<V> {
+public class SimpleEdge<V> extends DefaultEdge {
 
-	private V source;
-	private V target;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private double weight;
 
 		
@@ -38,15 +42,15 @@ public class SimpleEdge<V> {
 
 	protected SimpleEdge(V c1, V c2) {
 		super();
-		this.source = c1;
-		this.target = c2;
+		super.source = c1;
+		super.target = c2;
 		this.weight = 1.;
 	}
 
-	private SimpleEdge(V c1, V c2, double weight) {
+	protected SimpleEdge(V c1, V c2, double weight) {
 		super();
-		this.source = c1;
-		this.target = c2;
+		super.source = c1;
+		super.target = c2;
 		this.weight = weight;
 	}
 	
@@ -54,15 +58,17 @@ public class SimpleEdge<V> {
 	/**
 	 * @return El vértice origen
 	 */
+	@SuppressWarnings("unchecked")
 	public V getSource(){
-		return this.source;
+		return (V) super.source;
 	}
 	
 	/**
 	 * @return El vértice destino
 	 */
+	@SuppressWarnings("unchecked")
 	public V getTarget(){
-		return this.target;
+		return (V) super.target;
 	}
 	
 	/**
@@ -71,7 +77,28 @@ public class SimpleEdge<V> {
 	public double getEdgeWeight(){
 		return this.weight;
 	}
-	
+		
+	/**
+	 * @param weight El nuevo peso de la arista
+	 */
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	/**
+	 * @param v Un vértice de la arista
+	 * @return El otro vértice
+	 */
+	@SuppressWarnings("unchecked")
+	public V otherVertex(V v){
+		V r = null;
+		if(v.equals(this.source)){
+			r = (V)super.target;
+		} else if(v.equals(this.target)){
+			r = (V)super.source;
+		}
+		return r;
+	}
 	
 	@Override
 	public String toString() {

@@ -21,7 +21,7 @@ public class TestAStarPuzzle {
 //		EstadoPuzzle p4 = EstadoPuzzle.create(1,2,3,4,5,0,6,7,8);
 		EstadoPuzzle p5 = EstadoPuzzle.create(1,2,3,4,0,5,6,7,8);
 	
-		AStarGraph<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> graph = PuzzleGraph1.create(SimpleEdge::create);
+		AStarGraph<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> graph = PuzzleGraph1.create(p1,p5);
 		AStarAlgorithm<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> d = Algoritmos.createAStar(graph, p1, p5);
 		GraphPath<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> path = d.getPath();
 		System.out.println(Graphs.getPathVertexList(path));

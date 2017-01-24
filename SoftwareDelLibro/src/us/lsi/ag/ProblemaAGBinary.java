@@ -9,7 +9,7 @@ import us.lsi.ag.agchromosomes.BinaryChromosome2;
  * @param <S> El tipo de la solución del problema
  * 
  * 
- * <p> Un problema cuya solución puede ser modelada con variables binarias. Usa un cromomosoma de tipo IBinaryChromosom</p>
+ * <p> Un problema cuya solución puede ser modelada con variables binarias. Usa un cromomosoma de tipo BinaryChromosome2</p>
  */
 public interface ProblemaAGBinary<S> extends ProblemaAG {
 	

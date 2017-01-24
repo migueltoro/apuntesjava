@@ -43,8 +43,6 @@ package us.lsi.astar;
  *
  */
 
-import java.util.Set;
-import java.util.function.Function;
 
 import org.jgrapht.*;
 import org.jgrapht.traverse.CrossComponentIterator;
@@ -64,8 +62,6 @@ public class AStarIterator<V, E> extends CrossComponentIterator<V,E, FibonacciHe
 
 	private AStarGraph<V, E> wGraph;
 	private V endVertex;
-	private Function<V,Double> goalDistance;
-	private Set<V> goalSet;
 	
     /**
      * Priority queue of fringe vertices.
@@ -89,7 +85,7 @@ public class AStarIterator<V, E> extends CrossComponentIterator<V,E, FibonacciHe
      */
     public AStarIterator(AStarGraph<V, E> g)
     {
-        this(g,null,null,null, null, Double.POSITIVE_INFINITY);
+        this(g,null,null, Double.POSITIVE_INFINITY);
     }
 
     /**
@@ -104,42 +100,20 @@ public class AStarIterator<V, E> extends CrossComponentIterator<V,E, FibonacciHe
      */
     public AStarIterator(AStarGraph<V, E> g, V startVertex, V endVertex)
     {
-        this(g, startVertex, endVertex, null, null, Double.POSITIVE_INFINITY);
+        this(g, startVertex, endVertex, Double.POSITIVE_INFINITY);
     }
 
     
-    /**
-     * @param g Grafo
-     * @param startVertex Vértice origen
-     * @param goalDistance Distancia a un objetivo
-     */
-    public AStarIterator(AStarGraph<V, E> g, V startVertex, Function<V,Double> goalDistance)
-    {
-        this(g, startVertex, null,goalDistance, null, Double.POSITIVE_INFINITY);
-    }
     
-    /**
-     * @param g Grafo 
-     * @param startVertex Vértice origen
-     * @param goalSet Conjunto de vértices objetivo
-     */
-    public AStarIterator(AStarGraph<V, E> g, V startVertex, Set<V> goalSet)
+    AStarIterator(AStarGraph<V, E> g, V startVertex, V endVertex,  double radius)
     {
-        this(g, startVertex, null, null, goalSet, Double.POSITIVE_INFINITY);
-    }
-    
-    
-    AStarIterator(AStarGraph<V, E> g, V startVertex, V endVertex, 
-    		Function<V,Double> goalDistance, Set<V> goalSet, double radius)
-    {
-        super(g, startVertex);
+        
+    	super(g, startVertex);
         this.radius = radius;
         checkRadiusTraversal(isCrossComponentTraversal());
         initialized = true;
         this.wGraph = (AStarGraph<V, E>) g;
         this.endVertex = endVertex;
-        this.goalDistance =goalDistance;
-        this.goalSet = goalSet;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -297,7 +271,7 @@ public class AStarIterator<V, E> extends CrossComponentIterator<V,E, FibonacciHe
     
     protected double calculateInitialPathWeight(V vertex){
     	return calculateInitialPathWeightFromOriginToActual(vertex)+
-    			wGraph.getWeightToEnd(vertex,endVertex,goalDistance,goalSet);
+    			wGraph.getWeightToEnd(vertex,endVertex);
     }
     
     /**
@@ -336,7 +310,7 @@ public class AStarIterator<V, E> extends CrossComponentIterator<V,E, FibonacciHe
      */
     
     protected double calculatePathWeight(V vertex, E edge, double distance)  { // cambiado de private a protected      		
-        return distance+wGraph.getWeightToEnd(vertex,endVertex,goalDistance,goalSet);
+        return distance+wGraph.getWeightToEnd(vertex,endVertex);
     }
 
     private void checkRadiusTraversal(boolean crossComponentTraversal)

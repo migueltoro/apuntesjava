@@ -39,6 +39,11 @@ public class Tarea {
 	public Double getDuracion() {
 		return duracion;
 	}
+	
+	public static Double getDuracion(int i) {
+		return Tarea.tareas.get(i).getDuracion();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

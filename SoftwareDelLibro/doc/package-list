@@ -13,6 +13,7 @@ us.lsi.astar
 us.lsi.astar.laberinto
 us.lsi.astar.mochila
 us.lsi.astar.puzzle
+us.lsi.astar.puzzle2
 us.lsi.astar.sudoku
 us.lsi.astar.vuelos
 us.lsi.basictypes
@@ -36,6 +37,7 @@ us.lsi.geometria
 us.lsi.graphs
 us.lsi.graphs.examples
 us.lsi.gui
+us.lsi.iterate
 us.lsi.java8ejemplos
 us.lsi.math
 us.lsi.pd

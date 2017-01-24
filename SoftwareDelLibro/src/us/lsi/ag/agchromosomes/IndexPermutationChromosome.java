@@ -91,12 +91,10 @@ public class IndexPermutationChromosome extends RandomKey<Integer> implements In
 		return IndexPermutationChromosome.problema;
 	}
 
-	@Override
 	public Integer getObjectsNumber() {
 		return IndexPermutationChromosome.problema.getObjectsNumber();
 	}
 
-	@Override
 	public Integer getMax(int i) {
 		return IndexPermutationChromosome.problema.getMax(i);
 	}

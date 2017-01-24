@@ -103,7 +103,7 @@ public class AlgoritmoAG extends AbstractAlgoritmo {
 		this.tipo = tipo;				
 		this.selectionPolicy =  ChromosomeFactory.getSelectionPolicy();
 		this.mutationPolicy = ChromosomeFactory.getMutationPolicy(tipo, problema);
-		this.crossOverPolicy = ChromosomeFactory.getCrossoverPolicy(tipo);
+		this.crossOverPolicy = ChromosomeFactory.getCrossoverPolicy(tipo, problema);
 		this.stopCond = StoppingConditionFactory.getStoppingCondition();
 		ChromosomeFactory.iniValues(tipo, problema);
 		JDKRandomGenerator random = new JDKRandomGenerator();		

@@ -10,8 +10,9 @@ import org.jgrapht.*;
  * Asumimos que las aristas son subtipos de SimpleEdge &lt; V &gt; 
  * </p>
  * 
- * <p> El grafo es inmutable por lo que no están permitadas las operación de modificación.
- *  Si se invoca una operación para modificar el grafo se disparará 
+ * <p> El grafo es inmutable por lo que no están permitadas las operación de modificación. Tampoco
+ * están permitidas las operaciones de consulta de todos los vértices o todas las aristas.
+ *  Si se invocan alguna de ellas se disparará 
  * la excepción UnsupportedOperationException </p>
  * 
  * @see us.lsi.graphs.VirtualVertex
@@ -24,31 +25,37 @@ import org.jgrapht.*;
  * @param <E> El tipo de las aristas
  * 
  */
+/**
+ * @author Boss
+ *
+ * @param <V> Tipo de los vértices
+ * @param <E> Tipo de las aristas
+ */
 public class SimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEdge<V>>
 	implements Graph<V, E> {
-	
-	
-	private EdgeFactory<V,E> edgeFactory;
+			
 	private Set<V> vertexSet;
-		
-	protected SimpleVirtualGraph(EdgeFactory<V, E> edgeFactory, V[] vertex) {
+	
+	public SimpleVirtualGraph(){
 		super();
-		this.edgeFactory = edgeFactory;
-		this.vertexSet = new HashSet<V>();
-		for(V v:vertex){
-			vertexSet.add(v);
-		}
+		this.vertexSet = new HashSet<>();
 	}
-
-	protected SimpleVirtualGraph(EdgeFactory<V, E> edgeFactory){
+	
+	/**
+	 * @param vertexSet Conjunto de vértices del grafo que queremos hacer explícitos.
+	 */
+	@SafeVarargs
+	public SimpleVirtualGraph(V... vertexSet){
 		super();
-		this.edgeFactory = edgeFactory;
-		this.vertexSet = new HashSet<V>();
+		this.vertexSet = new HashSet<>();
+		for(V v:vertexSet){
+			this.vertexSet.add(v);
+		}
 	}
 	
 	@Override
 	public EdgeFactory<V, E> getEdgeFactory() {
-		return edgeFactory;
+		return null;
 	}
 
 	@Override
@@ -83,7 +90,11 @@ public class SimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEd
 	public E getEdge(V v1, V v2) {
 		E a = null;
 		if (v1.isNeighbor(v2)) {
-			a = getEdgeFactory().createEdge(v1, v2);
+			a = v1.edgesOf()
+					.stream()
+					.filter(e->e.otherVertex(v1).equals(v2))
+					.findFirst()
+					.get();
 		}
 		return a;
 	}
@@ -92,13 +103,18 @@ public class SimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEd
 	public Set<E> getAllEdges(V v1, V v2) {
 		Set<E> s = new HashSet<>();
 		if (v1.isNeighbor(v2))
-			s.add(getEdgeFactory().createEdge(v1, v2));
+			s.add(getEdge(v1, v2));
 		return s;
 	}
 	
+	
+	
+	/** 
+	 * @return Conjunto de vértices del grafo que se han hecho explícitos en el constructor.
+	 */
 	@Override
 	public Set<V> vertexSet(){
-		return vertexSet; 
+		return this.vertexSet;
 	}
 	
 	@Override
@@ -106,23 +122,19 @@ public class SimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEd
 		return v.edgesOf();
 	}
 	
-	public Set<V> getNeighborListOf(V v) {
-		return v.getNeighborListOf();
-	}
 	
-	
-	/* 
+	/**
 	 * @see org.jgrapht.Graph#edgeSet()
-	 * @exception UnsupportedOperationException Si se invoca
+	 * @throw UnsupportedOperationException
 	 */
 	@Override
 	public Set<E> edgeSet() {
 		throw new UnsupportedOperationException();
 	}
 	
-	/* 
+	/**
 	 * @see org.jgrapht.Graph#addEdge(java.lang.Object, java.lang.Object)
-	 * @exception UnsupportedOperationException Si se invoca
+	 * @throw UnsupportedOperationException
 	 */
 	@Override
 	public E addEdge(V arg0, V arg1) {
@@ -130,9 +142,9 @@ public class SimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEd
 	}
 
 	
-	/* 
+	/**
 	 * @see org.jgrapht.Graph#addEdge(java.lang.Object, java.lang.Object, java.lang.Object)
-	 * @exception UnsupportedOperationException Si se invoca
+	 * @throw UnsupportedOperationException
 	 */
 	@Override
 	public boolean addEdge(V arg0, V arg1, E arg2) {
@@ -140,59 +152,63 @@ public class SimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEd
 	}
 
 
-	/* 
+	/**
 	 * @see org.jgrapht.Graph#addVertex(java.lang.Object)
-	 * @exception UnsupportedOperationException Si se invoca
+	 * @throw UnsupportedOperationException
 	 */
 	@Override
 	public boolean addVertex(V arg0) {
 		throw new UnsupportedOperationException();
 	}
 
-	/*
+	/**
 	 * @see org.jgrapht.Graph#removeAllEdges(java.util.Collection)
-	 * @exception UnsupportedOperationException Si se invoca
+	 * @throw UnsupportedOperationException
 	 */
 	@Override
 	public boolean removeAllEdges(Collection<? extends E> arg0) {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * 
+	 * @throw UnsupportedOperationException
+	 */
 	@Override
 	public Set<E> removeAllEdges(V arg0, V arg1) {
 		throw new UnsupportedOperationException();
 	}
 
-	/* 
+	/**
 	 * @see org.jgrapht.Graph#removeAllVertices(java.util.Collection)
-	 * @exception UnsupportedOperationException Si se invoca
+	 * @throw UnsupportedOperationException
 	 */
 	@Override
 	public boolean removeAllVertices(Collection<? extends V> arg0) {
 		throw new UnsupportedOperationException();
 	}
 
-	/* 
+	/**
 	 * @see org.jgrapht.Graph#removeEdge(java.lang.Object)
-	 * @exception UnsupportedOperationException Si se invoca
+	 * @throw UnsupportedOperationException
 	 */
 	@Override
 	public boolean removeEdge(E arg0) {
 		throw new UnsupportedOperationException();
 	}
 
-	/* 
+	/**
 	 * @see org.jgrapht.Graph#removeEdge(java.lang.Object, java.lang.Object)
-	 * @exception UnsupportedOperationException Si se invoca
+	 * @throw UnsupportedOperationException
 	 */
 	@Override
 	public E removeEdge(V arg0, V arg1) {
 		throw new UnsupportedOperationException();
 	}
 
-	/* 
+	/**
 	 * @see org.jgrapht.Graph#removeVertex(java.lang.Object)
-	 * @exception UnsupportedOperationException Si se invoca
+	 * @throw UnsupportedOperationException
 	 */
 	@Override
 	public boolean removeVertex(V arg0) {

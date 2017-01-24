@@ -10,13 +10,15 @@ public class TestLaberinto {
 
 	
 	public static void main(String[] args) {
-		LaberintoCaminoMinimo g = new LaberintoCaminoMinimo(SimpleEdge::create,"laberinto.txt", 8, 6);
+		Casilla.iniDatos("ficheros\\laberinto.txt", 8, 6);
+		Casilla c1 = Casilla.create(0, 5);
+		Casilla c2 = Casilla.create(7, 5);
+		LaberintoCaminoMinimo g = new LaberintoCaminoMinimo(c1,c2);
 		AStarAlgorithm<Casilla,SimpleEdge<Casilla>> d = 
-				Algoritmos.createAStar(g, Casilla.create(0, 5), Casilla.create(7, 5));
+				Algoritmos.createAStar(g, c1, c2);
 		GraphPath<Casilla,SimpleEdge<Casilla>> p = d.getPath();
 		System.out.println(p.getWeight());
 		System.out.println(Graphs.getPathVertexList(p));
-		System.out.println(g.getNumVertexInEdgesOf());
 	}
 
 }

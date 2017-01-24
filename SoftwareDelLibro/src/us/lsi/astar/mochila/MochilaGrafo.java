@@ -1,10 +1,5 @@
 package us.lsi.astar.mochila;
 
-import java.util.Set;
-import java.util.function.Function;
-
-import org.jgrapht.EdgeFactory;
-
 import us.lsi.astar.AStarGraph;
 import us.lsi.graphs.SimpleEdge;
 import us.lsi.graphs.UndirectedSimpleVirtualGraph;
@@ -17,44 +12,18 @@ public class MochilaGrafo extends
 
 	
 	
-	public static MochilaGrafo create(EdgeFactory<MochilaVertex, SimpleEdge<MochilaVertex>> edgeFactory) {
-		return new MochilaGrafo(edgeFactory);
+	public static MochilaGrafo create(MochilaVertex... v) {
+		return new MochilaGrafo(v);
 	}
 
-	public static MochilaGrafo create(
-			EdgeFactory<MochilaVertex, SimpleEdge<MochilaVertex>> edgeFactory,
-			MochilaVertex[] vs) {
-		return new MochilaGrafo(edgeFactory, vs);
+
+	private MochilaGrafo(MochilaVertex... v) {
+		super(v);
 	}
 
-	private MochilaGrafo(
-			EdgeFactory<MochilaVertex, SimpleEdge<MochilaVertex>> edgeFactory,
-			MochilaVertex[] vs) {
-		super(edgeFactory, vs);
-	}
-
-	private MochilaGrafo(
-			EdgeFactory<MochilaVertex, SimpleEdge<MochilaVertex>> edgeFactory) {
-		super(edgeFactory);
-	}
 
 	@Override
-	public double getVertexWeight(MochilaVertex vertex) {
-		return 0;
-	}
-
-	@Override
-	public double getVertexWeight(MochilaVertex vertex,
-			SimpleEdge<MochilaVertex> edgeIn,
-			SimpleEdge<MochilaVertex> edgeOut) {
-		return 0;
-	}
-
-	@Override
-	public double getWeightToEnd(MochilaVertex startVertex,
-			MochilaVertex endVertex,
-			Function<MochilaVertex,Double> goal,
-			Set<MochilaVertex> goalSet) {
+	public double getWeightToEnd(MochilaVertex startVertex, MochilaVertex endVertex) {
 		ProblemaMochila actual = startVertex.getProblema();
 		return -actual.getCotaSuperiorValorEstimado();
 	}

@@ -9,6 +9,19 @@ import us.lsi.common.StringExtensions2;
 import lpsolve.LpSolve;
 import lpsolve.LpSolveException;
 
+/**
+ * @author Miguel Toro
+ * 
+ * <p> Un algoritmo de Programación Lineal Entera. El algoritmo lee un fichero en formato 
+ * <a href="http://lpsolve.sourceforge.net/5.5/" target="_blank">LpSolve</a> y calcula la solución. 
+ * Se pueden declarar tres tipos de variables: enteras (int), binarias (bin) y reales (por defecto).
+ * Hay otros tipos de variables posibles (libres, semicontinuas) que pueden consultarse en la documentación de LpSolve. </p>
+ * 
+ * <p> La clase proporciona algunos métodos para facilitar la generación del fichero de entrada como 
+ * getFactor, getVariable, getSumVariables,... </p>
+ * 
+ * <p> La implementación reutiliza el algortimo LpSolve. </p>
+ */
 public class AlgoritmoPLI  extends AbstractAlgoritmo implements SolutionPL{
 
 	public static AlgoritmoPLI create(IProblemaPL p, String fichero) {

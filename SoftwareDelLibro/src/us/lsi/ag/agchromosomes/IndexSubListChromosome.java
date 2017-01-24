@@ -103,12 +103,10 @@ public class IndexSubListChromosome extends BinaryChromosome implements IndexChr
 		return IndexSubListChromosome.problema;
 	}
 
-	@Override
 	public Integer getObjectsNumber() {
 		return IndexSubListChromosome.problema.getObjectsNumber();
 	}
 
-	@Override
 	public Integer getMax(int i) {
 		return IndexSubListChromosome.problema.getMax(i);
 	}

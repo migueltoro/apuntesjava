@@ -125,7 +125,8 @@ public class Casilla implements VirtualVertex<Casilla,SimpleEdge<Casilla>> {
 	public boolean isNeighbor(Casilla e) {
 		return Math.abs(this.getX()-e.getX()) + Math.abs(this.getY()-e.getY()) == 1;
 	}
-
+	
+	@Override
 	public boolean isValid() {
 		return this.info >=0 && this.getX() >=0 && this.getX()< numX && this.getY() >=0 && this.getY()< numY;
 	}
@@ -184,5 +185,7 @@ public class Casilla implements VirtualVertex<Casilla,SimpleEdge<Casilla>> {
 			}
 		}
 	}
+
+	
 	
 }

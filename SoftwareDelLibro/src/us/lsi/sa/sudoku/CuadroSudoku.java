@@ -215,7 +215,7 @@ public class CuadroSudoku {
 	}
 	
 	/**
-	 * @return El objetivo a minimizar
+	 * @return El objetivo a minimizar. Si es cero tenemos un Sudoku legal
 	 */
 	public Integer getObjetivoMin() {
 		return 3*CuadroSudoku.numeroDeFilas*CuadroSudoku.numeroDeFilas -this.objetivo;		
@@ -347,6 +347,7 @@ public class CuadroSudoku {
 		}
 		System.out.println(s);
 		System.out.println("Objetivo ="+this.objetivo);
+		System.out.println("Objetivo Min="+this.getObjetivoMin());
 	}
 
 	@Override

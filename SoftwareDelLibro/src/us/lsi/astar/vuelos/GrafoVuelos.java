@@ -1,7 +1,5 @@
 package us.lsi.astar.vuelos;
 
-import java.util.Set;
-import java.util.function.Function;
 
 import org.jgrapht.EdgeFactory;
 import org.jgrapht.graph.*;
@@ -25,50 +23,33 @@ public class GrafoVuelos extends DirectedMultigraph<String,Vuelo> implements ASt
 	public GrafoVuelos(EdgeFactory<String, Vuelo> arg0) {
 		super(arg0);
 	}
-
-
-/*	public static GrafoVuelos create(Graph<String,Vuelo> gg) {
-		GrafoVuelos grafo = new GrafoVuelos(gg.getEdgeFactory());
-		for(String s:gg.vertexSet()){
-			grafo.addVertex(s);
-		}
-		for(Vuelo v:gg.edgeSet()){
-			grafo.addEdge(v.getFrom(), v.getTo(), v);
-		}
-		return grafo;
-	}
 	
-*/	
 	@Override
 	public double getEdgeWeight(Vuelo v){
 		return v.getDuracion();
 	}
 
-	
-	@Override
-	public double getVertexWeight(String vertex) {
-		return 0;
-	}
 
 	@Override
 	public double getVertexWeight(String vertex, Vuelo edgeIn, Vuelo edgeOut) {
 		double r;
 		double horaDeLlegada;
+		double horaDeSalida;
 		if(edgeIn==null){
 			horaDeLlegada = this.horaDeLlegadaAlAeropuerto;
 		} else {
 			horaDeLlegada = edgeIn.getHoraDeLlegada();
 		}
-		r = edgeOut.getHoraDeSalida()-horaDeLlegada;
+		if(edgeOut==null){
+			horaDeSalida = edgeIn.getHoraDeLlegada();
+		} else {
+			horaDeSalida = edgeOut.getHoraDeSalida();
+		}
+		r = horaDeSalida-horaDeLlegada;
 		if(r<0){
 			r+=24.;
 		}
 		return r;
-	}
-
-	@Override
-	public double getWeightToEnd(String startVertex, String endVertex, Function<String,Double> p, Set<String> s) {
-		return 0;
 	}
 
 }

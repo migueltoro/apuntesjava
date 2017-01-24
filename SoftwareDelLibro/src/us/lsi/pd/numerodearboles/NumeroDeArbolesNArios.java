@@ -9,14 +9,14 @@ import com.google.common.base.Preconditions;
 import us.lsi.pd.AlgoritmoPD.Sp;
 import us.lsi.pd.ProblemaPD;
 
-public class NumeroDeArboles implements ProblemaPD<Integer, Integer> {
+public class NumeroDeArbolesNArios implements ProblemaPD<Integer, Integer> {
 
-	public static NumeroDeArboles create(Integer n) {
-		return new NumeroDeArboles(n, 1,0);
+	public static NumeroDeArbolesNArios create(Integer n) {
+		return new NumeroDeArbolesNArios(n, 1, 0);
 	}
 	
-	public static NumeroDeArboles create(Integer n, Integer m, Integer t) {
-		return new NumeroDeArboles(n, m, t);
+	public static NumeroDeArbolesNArios create(Integer n, Integer m, Integer t) {
+		return new NumeroDeArbolesNArios(n, m, t);
 	}
 
 	private Integer n; //Numero de vértices
@@ -24,7 +24,7 @@ public class NumeroDeArboles implements ProblemaPD<Integer, Integer> {
 	private Integer t; //Nivel
 	public static Integer nmh;  //Número máximo de hijos	
 
-	private NumeroDeArboles(Integer n, Integer m, Integer t) {
+	private NumeroDeArbolesNArios(Integer n, Integer m, Integer t) {
 		super();
 		this.n = n;
 		this.m = m;
@@ -65,15 +65,15 @@ public class NumeroDeArboles implements ProblemaPD<Integer, Integer> {
 
 	@Override
 	public ProblemaPD<Integer, Integer> getSubProblema(Integer a, int np) {
-		NumeroDeArboles r;
+		NumeroDeArbolesNArios r;
 		if(np==0) {
 			if (a==0) {
-				r = NumeroDeArboles.create(0,1,t);
+				r = NumeroDeArbolesNArios.create(0,1,t);
 			} else{
-				r = NumeroDeArboles.create(a-1,NumeroDeArboles.nmh,t+1);
+				r = NumeroDeArbolesNArios.create(a-1,NumeroDeArbolesNArios.nmh,t+1);
 			}
 		} else 
-			r = NumeroDeArboles.create(n-a, m-1, t);
+			r = NumeroDeArbolesNArios.create(n-a, m-1, t);
 		return r;
 	}
 
@@ -128,9 +128,9 @@ public class NumeroDeArboles implements ProblemaPD<Integer, Integer> {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof NumeroDeArboles))
+		if (!(obj instanceof NumeroDeArbolesNArios))
 			return false;
-		NumeroDeArboles other = (NumeroDeArboles) obj;
+		NumeroDeArbolesNArios other = (NumeroDeArbolesNArios) obj;
 		if (m == null) {
 			if (other.m != null)
 				return false;

@@ -1,8 +1,7 @@
 package us.lsi.algoritmos;
 
 import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 import us.lsi.ag.AlgoritmoAG;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
@@ -148,7 +147,7 @@ public class Algoritmos {
 	 */
 	public static <V, E> AStarAlgorithm<V, E> createAStar(
 			AStarGraph<V, E> graph, V startVertex, V endVertex) {
-		return new AStarAlgorithm<V, E>(graph, startVertex, endVertex);
+		return AStarAlgorithm.create(graph, startVertex, endVertex);
 	}
 	/**
 	 * Un algoritmo AStar para ir del vértice de inicio hasta el  primer vértice que cumple el predicado
@@ -156,32 +155,16 @@ public class Algoritmos {
 	 * @param <E> Tipo de la arista
 	 * @param graph Grafo
 	 * @param startVertex Vértice origen
-	 * @param goalDistance Distancia a un objetivo 
+	 * @param goal Predicate que especifica el objetivo
 	 * @return Algoritmo AStar
 	 */
 	
 	public static <V, E> AStarAlgorithm<V, E> createAStar(
-			AStarGraph<V, E> graph, V startVertex, Function<V,Double> goalDistance) {
-		return new AStarAlgorithm<V, E>(graph, startVertex, goalDistance);
+			AStarGraph<V, E> graph, V startVertex, Predicate<V> goal) {
+		return AStarAlgorithm.create(graph, startVertex, goal);
 	}
 
-	/**
-	 * Un algoritmo AStar para ir del vértice de inicio hasta alcanzar uno de los vértices objetivo
-	 * 
-	 * @param <V> Tipo del vértice
-	 * @param <E> Tipo de la arista
-	 * @param graph Grafo
-	 * @param startVertex Vértice origen
-	 * @param goalSet Conjunto de vértices objetivo 
-	 * @return Algoritmo AStar
-	 * 
-	 */
-	public static <V, E> AStarAlgorithm<V, E> createAStar(
-			AStarGraph<V, E> graph, V startVertex, Set<V> goalSet) {
-		return new AStarAlgorithm<V, E>(graph, startVertex, goalSet);
-	}
-
-
+	
 
 	/**
 	 * Los tipos involucrados pueden encontrarse en el paquete <a href="https://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/optim/linear/package-summary.html" target="_blank">Apache</a>

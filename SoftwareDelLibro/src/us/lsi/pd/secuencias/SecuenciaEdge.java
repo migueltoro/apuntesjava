@@ -5,6 +5,11 @@ import us.lsi.pd.secuencias.Secuencia.Accion;
 
 public class SecuenciaEdge extends SimpleEdge<Secuencia> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static SecuenciaEdge create(Secuencia c1, Secuencia c2, Accion a) {
 		return new SecuenciaEdge(c1, c2, a);
 	}

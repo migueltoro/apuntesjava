@@ -2,6 +2,7 @@ package us.lsi.ag;
 
 import java.util.List;
 
+import org.apache.commons.math3.genetics.CrossoverPolicy;
 import org.apache.commons.math3.genetics.MutationPolicy;
 
 import us.lsi.ag.agchromosomes.ListIntegerChromosome;
@@ -36,6 +37,11 @@ public interface ProblemaAGListInteger<S> extends ProblemaAG {
 	 */
 	MutationPolicy getMutationPolicy();
 
+	/**
+	 * @return El operador de mezcla (crossover)
+	 */
+	CrossoverPolicy getCrossoverPolicy();
+	
 	/**
 	 * @param c Un cromosoma
 	 * @return La solución asociada

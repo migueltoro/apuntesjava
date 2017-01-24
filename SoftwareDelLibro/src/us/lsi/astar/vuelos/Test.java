@@ -21,7 +21,7 @@ public class Test {
 		System.out.println(grafo.vertexSet());
 		AStarAlgorithm<String,Vuelo> a = Algoritmos.createAStar(grafo, "Sevilla", "Malaga");
 		System.out.println(a.getPath());
-		System.out.println(a.getPathLength());
+		System.out.println(a.getPath().getWeight());
 	}
 
 }

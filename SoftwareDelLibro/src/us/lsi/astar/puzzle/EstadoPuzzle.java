@@ -6,12 +6,19 @@ import java.util.stream.Collectors;
 
 
 
-import com.google.common.collect.Lists;
 
+import com.google.common.collect.Lists;
 import us.lsi.common.*;
 import us.lsi.graphs.SimpleEdge;
 import us.lsi.graphs.VirtualVertex;
 
+/**
+ * Estado de un Puzzle como implementación de VirtualVertex
+ * 
+ * 
+ * @author Miguel Toro
+ *
+ */
 public class EstadoPuzzle implements VirtualVertex<EstadoPuzzle,SimpleEdge<EstadoPuzzle>> {
 	
 	/**
@@ -102,7 +109,8 @@ public class EstadoPuzzle implements VirtualVertex<EstadoPuzzle,SimpleEdge<Estad
 	public boolean isNeighbor(EstadoPuzzle e) {
 		return this.getNumDiferentes(e)==2 && Math.abs(this.i0-e.i0)+Math.abs(this.j0-e.j0)==1;
 	}
-
+	
+	@Override
 	public boolean isValid() {
 		Set<Integer> s = new HashSet<Integer>();	
 		for (int j = 0; j < EstadoPuzzle.numFilas; j++) {

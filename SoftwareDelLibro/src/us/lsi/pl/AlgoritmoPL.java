@@ -12,7 +12,15 @@ import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 
 import us.lsi.flowgraph.NoSeEncuentraSolucion;
 import us.lsi.pl.ProblemaPL.TipoDeOptimizacion;
-
+/**
+ * @author Miguel Toro
+ * 
+ * <p> Un algoritmo de Programación Lineal. El algoritmo parte de una definición del problema recogida en un tipo 
+ *  {@link us.lsi.pl.ProblemaPL ProblemaPL}  y calcula la solución. El algoritmo solo admite variables reales. </p>
+ * 
+ * 
+ * <p> La implementación reutiliza el algoritmo SimplexSolver de Apache. </p>
+ */
 public class AlgoritmoPL implements SolutionPL {
 
 	public static AlgoritmoPL create(IProblemaPL p){
