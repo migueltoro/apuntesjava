@@ -7,7 +7,7 @@ import us.lsi.pl.AlgoritmoPLI;
 public class TestMochilaPLI {
 
 	public static void main(String[] args) {
-		String r = MochilaPLI.getConstraints();
+		String r = MochilaPLI.getConstraints2();
 		AlgoritmoPLI a = AlgoritmoPLI.create();
 		a.setConstraints(r);
 		a.ejecuta();

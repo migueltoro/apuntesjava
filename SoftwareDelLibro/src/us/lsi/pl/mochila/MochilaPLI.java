@@ -3,6 +3,9 @@ package us.lsi.pl.mochila;
 import us.lsi.pd.mochila.ProblemaMochila;
 import us.lsi.pl.AlgoritmoPLI;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class MochilaPLI {
 
 	
@@ -35,5 +38,33 @@ public class MochilaPLI {
 		r = r+";\n";		
 		return r;
 	}
-
+	
+	
+	public static String getConstraints2(){
+		ProblemaMochila.leeObjetosDisponibles(AlgoritmoPLI.getRaiz()+"objetosMochila.txt");
+		ProblemaMochila.capacidadInicial = 78;
+		int num = ProblemaMochila.getObjetosDisponibles().size();
+		String r = "max: ";
+		r = r + IntStream.range(0, num)
+				.boxed()
+				.map(i->ProblemaMochila.getValorObjeto(i)+" x"+i)
+				.collect(Collectors.joining("+", "", ";\n\n"));
+		
+		r = r + IntStream.range(0, num)
+				.boxed()
+				.map(i->ProblemaMochila.getValorObjeto(i)+" x"+i)
+				.collect(Collectors.joining("+", "", " <= "+ ProblemaMochila.capacidadInicial+";\n\n"));
+		
+		r = r + IntStream.range(0, num)
+				.boxed()
+				.map(i->" x"+i+"<="+ProblemaMochila.getNumMaxDeUnidades(i)+";\n")
+				.collect(Collectors.joining("","","\n"));
+		
+		r = r +"int ";
+		r = r + IntStream.range(0, num)
+				.boxed()
+				.map(i->" x"+i)
+				.collect(Collectors.joining(",","",";\n"));		
+		return r;
+	}
 }
