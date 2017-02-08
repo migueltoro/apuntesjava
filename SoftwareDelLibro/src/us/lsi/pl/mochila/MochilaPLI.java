@@ -52,7 +52,7 @@ public class MochilaPLI {
 		
 		r = r + IntStream.range(0, num)
 				.boxed()
-				.map(i->ProblemaMochila.getValorObjeto(i)+" x"+i)
+				.map(i->ProblemaMochila.getPesoObjeto(i)+" x"+i)
 				.collect(Collectors.joining("+", "", " <= "+ ProblemaMochila.capacidadInicial+";\n\n"));
 		
 		r = r + IntStream.range(0, num)
