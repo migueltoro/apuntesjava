@@ -12,7 +12,7 @@ public class ProblemaReinasPL {
 	
 	
 	public static void main(String[] args) {
-		ReinasPLI.numeroDeReinas = 100;
+		ReinasPLI.numeroDeReinas = 8;
 		String r = ReinasPLI.getConstraints();
 //		System.out.println(r);
 		AlgoritmoPLI a = AlgoritmoPLI.create();

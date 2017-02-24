@@ -42,7 +42,7 @@ public class ReinasPLI {
 			m=0;
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {					
-					if (d==i+j) {
+					if (d==j-i) {
 						if (first) first = false; else r = r + "+";
 						r = r + AlgoritmoPLI.getVariable("x", i, j);	
 						m++;
@@ -63,7 +63,7 @@ public class ReinasPLI {
 			m=0;
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {					
-					if (d==j-i) {
+					if (d==j+i) {
 						if (first) first = false; else r = r + "+";
 						r = r + AlgoritmoPLI.getVariable("x", i, j);
 						m++;
