@@ -9,8 +9,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import us.lsi.algoritmos.AbstractAlgoritmo;
+import us.lsi.bt.EstadoBT.Tipo;
 import us.lsi.common.Lists2;
-import us.lsi.bt.ProblemaBT.Tipo;
 
 import com.google.common.collect.*;
 
@@ -30,19 +30,19 @@ import com.google.common.collect.*;
  * @param <S> El tipo de la solución
  * @param <A> El tipo de la alternativa
  */
-public class AlgoritmoBT<S, A> extends AbstractAlgoritmo {
+public class AlgoritmoBT<S extends SolucionBT, A> extends AbstractAlgoritmo {
 	
 	
 	/**
-	 * Solución obtenida si es única
+	 * Solución obtenida si es única o la mejor solución si hay varias
 	 */
-    public S solucion = null;
+    private S solucion = null;
     /**
 	 * Conjunto de soluciones encontradas
 	 */
-	public Set<S> soluciones; 
+	private Set<S> soluciones; 
 	/**
-	 * Número de soluciones que se buscan
+	 * Número de soluciones que se buscan si no se buscan todas y el problema es de tipo Otro
 	 */
 	public static int numeroDeSoluciones = 1;
 	/**
@@ -54,60 +54,60 @@ public class AlgoritmoBT<S, A> extends AbstractAlgoritmo {
 	 */
 	public static Integer sizeRef = 10;
 	/**
-	 * Si solo se busca una solución
+	 * Si se usa la técnica con filtro
 	 */
-	public static boolean soloLaPrimeraSolucion = true;
-	
-	private static Double mejorValor = Double .MAX_VALUE;
-	
-	private static Tipo tipo;
-
-    
-   
-	
-	private ProblemaBT<S,A> problema; 
+	public static Boolean conFiltro = false;
+	private Double mejorValor = Double.MAX_VALUE;   
+   	
     private EstadoBT<S,A> estado;
 	private boolean exito = false;
+	private Tipo tipo;
 	
 	
-	
-	 private static boolean isMin(){
+	 private boolean isMin(){
 	    	return tipo.equals(Tipo.Min);
 	 }
 	    
-	 private static boolean isMax(){
+	 private boolean isMax(){
 	    	return tipo.equals(Tipo.Max);
 	 }
-	
-	 private static boolean isTodas(){
-	    	return tipo.equals(Tipo.Otro);
+	 
+	 private boolean isTodasLasSoluciones(){
+	    	return tipo.equals(Tipo.TodasLasSoluciones);
 	 }
 	
+	 private boolean isAlgunasSoluciones(){
+	    	return tipo.equals(Tipo.AlgunasSoluciones);
+	 }
 	/**
-	 * @return El mejor valor de la propiedade objetivo del problema inicial encontrado por el algoritmo hasta este momento
+	 * @return El mejor valor de la propiedad objetivo del problema inicial encontrado 
+	 * por el algoritmo hasta este momento
 	 */
-	public static Double getMejorValor() {
+	public Double getMejorValor() {
 		return mejorValor;
 	}
 
 	/**
-	 * @param p - El problema a resolver
+	 * @param e - El esatod inicial del problema a resolver
 	 */
-	public AlgoritmoBT(ProblemaBT<S,A> p){
-    	problema = p; 
+	public AlgoritmoBT(EstadoBT<S,A> e){
+    	this.estado = e; 
+    	this.tipo = e.getTipo();
     }
     
     /**
      * Ejecución del algoritmo
      */
 	public void ejecuta() {
-		tipo = problema.getTipo();
+		if(AlgoritmoBT.metricasOK) AlgoritmoBT.metricas.setTiempoDeEjecucionInicial();
+		tipo = estado.getTipo();
 	    mejorValor = isMin()? Double.MAX_VALUE: Double.MIN_VALUE;  
     	soluciones =  Sets.newHashSet(); 	
 		do {
-			estado = problema.getEstadoInicial();
+			estado = estado.getEstadoInicial();
 			bt();
-		} while(isRandomize && soluciones.size()<AlgoritmoBT.numeroDeSoluciones);
+		} while(isRandomize && isAlgunasSoluciones()&& soluciones.size()<AlgoritmoBT.numeroDeSoluciones);
+		if(AlgoritmoBT.metricasOK) AlgoritmoBT.metricas.setTiempoDeEjecucionFinal();
 	}
 
     private Iterable<A> filtraRandomize(EstadoBT<S,A> p, Iterable<A> alternativas){
@@ -122,27 +122,41 @@ public class AlgoritmoBT<S, A> extends AbstractAlgoritmo {
 	}
     
 	private void actualizaSoluciones() {
-		Double objetivo = estado.getObjetivo();
 		S s = estado.getSolucion();
-		if (s!= null && (isMin() && objetivo < AlgoritmoBT.mejorValor || isMax() && objetivo > AlgoritmoBT.mejorValor || isTodas())) {
-			solucion = s;
-			soluciones.add(solucion);
-			AlgoritmoBT.mejorValor = objetivo;
+		if (s != null) {
+			Double objetivo = s.getObjetivo();
+			if ((this.isTodasLasSoluciones() || 
+					 this.isAlgunasSoluciones() || 
+					(this.isMin() && objetivo <= this.mejorValor) || 
+					(this.isMax() && objetivo >= this.mejorValor))) {
+				solucion = s;
+				soluciones.add(solucion);
+				this.mejorValor = objetivo;
+			}
 		}
 	}
     
     private void bt() {	
-    	if(estado.isFinal()){    		
-    		actualizaSoluciones();
-    		if(AlgoritmoBT.soloLaPrimeraSolucion  && solucion!=null) exito = true;
-    		if(!AlgoritmoBT.soloLaPrimeraSolucion  && soluciones.size()>=AlgoritmoBT.numeroDeSoluciones) exito = true;
+    	if(estado.esCasoBase()){ 
+    		if(AlgoritmoBT.metricasOK) AlgoritmoBT.metricas.addCasoBase();
+    			actualizaSoluciones();
+    		if(this.isAlgunasSoluciones() && soluciones.size()>=AlgoritmoBT.numeroDeSoluciones) 
+    			exito = true;
+    	} else if(estado.estaFueraDeRango()){
+    		if(AlgoritmoBT.metricasOK) AlgoritmoBT.metricas.addFueraDeRango();
     	} else {
     			for(A a: filtraRandomize(estado,estado.getAlternativas())){  
-    					if(isMin() && estado.getObjetivoEstimado(a) >= mejorValor) continue;
-    					if(isMax() && estado.getObjetivoEstimado(a) <= mejorValor) continue;
-    					estado.avanza(a); 
+    					if(conFiltro && isMin() && estado.getObjetivoEstimado(a) >= mejorValor) {
+    						AlgoritmoBT.metricas.addUnFiltro();
+    						continue;
+    					}
+    					if(conFiltro && isMax() && estado.getObjetivoEstimado(a) <= mejorValor) {
+    						AlgoritmoBT.metricas.addUnFiltro();
+    						continue;
+    					}
+    					estado = estado.avanza(a); 
     					bt();  
-    					estado.retrocede(a); 
+    					estado = estado.retrocede(a);
     					if (exito) break;
     			}
     	}
@@ -158,5 +172,27 @@ public class AlgoritmoBT<S, A> extends AbstractAlgoritmo {
 				.filter(p)
 				.collect(Collectors.<S>toSet());
 	}
+	
+	/**
+	 * @return Conjunto de las mejores soluciones
+	 */
+	public Set<S> getMejoresSoluciones() {
+		return soluciones.stream()
+				.filter(x->x.getObjetivo().equals(solucion.getObjetivo()))
+				.collect(Collectors.<S>toSet());
+	}
+
+	public S getSolucion() {
+		return solucion;
+	}
+
+	public Set<S> getSoluciones() {
+		return soluciones;
+	}
+
+	public Tipo getTipo() {
+		return tipo;
+	}
+	
 	
 }

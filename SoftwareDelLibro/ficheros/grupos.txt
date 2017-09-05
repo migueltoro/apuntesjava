@@ -1,0 +1,12 @@
+Corizonas,9,4000.0,viernes,tarde,false,true
+RussianRed,6,3000.0,viernes,tarde,false,false
+Sidonie,5,5000.0,viernes,tarde,false,true
+LoveOfLesbian,12,5000.0,viernes,noche,true,false
+Dorian,5,2000.0,viernes,noche,false,false
+NiñosMutantes,3,3000.0,viernes,noche,true,true
+IZAL,8,6000.0,sabado,tarde,false,false
+LA,6,3000.0,sabado,tarde,false,false
+LeónBenavente,6,4000.0,sabado,tarde,false,false
+ArizonaBaby,8,3000.0,sabado,noche,true,false
+Igloo,6,1000.0,sabado,noche,false,true
+Grises,6,2000.0,sabado,noche,true,true

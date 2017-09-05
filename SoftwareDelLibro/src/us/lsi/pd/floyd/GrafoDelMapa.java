@@ -2,6 +2,8 @@ package us.lsi.pd.floyd;
 
 
 import us.lsi.graphs.GraphsReader;
+import us.lsi.graphs.examples.Carretera;
+import us.lsi.graphs.examples.Ciudad;
 
 import org.jgrapht.WeightedGraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
@@ -22,7 +24,7 @@ public class GrafoDelMapa {
 
 	public void leeDatos(String fichero){
 		this.grafo = new SimpleWeightedGraph<Ciudad,Carretera>(Carretera::create);
-		this.grafo = (WeightedGraph<Ciudad, Carretera>) GraphsReader.newGraph(fichero, Ciudad::create,Carretera::create,grafo);			
+		this.grafo = (WeightedGraph<Ciudad, Carretera>) GraphsReader.newGraph(fichero, Ciudad::create,Carretera::create,grafo,Carretera::getKm);			
 		for(Carretera c: grafo.edgeSet()){
 			grafo.setEdgeWeight(c, c.getKm());
 		}		

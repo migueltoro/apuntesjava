@@ -3,6 +3,7 @@ package us.lsi.bt.reinas;
 public class Reina {
 	private Integer y;
 	private Integer x;
+	public static int numeroDeReinas = 8;
 	
 	public static Reina create(int x, int y) {
 		return new Reina(x, y);

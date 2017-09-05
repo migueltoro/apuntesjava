@@ -2,23 +2,23 @@ package us.lsi.test;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import us.lsi.math.Math2;
-import us.lsi.tipos.Fecha;
+
 
 public class TestObjectTest2 {
-	Fecha f1;
-	Fecha f2;
-	Fecha f3;
-	Fecha f4;
+	LocalDate f1;
+	LocalDate f2;
+	LocalDate f3;
+	LocalDate f4;
 	@Before
 	public void setUp() throws Exception {
-		f1 = Fecha.create(1, 1, 2000);
-		f2 = Fecha.create("1 de Enero de 2000");
-		f3 = Fecha.create(1, 1, 2000);
-		f4 = Fecha.create(20, 2, 2009);
+		f1 = LocalDate.of(2000, 1, 1);
+		f3 = LocalDate.of(2000,1,1);
 	}
 
 	@Test
@@ -49,7 +49,7 @@ public class TestObjectTest2 {
 	@Test
 	public void testCopiable() {
 		
-		Fecha f = Fecha.create(f1);
+		LocalDate f = LocalDate.of(f1.getYear(),f1.getMonthValue(),f1.getDayOfMonth());
 		assertTrue(f.equals(f1) && f!=f1);
 	}
 

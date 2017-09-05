@@ -3,13 +3,17 @@ package us.lsi.algoritmos;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.jgrapht.Graph;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+
 import us.lsi.ag.AlgoritmoAG;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
 import us.lsi.ag.ProblemaAG;
 import us.lsi.astar.AStarAlgorithm;
 import us.lsi.astar.AStarGraph;
 import us.lsi.bt.AlgoritmoBT;
-import us.lsi.bt.ProblemaBT;
+import us.lsi.bt.EstadoBT;
+import us.lsi.bt.SolucionBT;
 import us.lsi.dyv.AlgoritmoDyVSM;
 import us.lsi.dyv.AlgoritmoDyVCM;
 import us.lsi.dyv.ProblemaDyV;
@@ -82,11 +86,11 @@ public class Algoritmos {
 	/**
 	 * @param <S> El tipo de la solución
 	 * @param <A> El tipo de la alternativa
-	 * @param p - Problema a resolver
+	 * @param e - El estado Inicial del Problema a resolver
 	 * @return Algoritmo de Backtracking para resolver el problema
 	 */
-	public static <S, A> AlgoritmoBT<S,A> createBT(ProblemaBT<S, A> p) {
-		return new AlgoritmoBT<S,A>(p);
+	public static <S extends SolucionBT, A> AlgoritmoBT<S,A> createBT(EstadoBT<S, A> e) {
+		return new AlgoritmoBT<S,A>(e);
 	}
 	
 	
@@ -125,12 +129,12 @@ public class Algoritmos {
 	}
 		
 	/**
-	 * @param fichero Fichero que  describe laq red de flujo
+	 * @param fichero Fichero que  describe la red de flujo
 	 * @return Algoritmo de red de flujo que resuelve el problema especificado en el fichero
 	 */
 	public static FlowAlgorithm createFlow(String fichero) {
 		FlowGraph f = FlowGraph.create(FlowEdge::createEdge);
-		f = (FlowGraph) GraphsReader.newGraph(fichero,FlowVertex::createVertex,FlowEdge::createEdge,f);
+		f = (FlowGraph) GraphsReader.newGraph(fichero,FlowVertex::create,FlowEdge::createEdge,f,null);
 		return FlowAlgorithm.create(f);
 	}
 
@@ -164,7 +168,18 @@ public class Algoritmos {
 		return AStarAlgorithm.create(graph, startVertex, goal);
 	}
 
-	
+	/**
+	 * Un algoritmo  DijkstraShortestPath para ir del vértice de inicio hasta el vértice destino
+	 * 
+	 * @param <V> Tipo del vértice
+	 * @param <E> Tipo de la arista
+	 * @param graph Grafo 
+	 * @return Algoritmo DijkstraShortestPath
+	 * 
+	 */
+	public static <V, E> DijkstraShortestPath<V,E> createDijkstra(Graph<V, E> graph) {
+		return new DijkstraShortestPath<V,E>(graph);
+	}
 
 	/**
 	 * Los tipos involucrados pueden encontrarse en el paquete <a href="https://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/optim/linear/package-summary.html" target="_blank">Apache</a>

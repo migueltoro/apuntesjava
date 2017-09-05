@@ -30,8 +30,16 @@ public interface ProblemaPD<S,A>  {
 	 * @return El tamaño del problema
 	 */
 	int size();
+	
+	/**
+	 * @return Si el problema está fuera de rango y su solución es null
+	 */
+	default boolean estaFueraDeRango(){
+		return false;
+	}
 	/**
 	 * @return Si el problema es un caso base
+	 * 
 	 */
 	boolean esCasoBase();
 	/**
@@ -43,7 +51,7 @@ public interface ProblemaPD<S,A>  {
 	 *	</ul> 
 	 * @return  La solución del caso base
 	 */
-	Sp<A> getSolucionCasoBase();
+	Sp<A> getSolucionParcialCasoBase();
 	/**
 	 * @pre ls!=null, ls no está vacía, ls no contiene null, ls no contiene valores de la forma <code> (a,null) </code>
 	 * 
@@ -56,7 +64,7 @@ public interface ProblemaPD<S,A>  {
 	 * @param ls - Soluciones existentes alcanzados tras tomar las diferentes alternativas
 	 * @return La solución del problema
 	 */
-	Sp<A> seleccionaAlternativa(List<Sp<A>> ls);
+	Sp<A> getSolucionParcial(List<Sp<A>> ls);
 	/**
 	 * @pre 0 &lt; = i &lt; getNumeroSubProblemas(a)
 	 * @param a - Alternativa escogida
@@ -72,7 +80,7 @@ public interface ProblemaPD<S,A>  {
 	 * @return La solución del problema alcanzado siguiendo la alternativa <code> a </code> 
 	 * y las soluciones parciales de los subproblemas del mismo están en ls 
 	 */
-	Sp<A> combinaSolucionesParciales(A a , List<Sp<A>> ls);	
+	Sp<A> getSolucionParcialPorAlternativa(A a , List<Sp<A>> ls);	
 	/**
 	 * @pos Si un problema no tiene solución el conjunto de alternativas es vacío 
 	 * @return Las alternativas disponibles para el problema
@@ -93,60 +101,61 @@ public interface ProblemaPD<S,A>  {
 	 * @param sp - Solución parcial del caso base
 	 * @return La solución para un caso base si la solución parcial es sp. 
 	 */
-	S getSolucionReconstruida(Sp<A> sp);	
+	S getSolucionReconstruidaCasoBase(Sp<A> sp);	
 	/**
 	 * @pre 
 	 * <p> El problema no es un caso base, <code> ls !=null </code>, <code> ls.size() &gt; 0 </code> y ls no contiene null.</p>
 	 * <p> Si el tipo es Min o Max entonces sp = (a,p) </p>
-	 * <p> Si tipo es Todas entonces sp puede ser (a,p) o (null,p). Entonces  ls tiene en cada caso el significado correspondiente </p>
+	 * <p> Si tipo es Otro entonces sp es (null,p) y S debe ser Double. </p>
 	 * @pos
 	 * <ul>
-	 *  <li> Si <code> sp = (a,p) </code> la solución se reconstruye a partir de <code> a, p, ls </code> estando <code> ls </code> las 
-	 *  de los subproblemas del problema que se alcanza siguiendo la alternativa <code> a </code> 
-	 *  <li> Si <code> sp = (null,p) </code> la solución se reconstruye a partir de las 
-	 *  soluciones de los problemas que tienen solución y se alcanzan siguiendo las diferentes alternativas posibles.
+	 *  <li> Si <code> sp = (a,p) </code> la solución se reconstruye a partir de <code> a, p, ls </code> estando en <code> ls </code> las 
+	 *  soluciones de los subproblemas que se alcanzan siguiendo la alternativa <code> sp.alternativa </code> 
+	 *  <li> Si <code> sp = (null,p) </code> la solución es igual a <code> sp.propiedad </code>.
 	 * </ul> 
 	 * @param sp - Solución parcial del problema
 	 * @param ls - 
 	 * <ul>
-	 *  <li> Si <code> sp = (a,p)  </code> la solución de los subproblemas del problema que se alcanza 
-	 *  siguiendo la alternativa <code> a </code>. 
-	 *  <li> Si <code> sp = (null,p) </code>  las soluciones de los problemas que tienen solución y 
-	 *  se alcanzan siguiendo las diferentes alternativas posibles. 
+	 *  <li> Si <code> sp = (a,p)  </code> La solución de los subproblemas que se alcanzan 
+	 *  siguiendo la alternativa <code> sp.alternativa </code>. 
+	 *  <li> Si <code> sp = (null,p) </code> entonces <code> ls </code> es irrelevante. 
 	 * </ul>
-	 * Soluciones obtenidas siguiendo la diferentes alternativas
 	 * @return La solución para el problema. 
 	 */
-	S getSolucionReconstruida(Sp<A> sp, List<S> ls);	
+	S getSolucionReconstruidaCasoRecursivo(Sp<A> sp, List<S> ls);	
 	
 	/**
+	 * @pre El uso del método es relevante si usamos la técnica con filtro. Si no la usamos el método es irrelevante.
 	 * @pos 
 	 * <ul>
 	 * <li> Si el problema es de minimización el valor debe ser 
 	 * una cota inferior del valor de la propiedad objetivo del problema inicial, 
-	 * asumiendo que se ha alcanzado el problema actual y se  va a seguir la alternativa <code> a </code>.
+	 * asumiendo que estamos en el problema actual y se  va a seguir la alternativa <code> a </code>.
 	 * La alternativa puede ser descartada si <code> getObjetivoEstimado(a) &gt; =  AlgoritmoPD.getMejorValor() </code>,
-	 * puesto que el valor objetivo de la solución obtnida estaría por encima del mejor valor obtenido hasta el momento.
+	 * puesto que el valor objetivo de la solución obtenida estaría por encima del mejor valor obtenido hasta el momento.
 	 * Es decir nos quedamos con las alternativas que cumplen 
-	 * <code> getObjetivoEstimado(a) &lt;   AlgoritmoPD.getMejorValor() </code>.
+	 * <code> getObjetivoEstimado(a)() &lt;   AlgoritmoPD.getMejorValor() </code>.
 	 * Donde <code> AlgoritmoPD.getMejorValor() </code> es el mejor valor encontrado por el algoritmo hasta ahora.
 	 * <li> Si el problema original fuera de maximización el valor debe ser 
-	 * una cota superior del valor de la propiedad objetivo del problema inicial, 
-	 * asumiendo que se ha alcanzado el problema actual y se  va a seguir la alternativa <code> a </code>.
+	 * una cota superior del valor de la propiedad objetivo del problema actual, 
+	 * asumiendo que estamos en el problema actual y se  va a seguir la alternativa <code> a </code>.
 	 *  Es decir nos quedamos con las alternativas que cumplen 
 	 * <code> getObjetivoEstimado(a) &gt;   AlgoritmoPD.getMejorValor() </code>.
 	 * </ul>
-	 * <p> Si no es posible estimar esa cota entonces devolverá MIN_VALUE si el problema es de minimización
-	 *  y MAX_VALUE si es de maximización. Estos son los valores por defecto. </p>
 	 * @param a - Alternativa elegida
-	 * @return El valor objetivo estimado si seguimos <code> a </code>
+	 * @return Una cota para valor objetivo si seguimos <code> a </code>
 	 */
-	Double getObjetivoEstimado(A a);
+	default Double getObjetivoEstimado(A a){
+		return null;
+	}
 	/**
-	 * Se asume que se llama al método sólo cuando se ha resuelto el problema y por lo tanto sabemos el valor de la propiedad solución.
-	 * En muchos casos se puede calcular sumando un valor acumulado al valor conocido de la solución.
-	 * @pos Si no es posible calcularla  se devolverá MAX_VALUE si el problema es de minimización y MIN_VALUE si es de maximización. Estos son los valores por defecto.
-	 * @return Valor de propiedad objetivo del problema inicial asumiendo que estamos en el problema actual   
+	 * 
+	 * @pre El uso del método es relevante si usamos la técnica con filtro. Si no la usamos el método es irrelevante.
+	 * @return Valor de la propiedad objetivo del problema inicial si es posible calcularlo asumiendo
+	 * que estamos en el problema actual. Si no es posible null.
 	 */
-	Double getObjetivo();
+	default Double getObjetivo() {
+		return null;
+	}
+	
 }

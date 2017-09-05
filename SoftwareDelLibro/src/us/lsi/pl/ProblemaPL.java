@@ -11,7 +11,7 @@ import org.apache.commons.math3.optim.linear.LinearObjectiveFunction;
 import org.apache.commons.math3.optim.linear.Relationship;
 
 import us.lsi.common.StringExtensions2;
-import us.lsi.common.Par;
+import us.lsi.common.Tuple2;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -52,7 +52,7 @@ public class ProblemaPL implements IProblemaPL  {
 	private Map<Integer,TipoDeVariable> tiposDeVariables;
 	private Set<Integer> variablesSemicontinuas;
 	private Set<Integer> variablesLibres;
-	private Set<Par<List<Integer>,Integer>> sos;
+	private Set<Tuple2<List<Integer>,Integer>> sos;
 	private Map<Integer,String> nombres;
 
 	
@@ -137,7 +137,7 @@ public class ProblemaPL implements IProblemaPL  {
 	 */
 	@Override
 	public void addSosConstraint(List<Integer> ls, Integer nv){
-		sos.add(Par.create(ls, nv));
+		sos.add(Tuple2.create(ls, nv));
 	}
 	
 	/* (non-Javadoc)
@@ -321,15 +321,15 @@ public class ProblemaPL implements IProblemaPL  {
 	
 	
 	public String toStringSos(){
-		List<Par<List<Integer>,Integer>> ls = this.sos.stream().collect(Collectors.toList());
+		List<Tuple2<List<Integer>,Integer>> ls = this.sos.stream().collect(Collectors.toList());
 		String r = "";		
 		if (!ls.isEmpty()) {
 			int[] pos = {0};
 			r = ls.stream()
-				  .map((Par<List<Integer>,Integer> tp)->
-					          tp.getP1().stream()
+				  .map((Tuple2<List<Integer>,Integer> tp)->
+					          tp.getV1().stream()
 							  .map(x->this.getNombre(x))
-							  .collect(Collectors.joining(" ,", "SOS"+pos[0]+": "," <= " + tp.getP2()+";\n\n")))
+							  .collect(Collectors.joining(" ,", "SOS"+pos[0]+": "," <= " + tp.getV2()+";\n\n")))
 				  .peek(x->{pos[0]=pos[0]+1;})
 			      .collect(Collectors.joining("","sos \n",""));
 		}		

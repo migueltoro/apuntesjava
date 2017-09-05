@@ -10,7 +10,7 @@ import java.util.stream.DoubleStream;
 
 import com.google.common.collect.Sets;
 
-import us.lsi.common.ParInteger;
+import us.lsi.common.PairInteger;
 import us.lsi.stream.*;
 
 
@@ -86,12 +86,12 @@ public class OtrosEjemplos {
 		Set<Integer> s2 = Sets.newHashSet(16, 13, 15);
 		Stream2.create(s1.stream())
 				.cartesianProduct(s2.stream(),
-						(x, y) -> ParInteger.create(x, y))
+						(x, y) -> PairInteger.create(x, y))
 				.forEach(imprimeEnConsola());
 	}
 
 	public static void ejemplo7() {
-		Stream2.iterate(3L, x -> x * x).whileIncluded(x -> 81L - x >= 0)
+		Stream2.iterate(3L, x -> x * x).whilePredicate(x -> 81L - x >= 0)
 				.forEach(imprimeEnConsola());
 	}
 
@@ -103,7 +103,7 @@ public class OtrosEjemplos {
 
 	public static void ejemplos9() {
 		Stream2.<Integer>iterate(0, x -> x + 4)
-				.whileIncluded(x -> x <= 1000)
+				.whilePredicate(x -> x <= 1000)
 				.toList().forEach(imprimeEnConsola());
 	}
 

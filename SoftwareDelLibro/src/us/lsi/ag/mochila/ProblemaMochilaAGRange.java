@@ -10,6 +10,7 @@ import us.lsi.pd.mochila.SolucionMochila;
 
 public class ProblemaMochilaAGRange implements ProblemaAGIndex<SolucionMochila>{
 
+	
 	public ProblemaMochilaAGRange(String fichero) {
 		ProblemaMochila.leeObjetosDisponibles(fichero);
 	}	

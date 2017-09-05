@@ -1,5 +1,7 @@
 package us.lsi.common;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Set;
 
 import us.lsi.stream.Stream2;
@@ -15,5 +17,14 @@ public class Sets2 {
 	
 	public static Set<Integer> newSet(Integer a, Integer b){
 		return IntStream.range(a,b).boxed().collect(Collectors.toSet());
+	}
+	
+	@SafeVarargs
+	public static <E> Set<E> newSet(E... e){
+		return Arrays.stream(e).collect(Collectors.toSet());
+	}
+
+	public static <E,U extends Collection<E>> Set<E> newList(U elements){
+		return elements.stream().collect(Collectors.toSet());
 	}
 }

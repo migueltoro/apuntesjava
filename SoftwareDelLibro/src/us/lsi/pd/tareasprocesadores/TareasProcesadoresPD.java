@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import us.lsi.pd.AlgoritmoPD.Sp;
 import us.lsi.pd.ProblemaPD;
+import us.lsi.pd.ProblemaPDR;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,7 +14,7 @@ import java.util.stream.IntStream;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>, Integer> {
+public class TareasProcesadoresPD implements ProblemaPDR<Map<Integer,List<Tarea>>, Integer> {
 
 	public static Integer numeroDeProcesadores;
 	public static Integer numeroDeTareas;
@@ -68,48 +69,58 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 	}
 
 	@Override
-	public Sp<Integer> getSolucionCasoBase() {	
-		Sp<Integer> r = Sp.create(0,this.tiempoMaximo);
-		return r;
+	public Sp<Integer> getSolucionParcialCasoBase() {	
+		return Sp.create(0,this.tiempoMaximo);
 	}
 
 	@Override 
-	public Sp<Integer> seleccionaAlternativa(List<Sp<Integer>> ls) {
-		Sp<Integer> r = ls.stream().min(Comparator.naturalOrder()).get();
-		return r;
+	public Sp<Integer> getSolucionParcial(List<Sp<Integer>> ls) {
+		return ls.stream().min(Comparator.naturalOrder()).get();
 	}
 	
 	@Override
-	public ProblemaPD<Map<Integer, List<Tarea>>, Integer> getSubProblema(Integer a, int np) {
-		CargaDeProcesadores carga = this.cargaProcesadoresAcumulada.addTareaAProcesador(index, a);
+	public ProblemaPD<Map<Integer, List<Tarea>>, Integer> getSubProblema(Integer a) {
+		CargaDeProcesadores carga = this.cargaProcesadoresAcumulada.addTareaAProcesador(a,index);
 		TareasProcesadoresPD p = TareasProcesadoresPD.create(index+1, carga);
 		return p;
 	}
 
 	@Override
-	public Sp<Integer> combinaSolucionesParciales(Integer a, List<Sp<Integer>> ls) {
-		Sp<Integer> s = Sp.create(a, ls.get(0).propiedad);
+	public Sp<Integer> getSolucionParcialPorAlternativa(Integer a, Sp<Integer> r) {
+		Sp<Integer> s = Sp.create(a, r.propiedad);
 		return s;
 	}
 
 	@Override
 	public List<Integer> getAlternativas() {
-		return IntStream.range(0,numeroDeProcesadores).boxed().collect(Collectors.toList());
+		return IntStream.range(0,numeroDeProcesadores)
+				.boxed()
+				.sorted(Comparator.comparing(x->cargaProcesadoresAcumulada.getCargaProcesadores().get(x)))
+				.collect(Collectors.toList());
 	}
-
+	
 	@Override
-	public int getNumeroSubProblemas(Integer a) {		
-		return 1;
+	public Double getObjetivo(){
+		Double r = null;
+		if(esCasoBase()){
+			r = this.tiempoMaximo;
+		}
+		return r;
 	}
-
+	
 	@Override
-	public Map<Integer,List<Tarea>> getSolucionReconstruida(Sp<Integer> sp) {
+	public Double getObjetivoEstimado(Integer a){
+		CargaDeProcesadores carga = this.cargaProcesadoresAcumulada.addTareaAProcesador(a, index);
+		return carga.getTiempoDelMasCargado();
+	}
+	@Override
+	public Map<Integer,List<Tarea>> getSolucionReconstruidaCasoBase(Sp<Integer> sp) {
 		return Maps.newHashMap();
 	}
 
 	@Override
-	public Map<Integer, List<Tarea>> getSolucionReconstruida(Sp<Integer> sp, List<Map<Integer, List<Tarea>>> ls) {
-		Map<Integer,List<Tarea>>  m = Maps.newHashMap(ls.get(0));
+	public Map<Integer, List<Tarea>> getSolucionReconstruidaCasoRecursivo(Sp<Integer> sp, Map<Integer, List<Tarea>> s) {
+		Map<Integer,List<Tarea>>  m = Maps.newHashMap(s);
 		List<Tarea>  ts;
 		if(m.containsKey(sp.alternativa)){
 			ts = m.get(sp.alternativa);
@@ -120,18 +131,7 @@ public class TareasProcesadoresPD implements ProblemaPD<Map<Integer,List<Tarea>>
 		ts.add(Tarea.tareas.get(index));
 		return m;
 	}
-
-	@Override
-	public Double getObjetivoEstimado(Integer a) {
-	    CargaDeProcesadores carga = this.cargaProcesadoresAcumulada;
-	    carga = carga.addTareaAProcesador(index, a);
-		return carga.getTiempoDelMasCargado();
-	}
-
-	@Override
-	public Double getObjetivo() {
-		return this.tiempoMaximo;
-	}
+	
 	
 	@Override
 	public int hashCode() {

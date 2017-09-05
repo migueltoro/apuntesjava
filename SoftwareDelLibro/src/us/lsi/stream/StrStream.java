@@ -10,7 +10,7 @@ public class StrStream extends Stream2<String> {
 	}
 
 	public void toFile(String file){
-		StreamExtensions.toFile(this, file);
+		Streams.toFile(this, file);
 	}
 	
 

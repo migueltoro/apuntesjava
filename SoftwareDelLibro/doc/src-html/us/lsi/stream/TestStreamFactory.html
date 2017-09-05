@@ -18,12 +18,12 @@
 <span class="sourceLineNo">010</span>         * @throws FileNotFoundException Si no encuentra el fichero<a name="line.10"></a>
 <span class="sourceLineNo">011</span>         */<a name="line.11"></a>
 <span class="sourceLineNo">012</span>        public static void main(String[] args) throws FileNotFoundException {<a name="line.12"></a>
-<span class="sourceLineNo">013</span>                Streams2.fromFile("mapa.txt")<a name="line.13"></a>
-<span class="sourceLineNo">014</span>                                .flatMap(((String x)-&gt; Streams2.fromString(x, "[;,\n]")))<a name="line.14"></a>
+<span class="sourceLineNo">013</span>                Streams.fromFile("mapa.txt")<a name="line.13"></a>
+<span class="sourceLineNo">014</span>                                .flatMap(((String x)-&gt; Streams.fromString(x, "[;,\n]")))<a name="line.14"></a>
 <span class="sourceLineNo">015</span>                                .forEach(x-&gt;System.out.println(x));<a name="line.15"></a>
 <span class="sourceLineNo">016</span>                File s = new File("mapa.txt");<a name="line.16"></a>
 <span class="sourceLineNo">017</span>                System.out.println(s.getAbsolutePath());<a name="line.17"></a>
-<span class="sourceLineNo">018</span>                Streams2.rangeClosed(10, 0, -2).forEach(x-&gt;System.out.println(x));;<a name="line.18"></a>
+<span class="sourceLineNo">018</span>                Streams.rangeClosed(10, 0, -2).forEach(x-&gt;System.out.println(x));;<a name="line.18"></a>
 <span class="sourceLineNo">019</span>        }<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
 <span class="sourceLineNo">021</span>}<a name="line.21"></a>

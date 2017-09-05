@@ -1,0 +1,4 @@
+Juan, 10, Amparo;Rosa
+Maria, 10, Amparo;Rosa
+Sara, 11,  Rosa
+Andres, 11, Rosa

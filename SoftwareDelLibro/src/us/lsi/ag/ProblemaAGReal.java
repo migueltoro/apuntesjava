@@ -3,7 +3,7 @@ package us.lsi.ag;
 import java.util.List;
 
 import us.lsi.ag.agchromosomes.IRealChromosome;
-import us.lsi.common.Par;
+import us.lsi.common.Tuple2;
 
 /**
  * @author Miguel Toro
@@ -22,14 +22,14 @@ public interface ProblemaAGReal<S> extends ProblemaAG {
 	/**
 	 * @return Límites para cada variable
 	 */
-	List<Par<Double,Double>> getLimites();
+	List<Tuple2<Double,Double>> getLimites();
 	
 	/**
 	 * @param i El indice de una variable
 	 * @return El límite inferior de la variable i
 	 */
 	default Double geLimiteInf(int i){
-		return this.getLimites().get(i).p1;
+		return this.getLimites().get(i).v1;
 	}
 		
 	/**
@@ -37,7 +37,7 @@ public interface ProblemaAGReal<S> extends ProblemaAG {
 	 * @return El límite superior de la variable i
 	 */
 	default Double geLimiteSup(int i){
-		return this.getLimites().get(i).p2;
+		return this.getLimites().get(i).v2;
 	}
 	
 	/**

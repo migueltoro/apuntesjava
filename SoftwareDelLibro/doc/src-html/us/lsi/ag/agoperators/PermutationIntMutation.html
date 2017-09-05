@@ -18,7 +18,7 @@
 <span class="sourceLineNo">010</span>import com.google.common.collect.Lists;<a name="line.10"></a>
 <span class="sourceLineNo">011</span><a name="line.11"></a>
 <span class="sourceLineNo">012</span>import us.lsi.ag.agchromosomes.ListIntegerChromosome;<a name="line.12"></a>
-<span class="sourceLineNo">013</span>import us.lsi.common.ParInteger;<a name="line.13"></a>
+<span class="sourceLineNo">013</span>import us.lsi.common.PairInteger;<a name="line.13"></a>
 <span class="sourceLineNo">014</span>import us.lsi.math.Math2;<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
 <span class="sourceLineNo">016</span>/**<a name="line.16"></a>
@@ -36,8 +36,8 @@
 <span class="sourceLineNo">028</span>                ListIntegerChromosome c = (ListIntegerChromosome) cr;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>                int d = c.getLength();<a name="line.29"></a>
 <span class="sourceLineNo">030</span>                List&lt;Integer&gt; ls = Lists.newArrayList(c.decode());<a name="line.30"></a>
-<span class="sourceLineNo">031</span>                ParInteger p= Math2.getParAleatorioYDistinto(0, d);             <a name="line.31"></a>
-<span class="sourceLineNo">032</span>                Collections.swap(ls, p.p1, p.p2);<a name="line.32"></a>
+<span class="sourceLineNo">031</span>                PairInteger p= Math2.getParAleatorioYDistinto(0, d);            <a name="line.31"></a>
+<span class="sourceLineNo">032</span>                Collections.swap(ls, p.v1, p.v2);<a name="line.32"></a>
 <span class="sourceLineNo">033</span>                return new ListIntegerChromosome(ls);<a name="line.33"></a>
 <span class="sourceLineNo">034</span>        }<a name="line.34"></a>
 <span class="sourceLineNo">035</span><a name="line.35"></a>

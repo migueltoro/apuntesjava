@@ -27,8 +27,8 @@ public class TestAnunciosAG {
 		StoppingConditionFactory.stoppingConditionType = StoppingConditionType.GenerationCount;
 		
 		ProblemaAnuncios.tiempoTotal = 30;
-		System.out.println(AlgoritmoAG.getRaiz()+"anuncios.txt");
-		ProblemaAGIndex<ListaDeAnunciosAEmitir> p = new ProblemaAnunciosAG(AlgoritmoAG.getRaiz()+"anuncios.txt");		
+		System.out.println(AlgoritmoAG.raiz+"anuncios.txt");
+		ProblemaAGIndex<ListaDeAnunciosAEmitir> p = new ProblemaAnunciosAG(AlgoritmoAG.raiz+"anuncios.txt");		
 		AlgoritmoAG ap = Algoritmos.createAG(ChromosomeType.IndexPermutationSubList,p);
 		ap.ejecuta();
 		

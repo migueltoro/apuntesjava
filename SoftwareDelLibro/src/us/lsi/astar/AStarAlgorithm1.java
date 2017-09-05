@@ -167,13 +167,13 @@ public final class AStarAlgorithm1<V, E> implements AStarAlgorithm<V, E> {
 
 		Collections.reverse(edgeList);
 		double pathLength = iter.getShortestPathLength(endVertex);
-		return new GraphPathImpl<V, E>(graph, startVertex, endVertex, edgeList,
+		return new GraphWalk<V, E>(graph, startVertex, endVertex, edgeList,
 				pathLength);
 	}
 
 	@Override
 	public List<V> getPathVertexList() {
-		return Graphs.getPathVertexList(getPath());
+		return getPath().getVertexList();
 	}
 }
 

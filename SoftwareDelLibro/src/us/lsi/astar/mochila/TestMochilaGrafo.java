@@ -14,7 +14,8 @@ import us.lsi.pd.mochila.ProblemaMochila;
 public class TestMochilaGrafo {
 
 	public static void main(String[] args) {
-		ProblemaMochila.leeObjetosDisponibles("ficheros\\objetosmochila.txt");
+		
+		ProblemaMochila.leeObjetosDisponibles("./ficheros/objetosmochila.txt");
 		System.out.println(ProblemaMochila.getObjetosDisponibles());
 		ProblemaMochila.capacidadInicial = 534;
 		MochilaVertex p1 = MochilaVertex.create();

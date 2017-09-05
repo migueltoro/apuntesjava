@@ -13,22 +13,22 @@
 <span class="sourceLineNo">005</span>import us.lsi.graphs.*;<a name="line.5"></a>
 <span class="sourceLineNo">006</span><a name="line.6"></a>
 <span class="sourceLineNo">007</span><a name="line.7"></a>
-<span class="sourceLineNo">008</span>public class PuzzleGraph1 extends UndirectedSimpleVirtualGraph&lt;EstadoPuzzle, SimpleEdge&lt;EstadoPuzzle&gt;&gt;<a name="line.8"></a>
-<span class="sourceLineNo">009</span>        implements AStarGraph&lt;EstadoPuzzle, SimpleEdge&lt;EstadoPuzzle&gt;&gt;{<a name="line.9"></a>
+<span class="sourceLineNo">008</span>public class PuzzleGraph1 extends UndirectedSimpleVirtualGraph&lt;EstadoPuzzle1, SimpleEdge&lt;EstadoPuzzle1&gt;&gt;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>        implements AStarGraph&lt;EstadoPuzzle1, SimpleEdge&lt;EstadoPuzzle1&gt;&gt;{<a name="line.9"></a>
 <span class="sourceLineNo">010</span><a name="line.10"></a>
 <span class="sourceLineNo">011</span>        <a name="line.11"></a>
-<span class="sourceLineNo">012</span>        public static PuzzleGraph1 create(EstadoPuzzle... v) {<a name="line.12"></a>
+<span class="sourceLineNo">012</span>        public static PuzzleGraph1 create(EstadoPuzzle1... v) {<a name="line.12"></a>
 <span class="sourceLineNo">013</span>                return new PuzzleGraph1(v);<a name="line.13"></a>
 <span class="sourceLineNo">014</span>        }<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
-<span class="sourceLineNo">016</span>        protected PuzzleGraph1(EstadoPuzzle... v) {<a name="line.16"></a>
+<span class="sourceLineNo">016</span>        protected PuzzleGraph1(EstadoPuzzle1... v) {<a name="line.16"></a>
 <span class="sourceLineNo">017</span>                super(v);<a name="line.17"></a>
 <span class="sourceLineNo">018</span>        }<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>        <a name="line.20"></a>
 <span class="sourceLineNo">021</span><a name="line.21"></a>
 <span class="sourceLineNo">022</span>        @Override<a name="line.22"></a>
-<span class="sourceLineNo">023</span>        public double getWeightToEnd(EstadoPuzzle startVertex,EstadoPuzzle endVertex) {<a name="line.23"></a>
+<span class="sourceLineNo">023</span>        public double getWeightToEnd(EstadoPuzzle1 startVertex,EstadoPuzzle1 endVertex) {<a name="line.23"></a>
 <span class="sourceLineNo">024</span>                if(startVertex==null || endVertex==null)<a name="line.24"></a>
 <span class="sourceLineNo">025</span>                        throw new IllegalArgumentException("El vértice inicial y final no pueden ser null");<a name="line.25"></a>
 <span class="sourceLineNo">026</span>                return startVertex.getNumDiferentes(endVertex);<a name="line.26"></a>

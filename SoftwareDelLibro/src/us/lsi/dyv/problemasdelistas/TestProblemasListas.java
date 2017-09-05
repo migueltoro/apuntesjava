@@ -22,14 +22,14 @@ public class TestProblemasListas {
 		List<Double> lista = Math2.getListDoubleAleatoria(50, -20., 20.);
 		Ordering<Double> ord = Ordering.natural();
 		Double pivote = lista.get(0);
-		Par<Integer,Integer> p = ProblemasDeListas.reordenaMedianteBanderaHolandesa(lista, pivote, 0,lista.size(), ord);
-		for(int i=0;i<p.getP1();i++){
+		Tuple2<Integer,Integer> p = ProblemasDeListas.reordenaMedianteBanderaHolandesa(lista, pivote, 0,lista.size(), ord);
+		for(int i=0;i<p.getV1();i++){
 			assertTrue(lista.get(i)<pivote);
 		}
-		for(int i=p.getP1();i<p.getP2();i++){
+		for(int i=p.getV1();i<p.getV2();i++){
 			assertTrue(lista.get(i).equals(pivote));
 		}
-		for(int i=p.getP2();i<lista.size();i++){
+		for(int i=p.getV2();i<lista.size();i++){
 			assertTrue(lista.get(i)>pivote);
 		}
 	}

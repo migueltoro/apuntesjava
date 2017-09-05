@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.*;
 import us.lsi.common.Lists2;
-import us.lsi.common.Par;
+import us.lsi.common.Tuple2;
 import us.lsi.math.*;
 
 import com.google.common.base.Preconditions;
@@ -52,7 +52,7 @@ public class ProblemasDeListas {
 		quickSort(lista,0,lista.size(),cmp);	
 	}
 	
-	public static <T> Par<Integer,Integer> reordenaMedianteBanderaHolandesa(List<T> lista, T pivote, Integer i, Integer j,  Comparator<? super T> cmp){
+	public static <T> Tuple2<Integer,Integer> reordenaMedianteBanderaHolandesa(List<T> lista, T pivote, Integer i, Integer j,  Comparator<? super T> cmp){
 		int a, b, c;
 		a = i;	
 		b = i;	
@@ -70,7 +70,7 @@ public class ProblemasDeListas {
 		    	b++;
 		    }
 		}
-		return Par.create(a, b);
+		return Tuple2.create(a, b);
 	}
 
 	public static <T> Integer reordenaSobrePivote(List<T> lista, T pivote, Integer i, Integer j,  Comparator<? super T> cmp){
@@ -96,9 +96,9 @@ public class ProblemasDeListas {
 			ProblemasDeListas.ordenaBase(lista, i, j, ord);
 		}else{
 			E pivote = escogePivote(lista, i, j);
-			Par<Integer,Integer> p = ProblemasDeListas.reordenaMedianteBanderaHolandesa(lista, pivote, i, j, ord);
-			quickSort(lista,i,p.getP1(),ord);
-			quickSort(lista,p.getP2(),j,ord);			
+			Tuple2<Integer,Integer> p = ProblemasDeListas.reordenaMedianteBanderaHolandesa(lista, pivote, i, j, ord);
+			quickSort(lista,i,p.getV1(),ord);
+			quickSort(lista,p.getV2(),j,ord);			
 		}
 	}
 
@@ -181,11 +181,11 @@ public class ProblemasDeListas {
 			r = lista.get(i);
 		}else{
 			E pivote = escogePivote(lista, i, j);
-			Par<Integer,Integer> p = ProblemasDeListas.reordenaMedianteBanderaHolandesa(lista, pivote, i, j, ord);
-			if(k < p.getP1()){
-				r = escogeKesimo(lista,i,p.getP1(),k,ord);
-			}else if(k >= p.getP2()){
-				r = escogeKesimo(lista,p.getP2(),j,k,ord);
+			Tuple2<Integer,Integer> p = ProblemasDeListas.reordenaMedianteBanderaHolandesa(lista, pivote, i, j, ord);
+			if(k < p.getV1()){
+				r = escogeKesimo(lista,i,p.getV1(),k,ord);
+			}else if(k >= p.getV2()){
+				r = escogeKesimo(lista,p.getV2(),j,k,ord);
 			}else{
 				r = lista.get(k);
 			}					

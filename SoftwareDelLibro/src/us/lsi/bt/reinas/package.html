@@ -6,28 +6,29 @@
 
 <p> Una Reina puede ser modelada como un objeto con las propiedades: </p>
 
-<p> <ul>
+<ul>
 <li> x, Coordenada x donde está ubicada la reina con valor de 0 a N-1
 <li> y, Coordenada y donde está ubicada la reina con valor de 0 a N-1
 <li> dp, Diagonal principal donde está ubicada la reina. dp = y-x
 <li> ds, Diagonal secundaria donde está ubicada la reina. dp = y+x
 </ul> 
-</p>
 
-<p> <ul>
+<ul>
 <li> NumDeReinas, El número de reinas en el tablero igual a su dimensión
 <li> YOcupadas, Una lista con las  filas ocupadas
 <li> DiagonalesPrincipalesOcupadas, Un conjunto con las diagonales principales ocupadas
 <li> DiagonalesSecundariasOcupadas, Un conjunto con las diagonales secundarias ocupadas
 </ul> 
-</p>
 
 <p> Las clases disponibles en el paquete son: </p>
 
-<p> <ul>
+<ul>
 <li> La clase {@link us.lsi.bt.reinas.Reina Reinas} representa una Reina.
-<li> La clase {@link us.lsi.bt.reinas.EstadoReinasBT EstadoReinasBT} implementa estado del problema para ser resuelto mediante BactTracking
-</ul> </p> 
+<li> La clase {@link us.lsi.bt.reinas.EstadoReinasBT1 EstadoReinasBT1} implementa estado del problema para ser resuelto mediante BactTracking. 
+El estado es mutable
+<li> La clase {@link us.lsi.bt.reinas.EstadoReinasBT2 EstadoReinasBT2} implementa estado del problema para ser resuelto mediante BactTracking.
+El estado es inmutable
+</ul>
 <p> El paquete incluye clases de test </p>
 </BODY>
 </HTML>

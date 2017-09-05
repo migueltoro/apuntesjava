@@ -1,0 +1,20 @@
+digraph SolucionFestival {  
+ size="100,100"; 
+    "13" [shape=box, label="P[0, 10000.0, 0, 0]"];
+    "13,Corizonas" [label=Corizonas];
+    "13" -> "13,Corizonas"[style=bold,arrowhead=dot];
+    "13,Corizonas" -> "7"[style=bold,arrowhead=dot];
+    "7" [shape=box, label="P[1, 6000.0, 1, 0]"];
+    "7,Dorian" [label=Dorian];
+    "7" -> "7,Dorian"[style=bold,arrowhead=dot];
+    "7,Dorian" -> "5"[style=bold,arrowhead=dot];
+    "5" [shape=box, label="P[2, 4000.0, 1, 0]"];
+    "5,LA" [label=LA];
+    "5" -> "5,LA"[style=bold,arrowhead=dot];
+    "5,LA" -> "3"[style=bold,arrowhead=dot];
+    "3" [shape=box, label="P[3, 1000.0, 1, 0]"];
+    "3,Igloo" [label=Igloo];
+    "3" -> "3,Igloo"[style=bold,arrowhead=dot];
+    "3,Igloo" -> "2"[style=bold,arrowhead=dot];
+    "2" [shape=box, style=dotted, label="P[4, 0.0, 2, 0]"];
+}

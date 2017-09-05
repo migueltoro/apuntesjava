@@ -6,19 +6,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
 import us.lsi.pd.AlgoritmoPD.Sp;
+import us.lsi.pd.ProblemaPDR;
 import us.lsi.pd.ProblemaPD;
 
-public class ProblemaMochilaPD implements ProblemaPD<Multiset<ObjetoMochila>, Integer> {
+public class ProblemaMochilaPD implements ProblemaPDR<Multiset<ObjetoMochila>, Integer> {
 	
 	private static ProblemaMochilaPD problemaInicial;
 	private static Integer capacidadInicial;
-	private int index;
-	private Double valorSolucion = Double.MIN_VALUE;
+	
 	
 	public static List<Integer> multiplicidadesMaximas;
 	public static List<ObjetoMochila> objetos;
@@ -38,11 +37,11 @@ public class ProblemaMochilaPD implements ProblemaPD<Multiset<ObjetoMochila>, In
 		return ProblemaMochilaPD.problemaInicial;
 	}
 	
-	public static ProblemaMochilaPD create(int index,int pesoAcumulado,double valorAcumulado) {
-		ProblemaMochilaPD p = new ProblemaMochilaPD(index, pesoAcumulado,valorAcumulado);
-		return p;
+	public static ProblemaMochilaPD create(ProblemaMochilaPD p, Integer a) {
+		return new ProblemaMochilaPD(p, a);
 	}
-	
+
+	private int index;	
 	private Integer pesoAcumulado;
 	private Integer capacidadRestante;
 	private Double valorAcumulado;
@@ -53,10 +52,18 @@ public class ProblemaMochilaPD implements ProblemaPD<Multiset<ObjetoMochila>, In
 		this.pesoAcumulado = pesoAcumulado;
 		this.capacidadRestante = capacidadInicial-this.pesoAcumulado;
 		this.valorAcumulado = valorAcumulado;
+	}
+	
+	private ProblemaMochilaPD(ProblemaMochilaPD p, Integer a) {
+		this.index = p.index+1;
+		this.pesoAcumulado = p.pesoAcumulado+a*objetos.get(p.index).getPeso();
+		this.capacidadRestante = capacidadInicial-this.pesoAcumulado;
+		this.valorAcumulado = p.valorAcumulado+a*objetos.get(p.index).getValor();
 	}	
 	
 	private Boolean constraints(Integer a) {
 		return this.pesoAcumulado+a*objetos.get(index).getPeso() <= capacidadInicial;
+//		return this.capacidadRestante-a*objetos.get(index).getPeso() >= 0; //otra formulación
 	}	
 	
 	@Override
@@ -81,55 +88,38 @@ public class ProblemaMochilaPD implements ProblemaPD<Multiset<ObjetoMochila>, In
 	
 	@Override
 	public boolean esCasoBase() {
-		return this.capacidadRestante == 0 ||  index == ProblemaMochilaPD.numeroDeObjetos-1;
+		return this.index == ProblemaMochilaPD.numeroDeObjetos;
 	}
 	
 	@Override
-	public Sp<Integer> getSolucionCasoBase() {
-		Integer peso = objetos.get(index).getPeso();
-		int num = Math.min(capacidadRestante/peso,objetos.get(index).getNumMaxDeUnidades()) ;
-		Double val = (double) num*objetos.get(index).getValor();
-		valorSolucion = val;
-		return Sp.create(num, val);
+	public Sp<Integer> getSolucionParcialCasoBase() {
+		return Sp.create(null, 0.);
 	}
 
 	@Override
-	public ProblemaPD<Multiset<ObjetoMochila>, Integer> getSubProblema(Integer a, int np) {
-		Preconditions.checkArgument(np==0);
-		Integer pesoAcumulado = this.pesoAcumulado+a*objetos.get(index).getPeso();
-		Double valorAcumulado = this.valorAcumulado+a*objetos.get(index).getValor();
-		return ProblemaMochilaPD.create(index+1,pesoAcumulado,valorAcumulado);
+	public ProblemaPD<Multiset<ObjetoMochila>, Integer> getSubProblema(Integer a) {		
+		return ProblemaMochilaPD.create(this, a);
 	}
 
 	@Override
-	public Sp<Integer> combinaSolucionesParciales(Integer a, List<Sp<Integer>> ls) {
-		Sp<Integer> r = ls.get(0);
-		Double valor = a*objetos.get(index).getValor()+r.propiedad;
+	public Sp<Integer> getSolucionParcialPorAlternativa(Integer a, Sp<Integer> r) {
+		Double valor = a*objetos.get(this.index).getValor()+r.propiedad;
 		return Sp.create(a, valor);
 	}
 	
 	@Override
-	public Sp<Integer> seleccionaAlternativa(List<Sp<Integer>> ls) {
-		Sp<Integer> r =ls.stream().filter(x -> x.propiedad != null).max(Comparator.naturalOrder()).orElse(null);
-		valorSolucion = r!=null ? r.propiedad : Double.MIN_VALUE;
-		return r;
-	}
-	
-	@Override
-	public int getNumeroSubProblemas(Integer a) {
-		return 1;
+	public Sp<Integer> getSolucionParcial(List<Sp<Integer>> ls) {
+		return ls.stream().filter(x -> x.propiedad != null).max(Comparator.naturalOrder()).orElse(null);
 	}
 
 	@Override
-	public Multiset<ObjetoMochila> getSolucionReconstruida(Sp<Integer> sp) {
+	public Multiset<ObjetoMochila> getSolucionReconstruidaCasoBase(Sp<Integer> sp) {
 		Multiset<ObjetoMochila> m = HashMultiset.create();
-		m.add(ProblemaMochilaPD.objetos.get(this.index), sp.alternativa);
 		return m;
 	}
 
 	@Override
-	public Multiset<ObjetoMochila> getSolucionReconstruida(Sp<Integer> sp, List<Multiset<ObjetoMochila>> ls) {
-		Multiset<ObjetoMochila> m = ls.get(0);
+	public Multiset<ObjetoMochila> getSolucionReconstruidaCasoRecursivo(Sp<Integer> sp, Multiset<ObjetoMochila> m) {
 		m.add(ProblemaMochilaPD.objetos.get(this.index), sp.alternativa);
 		return m;
 	}
@@ -137,12 +127,16 @@ public class ProblemaMochilaPD implements ProblemaPD<Multiset<ObjetoMochila>, In
 	
 	@Override
 	public Double getObjetivoEstimado(Integer a) {	
-		return this.valorAcumulado+this.getCotaSuperiorValorEstimado(a);
+		return (double) this.valorAcumulado+ this.getCotaSuperiorValorEstimado(a);
 	}
 
 	@Override
 	public Double getObjetivo() {
-		return this.valorAcumulado+this.valorSolucion;
+		Double r = null;
+		if (esCasoBase()) {
+			r = this.valorAcumulado;
+		}
+		return r;
 	}
 
 	

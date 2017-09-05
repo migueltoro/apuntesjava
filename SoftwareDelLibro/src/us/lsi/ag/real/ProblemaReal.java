@@ -5,7 +5,7 @@ import java.util.List;
 
 import us.lsi.ag.ProblemaAGReal;
 import us.lsi.ag.agchromosomes.IRealChromosome;
-import us.lsi.common.Par;
+import us.lsi.common.Tuple2;
 
 public class ProblemaReal implements ProblemaAGReal<List<Double>> {
 
@@ -24,11 +24,11 @@ public class ProblemaReal implements ProblemaAGReal<List<Double>> {
 	}
 
 	@Override
-	public List<Par<Double, Double>> getLimites() {
-		List<Par<Double,Double>> ls = new ArrayList<>();
-		ls.add(Par.create(0., 15.));
-		ls.add(Par.create(-15., 15.));
-		return ls;
+	public List<Tuple2<Double, Double>> getLimites() {
+		List<Tuple2<Double,Double>> ls = new ArrayList<>();
+		ls.add(Tuple2.create(0., 15.));
+		ls.add(Tuple2.create(-15., 15.));
+		return ls; 
 	}
 
 	@Override

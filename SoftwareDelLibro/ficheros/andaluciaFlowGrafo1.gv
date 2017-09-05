@@ -1,0 +1,40 @@
+strict digraph G {
+  Sevilla [ label="Sevilla
+/1.0" ];
+  Cadiz [ style="bold" ];
+  Huelva [ label="Huelva
+/1.0" ];
+  Cordoba [ label="Cordoba
+/1.0" ];
+  Malaga [ label="Malaga
+/1.0" ];
+  Antequera [ label="Antequera
+/1.0" ];
+  Almeria [ style="dotted" ];
+  Granada [ label="Granada
+/1.0" ];
+  Jaen [ label="Jaen
+/1.0" ];
+  Sevilla -> Huelva [ label="/1.0" ];
+  Huelva -> Sevilla [ label="/1.0" ];
+  Sevilla -> Cordoba [ label="/1.0" ];
+  Cordoba -> Sevilla [ label="/1.0" ];
+  Cadiz -> Sevilla [ label="/1.0" ];
+  Sevilla -> Antequera [ label="/1.0" ];
+  Antequera -> Sevilla [ label="/1.0" ];
+  Antequera -> Granada [ label="/1.0" ];
+  Granada -> Antequera [ label="/1.0" ];
+  Antequera -> Malaga [ label="/1.0" ];
+  Malaga -> Antequera [ label="/1.0" ];
+  Antequera -> Cordoba [ label="/1.0" ];
+  Cordoba -> Antequera [ label="/1.0" ];
+  Cadiz -> Malaga [ label="/1.0" ];
+  Malaga -> Almeria [ label="/1.0" ];
+  Cordoba -> Jaen [ label="/1.0" ];
+  Jaen -> Cordoba [ label="/1.0" ];
+  Cordoba -> Granada [ label="/1.0" ];
+  Granada -> Cordoba [ label="/1.0" ];
+  Granada -> Almeria [ label="/1.0" ];
+  Granada -> Jaen [ label="/1.0" ];
+  Jaen -> Granada [ label="/1.0" ];
+}

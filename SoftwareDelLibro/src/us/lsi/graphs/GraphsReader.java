@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import org.jgrapht.Graph;
+import org.jgrapht.WeightedGraph;
 
 /**
  * <p>
@@ -56,6 +57,8 @@ public class GraphsReader {
 	 * @param vf Factoría para construir los vértices a partir de las líneas del fichero previamente tokenizada
 	 * @param ef Factoría para construir las aristas a partir de las líneas del fichero previamente tokenizada
 	 * @param graph Grafo de entrada 
+	 * @param ew Función que proporciona el peso de la arista. Debe ser distinto de null si el grafo es 
+	 * de tipo WeightedGraph&lt;V,E&gt;	 
 	 * @return Grafo con la información del fichero
 	 * @param <V> El tipo de los vértices
 	 * @param <E> El tipo de las aristas
@@ -63,10 +66,13 @@ public class GraphsReader {
 	 */
 	public static <V, E> Graph<V, E> newGraph(String file,
 			StringVertexFactory<V> vf, StringEdgeFactory<V, E> ef,
-			Graph<V, E> graph) {
+			Graph<V, E> graph,
+			EdgeWeight<E> ew) {
 
 		Map<String, V> idVertices = new HashMap<>();
 		Graph<V, E> ret = graph;
+		WeightedGraph<V,E> wg = null;
+		if (ew!=null) wg = (WeightedGraph<V, E>) graph;
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new File(file));
@@ -84,8 +90,7 @@ public class GraphsReader {
 		
 		try {
 			List<String> vertices = filas.subList(1, filas.indexOf("#EDGE#"));
-			List<String> aristas = filas.subList(filas.indexOf("#EDGE#") + 1,
-					filas.size());
+			List<String> aristas = filas.subList(filas.indexOf("#EDGE#") + 1, filas.size());
 
 			for (String verticeStr : vertices) {
 				String[] vertice = eliminaBlancos(verticeStr.split(","));
@@ -114,6 +119,9 @@ public class GraphsReader {
 							idVertices.get(arista[1]), arista);
 					ret.addEdge(idVertices.get(arista[0]),
 							idVertices.get(arista[1]), edge);
+					if(wg!=null){
+						wg.setEdgeWeight(edge, ew.getWeight(edge));
+					}
 				}
 			}
 

@@ -19,7 +19,7 @@ public class TestAnunciosSA {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub		
-		ProblemaAnuncios.leeYOrdenaAnuncios(AlgoritmoPD.getRaiz()+"anuncios.txt");
+		ProblemaAnuncios.leeYOrdenaAnuncios(AlgoritmoPD.raiz+"anuncios.txt");
 /*		System.out.println("------");
 		System.out.println(ProblemaAnuncios.todosLosAnunciosDisponibles);
 		System.out.println("------");
@@ -31,7 +31,7 @@ public class TestAnunciosSA {
 		AlgoritmoSA.numeroDeIteracionesPorIntento = 400;
 		AlgoritmoSA.numeroDeIteracionesALaMismaTemperatura = 20;
 		AlgoritmoSA.numeroDeIntentos = 4;
-		ProblemaAGIndex<ListaDeAnunciosAEmitir> p = new ProblemaAnunciosAG(AlgoritmoAG.getRaiz()+"anuncios.txt");		
+		ProblemaAGIndex<ListaDeAnunciosAEmitir> p = new ProblemaAnunciosAG(AlgoritmoAG.raiz+"anuncios.txt");		
 		AlgoritmoSA ap = Algoritmos.createSA(ChromosomeType.IndexPermutationSubList,p);
 		ap.ejecuta();		
 		System.out.println("------");

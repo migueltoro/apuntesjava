@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import us.lsi.bt.EstadoBT;
-import us.lsi.common.ParInteger;
+import us.lsi.common.PairInteger;
 
 
 
@@ -43,15 +43,27 @@ public class EstadoAnunciosBT implements EstadoBT<ListaDeAnunciosAEmitir, Intege
 	}
 
 	@Override
-	public void avanza(Integer a) {
-		this.listaDeEnteros.add(a);
-		this.lista = ListaDeAnunciosAEmitir.create(this.listaDeEnteros);
+	public us.lsi.bt.EstadoBT.Tipo getTipo() {
+		return Tipo.Max;
 	}
 
 	@Override
-	public void retrocede(Integer a) {
+	public EstadoBT<ListaDeAnunciosAEmitir, Integer> getEstadoInicial() {
+		return EstadoAnunciosBT.create();
+	}
+	
+	@Override
+	public EstadoAnunciosBT avanza(Integer a) {
+		this.listaDeEnteros.add(a);
+		this.lista = ListaDeAnunciosAEmitir.create(this.listaDeEnteros);
+		return this;
+	}
+
+	@Override
+	public EstadoAnunciosBT retrocede(Integer a) {
 		this.listaDeEnteros.remove(a);
 		this.lista = ListaDeAnunciosAEmitir.create(this.listaDeEnteros);
+		return this;
 	}
 
 	@Override
@@ -60,7 +72,7 @@ public class EstadoAnunciosBT implements EstadoBT<ListaDeAnunciosAEmitir, Intege
 	}
 
 	@Override
-	public boolean isFinal() {
+	public boolean esCasoBase() {
 		return lista.getAnunciosDisponibles().isEmpty();
 	}
 
@@ -72,12 +84,7 @@ public class EstadoAnunciosBT implements EstadoBT<ListaDeAnunciosAEmitir, Intege
 	@Override
 	public ListaDeAnunciosAEmitir getSolucion() {
 		return lista;
-	}
-
-	@Override
-	public Double getObjetivo() {
-		return lista.getValor();
-	}
+	}	
 
 	@Override
 	public Double getObjetivoEstimado(Integer a) {
@@ -86,8 +93,8 @@ public class EstadoAnunciosBT implements EstadoBT<ListaDeAnunciosAEmitir, Intege
 
 	private boolean comprueba(Integer e, Set<Integer> s){
 		boolean r = true;
-		for(ParInteger p: ProblemaAnuncios.restricciones){
-			if(s.contains(p.p1) && p.p2 == e){
+		for(PairInteger p: ProblemaAnuncios.restricciones){
+			if(s.contains(p.v1) && p.v2 == e){
 				r = false;
 				break;
 			}
@@ -124,6 +131,10 @@ public class EstadoAnunciosBT implements EstadoBT<ListaDeAnunciosAEmitir, Intege
 		}
 		return r;
 	}
+
+	
+
+	
 
 	
 }

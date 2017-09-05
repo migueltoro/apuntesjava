@@ -37,4 +37,4 @@ Export-Package: us.lsi.algoritmos,
  us.lsi.stream,
  us.lsi.swing,
  us.lsi.test
-Require-Bundle: org.eclipse.xtext.xbase.lib;bundle-version="2.4.2"
+

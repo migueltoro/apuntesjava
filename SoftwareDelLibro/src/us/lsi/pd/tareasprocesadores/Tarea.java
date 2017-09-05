@@ -47,6 +47,11 @@ public class Tarea {
 	public Integer getId() {
 		return id;
 	}
+	
+	public static Tarea getTarea(int i) {
+		return Tarea.tareas.get(i);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

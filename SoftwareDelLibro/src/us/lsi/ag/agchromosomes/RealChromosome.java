@@ -127,7 +127,7 @@ public class RealChromosome extends BinaryChromosome implements IRealChromosome 
 	 */
 	@Override
 	public Double getSup(int i) {
-		return RealChromosome.problema.getLimites().get(i).p2;
+		return RealChromosome.problema.getLimites().get(i).v2;
 	}
 
 	/* (non-Javadoc)
@@ -135,7 +135,7 @@ public class RealChromosome extends BinaryChromosome implements IRealChromosome 
 	 */
 	@Override
 	public Double getInf(int i) {
-		return RealChromosome.problema.getLimites().get(i).p1;
+		return RealChromosome.problema.getLimites().get(i).v1;
 	}
 
 	@Override

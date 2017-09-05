@@ -48,12 +48,12 @@ public class Matrices implements ProblemaPD<String, Integer> {
 	}
 
 	@Override
-	public Sp<Integer> getSolucionCasoBase() {
+	public Sp<Integer> getSolucionParcialCasoBase() {
 		return null;
 	}
 
 	@Override
-	public Sp<Integer> seleccionaAlternativa(List<Sp<Integer>> ls) {
+	public Sp<Integer> getSolucionParcial(List<Sp<Integer>> ls) {
 		return null;
 	}
 
@@ -63,8 +63,7 @@ public class Matrices implements ProblemaPD<String, Integer> {
 	}
 
 	@Override
-	public Sp<Integer> combinaSolucionesParciales(Integer a,
-			List<Sp<Integer>> ls) {
+	public Sp<Integer> getSolucionParcialPorAlternativa(Integer a, List<Sp<Integer>> ls) {
 		return null;
 	}
 
@@ -79,23 +78,12 @@ public class Matrices implements ProblemaPD<String, Integer> {
 	}
 
 	@Override
-	public String getSolucionReconstruida(Sp<Integer> sp) {
+	public String getSolucionReconstruidaCasoBase(Sp<Integer> sp) {
 		return null;
 	}
 
 	@Override
-	public String getSolucionReconstruida(Sp<Integer> sp, List<String> ls) {
+	public String getSolucionReconstruidaCasoRecursivo(Sp<Integer> sp, List<String> ls) {
 		return null;
 	}
-
-	@Override
-	public Double getObjetivoEstimado(Integer a) {
-		return null;
-	}
-
-	@Override
-	public Double getObjetivo() {
-		return null;
-	}
-
 }

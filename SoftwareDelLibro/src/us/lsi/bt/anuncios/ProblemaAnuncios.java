@@ -5,7 +5,7 @@ import java.util.*;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
-import us.lsi.common.ParInteger;
+import us.lsi.common.PairInteger;
 import us.lsi.common.Sets2;
 import us.lsi.stream.Stream2;
 
@@ -13,7 +13,7 @@ public class ProblemaAnuncios {
 
 	public static List<Anuncio> todosLosAnunciosDisponibles;
 	public static Integer tiempoTotal;
-	public static Set<ParInteger> restricciones;
+	public static Set<PairInteger> restricciones;
 	public static Set<Integer> todosLosAnuncios; 
 	
 	public ProblemaAnuncios() {
@@ -39,8 +39,8 @@ public class ProblemaAnuncios {
 			Preconditions.checkArgument(at.length==2);
 			Integer n1 = new Integer(at[0]);
 			Integer n2 = new Integer(at[1]);
-			restricciones.add(ParInteger.create(n1, n2));
-			restricciones.add(ParInteger.create(n2, n1));
+			restricciones.add(PairInteger.create(n1, n2));
+			restricciones.add(PairInteger.create(n2, n1));
 		}
 		Collections.sort(ProblemaAnuncios.todosLosAnunciosDisponibles, Comparator.<Anuncio>naturalOrder().reversed());
 		todosLosAnuncios = Sets2.newSet(0, ProblemaAnuncios.todosLosAnunciosDisponibles.size());

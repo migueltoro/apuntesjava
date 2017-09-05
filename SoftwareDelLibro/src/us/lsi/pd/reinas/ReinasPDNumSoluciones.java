@@ -8,13 +8,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import com.google.common.base.Preconditions;
-
 import us.lsi.pd.AlgoritmoPD.Sp;
 import us.lsi.pd.ProblemaPD;
+import us.lsi.pd.ProblemaPDR;
 
 
-public class ReinasPDNumSoluciones implements ProblemaPD<Integer, Integer> {
+public class ReinasPDNumSoluciones implements ProblemaPDR<Integer, Integer> {
 
 	public static int numeroDeReinas = 8;
 	
@@ -63,28 +62,27 @@ public class ReinasPDNumSoluciones implements ProblemaPD<Integer, Integer> {
 	}
 
 	@Override
-	public Sp<Integer> getSolucionCasoBase() {
+	public Sp<Integer> getSolucionParcialCasoBase() {
 		Integer n = this.getAlternativas().size();
 		return Sp.create(null, (double) n);
 	}
 
 	@Override
-	public Sp<Integer> seleccionaAlternativa(List<Sp<Integer>> ls) {
+	public Sp<Integer> getSolucionParcial(List<Sp<Integer>> ls) {
 		Double r = ls.stream().mapToDouble(sp->sp.propiedad).sum();
 		return Sp.create(null, r);
 	}
 
 	@Override
-	public ProblemaPD<Integer, Integer> getSubProblema(Integer a, int i) {
-		Preconditions.checkArgument(i==0);
+	public ProblemaPD<Integer, Integer> getSubProblema(Integer a) {
 		List<Integer> ls = new ArrayList<>(this.yOcupadas);
 		ls.add(a);
 		return ReinasPDNumSoluciones.create(this.x+1,ls);
 	}
 
 	@Override
-	public Sp<Integer> combinaSolucionesParciales(Integer a, List<Sp<Integer>> ls) {
-		return Sp.create(a, ls.get(0).propiedad);
+	public Sp<Integer> getSolucionParcialPorAlternativa(Integer a, Sp<Integer> s) {
+		return Sp.create(a, s.propiedad);
 	}
 	
 	@Override
@@ -100,28 +98,13 @@ public class ReinasPDNumSoluciones implements ProblemaPD<Integer, Integer> {
 	}
 
 	@Override
-	public int getNumeroSubProblemas(Integer a) {
-		return 1;
-	}
-
-	@Override
-	public Integer getSolucionReconstruida(Sp<Integer> sp) {
+	public Integer getSolucionReconstruidaCasoBase(Sp<Integer> sp) {
 		return sp.propiedad.intValue();
 	}
 
 	@Override
-	public Integer getSolucionReconstruida(Sp<Integer> sp, List<Integer> ls) {
+	public Integer getSolucionReconstruidaCasoRecursivo(Sp<Integer> sp, Integer s) {
 		return sp.propiedad.intValue();
 	}	
-
-	@Override
-	public Double getObjetivoEstimado(Integer a) {
-		return 0.;
-	}
-
-	@Override
-	public Double getObjetivo() {		
-		return 0.;
-	}
 	
 }

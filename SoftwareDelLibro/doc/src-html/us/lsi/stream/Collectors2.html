@@ -17,7 +17,7 @@
 <span class="sourceLineNo">009</span>import java.util.function.Supplier;<a name="line.9"></a>
 <span class="sourceLineNo">010</span>import java.util.stream.Collector;<a name="line.10"></a>
 <span class="sourceLineNo">011</span><a name="line.11"></a>
-<span class="sourceLineNo">012</span>import us.lsi.common.Entry;<a name="line.12"></a>
+<span class="sourceLineNo">012</span>import java.util.Map.Entry;<a name="line.12"></a>
 <span class="sourceLineNo">013</span>import us.lsi.common.MultiMaps2;<a name="line.13"></a>
 <span class="sourceLineNo">014</span>import us.lsi.common.Multisets2;<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
@@ -156,7 +156,7 @@
 <span class="sourceLineNo">148</span>                public ToListMultimap() {<a name="line.148"></a>
 <span class="sourceLineNo">149</span>                        super();<a name="line.149"></a>
 <span class="sourceLineNo">150</span>                        this.supplier = ()-&gt; MultiMaps2.newListMultimap();<a name="line.150"></a>
-<span class="sourceLineNo">151</span>                        this.accumulator = (ListMultimap&lt;K,V&gt; m, Entry&lt;K,V&gt; e)-&gt; m.put(e.key,e.value);<a name="line.151"></a>
+<span class="sourceLineNo">151</span>                        this.accumulator = (ListMultimap&lt;K,V&gt; m, Entry&lt;K,V&gt; e)-&gt; m.put(e.getKey(),e.getValue());<a name="line.151"></a>
 <span class="sourceLineNo">152</span>                        this.combiner = (ListMultimap&lt;K,V&gt; m1, ListMultimap&lt;K,V&gt; m2)-&gt;{ ListMultimap&lt;K,V&gt; m = MultiMaps2.newListMultimap(m1); m.putAll(m2); return m;};<a name="line.152"></a>
 <span class="sourceLineNo">153</span>                        this.transformer = Function.identity();<a name="line.153"></a>
 <span class="sourceLineNo">154</span>                }<a name="line.154"></a>
@@ -206,7 +206,7 @@
 <span class="sourceLineNo">198</span>                public ToSetMultimap() {<a name="line.198"></a>
 <span class="sourceLineNo">199</span>                        super();<a name="line.199"></a>
 <span class="sourceLineNo">200</span>                        this.supplier = ()-&gt; MultiMaps2.newSetMultimap();<a name="line.200"></a>
-<span class="sourceLineNo">201</span>                        this.accumulator = (SetMultimap&lt;K,V&gt; m, Entry&lt;K,V&gt; e)-&gt; m.put(e.key,e.value);<a name="line.201"></a>
+<span class="sourceLineNo">201</span>                        this.accumulator = (SetMultimap&lt;K,V&gt; m, Entry&lt;K,V&gt; e)-&gt; m.put(e.getKey(),e.getValue());<a name="line.201"></a>
 <span class="sourceLineNo">202</span>                        this.combiner = (SetMultimap&lt;K,V&gt; m1, SetMultimap&lt;K,V&gt; m2)-&gt;{ SetMultimap&lt;K,V&gt; m = MultiMaps2.newSetMultimap(m1); m.putAll(m2); return m;};<a name="line.202"></a>
 <span class="sourceLineNo">203</span>                        this.transformer = Function.identity();<a name="line.203"></a>
 <span class="sourceLineNo">204</span>                }<a name="line.204"></a>

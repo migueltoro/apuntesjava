@@ -1,6 +1,6 @@
 package us.lsi.ag;
 
-import us.lsi.ag.agchromosomes.BinaryChromosome2;
+import us.lsi.ag.agchromosomes.BinaryChromosome;
 
 
 /**
@@ -23,11 +23,11 @@ public interface ProblemaAGBinary<S> extends ProblemaAG {
 	 * @return La función de fitness del cromosoma
 	 */
 	
-	Double fitnessFunction(BinaryChromosome2 cr);
+	Double fitnessFunction(BinaryChromosome cr);
 	
 	/**
 	 * @param cr Un cromosoma
 	 * @return La solución definida por el cromosoma
 	 */
-	S getSolucion(BinaryChromosome2 cr);
+	S getSolucion(BinaryChromosome cr);
 }

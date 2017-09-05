@@ -27,4 +27,5 @@ public interface AStarAlgorithm<V, E> {
 	public GraphPath<V, E> getPath();
 	public List<V> getPathVertexList();
 	
+	
 }

@@ -64,7 +64,6 @@ public class FlowEdge extends DefaultEdge {
 	public Double getCost() {
 		return cost;
 	}
-
 	
 	public FlowVertex getFrom() {
 		return (FlowVertex) super.source;
@@ -73,8 +72,6 @@ public class FlowEdge extends DefaultEdge {
 	public FlowVertex getTo() {
 		return (FlowVertex) super.target;
 	}
-
-	
 	
 	@Override
 	public String toString() {

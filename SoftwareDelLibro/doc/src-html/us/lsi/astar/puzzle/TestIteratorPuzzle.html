@@ -19,12 +19,12 @@
 <span class="sourceLineNo">011</span><a name="line.11"></a>
 <span class="sourceLineNo">012</span>        public static void main(String[] args) {<a name="line.12"></a>
 <span class="sourceLineNo">013</span>                // TODO Auto-generated method stub<a name="line.13"></a>
-<span class="sourceLineNo">014</span>                EstadoPuzzle p1 = EstadoPuzzle.create(1,2,3,4,0,5,6,7,8);<a name="line.14"></a>
-<span class="sourceLineNo">015</span>                Graph&lt;EstadoPuzzle,SimpleEdge&lt;EstadoPuzzle&gt;&gt; graph = <a name="line.15"></a>
+<span class="sourceLineNo">014</span>                EstadoPuzzle1 p1 = EstadoPuzzle1.create(ProblemaPuzzle.create(1,2,3,4,0,5,6,7,8));<a name="line.14"></a>
+<span class="sourceLineNo">015</span>                Graph&lt;EstadoPuzzle1,SimpleEdge&lt;EstadoPuzzle1&gt;&gt; graph = <a name="line.15"></a>
 <span class="sourceLineNo">016</span>                                PuzzleGraph1.create(p1);<a name="line.16"></a>
-<span class="sourceLineNo">017</span>                Set&lt;SimpleEdge&lt;EstadoPuzzle&gt;&gt; ss = graph.edgesOf(p1);<a name="line.17"></a>
+<span class="sourceLineNo">017</span>                Set&lt;SimpleEdge&lt;EstadoPuzzle1&gt;&gt; ss = graph.edgesOf(p1);<a name="line.17"></a>
 <span class="sourceLineNo">018</span>                System.out.println("p1 = \n"+p1);<a name="line.18"></a>
-<span class="sourceLineNo">019</span>                for (SimpleEdge&lt;EstadoPuzzle&gt; e: ss){<a name="line.19"></a>
+<span class="sourceLineNo">019</span>                for (SimpleEdge&lt;EstadoPuzzle1&gt; e: ss){<a name="line.19"></a>
 <span class="sourceLineNo">020</span>                        System.out.println(Graphs.getOppositeVertex(graph,e, p1));<a name="line.20"></a>
 <span class="sourceLineNo">021</span>                }<a name="line.21"></a>
 <span class="sourceLineNo">022</span>                <a name="line.22"></a>

@@ -4,15 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-
-import us.lsi.common.Par;
+import us.lsi.common.Tuple2;
 import us.lsi.pd.AlgoritmoPD.Sp;
 import us.lsi.pd.ProblemaPD;
+import us.lsi.pd.ProblemaPDR;
 import us.lsi.pd.secuencias.Secuencia.Accion;
 
-public class ProblemaSecuenciasPD implements ProblemaPD<List<Par<Accion,Integer>>, Accion> {
+public class ProblemaSecuenciasPD implements ProblemaPDR<SolucionSecuencias, Accion> {
 
 	public static ProblemaSecuenciasPD create(
 			Secuencia secuencia, Double valorAcumulado) {
@@ -28,7 +26,6 @@ public class ProblemaSecuenciasPD implements ProblemaPD<List<Par<Accion,Integer>
 	}
 	
 	private Double valorAcumulado;
-	private Double valorSolucion = Double.MAX_VALUE;
 	private Secuencia secuencia;
 	 
 
@@ -54,22 +51,17 @@ public class ProblemaSecuenciasPD implements ProblemaPD<List<Par<Accion,Integer>
 	}
 
 	@Override
-	public Sp<Accion> getSolucionCasoBase() {
-		Sp<Accion> sp = Sp.create(Accion.Nada, 0.);
-		this.valorSolucion = sp.propiedad;
-		return sp;
+	public Sp<Accion> getSolucionParcialCasoBase() {
+		return Sp.create(Accion.Nada, 0.);
 	}
 
 	@Override
-	public Sp<Accion> seleccionaAlternativa(List<Sp<Accion>> ls) {
-		Sp<Accion> sp = ls.stream().min(Comparator.naturalOrder()).orElse(null);
-		this.valorSolucion = sp.propiedad;
-		return sp;
+	public Sp<Accion> getSolucionParcial(List<Sp<Accion>> ls) {
+		return ls.stream().min(Comparator.naturalOrder()).orElse(null);
 	}
 
 	@Override
-	public ProblemaPD<List<Par<Accion,Integer>>, Accion> getSubProblema(Accion a, int np) {
-		Preconditions.checkArgument(np==0);
+	public ProblemaPD<SolucionSecuencias, Accion> getSubProblema(Accion a) {
 		Secuencia s = secuencia.getNeighbor(a);
 		SecuenciaEdge e = SecuenciaEdge.create(secuencia, s, a);
 		Double valorAcumulado = this.valorAcumulado + e.getValor();
@@ -77,10 +69,10 @@ public class ProblemaSecuenciasPD implements ProblemaPD<List<Par<Accion,Integer>
 	}
 	
 	@Override
-	public Sp<Accion> combinaSolucionesParciales(Accion a, List<Sp<Accion>> ls) {
+	public Sp<Accion> getSolucionParcialPorAlternativa(Accion a, Sp<Accion> r) {
 		Secuencia s = secuencia.getNeighbor(a);
 		SecuenciaEdge e = SecuenciaEdge.create(secuencia, s, a);
-		Double valor = ls.get(0).propiedad + e.getValor();
+		Double valor = r.propiedad + e.getValor();
 		Sp<Accion> sp = Sp.create(a, valor);
 		return sp;
 	}
@@ -91,34 +83,31 @@ public class ProblemaSecuenciasPD implements ProblemaPD<List<Par<Accion,Integer>
 	}
 
 	@Override
-	public int getNumeroSubProblemas(Accion a) {
-		return  1;
+	public SolucionSecuencias getSolucionReconstruidaCasoBase(Sp<Accion> sp) {
+		return SolucionSecuencias.create();
 	}
-
+	
 	@Override
-	public List<Par<Accion,Integer>> getSolucionReconstruida(Sp<Accion> sp) {
-		return Lists.newArrayList();
-	}
-
-	@Override
-	public List<Par<Accion,Integer>> getSolucionReconstruida(Sp<Accion> sp, List<List<Par<Accion,Integer>>> ls) {
-		List<Par<Accion,Integer>> lista = Lists.newArrayList();
+	public SolucionSecuencias getSolucionReconstruidaCasoRecursivo(Sp<Accion> sp, SolucionSecuencias s) {
 		if(sp.alternativa!=Accion.Avanza)
-			lista.add(Par.create(sp.alternativa,secuencia.getIndex()));
-		lista.addAll(ls.get(0));
-		return lista;
+			s.addFirst(Tuple2.create(sp.alternativa,secuencia.getIndex()));
+		return s;
 	}
 	
 
 	@Override
 	public Double getObjetivoEstimado(Accion a) {	
-		return valorAcumulado;
+		return this.valorAcumulado+0.;
 	}
 
 	
 	@Override
-	public Double getObjetivo() {	
-		return this.valorAcumulado+this.valorSolucion;
+	public Double getObjetivo() {
+		Double r = null;
+		if (esCasoBase()) {
+			r = this.valorAcumulado;
+		}
+		return r;
 	}
 
 	@Override

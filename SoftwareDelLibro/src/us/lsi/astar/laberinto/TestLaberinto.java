@@ -18,7 +18,7 @@ public class TestLaberinto {
 				Algoritmos.createAStar(g, c1, c2);
 		GraphPath<Casilla,SimpleEdge<Casilla>> p = d.getPath();
 		System.out.println(p.getWeight());
-		System.out.println(Graphs.getPathVertexList(p));
+		System.out.println(p.getVertexList());
 	}
 
 }

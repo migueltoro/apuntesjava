@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import us.lsi.algoritmos.AbstractAlgoritmo;
+import us.lsi.basictypes.Tree;
 import us.lsi.common.Lists2;
 import us.lsi.pd.ProblemaPD.Tipo;
 
@@ -26,6 +27,7 @@ import com.google.common.collect.*;
  */
 public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
        
+	public static boolean conFiltro = false;
 	/**
 	 * Si se quiere aplicar la técnica aleatoria para escoger una de las alternativas
 	 */
@@ -38,9 +40,11 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
 	public Map<ProblemaPD<S,A>,Sp<A>> solucionesParciales;
 	private ProblemaPD<S,A> problema;    
     private Iterable<ProblemaPD<S,A>> problemas;
-    private static Double mejorValor;
-    private static Tipo tipo;
-
+    private Double mejorValor;
+    private Tipo tipo;
+    private Integer numeroDeProblemas;
+    private BiMap<ProblemaPD<S,A>,Integer> idsDeProblemas;
+    private BiMap<Integer,ProblemaPD<S,A>> problemasDesdeId;
     
     private boolean isMin(){
     	return tipo.equals(Tipo.Min);
@@ -53,29 +57,119 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
     /**
 	 * @return El mejor valor de la propiedade objetivo del problema inicial encontrado por el algoritmo hasta este momento
 	 */
-	public static Double getMejorValor() {
+	public Double getMejorValor() {
 		return mejorValor;
 	}
     
+	/**
+	 * @return Las soluciones parciales de los problemas resueltos
+	 */
+	public Map<ProblemaPD<S, A>, Sp<A>> getSolucionesParciales() {
+		return solucionesParciales;
+	}
+
+	/**
+	 * @param p - Problema del que se quiere obtener la solución parcial
+	 * @return Solución parcial del problema o null si no tiene solución o no ha ha sido encontrado por el algoritmo
+	 */
+	public Sp<A> getSolucionParcial(ProblemaPD<S,A> p) {
+			return solucionesParciales.get(p);
+	}
+	
+	public Tipo getTipo() {
+		return tipo;
+	}
+
+	/**
+	 * @return Número de problemas resueltos
+	 */
+	public Integer getNumeroDeProblemas() {
+		return numeroDeProblemas;
+	}
+	
+	/**
+	 * @param p Un problema
+	 * @return El identificador del problema
+	 */
+	public Integer getIdDeProblema(ProblemaPD<S, A> p) {
+		return idsDeProblemas.get(p);
+	}
+
+	/**
+	 * @return Número de subproblemas encontrado al resolver el problema inicial
+	 */
+	public int getNumeroDeSubproblemas(){
+		return this.solucionesParciales.keySet().size();
+	}
+	
+	/**
+	 * @param id Un identificador de un problema
+	 * @return El problema asociado al identificador
+	 */
+	public ProblemaPD<S, A> getProblemasDesdeId(Integer id) {
+		return problemasDesdeId.get(id);
+	}
+
+	/**
+	 * @param p Un problema 
+	 * @return Si p es un subproblema ya resuelto al resolver el problema inicial
+	 */
+	public boolean haSidoResueltoYa(ProblemaPD<S,A> p){
+		return this.solucionesParciales.containsKey(p);
+	}
+	
+	/**
+	 * @pre el problema es de minimización o de maximización
+	 * @param p Un problema
+	 * @return Un árbol con las alternativas que están dentro de la solución
+	 */
+	public Tree<A> getAlternativasDeSolucion(ProblemaPD<S,A> p){
+		Tree<A> r = null;
+		if (!p.esCasoBase()) {
+			Sp<A> sp = this.getSolucionParcial(p);
+			List<Tree<A>> la = Lists.newArrayList();
+			Integer np = p.getNumeroSubProblemas(sp.alternativa);
+			for (Integer i = 0; i < np; i++) {
+				Tree<A> rh = this.getAlternativasDeSolucion(p.getSubProblema(sp.alternativa, i));
+				if (rh!=null) {
+					la.add(rh);
+				}
+			}
+			r = Tree.create(sp.alternativa,la);
+		}
+		return r;
+	}
+	
 	public AlgoritmoPD(Iterable<ProblemaPD<S,A>> ps){		
 	    problema = Iterables.get(ps, 0);
 	    problemas = ps;
 	    tipo = problema.getTipo();
+	    this.numeroDeProblemas = 0;
+	    this.idsDeProblemas = HashBiMap.create();
+	    this.problemasDesdeId = this.idsDeProblemas.inverse();
 	    mejorValor = isMin()? Double.MAX_VALUE: Double.MIN_VALUE;  
 	}
 	
 	public void ejecuta() {
-		
-		do {
-			solucionesParciales = Maps.newHashMap();
-			for (ProblemaPD<S, A> p : problemas) {					
-					pD(p);				
-			}		
-		} while (isRandomize && solucionesParciales.get(problema)==null);			
+		if (AlgoritmoPD.metricasOK) AlgoritmoPD.metricas.setTiempoDeEjecucionInicial();
+		solucionesParciales = Maps.newHashMap();
+		for (ProblemaPD<S, A> p : problemas) {
+			do {
+				pD(p);
+			} while (isRandomize && solucionesParciales.get(problema) == null);
+		}
+		if (AlgoritmoPD.metricasOK) AlgoritmoPD.metricas.setTiempoDeEjecucionFinal();
 	}
 	
-	private Iterable<A> randomize(ProblemaPD<S,A> p, Iterable<A> alternativas){
-		Iterable<A> alt;
+	/**
+	 * @param <S> El tipo de la solución
+	 * @param <A> El tipo de la alternativa
+	 * @param p Un problema
+	 * @param alternativas Sus alternativas
+	 * @return Una alternativa escogida al azar o todas ellas dependiendo del tamaño del problam
+	 */
+	private List<A> randomize(ProblemaPD<S,A> p, List<A> alternativas){
+		List<A> alt;
 		if(isRandomize && p.size()>sizeRef){
 			List<A> ls = Lists.newArrayList(alternativas);			
 			alt = Lists2.randomUnitary(ls);
@@ -86,105 +180,100 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
 	}
 	
 	private void actualizaMejorValor(ProblemaPD<S,A> p){
-		Double objetivo = p.getObjetivo();			
-		if(isMin() && objetivo < mejorValor || isMax() && objetivo > mejorValor) {
-			mejorValor = objetivo;
-		}
+			Double objetivo = p.getObjetivo();
+			if (objetivo!=null &&
+					(isMin() && objetivo < mejorValor || 
+					 isMax()&& objetivo > mejorValor)) {
+				if (AlgoritmoPD.metricasOK)
+					AlgoritmoPD.metricas.addActualizacionMejorValor();
+				mejorValor = objetivo;
+			}
 	}
 	
+	protected void guardaEnMemoria(ProblemaPD<S, A> p, Sp<A> e) {
+		this.numeroDeProblemas++;
+		this.idsDeProblemas.put(p,numeroDeProblemas);
+		solucionesParciales.put(p, e);
+	}
+	
+	/**
+	 * @param <S> El tipo de la solución
+	 * @param <A> El tipo de la alternativa
+	 * @param p El problema a resolver 
+	 * @return Su solución parcial
+	 */
 	private Sp<A> pD(ProblemaPD<S,A> p){
+		if(AlgoritmoPD.metricasOK) AlgoritmoPD.metricas.addLLamadaRecursiva();		
 		Sp<A> e = null;	
-		if (solucionesParciales.containsKey(p)){
-			e = solucionesParciales.get(p);
-		} else if( p.esCasoBase()) {
-			e = p.getSolucionCasoBase();	        
-			solucionesParciales.put(p, e); 					
+		if (haSidoResueltoYa(p)){
+			if(AlgoritmoPD.metricasOK) AlgoritmoPD.metricas.addUsoDeLaMemoria();
+			e = getSolucionParcial(p);
+		} else if(p.esCasoBase()) {
+			if(AlgoritmoPD.metricasOK) AlgoritmoPD.metricas.addCasoBase();
+			e = p.getSolucionParcialCasoBase();
+			guardaEnMemoria(p, e); 
+		} else if(p.estaFueraDeRango()){
+			if(AlgoritmoPD.metricasOK) AlgoritmoPD.metricas.addFueraDeRango();
 		} else {
 			List<Sp<A>> solucionesDeAlternativas = Lists.newArrayList(); 
 			for(A a: randomize(p,p.getAlternativas())){
-				if(isMin() && p.getObjetivoEstimado(a) >= mejorValor) continue;
-				if(isMax() && p.getObjetivoEstimado(a) <= mejorValor) continue;
+				if(conFiltro && isMin() && p.getObjetivoEstimado(a) >= mejorValor) {
+					if(AlgoritmoPD.metricasOK) AlgoritmoPD.metricas.addUnFiltro();
+					continue;
+				}
+				if(conFiltro && isMax() && p.getObjetivoEstimado(a) <= mejorValor) {
+					if(AlgoritmoPD.metricasOK) AlgoritmoPD.metricas.addUnFiltro();
+					continue;
+				}
 				int numeroDeSubProblemas = p.getNumeroSubProblemas(a);
 				List<Sp<A>> solucionesDeSubProblemas = Lists.newArrayList();  
 				boolean haySolucion = true;
 				for(int i = 0; i < numeroDeSubProblemas; i++){
-					ProblemaPD<S,A> pr = p.getSubProblema(a,i); 				
+					ProblemaPD<S,A> pr = p.getSubProblema(a,i); 
 					Sp<A> sp = pD(pr);
 					if(sp==null) { haySolucion=false; break;}					
 					solucionesDeSubProblemas.add(sp);   	    		
 				}
-				Sp<A> sa = haySolucion?p.combinaSolucionesParciales(a, solucionesDeSubProblemas): Sp.create(a,null);
+				Sp<A> sa = haySolucion?p.getSolucionParcialPorAlternativa(a, solucionesDeSubProblemas): null;
 				solucionesDeAlternativas.add(sa);
 			}
-			solucionesDeAlternativas = solucionesDeAlternativas.stream().filter(x -> x.propiedad != null).collect(Collectors.toList());
+			solucionesDeAlternativas = solucionesDeAlternativas.stream().
+					filter(x -> x != null).collect(Collectors.toList());
 			if (!solucionesDeAlternativas.isEmpty()) {
-				e = p.seleccionaAlternativa(solucionesDeAlternativas);
+				e = p.getSolucionParcial(solucionesDeAlternativas);
 			}
 			if(e!=null) {
 				e.solucionesDeAlternativas = solucionesDeAlternativas;
 			}
-			solucionesParciales.put(p, e); 			
+			guardaEnMemoria(p, e); 			
 		}
-		actualizaMejorValor(p);	
+		if (conFiltro && solucionesParciales.get(p)!=null) {
+			actualizaMejorValor(p);
+		}
 		return e;
-	}
+	}	
 	
-	/**
-	 * @param pd - 
-	 * @return Si pd es un subproblema encontrado al resolver el problema inicial
-	 */
-	public boolean isSubproblema(ProblemaPD<S,A> pd){
-		return this.solucionesParciales.containsKey(pd);
-	}
-	
-	/**
-	 * @return Número de subproblemas encontrado al resolver el problema inicial
-	 */
-	public int getNumeroDeSubproblemas(){
-		return this.solucionesParciales.keySet().size();
-	}
-	
-	/**
-	 * @param pd - Problema del que se quiere obtener la solución parcial
-	 * @return Solución parcial del problema o null si no tiene solución o no ha ha sido encontrado por el algoritmo
-	 */
-	public Sp<A> getSolucionParcial(ProblemaPD<S,A> pd) {
-		Sp<A> e = null;		
-		if(solucionesParciales.containsKey(pd)){
-			e = solucionesParciales.get(pd);
-		}
-		return  e;
-	}
 	
 	/**
 	 * @param pd - Problema del que se quiere obtener la solución
 	 * @return Solución del problema o null si no tiene solución o no ha ha sido encontrado por el algoritmo
 	 */
+	@SuppressWarnings("unchecked")
 	public S getSolucion(ProblemaPD<S, A> pd) {	
 		S s = null;
 		if (solucionesParciales.containsKey(pd)) {
 			Sp<A> e = solucionesParciales.get(pd);
 			if (e != null) {
 				if (pd.esCasoBase()) {					
-					s = pd.getSolucionReconstruida(e);
+					s = pd.getSolucionReconstruidaCasoBase(e);
 				} else if (e.alternativa != null) {
 					List<S> soluciones = Lists.<S> newArrayList();
 					for (int i = 0; i < pd.getNumeroSubProblemas(e.alternativa); i++) {
 						soluciones.add(getSolucion(pd.getSubProblema(e.alternativa, i)));
 					}
-					s = pd.getSolucionReconstruida(e, soluciones);
+					s = pd.getSolucionReconstruidaCasoRecursivo(e, soluciones);
 				} else if (e.alternativa == null) {
-					List<S> solucionesAlternativas = Lists.<S> newArrayList();
-					for (Sp<A> e1 : e.solucionesDeAlternativas) {
-						List<S> soluciones = Lists.<S> newArrayList();
-						if(e1.propiedad == null) continue;
-						for (int i = 0; i < pd.getNumeroSubProblemas(e1.alternativa); i++) {
-							soluciones.add(getSolucion(pd.getSubProblema(e1.alternativa, i)));
-						}
-						s = pd.getSolucionReconstruida(e1, soluciones);
-						solucionesAlternativas.add(s);
-					}
-					s = pd.getSolucionReconstruida(e,solucionesAlternativas);
+					s = (S) e.propiedad;
 				}
 			}
 		}
@@ -197,11 +286,17 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
 	 * @param pd - Problema y sus subproblemas que forman el grafo
 	 */
 	public void showAllGraph(String nombre,String titulo,ProblemaPD<S,A> pd){
-		super.setFile(nombre);
-		super.getFile().println("digraph "+titulo+" {  \n size=\"100,100\"; ");		
-		showAll(pd);
-		super.getFile().println("}");
+			
+		if (solucionesParciales.get(pd).alternativa!=null) {
+			super.setFile(nombre);
+			super.getFile().println("digraph "+titulo+" {  \n size=\"100,100\"; ");	
+			marcarEnSolucion(pd);
+			Set<ProblemaPD<S,A>> visitados = Sets.newHashSet();
+			showAll(pd,visitados);
+			super.getFile().println("}");
+		}
 	}
+		
 	
 	private void marcarEnSolucion(ProblemaPD<S,A> pd){
 		if(solucionesParciales.containsKey(pd)){
@@ -211,8 +306,7 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
 				A alternativa = e.alternativa;			
 				if (!pd.esCasoBase()) {
 					for (int i = 0; i < pd.getNumeroSubProblemas(alternativa); i++) {
-						ProblemaPD<S, A> pds = pd.getSubProblema(
-								alternativa, i);
+						ProblemaPD<S, A> pds = pd.getSubProblema(alternativa, i);
 						marcarEnSolucion(pds);
 					}
 				}	
@@ -221,22 +315,26 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
 	}
 
 	private String problema(ProblemaPD<S,A> p, Sp<A> e){
-		String s= "    "+"\""+p+"\"";
+		String s= "    "+"\""+this.idsDeProblemas.get(p)+"\"";
 		if(e!=null){
-			s = s+" [shape=box]";
+			if (p.esCasoBase()) {
+				s = s + " [shape=box, style=dotted, label=\"" + p + "\"]";
+			}else{
+				s = s + " [shape=box, label=\"" + p + "\"]";
+			}
 		} else{
-			s = s+" [shape=diamond]";
+			s = s+" [shape=diamond, label=\""+p+"\"]";
 		}
 		return s+";";
 	}
 	
 	private String alternativa(ProblemaPD<S,A> p, A alternativa){
-		String s = "    "+"\""+p+","+alternativa+"\""+" [label="+alternativa+"]";
+		String s = "    "+"\""+this.idsDeProblemas.get(p)+","+alternativa+"\""+" [label="+alternativa+"]";
 		return s+";";
 	}
 	
 	private String aristaProblemaToAlternativa(ProblemaPD<S,A> p, A alternativa, Sp<A> e){
-		String s = "    "+"\""+p+"\""+" -> "+"\""+p+","+alternativa+"\"";
+		String s = "    "+"\""+this.idsDeProblemas.get(p)+"\""+" -> "+"\""+this.idsDeProblemas.get(p)+","+alternativa+"\"";
 		if(e.estaEnLaSolucion && e.alternativa.equals(alternativa)){
 			s = s+ "[style=bold,arrowhead=dot]";
 		}
@@ -244,7 +342,7 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
 	}
 	
 	private String aristaAlternativaToProblema(ProblemaPD<S,A> p, A alternativa, ProblemaPD<S,A> ps, Sp<A> e){
-		String s = "    "+"\""+p+","+alternativa+"\""+" -> "+"\""+ps+"\"";
+		String s = "    "+"\""+this.idsDeProblemas.get(p)+","+alternativa+"\""+" -> "+"\""+this.idsDeProblemas.get(ps)+"\"";
 		if(e.estaEnLaSolucion && e.alternativa.equals(alternativa)){
 			s = s+ "[style=bold,arrowhead=dot]";
 		}
@@ -252,24 +350,21 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
 	}
 
 
-	private void showAll(ProblemaPD<S,A> p){		
-		if (solucionesParciales.get(p).alternativa!=null) {
-			marcarEnSolucion(p);
-		}
-		for(ProblemaPD<S,A> pd:solucionesParciales.keySet()){			
-			Sp<A> e = solucionesParciales.get(pd);
-			if(e!=null)super.getFile().println(problema(pd,e));
-			if(e!=null && e.solucionesDeAlternativas!=null){			
-				for(Sp<A> solParAlt:e.solucionesDeAlternativas){			
-					super.getFile().println(alternativa(pd,solParAlt.alternativa));
-					super.getFile().println(aristaProblemaToAlternativa(pd,solParAlt.alternativa,e));
-					for(int i = 0; i < pd.getNumeroSubProblemas(solParAlt.alternativa); i++){	
-						ProblemaPD<S,A> pds= pd.getSubProblema(solParAlt.alternativa,i);
-						if(solucionesParciales.get(pds)==null)super.getFile().println(problema(pds,null));						
-						super.getFile().println(aristaAlternativaToProblema(pd,solParAlt.alternativa,pds,e));
+	private void showAll(ProblemaPD<S, A> p, Set<ProblemaPD<S,A>> visitados) {
+		if(visitados.contains(p)) return;
+		visitados.add(p);
+		Sp<A> e = solucionesParciales.get(p);
+		super.getFile().println(problema(p, e));
+		if (!p.esCasoBase()) {
+				for (Sp<A> solParAlt : e.solucionesDeAlternativas) {
+					super.getFile().println(alternativa(p, solParAlt.alternativa));
+					super.getFile().println(aristaProblemaToAlternativa(p,solParAlt.alternativa, e));
+					for (int i = 0; i < p.getNumeroSubProblemas(solParAlt.alternativa); i++) {
+						ProblemaPD<S, A> pds = p.getSubProblema(solParAlt.alternativa, i);
+						super.getFile().println(aristaAlternativaToProblema(p,solParAlt.alternativa, pds, e));
+						showAll(pds,visitados);
 					}
 				}
-			}
 		}
 	}
 	
@@ -297,6 +392,7 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
 
 		protected Sp(A1 alternativa, Double propiedad) {
 			super();
+			if(propiedad==null) throw new IllegalArgumentException("Propiedad es null");
 			this.alternativa = alternativa;
 			this.propiedad = propiedad;	
 		}		

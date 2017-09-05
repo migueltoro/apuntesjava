@@ -16,7 +16,7 @@ public class Test {
 	 */
 	public static void main(String[] args) {
 		GrafoVuelos grafo = new GrafoVuelos(Vuelo::create);
-		grafo = (GrafoVuelos) GraphsReader.newGraph("nvuelos.txt", Test::create, Vuelo::create,grafo);
+		grafo = (GrafoVuelos) GraphsReader.newGraph("./ficheros/nvuelos.txt", Test::create, Vuelo::create,grafo,null);
 		grafo.horaDeLlegadaAlAeropuerto = 7.;
 		System.out.println(grafo.vertexSet());
 		AStarAlgorithm<String,Vuelo> a = Algoritmos.createAStar(grafo, "Sevilla", "Malaga");

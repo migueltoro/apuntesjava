@@ -13,11 +13,11 @@
 <span class="sourceLineNo">005</span>        public static void main(String[] args) {<a name="line.5"></a>
 <span class="sourceLineNo">006</span>                <a name="line.6"></a>
 <span class="sourceLineNo">007</span>                Stream2.iterate(3, (Integer x) -&gt; x + 5)<a name="line.7"></a>
-<span class="sourceLineNo">008</span>                .whileIncluded(x-&gt;x&lt;=100)       <a name="line.8"></a>
-<span class="sourceLineNo">009</span>                .toParStream()<a name="line.9"></a>
+<span class="sourceLineNo">008</span>                .whilePredicate(x-&gt;x&lt;=100)      <a name="line.8"></a>
+<span class="sourceLineNo">009</span>                .toPairStream()<a name="line.9"></a>
 <span class="sourceLineNo">010</span>                .forEach(p-&gt;System.out.println(p));<a name="line.10"></a>
 <span class="sourceLineNo">011</span>                Stream2.iterate(3, (Integer x) -&gt; x + 5)<a name="line.11"></a>
-<span class="sourceLineNo">012</span>                                .whileIncluded(x-&gt;x&lt;=100)<a name="line.12"></a>
+<span class="sourceLineNo">012</span>                                .whilePredicate(x-&gt;x&lt;=100)<a name="line.12"></a>
 <span class="sourceLineNo">013</span>                                .forEach(p-&gt;System.out.println(p));<a name="line.13"></a>
 <span class="sourceLineNo">014</span>        }<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>

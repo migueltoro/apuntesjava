@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.ag.fiesta;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span><a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.List;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>import us.lsi.common.Tuple2;<a name="line.7"></a>
+<span class="sourceLineNo">008</span><a name="line.8"></a>
+<span class="sourceLineNo">009</span>public class ProblemaFiesta {<a name="line.9"></a>
+<span class="sourceLineNo">010</span>        public static List&lt;Actividad&gt; actividadesDisponibles;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>        public static List&lt;Tuple2&lt;Actividad,Actividad&gt;&gt; restricciones;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>        public static Double presupuestoTotal;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>        <a name="line.13"></a>
+<span class="sourceLineNo">014</span>        public static Actividad getActividad(Integer i){<a name="line.14"></a>
+<span class="sourceLineNo">015</span>                return ProblemaFiesta.actividadesDisponibles.get(i);<a name="line.15"></a>
+<span class="sourceLineNo">016</span>        }<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>//  Una solución alternativa usando un Map<a name="line.18"></a>
+<span class="sourceLineNo">019</span>//      private static Map&lt;Actividad,Integer&gt; pos;      <a name="line.19"></a>
+<span class="sourceLineNo">020</span>        <a name="line.20"></a>
+<span class="sourceLineNo">021</span>        public static Integer getPos(Actividad a){<a name="line.21"></a>
+<span class="sourceLineNo">022</span>                return a.getId();<a name="line.22"></a>
+<span class="sourceLineNo">023</span>//              return pos.get(a);<a name="line.23"></a>
+<span class="sourceLineNo">024</span>        }<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>        public static void setPos(){            <a name="line.26"></a>
+<span class="sourceLineNo">027</span>                for (int i = 0; i &lt; ProblemaFiesta.actividadesDisponibles.size(); i++) {<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                        ProblemaFiesta.actividadesDisponibles.get(i).setId(i);;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>                }<a name="line.29"></a>
+<span class="sourceLineNo">030</span>//              pos = new HashMap&lt;&gt;();          <a name="line.30"></a>
+<span class="sourceLineNo">031</span>//              for (int i = 0; i &lt; ProblemaFiesta.actividadesDisponibles.size(); i++) {<a name="line.31"></a>
+<span class="sourceLineNo">032</span>//                      pos.put(getActividad(i),i);;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>//              }<a name="line.33"></a>
+<span class="sourceLineNo">034</span>        }<a name="line.34"></a>
+<span class="sourceLineNo">035</span>}<a name="line.35"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

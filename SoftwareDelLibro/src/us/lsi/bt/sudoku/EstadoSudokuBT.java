@@ -38,17 +38,30 @@ public class EstadoSudokuBT implements EstadoBT<CuadroSudoku, Integer> {
 	}
 	
 	@Override
-	public void avanza(Integer a) {
-		this.alternativasYaEscogidas.add(a);
-		this.pos = this.alternativasYaEscogidas.size();	
-		this.cuadro = CuadroSudoku.create(completa(this.alternativasYaEscogidas));
+	public Tipo getTipo() {
+		return Tipo.AlgunasSoluciones;
 	}
 
 	@Override
-	public void retrocede(Integer a) {
+	public EstadoBT<CuadroSudoku, Integer> getEstadoInicial() {
+		return EstadoSudokuBT.create();
+	}
+
+	
+	@Override
+	public EstadoSudokuBT avanza(Integer a) {
+		this.alternativasYaEscogidas.add(a);
+		this.pos = this.alternativasYaEscogidas.size();	
+		this.cuadro = CuadroSudoku.create(completa(this.alternativasYaEscogidas));
+		return this;
+	}
+
+	@Override
+	public EstadoSudokuBT retrocede(Integer a) {
 		this.alternativasYaEscogidas.remove(pos-1);
 		this.pos = this.alternativasYaEscogidas.size();
 		this.cuadro = CuadroSudoku.create(completa(this.alternativasYaEscogidas));
+		return this;
 	}
 
 	@Override
@@ -57,7 +70,7 @@ public class EstadoSudokuBT implements EstadoBT<CuadroSudoku, Integer> {
 	}
 
 	@Override
-	public boolean isFinal() {
+	public boolean esCasoBase() {
 		boolean r = this.pos == CuadroSudoku.numPosicionesLibres;
 		return r;
 	}
@@ -71,12 +84,7 @@ public class EstadoSudokuBT implements EstadoBT<CuadroSudoku, Integer> {
 	@Override
 	public CuadroSudoku getSolucion() {
 		return this.cuadro;
-	}
-
-	@Override
-	public Double getObjetivo() {
-		return Double.MIN_VALUE;
-	}
+	}	
 
 	@Override
 	public Double getObjetivoEstimado(Integer a) {

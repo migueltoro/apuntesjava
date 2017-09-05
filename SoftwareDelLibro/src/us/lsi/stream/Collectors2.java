@@ -9,7 +9,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-import us.lsi.common.Entry;
+import java.util.Map.Entry;
 import us.lsi.common.MultiMaps2;
 import us.lsi.common.Multisets2;
 
@@ -148,7 +148,7 @@ public class Collectors2 {
 		public ToListMultimap() {
 			super();
 			this.supplier = ()-> MultiMaps2.newListMultimap();
-			this.accumulator = (ListMultimap<K,V> m, Entry<K,V> e)-> m.put(e.key,e.value);
+			this.accumulator = (ListMultimap<K,V> m, Entry<K,V> e)-> m.put(e.getKey(),e.getValue());
 			this.combiner = (ListMultimap<K,V> m1, ListMultimap<K,V> m2)->{ ListMultimap<K,V> m = MultiMaps2.newListMultimap(m1); m.putAll(m2); return m;};
 			this.transformer = Function.identity();
 		}
@@ -198,7 +198,7 @@ public class Collectors2 {
 		public ToSetMultimap() {
 			super();
 			this.supplier = ()-> MultiMaps2.newSetMultimap();
-			this.accumulator = (SetMultimap<K,V> m, Entry<K,V> e)-> m.put(e.key,e.value);
+			this.accumulator = (SetMultimap<K,V> m, Entry<K,V> e)-> m.put(e.getKey(),e.getValue());
 			this.combiner = (SetMultimap<K,V> m1, SetMultimap<K,V> m2)->{ SetMultimap<K,V> m = MultiMaps2.newSetMultimap(m1); m.putAll(m2); return m;};
 			this.transformer = Function.identity();
 		}

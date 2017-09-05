@@ -11,19 +11,23 @@ import us.lsi.flowgraph.FlowGraph.TipoDeVertice;
  *
  */
 public class FlowVertex {
-	private String nombre;	
+	private String id;	
 	private TipoDeVertice tipo;
 	private Double min=0.;
 	private Double max=Double.MAX_VALUE;
 	private Double cost=0.;
 
-	public static FlowVertex createVertex(String[] formato) {
+	public static FlowVertex create(String[] formato) {
 		return new FlowVertex(formato);
 	}
 	
-	private FlowVertex(String formato) {
+	public static FlowVertex create(String id) {
+		return new FlowVertex(id);
+	}
+
+	private FlowVertex(String id) {
 		super();
-		this.nombre = formato;
+		this.id = id;
 		this.tipo = TipoDeVertice.Intermedio;
 		this.min = 0.;
 		this.max = Double.MAX_VALUE;
@@ -32,7 +36,7 @@ public class FlowVertex {
 	
 	private FlowVertex(String nombre, Integer tipo, Double min, Double max,Double cost) {
 		super();
-		this.nombre = nombre;
+		this.id = nombre;
 		switch(tipo){
 		case 0: this.tipo = TipoDeVertice.Intermedio; break;
 		case 1: this.tipo = TipoDeVertice.Source; break;
@@ -47,7 +51,7 @@ public class FlowVertex {
 	
 	private FlowVertex(String[] formato) {
 		super();
-		this.nombre = formato[0];
+		this.id = formato[0];
 		Integer tipo = new Integer(formato[1]);
 		switch(tipo){
 		case 0: this.tipo = TipoDeVertice.Intermedio; break;
@@ -65,8 +69,8 @@ public class FlowVertex {
 		}
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getId() {
+		return id;
 	}
 
 	public TipoDeVertice getTipo() {
@@ -89,7 +93,7 @@ public class FlowVertex {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -102,17 +106,17 @@ public class FlowVertex {
 		if (getClass() != obj.getClass())
 			return false;
 		FlowVertex other = (FlowVertex) obj;
-		if (nombre == null) {
-			if (other.nombre != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!nombre.equals(other.nombre))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return nombre;
+		return id;
 	}
 	
 }

@@ -13,7 +13,7 @@ import us.lsi.pd.ProblemaPD;
 
 public class FloydPD<V, E> implements ProblemaPD<GraphPath<V, E>, FloydPD.Alternativa> {
 
-	public enum Alternativa{Yes, No};
+	public static enum Alternativa{Yes, No};
 	
 	public static <V, E> FloydPD<V, E> create(int i, int j, GraphView<V, E> grafo) {
 		return new FloydPD<V, E>(i, j, 0, grafo);
@@ -27,7 +27,6 @@ public class FloydPD<V, E> implements ProblemaPD<GraphPath<V, E>, FloydPD.Altern
 	private int j;
 	private int k;
 	private GraphView<V,E> grafo;
-//	private Double objetivo;
 	
 	
 	private FloydPD(int i, int j, int k, GraphView<V, E> grafo) {
@@ -49,23 +48,21 @@ public class FloydPD<V, E> implements ProblemaPD<GraphPath<V, E>, FloydPD.Altern
 	}
 	@Override
 	public boolean esCasoBase() {
-		return grafo.isEdge(i,j)  || k == grafo.getNumVertices();
+			return grafo.isEdge(i,j)  ||  k == grafo.getNumVertices();
 	}
 	@Override
-	public Sp<Alternativa> getSolucionCasoBase() {
+	public Sp<Alternativa> getSolucionParcialCasoBase() {
 		Sp<Alternativa> r = null;
 		if(grafo.isEdge(i, j)){
 			Double w = grafo.getWeight(i, j);
-			r = Sp.<Alternativa>create(Alternativa.No,w);
+			r = Sp.<Alternativa>create(null,w);
 		}
 		return r;
 	}
 	
 	@Override
-	public Sp<Alternativa> seleccionaAlternativa(List<Sp<Alternativa>> ls) {
-		Sp<Alternativa> r =ls.stream().min(Comparator.naturalOrder()).orElse(null);
-//		objetivo = r!=null ? r.propiedad : Double.MAX_VALUE;
-		return r;
+	public Sp<Alternativa> getSolucionParcial(List<Sp<Alternativa>> ls) {
+		return ls.stream().min(Comparator.naturalOrder()).orElse(null);
 	}
 	@Override
 	public ProblemaPD<GraphPath<V, E>, Alternativa> getSubProblema(Alternativa a, int np) {
@@ -82,16 +79,16 @@ public class FloydPD<V, E> implements ProblemaPD<GraphPath<V, E>, FloydPD.Altern
 		return r;
 	}
 	@Override
-	public Sp<Alternativa> combinaSolucionesParciales(Alternativa a,List<Sp<Alternativa>> ls) {
-		Sp<Alternativa> r = Sp.create(a, null);
+	public Sp<Alternativa> getSolucionParcialPorAlternativa(Alternativa a,List<Sp<Alternativa>> ls) {
+		Double r = null;
 		Sp<Alternativa> r0  = ls.get(0);
 		switch(a){
-		case No : r.propiedad = r0.propiedad; break;
+		case No : r = r0.propiedad; break;
 		case Yes : 
 			Sp<Alternativa> r1  = ls.get(1);
-			r.propiedad = r0.propiedad+r1.propiedad;
+			r = r0.propiedad+r1.propiedad;
 		}
-		return r;
+		return Sp.create(a, r);
 	}
 	@Override
 	public List<Alternativa> getAlternativas() {
@@ -103,30 +100,20 @@ public class FloydPD<V, E> implements ProblemaPD<GraphPath<V, E>, FloydPD.Altern
 	}
 	
 	@Override
-	public GraphPath<V, E> getSolucionReconstruida(Sp<Alternativa> sp) {
+	public GraphPath<V, E> getSolucionReconstruidaCasoBase(Sp<Alternativa> sp) {
 		E e = grafo.getEdge(i, j);
 		return GraphPaths.create(grafo.getGrafo(), grafo.getVertice(i), grafo.getVertice(j), e, grafo.getWeight(i, j));
 	}
 		
 	@Override
-	public GraphPath<V, E> getSolucionReconstruida(Sp<Alternativa> sp, List<GraphPath<V, E>> ls) {
+	public GraphPath<V, E> getSolucionReconstruidaCasoRecursivo(Sp<Alternativa> sp, List<GraphPath<V, E>> ls) {
 		GraphPath<V, E> r = null;
 		switch(sp.alternativa){
 		case No: r = ls.get(0); break;
 		case Yes: r = GraphPaths.addGraphPath(ls.get(0),ls.get(1)); break;	
 		}		
 		return r;
-	}
-	
-	@Override
-	public Double getObjetivoEstimado(Alternativa a) {
-		return Double.MIN_VALUE;
-	}
-
-	@Override
-	public Double getObjetivo() {
-		return Double.MAX_VALUE;
-	}
+	}	
 
 	@Override
 	public int hashCode() {

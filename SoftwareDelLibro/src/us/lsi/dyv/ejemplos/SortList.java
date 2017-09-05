@@ -4,7 +4,7 @@ package us.lsi.dyv.ejemplos;
 import java.util.Comparator;
 import java.util.List;
 
-import us.lsi.common.Par;
+import us.lsi.common.Tuple2;
 import us.lsi.dyv.ProblemaDyV;
 import us.lsi.dyv.problemasdelistas.ProblemasDeListas;
 import us.lsi.math.Math2;
@@ -44,10 +44,10 @@ public class SortList<T> implements ProblemaDyV<Void, Void>{
 	protected void calculaDerivadas(int i, int j) {
 		int p = Math2.getEnteroAleatorio(i, j);
 		T pivote = this.ls.get(p);
-		Par<Integer, Integer> par = ProblemasDeListas
+		Tuple2<Integer, Integer> par = ProblemasDeListas
 				.reordenaMedianteBanderaHolandesa(this.ls, pivote, i, j, this.ord);
-		this.a = par.p1;
-		this.b = par.p2;
+		this.a = par.v1;
+		this.b = par.v2;
 	}	
 
 	@Override

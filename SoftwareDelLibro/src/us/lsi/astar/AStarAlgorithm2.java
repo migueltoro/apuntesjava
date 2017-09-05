@@ -165,6 +165,7 @@ public class AStarAlgorithm2<V, E> implements AStarAlgorithm<V, E> {
             outgoingEdges = ((DirectedGraph<V, E>) graph).outgoingEdgesOf(currentNode.getData());
         }
 
+        
         for (E edge : outgoingEdges) {
             V successor = Graphs.getOppositeVertex(graph, edge, currentNode.getData());
             if ((successor == currentNode.getData()) || closedList.contains(successor)) { // Ignore
@@ -221,14 +222,15 @@ public class AStarAlgorithm2<V, E> implements AStarAlgorithm<V, E> {
         vertexList.add(targetVertex);
 
         V v = targetVertex;
-        while (v != startVertex) {
+      while (!v.equals(startVertex)) {  //cambiado por mí
+//    while (v != startVertex) {
             edgeList.add(cameFrom.get(v));
             v = Graphs.getOppositeVertex(graph, cameFrom.get(v), v);
             vertexList.add(v);
         }
         Collections.reverse(edgeList);
         Collections.reverse(vertexList);
-        return new GraphPathImpl<>(graph, startVertex, targetVertex,edgeList, pathLength);
+        return new GraphWalk<>(graph, startVertex, targetVertex,edgeList, pathLength);
     }
 
     /**
@@ -251,7 +253,7 @@ public class AStarAlgorithm2<V, E> implements AStarAlgorithm<V, E> {
     
     @Override
 	public List<V> getPathVertexList() {
-		return Graphs.getPathVertexList(getPath());
+		return getPath().getVertexList();
 	}
 }
 

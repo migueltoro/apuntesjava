@@ -2,6 +2,16 @@ package us.lsi.stream;
 
 import java.util.*;
 
+
+/**
+ * Es un tipo que asocia claves de tipo K1, K2 con valores de tipo R. Una versión compacta de un SortedMap &lt;K1, Map &lt; K2,R&gt; &gt;.
+ * 
+ * @author Miguel Toro
+ *
+ * @param <K1> Tipo de la primera clave 
+ * @param <K2> Tipo de la segunda clave 
+ * @param <R> Tipo de los valores
+ */
 class Group2Sort<K1, K2, R> extends Group2<K1,K2,R> {
 
 	/**

@@ -42,12 +42,12 @@ public class NumeroDeArbolesBinarios implements ProblemaPD<Integer, Integer> {
 	}
 
 	@Override
-	public Sp<Integer> getSolucionCasoBase() {
+	public Sp<Integer> getSolucionParcialCasoBase() {
 		return Sp.create(null, 1.);
 	}
 
 	@Override
-	public Sp<Integer> seleccionaAlternativa(List<Sp<Integer>> ls) {
+	public Sp<Integer> getSolucionParcial(List<Sp<Integer>> ls) {
 		Double s= ls.stream().mapToDouble(x->x.propiedad).sum();
 		return Sp.create(null,s);
 	}
@@ -65,7 +65,7 @@ public class NumeroDeArbolesBinarios implements ProblemaPD<Integer, Integer> {
 	}
 
 	@Override
-	public Sp<Integer> combinaSolucionesParciales(Integer a, List<Sp<Integer>> ls) {
+	public Sp<Integer> getSolucionParcialPorAlternativa(Integer a, List<Sp<Integer>> ls) {
 		return Sp.create(a, ls.get(0).propiedad*ls.get(1).propiedad);
 	}
 
@@ -80,24 +80,15 @@ public class NumeroDeArbolesBinarios implements ProblemaPD<Integer, Integer> {
 	}
 
 	@Override
-	public Integer getSolucionReconstruida(Sp<Integer> sp) {
+	public Integer getSolucionReconstruidaCasoBase(Sp<Integer> sp) {
 		return null;
 	}
 
 	@Override
-	public Integer getSolucionReconstruida(Sp<Integer> sp, List<Integer> ls) {
+	public Integer getSolucionReconstruidaCasoRecursivo(Sp<Integer> sp, List<Integer> ls) {
 		return null;
 	}
 
-	@Override
-	public Double getObjetivoEstimado(Integer a) {
-		return null;
-	}
-
-	@Override
-	public Double getObjetivo() {
-		return null;
-	}
 
 	@Override
 	public int hashCode() {

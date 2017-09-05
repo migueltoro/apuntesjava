@@ -80,7 +80,7 @@ public class Iterables2 {
 		return new SecuenciaAritmetica<N>(a,b,c);
 	}
 	
-	public static <N extends Number> Iterable<Par<N,N>> fromPairsSequence(N a1, N a2, N b1, N b2){
+	public static <N extends Number> Iterable<Tuple2<N,N>> fromPairsSequence(N a1, N a2, N b1, N b2){
 		return new IterableDePares<N>(a1,a2,b1,b2);
 	}
 	
@@ -309,7 +309,7 @@ public class Iterables2 {
 	} 
 	
 
-	private static class IterableDePares<N extends Number> implements Iterable<Par<N, N>> {
+	private static class IterableDePares<N extends Number> implements Iterable<Tuple2<N, N>> {
 		private Double a1;
 		private Double a2;
 		private Double b1;
@@ -327,11 +327,11 @@ public class Iterables2 {
 			
 		}
 		
-		public Iterator<Par<N, N>> iterator() {
+		public Iterator<Tuple2<N, N>> iterator() {
 			return new IteradorDePares();
 		}
 		
-		private class IteradorDePares extends UnmodifiableIterator<Par<N,N>> implements Iterator<Par<N,N>>{
+		private class IteradorDePares extends UnmodifiableIterator<Tuple2<N,N>> implements Iterator<Tuple2<N,N>>{
 			private Double ia;
 			private Double ib;
 				  
@@ -344,7 +344,7 @@ public class Iterables2 {
 				  return ia < a2;
 			}
 
-			public Par<N,N> next() {
+			public Tuple2<N,N> next() {
 				 	Preconditions.checkState(hasNext());   
 					Double oia = ia;
 					Double oib = ib;
@@ -354,7 +354,7 @@ public class Iterables2 {
 						ia = ia+1;
 						ib = b1;
 					}
-					return Par.create(type.cast(oia), type.cast(oib));
+					return Tuple2.create(type.cast(oia), type.cast(oib));
 			}
 
 		}

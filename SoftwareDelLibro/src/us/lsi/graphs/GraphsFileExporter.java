@@ -29,9 +29,9 @@ public class GraphsFileExporter {
 	 * @param <E> El tipo de las aristas
 	 * 
 	 */
-	public static <V, E> void saveFile(Graph<V, E> graph, String s, VertexNameProvider<V> vertexIDProvider,
-            VertexNameProvider<V> vertexLabelProvider,
-            EdgeNameProvider<E> edgeLabelProvider,
+	public static <V, E> void saveFile(Graph<V, E> graph, String s, ComponentNameProvider<V> vertexIDProvider,
+			ComponentNameProvider<V> vertexLabelProvider,
+			ComponentNameProvider<E> edgeLabelProvider,
             ComponentAttributeProvider<V> vertexAttributeProvider,
             ComponentAttributeProvider<E> edgeAttributeProvider){
 		File f = new File(s);
@@ -46,7 +46,7 @@ public class GraphsFileExporter {
                 edgeLabelProvider,
                 vertexAttributeProvider,
                 edgeAttributeProvider);
-		de.export(wr, graph);
+		de.exportGraph(graph,wr);
 		try {
 			wr.close();
 		} catch (IOException e) {
@@ -64,7 +64,7 @@ public class GraphsFileExporter {
 	 * @param <E> El tipo de las aristas
 	 */
 	public static <V, E> void saveFile(Graph<V, E> graph, String file){
-		saveFile(graph, file, new StringNameProvider<V>(),null,null,null,null);
+		saveFile(graph, file, new StringComponentNameProvider<V>(),null,null,null,null);
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class GraphsFileExporter {
 	 * @param <E> El tipo de las aristas
 	 */
 	public static <V, E> void saveFile(Graph<V, E> graph, String file, Set<V> specialVertexSet, Set<E> specialEdgeSet){
-		GraphsFileExporter.saveFile(graph, file, new StringNameProvider<V>(),
+		GraphsFileExporter.saveFile(graph, file, new StringComponentNameProvider<V>(),
 				null,null,
 				new EtiquetasVerticesEspeciales<V>(specialVertexSet),
 				new EtiquetasAristasEspeciales<E>(specialEdgeSet));

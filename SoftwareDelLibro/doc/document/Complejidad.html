@@ -1,0 +1,374 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/x-mathjax-config">
+  		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+	
+	<script type="text/javascript" async
+  		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	
+	
+	<title>MathJax TeX Test Page</title>
+</head>
+<body>
+<h1>Indice </h1>
+<ul>
+<li><a href="#int">Introducción a la complejidad </a> </li>
+<li><a href="#cma">Análisis de la complejidad de un algoritmo</a> </li>
+<li><a href="#smrc">Complejidad de sumatorios y recurrencias</a> </li>
+<li><a href="#ejm">Algunos ejemplos</a> </li>
+<li><a href="#cmcp">Caso mejor, caso peor y caso medio</a> </li>
+</ul>
+<a name="int"><h1> Introducción a la complejidad </h1>
+<p> El análisis de la complejidad de una algoritmo es el estudio del tiempo que tarda en ejecutarse un algoritmo
+en función del tamaño del problema que estamos resolviendo. Representaremos esta idea mediante \( T(n) \). La función \(T(n)\)
+es monótona creciente y normalmente estamos interesados, más que en su expresión cuantitativa, en su comportamiento
+cualitativo para valores grandes de \(n\). Para ellos vamos a definir una relación de orden total entre las funciones y una relación de equivalencia inducida, 
+según su comportamiento
+para grandes valores de \(n\). Lo que buscaremos es la clase de equivalencia en la que estará \(T(n)\) </p>
+<p>
+Hacemos las seguientes definiciones:
+<ul>
+<li> \( h(n) \cong_{\infty} g(n)  \equiv 0 < \lim_{n \to \infty}\frac{h(n)}{g(n)} <   \infty \)</li>
+<li> \( h(n) =_{\infty} g(n)  \equiv \lim_{n \to \infty}\frac{h(n)}{g(n)} = 1 \)</li>
+<li> \( h(n) \lt_{\infty} g(n)  \equiv \lim_{n \to \infty}\frac{h(n)}{g(n)}  =   0  \) </li>
+<li> \(  h(n) \gt_{\infty} g(n)  \equiv \lim_{n \to \infty}\frac{h(n)}{g(n)}  =   \infty \) </li>
+</ul>
+</p>
+<p>
+La relación \( \cong_{\infty} \) define una relación de equivalencia. 
+La relación \( \lt_{\infty} \) una relación de orden total entre las funciones que valos a considerar. 
+Ambas relaciones son compatibles entre sí. 
+Con las relaciones anteriores podemos definir un conjunto de funciones equivalentes a una dada, otro de menores o iguales y 
+un tercero de las mayores o iguales en su comportamiento para grandes valores de n. Estos conjuntos son:
+
+\[ \Theta(g(n))= \{ f(n)    | f(n) \cong_{\infty} g(n)\} \equiv \{ f(n)    |  \lim_{n \to \infty}\frac{f(n)}{g(n)} = k,  0 < k < \infty \} \]
+\[ \textrm O (g(n))= \{ f(n)    | f(n) \le_{\infty} g(n)\} \equiv \{ f(n)    |  \lim_{n \to \infty}\frac{f(n)}{g(n)}  < \infty \} \]
+\[ \Omega(g(n))= \{ f(n)    | f(n) \ge_{\infty} g(n)\} \equiv \{ f(n)    |  \lim_{n \to \infty}\frac{f(n)}{g(n)}  > 0 \} \]
+
+A \( \Theta(g(n))\) lo llamamos Orden de Complejidad Exacto  de \(g(n) \). \( \Theta(g(n)) \) define, por lo tanto,
+un conjunto de funciones equivalentes a \( g(n) \) en su comportamiento para grandes valores de \( n \). 
+La relación \( \cong_{\infty} \) define una relación de equivalencia y de ella se deducen unas clases de equivalencia
+que llamaremos clases de complejidad. Abajo veremos un catálogo de esas clases de complejidad. La relación \( h(n) \lt_{\infty} g(n) \)
+define una relación de orden entre las respectivas clases de equivalencia \( \Theta (h(n)) \lt \Theta (g(n)) \).
+La notación \( \textrm O (g(n)) \) define un conjunto de funciones que podemos considerar menores o equivalentes a \( g(n) \) 
+y por lo tanto \(g(n)\) es la cota superior
+de todas ellas.  La notación \( \Omega(g(n)) \) define un conjunto de funciones que podemos considerar mayores o equivalentes a \( g(n) \).
+Por eso a \(g(n)\) se le llama cota inferior de ese conjunto. 
+
+Algunas propiedades del  Orden de Complejidad Exacto \( \Theta(g(n)) \) que
+se deducen de las propiedades de los límites son:
+ 
+<ul>
+<li> \(	\Theta (f(n)) = \Theta (af(n)+b) \) para dos constantes \( a, b \) positivas cualesquiera </li>
+<li> \(	f(n) \ge_{\infty} g(n) \Rightarrow  \Theta (af(n)+bg(n)) = \Theta (f(n))\) para dos constantes \( a, b \) positivas cualesquiera </li>
+<li> \(	\Theta (n) < \Theta (n^2 ) \) </li>
+<li> \(	\Theta (n) > \Theta (\log_a n) \) para cualquier \( a \) </li>
+<li> \(	\Theta (n^a ) < \Theta (a^n ) \) para cualquier entero \( a > 1 \) </li>
+<li> \(	\Theta (a^n ) = \Theta (0) < \Theta (1) \) para cualquier \( a < 1 \) </li>
+<li> \(	\Theta (n^{d+ \epsilon} ) > \Theta (n^d \log_a^p n) \) para cualesquier \( d > 0, a > 0, p > 0, \epsilon >0 \). </li>
+
+</ul>
+
+Una lista de clases de complejidad, junto con sus nombres usuales, y ordenada de menor a mayor es:
+
+<ul>
+<li> \(	\Theta (1) \) orden constante </li>
+<li> \(	\Theta (\log n) \) orden logarítmico  </li>
+<li> \(	\Theta (n) \) orden lineal  </li>
+<li> \(	\Theta (n \log n) \) orden cuasi-lineal  </li>
+<li> \(	\Theta (n^2) \) orden cuadrático  </li>
+<li> \(	\Theta (n^a) \) orden polinómico \( (a \gt 2) \) </li>
+<li> \(	\Theta (2^n) \) orden exponencial  </li>
+<li> \(	\Theta (a^n) \) orden exponencial \( a \gt 2) \)  </li>
+<li> \(	\Theta (n!) \) orden factorial  </li>
+<li> \(	\Theta (n^n) \)  </li>
+</ul>
+
+<a name="int"><cma> Análisis de la complejidad de un algoritmo </h1>
+
+El análisis de la complejidad de un algoritmo consiste en obtener el orden de complejidad del tiempo de
+ejecución de un algoritmo en función del tamaño \( n\) del problema que resuelve. Es decir \( \Theta T(n) \).
+Abordaremos en problema en cuatro casos: un bloque básico generalizado, un bucle, una algorimo recursivo sin memoria y
+un algoritmo recursivo con memoria.
+<ul>
+<li> El orden de <strong> complejidad de un  bloque básico generalizado </strong>, se compone de una secuencia de asignaciones combinadas con if,
+es constante. Es decir \(\Theta T(n) = \Theta (1) \). La razón es que el bloque básico tardará un tiempo deteminado que es constante
+y no depende del tamaño del problema. </li>
+<li> El orden de <strong> complejidad de un bucle </strong>(while, for, dowhile) puede expresarse como un sumatorio de la complejidad
+del cuerpo sobre las iteraciones del bucle.
+\[ \Theta(\sum_{i \in \mathcal{I}} f(i)) \]
+Donde \( f(n) \) es la complejidad del cuerpo del bucle y \( \mathcal{I} \) un conjunto que contiene un valor para cada iteración.
+En los casos más usuales el conjunto \( \mathcal{I} \) contiene una progresión aritmética o una progresión aritmética de números
+enteros. Por las propiedades
+del sumatorio asumiremos que ambas progresiones son siempre crecientes. Estos  casos los representaremos por:
+\[ \Theta(\sum_{i \in pa(a,r)}^n f(i)), \Theta(\sum_{i \in pg(a,r)}^n f(n)) \]
+Donde \( pa(a,r), pg(a,r \) representan, respectivamente una progresión aritmética o geométrica de primer término 
+\( a \) y razón \(r \). Más abajo veremos cómo calcular las complejidades de esos sumatorios.
+  </li>
+<li> La <strong> complejidad de un algoritmo recursivo sin memoria </strong> se expresa mediante 
+una ecuación de recurrencias en función de las complejidad de las llamadas recursivas y de la complejidad del cuerpo 
+del algoritmo. Sea \(n\) el tamaño del problema que resuelve el algoritmo, \(n_0 = t_0(n), n_1 = t_1(n),...,n_{k-1} = t_{k-1}(n)\) los tamaños de los subproblemas
+que resuelven las \(k\) llamadas recursivas expresados en función de \(n\) y \( f(n) \) la complejidad del cuerpo del algoritmo asumiendo sin incluir 
+las llamdas recursivas, entonces la ecuación de recurrencias comentada es:
+\[ T(n) = T(t_0(n))+T(t_1(n))+...+T(t_{k-1}(n))+f(n) \]
+Más abajo aprenderemos a resolver estas ecuaciones de recurrencia.
+</li>
+<li>
+La <strong> complejidad de un algoritmo recursivo con memoria </strong> se expresa mediante un sumatorio sobre todos los 
+subproblemas necesarios para resolver el problema dado de la complejidad del cuerpo del algoritmo.
+
+\[ \Theta(\sum_{p \in \mathcal{P}} f(n_p)) \]
+Dónde \( \mathcal{P} \) es el conjunto de todos los subproblemas encontrados al resolver \( p_0 \), \(n_p\) el tamaño
+del subproblema \(p\) y \( f(n) \) la complejidad del cuerpo del algoritmo exluyendo las llamadas recursivas.
+</li>
+</ul>
+<h1><a name="#smrc">Complejidad de sumatorios y recurrencias </h1>
+
+Para calcular la complejidad de sumatorios podemos apoyarnos en los siguientes propiedades dependiendo que la variable 
+recorra una progresión aritmética o geométrica.
+<ul>
+<li> 
+\[ \sum_{x \in pa(a,r)}^n x^d \log^p x  =_{\infty} \frac{1}{r(d+1)} n^{d+1} \log^p n \] 
+\[ \sum_{x \in pg(a,r)}^n x^d \log^p x  \cong_{\infty} 
+\begin{cases}
+\log^{p+1} n, & \text{si } d=0, r>1 \\
+n^d \log^p n, & \text{si } d>0, r>1
+\end{cases} \]
+Donde por \( pa(a,r) \) queremos indicar una progresión aritmética. Es decir que los valores de \( x \) recorren la 
+secuencia  \( a+ri, i=,0,1,2,... \) hasta \( x = n \). Y por \( pg(a,r) \) queremos indicar una progresión geométrica. 
+Es decir que los valores de \( x \) recorren la 
+secuencia  \( a r^i, i=,0,1,2,... \) hasta \( x = n \).
+Consideraremos dos tipos de recurrencias según que los tamaños del subproblema, con respecto al del problema, guarden
+la relación \( n-b \) o \( n/b \):
+Las soluciones a la recurrencia:
+\[
+T(n)= aT(n-b)+ n^d \log^p n
+\]
+Son:
+\[
+\Theta(T(n)) = 
+\begin{cases}
+a^{n/b} \log^p n, & \text{si } a\gt 1 \\
+n^{d+1} \log^p n, & \text{si } a = 1 \\
+n^d \log^p n, & \text{si } a \lt 1 \\
+\end{cases}
+\]
+Las soluciones a la recurrencia:
+\[
+T(n)= aT(n/b)+ n^d \log^p ⁡n
+\]
+\[
+\Theta(T(n)) = 
+\begin{cases}
+n^{\log_b a}, & \text{si } a\gt b^d \\
+n^d \log^{p+1} n, & \text{si } a = b^d \\
+n^d \log^p n, & \text{si } a \lt b^d \\
+\end{cases}
+\]
+La solución anterior es un caso particular de denominado <a href="https://en.wikipedia.org/wiki/Master_theorem" target="_blank"> Master 
+Theorem </a>.
+En el caso de recurrencias más generales puede ser interesante acotar la solución para poder aplicar las fórmulas anteriores.
+Así el orden de complejidad de la solución de la recurrencia:
+\[ T(n) = a_1 T(n-b_1)+ a_2 T(n-b_2)+...+ a-k T(n-b_k)+g(n),   b_i < b_{i+1} \]
+verifica:
+\[
+\Theta(R(n)) < \Theta(T(n)) <\Theta(S(n))
+\]
+Donde 
+\[
+R(n) = (a_1+a_2+...+a_k ) R(n-b_k)+g(n), S(n) = (a_1+a_2+...+a_k) S(n-b_1) +g(n)
+\]
+Y de la misma forma la solución de la recurrencia:
+
+\[ T(n) = a_1 T(\frac{n}{b_1})+T(\frac{n}{b_2})+...+T(\frac{n}{b_k})+g(n),  b_i < b_{i+1} \]
+verifica:
+\[
+\Theta(R(n)) < \Theta(T(n)) <\Theta(S(n))
+\]
+Donde 
+\[
+R(n) = (a_1+a_2+...+a_k) R(\frac{n}{b_k})+g(n), S(n) = (a_1+a_2+...+a_k) S(\frac{}{}) +g(n)
+\]
+También debemos tener en cuenta las relaciones entre sumatorios y recurrencias. Debido  a la transformación de recursivo
+final a iterativo los órdenes de complejidad de los sumatorios son iguales a los de sus repectivas recurrencias. 
+Esta equivalencia nos confirma las fórmulas usadas para obtener las complejidades de los sumatorios.
+\[
+T(n)= T(n-b)+ n^d \log^p ⁡n  \equiv \sum_{x \in pa(a,r)}^n x^d \log^p x
+\]
+\[
+T(n)= T(n/b)+ n^d \log^p ⁡n  \equiv \sum_{x \in pg(a,r)}^n x^d \log^p x
+\]
+<h1><a name="#ejm"> Algunos ejemplos </h1>
+Veamos en primer lugar el ejemplo:
+
+<pre>
+double f (int n, double a) {
+    double r;
+    if (n == 1) { 
+        r = a;
+    } else {
+        r = f (n/2, a+1) – f (n/2, a–1);
+        for (int i = 1; i <= n; i++) {
+	            r += a * i;
+	}
+    }
+    return r;
+}
+</pre>
+Calculemos, en primer lugar, la complejidad del cuerpo del algoritmo asumiendo descartando la llamadas recursivas. Para 
+ello comencemos por el bucle y tengamos en cuenta que el cuerpo del bucle es un bloque básico:
+\[
+\sum_{i=1}^n 1 = n \in \Theta(n)
+\]
+El cuerpo del algoritmo tiene complejidad \( \Theta(1+n) = \Theta(n) \) puesto que la parte exterior del bucle es un bloque básico.
+A partir de aquí la complejidad del algoritmo recursivo sin memoria cumple la ecuación de recurrencia:
+\[
+T(n) = 2T(n)+n
+\]
+Aplicando las fórmulas anteriores \( \Theta(T(n)) = \Theta(n \log n)\). La complejidad del algoritmo recursivo con memoria
+es la misma que la de sin memoria. Esto ocurre cuando no hay subproblemas repetidos como es el caso.
+<p>
+Veamos en segundo lugar la complejidad del algoritmo para calcular los números de Fibonacci:
+</p>
+\[
+f(n) =
+\begin{cases}
+n, & \text{si } n \le 1 \\
+f(n-1)+f(n-2), & \text{si } n \gt 1
+\end{cases}
+\]
+La recurrencia correspondiente, puesto que el cuerpo es un bloque básico ignorando las llamadas recursivas, es:
+\[
+T(n) = T(n-1)+T(n-2)+1
+\]
+Que puede ser acotada por las recurrencias:
+\[
+T(n) = 2T(n-2)+1, T(n) = 2 T(n-1) +1
+\]
+Luego
+\[
+\Theta(2^{n/2} )< Theta(T(n))< \Theta(2^n)
+\]
+Aqui si se repiten los subproblemas. La complejidad del algoritmo con memoria es:
+\[
+\Theta(\sum_1^n 1) = \Theta(n)
+\]
+Otro ejemplo es:
+<pre>
+int F(int n) {
+    int x, j, i;	
+    if (n < 10) { 
+        i = n;
+    } else {
+        i = 1;
+        j = 0;
+        while ((i * i) <= n) {
+            j = j + A(i);
+            i = i + 1;
+        }
+        x = n;
+        while (x > 1) {
+            j = j + x;
+            x = x / 4;
+            for (int i=1; i<=n;i++) {
+                j = j * B(i, n);
+            } 
+        }	
+        i = 2 * F(n / 2) + j;  // i = F(n/2) + F(n/2) +j;
+    }
+    return i;
+}
+</pre>
+Asumiendo que \(\Theta(A(i) = \Theta(i)\) y \( \Theta(B(i, n)) = \Theta(n)\) para todo \(i\). 
+Hagamos el problema por partes. En primer lugar el primer bucle while:
+
+\[
+\sum_{i=1}^{\sqrt{n}} i  \cong_{\infty} (\sqrt{n})^2 \in \Theta(n)
+\]
+
+Los dos bucles anidados:
+\[
+\sum_{x \in pg(1,4)}^n \sum_{j=1}^n j \cong_{\infty}  n^2 \sum_{x \in pg(1,4)}^n  1  \in  \Theta(n^2 \log n)
+\]
+Por último el algoritmo completo en dos versiones sin memoria: la original y sustituyendo la línea comentada:
+\[
+T(n)=T(n/2)+n^2 \log n, T(n) \in \Theta(n^2 \log n)
+\]
+\[
+T(n)=2T(n/2)+n^2 \log n, T(n) \in \Theta(n^2 \log n)
+\]
+Con memoria en cualquier caso de los dos anteriores:
+\[
+\sum_{x \in pg(1,2)}^n x^2 \log x \in \Theta(n^2 \log n)
+\]
+<h1><a name="#cmcp">Caso mejor, caso peor y caso medio </h1>
+
+Varios problemas con el mismo tamaño pueden tardar tiempos diferentes. 
+Esto es debido a que puede haber varios problemas distintos con el mismo tamaño \( n \). 
+Dentro de los problemas con un mismo tamaño llamaremos caso peor a aquel problema que tarde más tiempo en resolverse 
+y lo representaremos por \( x_p \) y por \( T_p (n) \) el tiempo que tarda en función del tamaño. 
+Igualmente el problema que tarde menos tiempo en resolverse, de entre los que tienen el mismo tamaño, 
+lo llamaremos caso mejor y lo representaremos por \( x_m \) y por \( T_ (n) \) el tiempo que tarda en función del tamaño.
+No debe confundirse caso mejor con que su tamaño sea pequeño, ya que se trata de conceptos diferentes. 
+Por último, si designamos por \( P_n \) el conjunto de problemas con tamaño \(n\)  y suponiendo que 
+tienen una distribución de probabilidad \(f(p)\), 
+entonces llamaremos \( T_d (n)\) a la media de los tiempos que tarda cada uno de esos problemas. Es decir 
+\[
+T_d (n) = \sum_{p \in P_n} T(n)  f(p)
+\]
+El los algoritmos iterativos el caso mejor es aquel que para un tamaño dado realiza menos iteraciones. En los algoritmos
+recursivos el que hace menos llamadas recursivas. Lo contrario para el caso peor.
+Veamos como ejemplo:
+<pre>
+boolean contieneMultiploDe3(List<Integer> lis, int a) {
+	for(Integer e: lis){
+             if(e%a==0) break;
+	}
+	return r;
+}
+</pre>
+<ul>
+<li> Caso mejor: El primer elemento es múltiplo de a. Complejidad \( \Theta(1) \) </li>
+<li> Caso peor: No hay múltiplo de a. Complejidad \( \Theta(n) \) </li>
+<li> Complejidad del caso medio: 
+Asumimos que dado un número entero la probabilidad de que número de la lista sea múltiplo de \(a\) es \(r = 1/a, q = 1-r\). 
+Existen \( n +1 \) problemas de tamaño \(n \). Sean \( p_i, i \in [0,n) \) los problemas tales 
+que el primer múltiplo de \(a\) está en la posición \( i \) y \( p_n \) cuando la lista no tiene ningún múltiplo de \( a \).
+Sea \( x \) variable aleatoria que toma valores en \( [0,n] \) con probabilidades: 
+\( p(i) = q_i r, i \in [0, n), p(n) = q^n \). 
+Para considerar el caso medio tenemos en cuenta que el algoritmo puede encontrar el múltiplo de \(a\) 
+en las posiciones \( 0, 1,…, n-1 \) o no encontrarlo en ninguna posición. 
+Sea \(j \) una variable que indica el número de iteración \( j= 0, 1, ..., n-1 \). De lo anterior tenemos:
+\[
+T_d(n) = \sum_{i=0}^n p(i)\sum_{j=0}^i 1 = q^n \sum_{j=0}^n 1 + \sum_{i=0}^{n-1} q^{n-1} r \sum_{j=0}^i i =
+q^n(n+1) + r \sum_{j=0}^{n-1} q^j (j+1) \in \Theta(1)
+\]
+Dado que:
+\[ 
+\lim_{n \to \infty} q^n(n+1) = 0, \lim_{n \to \infty} \sum_{j=0}^{n-1} q^j (j+1)  = \frac{1}{(q-1)^2} \in \Theta(1)
+\]
+</li>
+</ul>
+Si cambiamos el algoritmo a otro si optimizar:
+<pre>
+boolean contieneMultiploDe3(List<Integer> lis, int a) {
+	boolean r = false;
+	for(Integer e: lis){
+		r = r || e%a==0;
+	}
+	return r;
+}
+</pre>
+<ul>
+<li> Caso mejor: el primer elemento es múltiplo de a. Complejidad  \( \Theta(T(n))= \Theta(n) \) </li>
+<li> Caso peor: No hay múltiplo de a. Complejidad \( \Theta(T(n))= \Theta(n) \) </li>
+<li> Caso medio:  \( \Theta(T(n))= \Theta(n) \) </li>
+</ul>
+
+
+
+</body>
+</html>

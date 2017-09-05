@@ -10,7 +10,7 @@ import org.apache.commons.math3.genetics.MutationPolicy;
 import com.google.common.collect.Lists;
 
 import us.lsi.ag.agchromosomes.ListIntegerChromosome;
-import us.lsi.common.ParInteger;
+import us.lsi.common.PairInteger;
 import us.lsi.math.Math2;
 
 /**
@@ -28,8 +28,8 @@ public class PermutationIntMutation implements MutationPolicy {
 		ListIntegerChromosome c = (ListIntegerChromosome) cr;
 		int d = c.getLength();
 		List<Integer> ls = Lists.newArrayList(c.decode());
-		ParInteger p= Math2.getParAleatorioYDistinto(0, d);		
-		Collections.swap(ls, p.p1, p.p2);
+		PairInteger p= Math2.getParAleatorioYDistinto(0, d);		
+		Collections.swap(ls, p.v1, p.v2);
 		return new ListIntegerChromosome(ls);
 	}
 

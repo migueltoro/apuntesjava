@@ -13,7 +13,7 @@
 <span class="sourceLineNo">005</span><a name="line.5"></a>
 <span class="sourceLineNo">006</span>import us.lsi.ag.ProblemaAGReal;<a name="line.6"></a>
 <span class="sourceLineNo">007</span>import us.lsi.ag.agchromosomes.IRealChromosome;<a name="line.7"></a>
-<span class="sourceLineNo">008</span>import us.lsi.common.Par;<a name="line.8"></a>
+<span class="sourceLineNo">008</span>import us.lsi.common.Tuple2;<a name="line.8"></a>
 <span class="sourceLineNo">009</span><a name="line.9"></a>
 <span class="sourceLineNo">010</span>public class ProblemaReal implements ProblemaAGReal&lt;List&lt;Double&gt;&gt; {<a name="line.10"></a>
 <span class="sourceLineNo">011</span><a name="line.11"></a>
@@ -32,11 +32,11 @@
 <span class="sourceLineNo">024</span>        }<a name="line.24"></a>
 <span class="sourceLineNo">025</span><a name="line.25"></a>
 <span class="sourceLineNo">026</span>        @Override<a name="line.26"></a>
-<span class="sourceLineNo">027</span>        public List&lt;Par&lt;Double, Double&gt;&gt; getLimites() {<a name="line.27"></a>
-<span class="sourceLineNo">028</span>                List&lt;Par&lt;Double,Double&gt;&gt; ls = new ArrayList&lt;&gt;();<a name="line.28"></a>
-<span class="sourceLineNo">029</span>                ls.add(Par.create(0., 15.));<a name="line.29"></a>
-<span class="sourceLineNo">030</span>                ls.add(Par.create(-15., 15.));<a name="line.30"></a>
-<span class="sourceLineNo">031</span>                return ls;<a name="line.31"></a>
+<span class="sourceLineNo">027</span>        public List&lt;Tuple2&lt;Double, Double&gt;&gt; getLimites() {<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                List&lt;Tuple2&lt;Double,Double&gt;&gt; ls = new ArrayList&lt;&gt;();<a name="line.28"></a>
+<span class="sourceLineNo">029</span>                ls.add(Tuple2.create(0., 15.));<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                ls.add(Tuple2.create(-15., 15.));<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                return ls; <a name="line.31"></a>
 <span class="sourceLineNo">032</span>        }<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
 <span class="sourceLineNo">034</span>        @Override<a name="line.34"></a>

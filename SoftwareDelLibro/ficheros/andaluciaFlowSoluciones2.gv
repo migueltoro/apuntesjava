@@ -1,0 +1,18 @@
+strict digraph G {
+  Sevilla [ ];
+  Almeria [ label="Almeria
+-2.0" style="dotted" ];
+  Granada [ ];
+  Cadiz [ label="Cadiz
+2.0" style="bold" ];
+  Malaga [ ];
+  Antequera [ ];
+  Malaga -> Almeria [ label="1.0" ];
+  Malaga -> Antequera [ label="1.0" ];
+  Cadiz -> Malaga [ label="1.0" ];
+  Antequera -> Granada [ label="1.0" ];
+  Granada -> Almeria [ label="1.0" ];
+  Sevilla -> Antequera [ label="1.0" ];
+  Cadiz -> Sevilla [ label="1.0" ];
+  Antequera -> Malaga [ label="1.0" ];
+}

@@ -44,7 +44,7 @@ public class ChromosomeFactory {
 	public static IChromosome<?> randomChromosome(ChromosomeType tipo){
 		IChromosome<?> chromosome = null;
 		switch(tipo){
-		case Binary: chromosome = BinaryChromosome2.getInitialChromosome(); break;
+		case Binary: chromosome = BinaryChromosome.getInitialChromosome(); break;
 		case IndexSubList: chromosome = IndexSubListChromosome.getInitialChromosome(); break;
 		case ListInteger: chromosome = ListIntegerChromosome.getInitialChromosome(); break;
 		case IndexRange: chromosome = IndexRangeChromosome.getInitialChromosome(); break;
@@ -173,7 +173,7 @@ public class ChromosomeFactory {
 	 */
 	public static void iniValues(ChromosomeType tipo, ProblemaAG problema){
 		switch(tipo){
-		case Binary: BinaryChromosome2.iniValues(problema);break;
+		case Binary: BinaryChromosome.iniValues(problema);break;
 		case IndexSubList: IndexSubListChromosome.iniValues(problema);break;
 		case ListInteger: ListIntegerChromosome.iniValues(problema);break;
 		case IndexRange: IndexRangeChromosome.iniValues(problema); break;
@@ -189,9 +189,9 @@ public class ChromosomeFactory {
 	 * @param cr Un cromosoma instancia de la clase Chromosome de Apache.
 	 * @return Un cromosoma de tipo IBinaryChromosome
 	 */
-	public static BinaryChromosome2 asBinary(Chromosome cr){
-		Preconditions.checkArgument(cr instanceof BinaryChromosome2);
-		return (BinaryChromosome2) cr;
+	public static BinaryChromosome asBinary(Chromosome cr){
+		Preconditions.checkArgument(cr instanceof BinaryChromosome);
+		return (BinaryChromosome) cr;
 	}
 	
 	/**

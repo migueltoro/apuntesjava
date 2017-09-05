@@ -10,21 +10,19 @@ public class TestSudokuBT{
 
 	public static void main(String[] args) {
 		
-		AlgoritmoBT.soloLaPrimeraSolucion = true;
 		AlgoritmoBT.isRandomize = false;
 		AlgoritmoBT.numeroDeSoluciones = 4;
 		CuadroSudoku.tamSubCuadro = 3;
 		CuadroSudoku.iniDatos("sudoku.txt");
 		CuadroSudoku.asignaValoresUnicos();
-		ProblemaSudokuBT p = new ProblemaSudokuBT();
-		EstadoSudokuBT e = (EstadoSudokuBT) p.getEstadoInicial();
+		EstadoSudokuBT e = EstadoSudokuBT.create();
 		e.getAlternativas();
-		AlgoritmoBT<CuadroSudoku,Integer> a = Algoritmos.createBT(p);
+		AlgoritmoBT<CuadroSudoku,Integer> a = Algoritmos.createBT(e);
 		
 		a.ejecuta();
 
-		System.out.println("Num de Soluciones = "+a.soluciones.size()+"\n\n");
-		for(CuadroSudoku c: a.soluciones){
+		System.out.println("Num de Soluciones = "+a.getSoluciones().size()+"\n\n");
+		for(CuadroSudoku c: a.getSoluciones()){
 			System.out.println("El valor siguiente es \n\n");
 			c.show();
 		}

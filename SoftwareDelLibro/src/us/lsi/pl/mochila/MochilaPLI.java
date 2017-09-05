@@ -10,7 +10,7 @@ public class MochilaPLI {
 
 	
 	public static String getConstraints(){
-		ProblemaMochila.leeObjetosDisponibles(AlgoritmoPLI.getRaiz()+"objetosMochila.txt");
+		ProblemaMochila.leeObjetosDisponibles(AlgoritmoPLI.raiz+"objetosMochila.txt");
 		ProblemaMochila.capacidadInicial = 78;
 		int num = ProblemaMochila.getObjetosDisponibles().size();
 		String r = "";
@@ -41,7 +41,7 @@ public class MochilaPLI {
 	
 	
 	public static String getConstraints2(){
-		ProblemaMochila.leeObjetosDisponibles(AlgoritmoPLI.getRaiz()+"objetosMochila.txt");
+		ProblemaMochila.leeObjetosDisponibles(AlgoritmoPLI.raiz+"objetosMochila.txt");
 		ProblemaMochila.capacidadInicial = 78;
 		int num = ProblemaMochila.getObjetosDisponibles().size();
 		String r = "max: ";

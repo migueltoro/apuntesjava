@@ -1,0 +1,22 @@
+digraph Alternativas {  
+ size="100,100"; 
+    "0" [label="No"];
+    "1" [label="No"];
+    "2" [label="No"];
+    "3" [label="No"];
+    "4" [label="Yes"];
+    "5" [label="No"];
+    "6" [label="No"];
+    "7" [label="No"];
+    "8" [label="No"];
+    "9" [label="Yes"];
+    "0" -> "1" [label="0"];
+    "1" -> "2" [label="0"];
+    "2" -> "3" [label="0"];
+    "3" -> "4" [label="0"];
+    "4" -> "5" [label="0"];
+    "5" -> "6" [label="0"];
+    "6" -> "7" [label="0"];
+    "7" -> "8" [label="0"];
+    "8" -> "9" [label="0"];
+}

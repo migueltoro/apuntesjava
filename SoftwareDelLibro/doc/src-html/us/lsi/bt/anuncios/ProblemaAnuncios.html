@@ -13,7 +13,7 @@
 <span class="sourceLineNo">005</span>import com.google.common.base.Preconditions;<a name="line.5"></a>
 <span class="sourceLineNo">006</span>import com.google.common.collect.Lists;<a name="line.6"></a>
 <span class="sourceLineNo">007</span><a name="line.7"></a>
-<span class="sourceLineNo">008</span>import us.lsi.common.ParInteger;<a name="line.8"></a>
+<span class="sourceLineNo">008</span>import us.lsi.common.PairInteger;<a name="line.8"></a>
 <span class="sourceLineNo">009</span>import us.lsi.common.Sets2;<a name="line.9"></a>
 <span class="sourceLineNo">010</span>import us.lsi.stream.Stream2;<a name="line.10"></a>
 <span class="sourceLineNo">011</span><a name="line.11"></a>
@@ -21,7 +21,7 @@
 <span class="sourceLineNo">013</span><a name="line.13"></a>
 <span class="sourceLineNo">014</span>        public static List&lt;Anuncio&gt; todosLosAnunciosDisponibles;<a name="line.14"></a>
 <span class="sourceLineNo">015</span>        public static Integer tiempoTotal;<a name="line.15"></a>
-<span class="sourceLineNo">016</span>        public static Set&lt;ParInteger&gt; restricciones;<a name="line.16"></a>
+<span class="sourceLineNo">016</span>        public static Set&lt;PairInteger&gt; restricciones;<a name="line.16"></a>
 <span class="sourceLineNo">017</span>        public static Set&lt;Integer&gt; todosLosAnuncios; <a name="line.17"></a>
 <span class="sourceLineNo">018</span>        <a name="line.18"></a>
 <span class="sourceLineNo">019</span>        public ProblemaAnuncios() {<a name="line.19"></a>
@@ -47,8 +47,8 @@
 <span class="sourceLineNo">039</span>                        Preconditions.checkArgument(at.length==2);<a name="line.39"></a>
 <span class="sourceLineNo">040</span>                        Integer n1 = new Integer(at[0]);<a name="line.40"></a>
 <span class="sourceLineNo">041</span>                        Integer n2 = new Integer(at[1]);<a name="line.41"></a>
-<span class="sourceLineNo">042</span>                        restricciones.add(ParInteger.create(n1, n2));<a name="line.42"></a>
-<span class="sourceLineNo">043</span>                        restricciones.add(ParInteger.create(n2, n1));<a name="line.43"></a>
+<span class="sourceLineNo">042</span>                        restricciones.add(PairInteger.create(n1, n2));<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                        restricciones.add(PairInteger.create(n2, n1));<a name="line.43"></a>
 <span class="sourceLineNo">044</span>                }<a name="line.44"></a>
 <span class="sourceLineNo">045</span>                Collections.sort(ProblemaAnuncios.todosLosAnunciosDisponibles, Comparator.&lt;Anuncio&gt;naturalOrder().reversed());<a name="line.45"></a>
 <span class="sourceLineNo">046</span>                todosLosAnuncios = Sets2.newSet(0, ProblemaAnuncios.todosLosAnunciosDisponibles.size());<a name="line.46"></a>

@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
  * @param <V> Tipo de los vértices
  * @param <E> Tipo de las aristas
  * 
- * <a> Una vista de un grafo dónde cada vértice se identican con un entero </a>
+ * <a> Una vista de un grafo dónde cada vértice se identifica con un entero </a>
  */
 public class GraphView<V, E> {
 

@@ -1,0 +1,14 @@
+digraph Jarras {  
+ size="100,100"; 
+    "0" [label="[4,llenar J2]"];
+    "1" [label="[6,volcar J2 en J1]"];
+    "2" [label="[4,llenar J2]"];
+    "3" [label="[7,echar J2 en J1]"];
+    "4" [label="[0,vaciar J1]"];
+    "5" [label="[6,volcar J2 en J1]"];
+    "0" -> "1" [label="0"];
+    "1" -> "2" [label="0"];
+    "2" -> "3" [label="0"];
+    "3" -> "4" [label="0"];
+    "4" -> "5" [label="0"];
+}

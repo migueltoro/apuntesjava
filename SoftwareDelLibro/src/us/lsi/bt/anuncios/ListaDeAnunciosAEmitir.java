@@ -2,15 +2,16 @@ package us.lsi.bt.anuncios;
 
 import java.util.*;
 
+import us.lsi.bt.SolucionBT;
 import us.lsi.common.Lists2;
-import us.lsi.common.ParInteger;
+import us.lsi.common.PairInteger;
 import us.lsi.math.Math2;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-public class ListaDeAnunciosAEmitir {
+public class ListaDeAnunciosAEmitir implements SolucionBT {
 
 	public enum Opcion {Insertar,Eliminar, Intercambiar};
 	
@@ -76,8 +77,8 @@ public class ListaDeAnunciosAEmitir {
 		}
 		this.tiempoRestante = ProblemaAnuncios.tiempoTotal-this.tiempoConsumido;	
 		this.numAnunciosIncompatibles = 0;				
-		for(ParInteger p: ProblemaAnuncios.restricciones){
-			if(this.anunciosDecididosParaEmitirSet.contains(p.p1) && this.anunciosDecididosParaEmitirSet.contains(p.p2)){
+		for(PairInteger p: ProblemaAnuncios.restricciones){
+			if(this.anunciosDecididosParaEmitirSet.contains(p.v1) && this.anunciosDecididosParaEmitirSet.contains(p.v2)){
 				this.numAnunciosIncompatibles = this.numAnunciosIncompatibles +1;
 			}
 		}
@@ -88,9 +89,9 @@ public class ListaDeAnunciosAEmitir {
 	private void calculaAnunciosDisponibles(){		
 		Set<Integer> disponibles = Sets.newHashSet(ProblemaAnuncios.todosLosAnuncios);	
 		disponibles.removeAll(this.anunciosDecididosParaEmitirSet);
-		for(ParInteger p: ProblemaAnuncios.restricciones){
-			if(this.anunciosDecididosParaEmitirSet.contains(p.p1)){
-				disponibles.remove(p.p2);
+		for(PairInteger p: ProblemaAnuncios.restricciones){
+			if(this.anunciosDecididosParaEmitirSet.contains(p.v1)){
+				disponibles.remove(p.v2);
 			}
 		}
 		Set<Integer> quitar = Sets.newHashSet();
@@ -166,6 +167,10 @@ public class ListaDeAnunciosAEmitir {
 		return valor;
 	}
 	
+	@Override
+	public Double getObjetivo() {
+		return valor;
+	}
 	public Integer getNumAnunciosAEmitir(){
 		return this.anunciosDecididosParaEmitir.size();
 	}
@@ -182,15 +187,15 @@ public class ListaDeAnunciosAEmitir {
 		return Math2.getEnteroAleatorio(0, this.anunciosDecididosParaEmitir.size());
 	}	
 	
-	public ParInteger getAlternativaInsertar() {
+	public PairInteger getAlternativaInsertar() {
 		Preconditions.checkState(!this.anunciosDisponibles.isEmpty());
 		Integer pos = Math2.getEnteroAleatorio(0,this.anunciosDecididosParaEmitir.size() + 1);
 		List<Integer> ls = Lists.newArrayList(this.anunciosDisponibles);
 		Integer r = Math2.getEnteroAleatorio(0,ls.size());
-		return ParInteger.create(pos, ls.get(r));		
+		return PairInteger.create(pos, ls.get(r));		
 	}
 
-	public ParInteger getAlternativaIntercambiar(){
+	public PairInteger getAlternativaIntercambiar(){
 		return Math2.getParAleatorioYDistinto(0, this.anunciosDecididosParaEmitir.size());	
 	}
 

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/x-mathjax-config">
+  		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+	
+	<script type="text/javascript" async
+  		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	
+	
+	<title>Programación Dinámica y Vuelta Atrás</title>
+</head>
+<body>
+<body>
+<h1>Indice </h1>
+<ul>
+<li><a href="#notacion">Notación</a> </li>
+<li><a href="#PD">Programación Dinámica</a> </li>
+<li><a href="#PDR">Programación Dinamica de Reducción</a> </li>
+<li><a href="#BT">Bactracking</a> </li>
+<li><a href="#filtro">Técnicas de Filtro</a> </li>
+<li><a href="#VR">Algoritmos Voraces</a> </li>
+<li><a href="#AS">Algortimos A*</a> </li>
+</ul>
+<a name="notacion"><h1> Notación </h1>
+<p> En los que sigue usaremos una notación específica para rangos, listas, conjuntos y dicionarios </p>
+
+<ul>
+  <li><strong>Rangos</strong>. Son secuencias de números enteros. Los representaremos por \([a,b), [a,b]\). 
+El primero no incluye el extremo derecho el segundo si. </li>
+ <li><strong>Tuplas</strong>. Son agregados inmutables de valores posiblemente de diferentes tipos. 
+Las representaremos por \( (t_0,t_1,...,t_{r-1})\). Si \( t \) es una tupla \( t[i] \)
+ representa el i-esimo elementos y \( |t| \) el número de elementos.</li>
+  <li><strong>Listas</strong>. Son secuencias indexadas de elementos. Las representaremos por \( [e(x), x \in sq, \mbox{si }p(x)]\). 
+Dónde \( e(x), p(x), sq \) son, respectivamente una expresión, un predicado y una secuencia. Si \( ls \) 
+es una lista representaremos por \(ls[i]\) el elemento de la casilla \(i\) y por \(|ls|\) su longitud. </li>
+  <li><strong>Conjuntos</strong>. Son agregados sin repetición de elementos. 
+Las representaremos por \( \{e(x), x \in sq, \mbox{si }p(x)\}\). Si \( s \) 
+es un conjunto representaremos por \(|s|\) su cardinal y por \( \{\} \) el conjunto vacío.</li>
+<li><strong>Multiconjuntos</strong>. Son agregados con repetición de elementos. 
+Las representaremos por \( \{e(x):n(x), x \in sq, \mbox{si }p(x)\}\). Con \( n(x) \) una expresión que devuelve un entero positivo o cero.
+Si \( ms \) 
+es un multiconjunto representaremos por \(ms[e]\) el número de veces que se repite 
+\(e \) en \( ms \) y por \( \{\} \) el multiconjunto vacío.</li>
+  <li><strong>Diccionarios</strong>. Son conjuntos de pares clave-valor dónde las claves no están repetidas. 
+Las representaremos por \( \{c(x):v(x), x \in sq, \mbox{si }p(x)\}\). Dónde \( c(x), v(x) \) son expresiones.
+Si \( d \) 
+es un diccionario representaremos por \(d[c]\) el valor asociado a la clave \(c\), por \(d.keys, d.items\) 
+el conjunto de sus claves y de sus pares clave-valor respectivamente y por \( \{\} \) un diccionario vacío. 
+su longitud.</li>
+  <li><strong>Secuencias</strong>. Son agregados de elementos que se pueden recorrer secuencialmente. Los rangos, 
+las listas, los conjuntos, el conjunto de los pares de un diccionario y 
+el conjunto de sus claves son secuencias. </li>
+</ul>
+
+<p>
+Cuando el contexto está claro no hacemos explícto el rango donde se mueven deteminados índices. Así por:
+\[ \max_{a \in A_p}([s^a]) \]
+
+Indicamos em máximo de una lista cuyos elementos se extraen de \( A_p \). Igualmente para un conjunto o diccionario.
+
+</p>
+<a name="PD"><h1> Programación Dinámica </h1>
+<p>
+La Programación Dinámica tiene distintas acepciones en la literatura. 
+Aquí llamaremos Programación Dinámica a una generalización de la técnica de Divide y Vencerás 
+(posiblemente en su versión de Reducción) con o sin memoria. 
+Esencialmente la generalización consiste en considerar alternativas para dividir un problema en subproblemas. 
+Escogida una de las alternativas un problema se divide en subproblemas. Estos subproblemas  
+se resuelven, se combinan las soluciones y 
+luego se combinan las soluciones obtenidas a partir de cada alternativa. 
+Aparecen nuevos elementos con respecto a la técnica de Divide y Vencerás: 
+alternativas y combinación de las soluciones obtenidas tras escoger las diferentes alternativas.
+</p>
+
+<p>
+Para cada problema \( p\) las alternativas están descritas por un conjunto finito que denominaremos \(A_p \) con 
+\[ A_p = {a_0,a_1,a_2,…,a_{m-1}} \] 
+Por \(a,a_1,a_2,…\) representaremos valores concretos de las alternativas. 
+El conjunto de alternativas disponibles depende del problema en cuestión. 
+El número de alternativas del problema \(p\) lo representamos por \( |A_p| \), \(m_p\) o \( m \) si el contexto está claro..
+Un problema dado \( p\) vendrá representado por una tupla de valores que lo identifican de manera única. 
+Así \( p = (v_0,v_1,...,v_{r-1}) \). Siendo \( r \) el número de propiedades del problema.
+Para resolver un problema dado \(p\), en la técnica de la Programación Dinámica, 
+tomamos una de las alternativas y dividimos el problema en subproblemas. 
+Tras elegir una la alternativa \(a\), del conjunto \( A_p \), el problema 
+se divide en los subproblemas \( p_0^a,p_1^a,...,p_{k-1}^a\).  
+En general el número de subproblemas \(k\) depende de la alternativa escogida y lo representaremos por
+\( k^a \) o (\ k_p^a \).
+Cada problema tiene asociado un tamaño \( n \) o \( n_p \). 
+Los tamaños de los subproblema deben ser menores que el tamaño del problema original: 
+\( n_{p_a^i}  < n_p,   a \in A_p,   i \in [0,k^a) \)
+Obtener un subproblema a partir e un problema lo representaremos por la notación \( p \xrightarrow{a,i} p_i^a \).
+</p>
+<p>
+Para obtener la solución \(s_p\) de un problema \(p\) asumimos conocidas las soluciones de sus subproblemas: 
+\(s_i^a, a \in A_p, i \in [0,k^a))\). Siendo \( s_i^a \) la solución del problema \(p_i^a\).
+Todo ello lo representamos en el grafo siguiente.
+</p>
+<p>
+<center>
+<embed src="Imagenes/GrafoPD.pdf" width="550" height="300"></embed>
+</center>
+</p>
+<p>
+Para obtener la solución del problema a partir de los subproblemas definimos 
+dos operadores \(sA_p, sA_p \) específicos para cada problema. 
+Que llamaremos solución parcial por alternativa \(sA_p\) y solución parcial
+\(sP_p\). El operador \(sA_p\) construye la solución del problema \(p\) 
+asumiendo que se ha escogido la alternativa \( a\) y conociendo las soluciones de los subproblemas. 
+Siendo \([s_i^a, i \in [0,k^a)]\) la lista de soluciones de los subproblemas y \( a \in A_p \) el operador
+tiene la forma:
+\[sA_p(a,[s_i^a, i \in [0,k^a)]]) \]
+O de forma más compacta:
+
+\[sA_{i \in [0,k^a)}(a,[s_i^a]])\]
+
+</p>
+<p>
+El operador \(sP_p\) construye la solución del problema original \(p\) a partir de las soluciones \(s^a\)  obtenidas 
+para cada alternativa. El operador tiene la forma \[sP_p([s^a,a \in A_p])\]. Siendo \([s^a,a \in A_p]\) la lista de 
+soluciones alcanzadas cuando se toman las diferentes alternativas.
+En los problemas de maximización este operador toma la forma:
+ \[sP_p([s^a,a \in A_p]) = \max_{a \in A_p}([s^a]) \]
+Y en los de minimización:
+\[sP_p([s^a,a \in A_p]) = \min_{a \in A_p}([s^a]) \]
+Y en general
+\[sP_p([s^a,a \in A_p]) = sP_{a \in A_p}([s^a]) \]
+</p>
+<p>
+Los operadores \(sA_p, sP_p \) tienen algunas propiedades 
+que tendremos en cuenta en la implementación pero que no 
+haremos explícitas en adelante. Si representamos por \( \bot \) la no existencia
+de solución, que también llamaremos solución nula, entonces problema 
+no tiene solución si alguno de sus subproblemas la tiene. El operador 
+\( sA_p \) cumple:
+\[ 
+\begin{cases} 
+sA_p(a,[s_i^a]) \ne \bot, & \mbox{si } \mbox{ }\nexists_{i} s_i^a = \bot  \\
+sA_p(a,[s_i^a]) = \bot, & \mbox{si } \mbox{ }\exists_{i} s_i^a = \bot 
+\end{cases}
+\]
+Donde \( i \in [0,k_p^a) \).
+</p>
+<p>
+El operador \( sP_p \) filtra las soluciones nulas y si el conjunto de
+soluciones filtradas es vacío el problema no tiene solución.
+Es decir su forma completa es:
+\[ sP_p([]) =\bot \]
+\[sP_p([s^a,a \in A_p, \mbox{si } s^a \ne \bot]) \]
+</p>
+<p>
+Hay algunos problemas cuya solución es conocida. A estos problemas, que suelen ser de tamaño pequeño, 
+los denominamos casos base. Definimos el predicado \( b(p)\) ser verdadero si \( p\) es un caso base. 
+Para los casos base definimos una función \( sb(p) \) que nos da la solución del problema.
+</p>
+<p>
+Por motivos de eficiencia, en los casos de optimización, 
+calculamos en primer lugar una solución parcial formada por un par 
+alternativa-valor de la propiedad objetivo. Posteriormente reconstruimos la solución a partir 
+de las soluciones parciales guardadas en la memoria.
+</p>
+<p>Con todo ello el algoritmo de Programación Dinámica es de la forma:
+\[
+pd(p) = 
+\begin{cases} 
+sb(p),  & \mbox{si } \mbox{ }b(p) \\
+sP_{a \in A_p}([sA_{i \in [0,k_p^a)}(a,[pd(p_i^a)]]), & \mbox{si } \mbox{ }!b(p) 
+\end{cases}
+\]
+</p>
+<p>Si hacemos explícito el uso de la memoria  y el proceso de reconstrucción de la solución 
+el algoritmo de Programación Dinámica queda:
+\[
+pd(p) = 
+\begin{cases} 
+mem[p],  & \mbox{si } \mbox{ }p \in mem.keys \\
+sb(p),  & \mbox{si } \mbox{ }b(p) \\
+sP_{a \in A_p}([sA_{i \in [0,k^a)}(a,[pd(p_i^a)]]), & \mbox{si } \mbox{ }!b(p) 
+\end{cases}
+sR() = 
+\begin{cases} 
+sR(mem[p]),  & \mbox{si } \mbox{ }b(p) \\
+sR(mem[p],[sR{p_i^a}, i \in [0,k_p^a), a = mem[p].alternativa]), & \mbox{si } \mbox{ }!b(p) 
+\end{cases}
+\]
+Siendo \( mem \) un diccionario, inicialmente vacío de pares problema-solución.
+Un grafo de la ejecución del algoritmo es:
+</p>
+<p>
+<p>
+<center>
+<embed src="Imagenes/SolucionMapa.pdf" width="550" height="300"></embed>
+</center>
+</p>
+</p>
+
+Para concretar las ideas anteriores tenemos disponible un software que implementa el algoritmo de Programación Dinámica.
+Algunas equivalencias son:
+<p>
+<center>
+
+<table border=1 style="text-align:left;">
+    <tr>
+      <th><strong>Notación</strong></th>
+      <th><strong>Link</strong></th>
+      <th><strong>Explicación</strong></th>
+    </tr>
+  <tr>
+    <td> </td>
+    <td><a href="../us/lsi/pd/AlgoritmoPD.html" target="_blank">AlgoritmoPD</a> </td> 
+    <td>Algoritmo de Programación Dinámica</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html" target="_blank">ProblemaPD</a></td> 
+    <td>Interface a implementar por los problemas </td>
+  </tr>
+  <tr>
+    <td>\(sA_{i \in [0,k^a)}(a,[s_i^a])\)</td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#getSolucionParcialPorAlternativa-A-java.util.List-" target="_blank">getSolucionParcialPorAlternativa</a></td> 
+    <td>El operador combina soluciones </td>
+  </tr>
+  <tr>
+    <td>\(sP_{a \in A_p}([s^a])\)</td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#getSolucionParcial-java.util.List-" target="_blank">getSolucionParcial</a></td> 
+    <td>El operador selecciona alternativa</td>
+  </tr>
+  <tr>
+  <td>\( p \xrightarrow{a,i} p_i^a \)</td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#getSubProblema-A-int-" target="_blank">getSubproblema</a></td> 
+    <td>La obtención de un subproblema</td>
+  </tr> 
+  <tr>
+  <td>\( k^a \)</td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#getNumeroSubProblemas-A-" target="_blank">getSubproblema</a></td> 
+    <td>Núero de subproblemas</td>
+  </tr> 
+  <td> </td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#esCasoBase--" target="_blank">esCasoBase</a></td> 
+    <td>Si un problema es caso base</td>
+  </tr>
+  <td> </td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#getSolucionParcialCasoBase--" target="_blank">getSolucionParcialCasoBase</a></td> 
+    <td>La solución del caso base</td>
+  </tr>	
+  <td>\(n_p \) </td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#size--" target="_blank">getSize</a></td> 
+    <td>El tamaño de un problema</td>
+  </tr>
+  <td> </td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#getSolucionReconstruidaCasoBase-us.lsi.pd.AlgoritmoPD.Sp-" target="_blank">getSolucionReconstruidaCasoBase</a></td> 
+    <td>Reconstruir la solución del caso base</td>
+  </tr>
+  <td> </td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#getSolucionReconstruidaCasoRecursivo-us.lsi.pd.AlgoritmoPD.Sp-java.util.List-" target="_blank">getSolucionReconstruidaCasoRecursivo</a></td> 
+    <td>Reconstruir la solución del caso recursivo</td>
+  </tr>
+  <td> </td>
+    <td><a href="../us/lsi/pd/AlgoritmoPD.Sp.html" target="_blank">Sp</a></td> 
+    <td>El tipo de la solución parcial</td>
+  </tr>
+</table>
+</center>
+</p>
+
+<a name="PDR"><h1> Programación Dinámica tipo Reducción </h1>
+
+<p>
+La Programación Dinámica tiene un caso particular de mucho uso: La Programación Dinámica de Reducción. Este caso ocurre cuando el número de subproblemas
+dada una alternativa es siempre 1. 
+</p>
+<p>
+En este caso los subproblemas se representan por \( p_a \) y el paso del problema al subproblema se representa por \( p \xrightarrow{a} p^a \). 
+Igualmente los operadores \(sP_p, sA_p \) se expresan como:
+\[sA_p(a,s^a) \]
+y
+\[sP_{a \in A_p}([s^a])\]
+Es decir \( sA_p \) ahora depende de dos parámetros, la alternativa y la solución del problema. Antes el segundo parámetro era una lista con las soluciones de los subproblemas.
+</p>
+Todo ello puede representarse en el grafo:
+<p>
+<center>
+<embed src="Imagenes/GrafoPDR.pdf" width="550" height="350"></embed>
+</center>
+</p>
+El esquema de Programación Dinámica de Reducción, sin hacer explícito el uso de la memoria, es:
+
+\[
+pd(p) = 
+\begin{cases} 
+sb(p),  & \mbox{si } \mbox{ }b(p) \\
+sP_{a \in A_p}([sA_p(a,pd(pd^a))]), & \mbox{si } \mbox{ }!b(p) 
+\end{cases}
+\]
+Un grafo de Programación Dinámica de Reducción es:
+<p>
+<center>
+<embed src="Imagenes/GrafoProcesadores.pdf" width="800" height="400"></embed>
+</center>
+</p>
+<p>
+En Programación Dinámica con Reducción las soluciones del problema son caminos en el grafo 
+formados por secuencias de alternativas \( [a_0,a_1,…,a_{r-1}] \) con \( a_i \in A_{p_i} \). 
+artiendo de un problema dado \( p_0 \)  y siguiendo la secuencia de alternativas \( [a_0,a_1,…,a_{r-1}] \) 
+alcanzaremos un problema \( p_r \). Si \( p_r \) es un caso base la  secuencia de alternativas \( [a_0,a_1,…,a_{r-1}] \) 
+define una solución del problema \(p_0 \). Alternativamente una secuencia de alternativas (un camino en el grafo) 
+puede acabar en un problema que no tenga solución.
+</p>
+<a name="BT"><h2> Vuelta Atrás (Bactracking) </h2>
+<p>Los algoritmos de Vuelta Atrás (Bactracking) son implementaciones eficientes del esquema de Programación
+Dinámica con Reducción que se usan cuando no hay, o hay pocos problemas compartidos y por lo tanto
+no es necesario el uso de memoria.
+</p>
+
+<p>
+En esta técnica se dispone de un objeto global, que denominaremos estado, que va guardando en cada momento 
+el problema actual.
+Los algoritmos de Vuelta Atrás, parten de un estado inicial, el problema a resolver, 
+van eligiendo alternativas y alcanzado nuevos valores del estado. 
+Llamaremos estado inicial al que tiene asociado el problema a resolver y estado actual el alcanzado 
+por el algoritmo tras una secuencia de alternativas. 
+Tal como hemos visto arriba una secuencia de alternativas define una solución cuando alcanzamos un caso base. 
+Un estado, por lo tanto, debe ser diseñado para contener la información sobre el problema actual y
+debe tener métodos para avanzar al problema siguiente según una alternativa, retroceder al problema anterior y
+calcular la solución del problema inicial asociada al camino seguido hasta el caso base. 
+</p>
+
+<a name="filtro"><h2>Técnica de Filtro </h2>
+<p>
+Las técnicas de filtro se usan al resolver Problemas de Optimización mediante 
+algortimos de Programación Dinámica con Reducción (o equivalentement Bactracking)
+para reducir el tamaño del conjunto de alterantivas \( A_p \) y por lo tanto reducir el tiempo de ejecución.
+La idea consiste en tener disponible un buen valor de la propiedad a optimizar y eliminar del conjunto \( A_p \)
+ aquellas alternativas de las que podemos asegurar que tomándolas no alcanzaremos una solución con un valor mejor. 
+La forma de llevarlo a cabo es añadir al problema dos nuevas propiedades. 
+La primera va es el valor acumulado (a lo largo del camino seguido) de la propiedad que queremos optimizar. 
+La segunda mv es el mejor valor obtenido hasta el momento de la propiedad a optimizar. 
+Esta última es una variable compartida por todos los problemas. 
+De bemos disponer, además, de una función \( ct(p,a) \), la función de cota, 
+que para cada problema y alternativa escogida es capaz de calcular una cota inferior lo más alto posible, si es un problema de minimización
+para el valor de la propiedad a optimizar de ese problema si tomáramos dicha alternativa. El el problema es de maximización entonces
+debe ser una cota superior.
+</p>
+<p> 
+En un problema de minimización pueden ser descartadas las alternativas tales que:
+
+\[ va + ct(p,a) < mv \]
+
+En efecto \( va+ct(p,a) \) es una cota inferior para el valor de la propiedad a optimizar 
+del problema inicial \( p_0\) luego si siguiendo esa alternativa cumple \( va+ct(p,a)<mv\) y 
+entonces puede ser descartada. 
+</p>
+Podemos ver un grafo del Problema de la Mochila resuelto sin filtro:
+<p>
+<center>
+<embed src="Imagenes/MochilaSinFiltro.pdf" width="800" height="400" type='application/pdf'></embed>
+</center>
+</p>
+<br>
+<br>
+<br>
+Y el mismo problema resuelto con filtro:
+<p>
+<center>
+<embed src="Imagenes/MochilaConFiltro.pdf" width="600" height="600"></embed>
+</center>
+</p>
+<br>
+<br>
+<br>
+<p> Como se puede ver la diferencia entre uno y otro es muy relevante. </p>
+
+<p>
+El cálculo de la función de cota se lleva a cabo mediante una técnica Voraz que veremos más abajo. 
+También es importante ordenar las alternativas que permitan obtener rápidamente aproximaciones al valor óptimo del
+objetivo. Este valor se guardará en \( mv\) y nos permitirá filtrar cuanto antes las alternativas.
+Ordenamos las alternativas para que las primeras para cada problema definan una estrategia voraz (ver abajo) 
+con la cual lograr una buena aproximación a la solución óptima.
+
+</p>
+Para filtrar las alternativas debemos tener en cuanta también las restricciones que definen el problema de optimización.
+Así si el problema es de la forma:
+\[
+\begin{cases}
+\min_x f(x)\\
+\phi(x) \le 0 \\
+\rho(x) = 0
+\end{cases}
+\]
+<p>
+Definimos una propiedad en el problema que vaya acumulando los valores de la expresión \(\phi(x)\) a partir 
+de un determinado elemento neutro. Descartaremos las alternativas tales que el valor acumulado no cumpla la restricción.
+La restricción de igualdad debe comprobarse su cumplimento en la solución del caso base. 
+Un problema que no cumple las restricciones en el caso base no tiene solución.
+En muchos casos la restricción de igualdad 
+puede permitirnos filtrar alternativas añadiendo la restricción \( \rho(x) \le 0 \) 
+en todos los problemas distintos al
+caso base.
+</p>
+Para el uso de las técnicas de filtro disponemos de los métodos:
+<p>
+<center>
+
+<table border=1 style="text-align:left;">
+    <tr>
+      <th><strong>Notación</strong></th>
+      <th><strong>Link</strong></th>
+      <th><strong>Explicación</strong></th>
+    </tr>
+  <tr>
+    <td>\(va\) </td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#getObjetivo--" target="_blank">getObjetivo</a> </td> 
+    <td>El valor acumulado de la propiedad objetivo en el caso base</td>
+  </tr>
+  <tr>
+    <td>\( va + ct(p,a) \) </td>
+    <td><a href="../us/lsi/pd/ProblemaPD.html#getObjetivoEstimado-A-" target="_blank">getObjetivoEstimado</a></td> 
+    <td>Valor estimado de la propiedad objetivo</td>
+  </tr>
+  </table>
+</center>
+</p>
+
+<a name="VR"><h1> Algoritmos Voraces </h1>
+<p>
+Los algoritmos voraces guardan relación con los Algoritmos de Vuelta Atrás. 
+Partiendo de un Algoritmo de Vuelta Atrás podemos diseñar otro Voraz indicando para cada conjunto 
+de alternativas \( A_p \) cual de ellas elegir. 
+En definitiva definiendo una función que a partir de un estado \(e\) 
+elige una alternativa. 
+Estos algoritmos, los Voraces, parten de un estado inicial \(e\), el problema a resolver, 
+eligen la alternativa y  mediante la función \( next(a) \) reducen el problema a otro \( e^a\). 
+Desde el nuevo problema comienzan de nuevo eligiendo una nueva alternativa 
+hasta encontrar un  problema que cumpla una determinada condición de parada (el problema es un caso base, 
+no tiene alternativas para elegir, ...). 
+En ese momento se calcula una solución, si la hay, partir de la secuencia de alternativas escogidas.  
+
+El Algoritmo Voraz parte de un problema inicial (un estado inicial) y va escogiendo de forma irrevocable el siguiente 
+hasta que llega a uno que cumple un criterio especificado. 
+
+El esquema de los algoritmos voraces es por tanto:
+<br>
+<br>
+<pre>
+	E e = p.getEstadoInicial();
+	A a;
+	while (!e.condicionDeParada()) {
+  		a = e.getAlternativa()	
+		e = e.next(a);
+	}
+	return f(e);
+</pre>
+
+
+<br>
+<br>
+Los Algoritmos Voraces son algoritmos iterativos frente a los de Bactraking que son recursivos. 
+Tienen algunas diferencias más con ellos e implícitamente con los de Programación Dinámica de Reducción:
+
+<ul>
+<li> Los algoritmos Voraces son siempre mucho más rápidos que los de Vuelta Atrás </li>
+<li> Los algoritmos Voraces  puede que no encuentren la solución aunque exista. 
+Los de Vuelta Atrás siempre la encuentran si existe. </li>
+<li> Si estamos resolviendo un problema de optimización los algoritmos Voraces  puede que  
+encuentren una solución pero que no sea la óptima. Los de Vuelta Atrás siempre la encuentran la óptima si existe. </li>
+<li> Si podemos demostrar que un algoritmo Voraz encuentra la solución (o la solución óptima si es lo que buscamos) 
+entonces es preferible al algoritmo de Vuelta Atrás correspondiente. Pero es demostración hay que hacerla específicamente 
+para algoritmos Voraces concretos </li>
+</ul>
+
+<a name="AS"><h1> Algoritmos A* </h1>
+<p>
+Los Algoritmos A* son adecuados para encontrar el camino mínimo en un grafo. Tienen importantes relaciones con
+los problemas que se resuelven mediante Bactracking. Como veremos un esquema de Bactracking puede ser convertido
+en otro de camino mínimo para ser resuelto medainte algoritmos A*. Al contrario también será
+posible en muchos casos: dado un problema de camino mínimo convertirlo en otro de Backtracking.
+</p>
+<p>
+La solución de muchos problemas se puede encontrar construyendo previamente un grafo que lo modele. 
+Para construir ese grafo pueden existir diferentes alternativas. 
+Una vez construido el grafo podemos usar BT, PDR o algoritmos de tipo caminos mínimos como A* o Dijkstra 
+o con algoritmos similares al algoritmo de Floyd.
+</p>
+<p>
+Hemos de recordar que cuando usamos las técnicas de BT, PDR definimos implícitamente un grafo de problemas. 
+Este grafo de problemas es dirigido y sin ciclos. 
+En él existe un problema inicial (un vértice sin antecesores) y un conjunto de vértices finales 
+(los casos base). 
+En el caso de BT y PDR las soluciones del problema inicial vienen definidas por caminos desde el vértice inicial 
+a uno de los casos base. En este grafo los sucesores de un problema siempre tienen un tamaño menor que 
+el problema de partida.
+</p>
+<p>
+Estas ideas anteriores nos pueden servir para resolver un problema de optimización modelándolo como un grafo 
+dirigido y sin ciclos dónde los vértices se corresponderán con problemas 
+y las aristas salientes las posibles alternativas que nos llevan al problema siguiente. Si a la arista de ese grafo 
+que va del problema \( p_i \) al \( p_{i+i} \) 
+le asociamos los pesos \( \Delta f_i \) 
+entonces el problema original que habíamos enfocado mediante BT o PDR se puede resolverse
+mediante el algoritmo de A*. 
+En lo anterior \( \Delta f_i \)  del problema \( p_i \) tiene que se definido de tal forma que \( \sum_{C} \Delta f_i \)
+sea igual al valor de la propiedad objetivo del problema inicial cuando seguimos el camino \( C \) hasta un caso base.
+La heurística que usamos en los algoritmos A* vendrá proporcionada por la función de cota usada en la técnica de filtro
+de los algortimos de PDR.
+</p>
+<p>
+Para que lo anterior sea posible tenemos que adaptar los Algorimos A* para que busquen el camino mínimo desde
+un problema inicial a otro que cumpla un predicado (el caso base) y la función de cota debe estimar una cota desde
+el problema actual a otro que cumpla el criterio de caso base.
+</p>
+<p>
+Pasar de un problema de caminos mínimos a otro que se pueda resolver mediante BT (Bactracking) 
+también es posible en muchos casos. Para ello debemos tener en cuenta que en los problema de caminos mínimos los grafos 
+considerados pueden tener ciclos y los vértices no tienen asociado un tamaño. En BT los grafos de problemas
+deben ser acíclicos, los problemas deber tener asociado un tamaño y los sucesores deben tener un tamaño menor que
+el tamaño del problema original.
+Para poder conseguir eso añadimos a los vértices del grafo, para convertirlos en problemas de BT, 
+el camino seguido para alcanzar dicho vértice. Definidos de esta forma el tamaño de los problemas 
+puede ser definido como la longitud del camino que queda para alcanzar el objetivo.
+</p>
+
+</body>
+</html>

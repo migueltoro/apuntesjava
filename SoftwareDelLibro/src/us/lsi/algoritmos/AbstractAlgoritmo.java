@@ -7,7 +7,8 @@ import java.io.PrintStream;
 
 public  class AbstractAlgoritmo  {
 
-	private static PrintStream file = System.out;
+	
+	public static PrintStream file = System.out;
 	
 	/**
 	 * @return - Nombre del fichero dónde se almacenará el resultado
@@ -27,14 +28,22 @@ public  class AbstractAlgoritmo  {
 		}
 	}
 	
-	private static String raiz = "C:\\Users\\Boss\\Documents\\apuntesjava\\SoftwareDelLibro\\ficheros\\";
+	public static String raiz = "C:\\Users\\Boss\\Documents\\apuntesjava\\SoftwareDelLibro\\ficheros\\";
 			
-	public static String getRaiz(){
-		return raiz;
-		
-	}
 
-	public static void setRaiz(String r){
-		raiz=r;		
+	/**
+	 * Si se obtendrán métricas o no
+	 */
+	public static boolean metricasOK = false;
+	
+	/**
+	 * La métricas calculadas
+	 */
+	public static Metricas metricas = null;
+	
+	public static void calculaMetricas(){
+		metricasOK = true;
+		metricas = new Metricas();
 	}
+	
 }

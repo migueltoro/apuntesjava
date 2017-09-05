@@ -10,8 +10,6 @@
 	<classpathentry kind="lib" path="lib/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="lib/jcip-annotations-src.jar"/>
 	<classpathentry kind="lib" path="lib/jcip-annotations.jar"/>
-	<classpathentry kind="lib" path="lib/jgrapht-core-0.9.0.jar"/>
-	<classpathentry kind="lib" path="lib/jgrapht-ext-0.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.xtext.xtend2.lib_2.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/lpsolve55j.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.18-bin.jar"/>
@@ -22,5 +20,10 @@
 			<attribute name="javadoc_location" value="jar:file:/C:/Users/Boss/Desktop/Jars/guava-21.0-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Boss/Desktop/Jars/antlr4-runtime-4.5.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Boss/Desktop/Jars/jgrapht-core-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Boss/Desktop/Jars/jgrapht-demo-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Boss/Desktop/Jars/jgrapht-ext-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Boss/Desktop/Jars/jgrapht-ext-1.0.1-uber.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
+import us.lsi.bt.SolucionBT;
 import us.lsi.common.Lists2;
 import us.lsi.common.StringExtensions2;
 import us.lsi.stream.Stream2;
@@ -19,7 +20,7 @@ import com.google.common.collect.Table;
 
 import java.util.stream.IntStream;
 
-public class CuadroSudoku {
+public class CuadroSudoku implements SolucionBT{
 
 	/**
 	 * Tamaño de un subcuadro
@@ -333,6 +334,10 @@ public class CuadroSudoku {
 		CuadroSudoku.iniLibresYOcupadas();
 	}
 	
+	@Override
+	public Double getObjetivo() {
+		return (double) 3*CuadroSudoku.numeroDeFilas*CuadroSudoku.numeroDeFilas -this.objetivo;
+	}
 	
 	/**
 	 * Muestra en cuadrado en forma de cadena

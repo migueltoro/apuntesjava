@@ -2,7 +2,7 @@ package us.lsi.bt.anuncios;
 
 import us.lsi.algoritmos.Algoritmos;
 import us.lsi.bt.AlgoritmoBT;
-import us.lsi.pd.AlgoritmoPD;
+
 
 
 public class TestAnunciosBT {
@@ -10,17 +10,18 @@ public class TestAnunciosBT {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ProblemaAnuncios.leeYOrdenaAnuncios(AlgoritmoPD.getRaiz()+"anuncios.txt");
+		ProblemaAnuncios.leeYOrdenaAnuncios(AlgoritmoBT.raiz+"anuncios.txt");
 		ProblemaAnuncios.tiempoTotal = 30;
 		AlgoritmoBT.numeroDeSoluciones = 6;
+		AlgoritmoBT.conFiltro = true;
 		System.out.println(ProblemaAnuncios.todosLosAnunciosDisponibles);
 		System.out.println(ProblemaAnuncios.restricciones);
-		AlgoritmoBT.soloLaPrimeraSolucion = false;
-		AlgoritmoBT<ListaDeAnunciosAEmitir, Integer> a = Algoritmos.createBT(ProblemaAnunciosBT.create());
+		EstadoAnunciosBT e = EstadoAnunciosBT.create();
+		AlgoritmoBT<ListaDeAnunciosAEmitir, Integer> a = Algoritmos.createBT(e);
 		a.ejecuta();
-		for(ListaDeAnunciosAEmitir s: a.soluciones){
-			System.out.println(s);
-		}
-		System.out.println("Mejor ="+a.solucion);
+//		for(ListaDeAnunciosAEmitir s: a.getSoluciones()){
+//			System.out.println(s);
+//		}
+		System.out.println("Mejor ="+a.getSolucion());
 	}
 }

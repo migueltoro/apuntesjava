@@ -8,21 +8,21 @@ public class Metricas {
 	private long tiempoDeEjecucionInicial;
 	private long tiempoDeEjecucionFinal;
 	private int numeroDeCasosBase=0;
+	private int numeroDeFueraDeRango=0;
+	public int getNumeroDeFueraDeRango() {
+		return numeroDeFueraDeRango;
+	}
+
 	private int numeroDeVecesQueFiltra =0;
 	private int numeroEstadosFinales = 0;
 	private int numeroDeSolucionesEncontradas = 0;
 	private int numeroDeMejoresSolucionesEncontradas = 0;	
+	private int numeroDeActualizacionesMejorValor = 0;
 
-	private static Metricas metricas = null;
-	
 	public Metricas(){		
 	}
 	
-	public static Metricas getMetricas(){
-		if(metricas == null)
-			metricas = new Metricas();
-		return metricas;
-	}
+	
 	
 	public int getNumeroDeIteraciones() {
 		return numeroDeIteraciones;
@@ -108,6 +108,10 @@ public class Metricas {
 		numeroDeCasosBase++;
 	}
 	
+	public void addFueraDeRango(){
+		numeroDeFueraDeRango++;
+	}
+	
 	/* (non-Javadoc)
 	 * @see tipos.MetricasI#getNumDeVecesQueFiltra()
 	 */
@@ -146,6 +150,14 @@ public class Metricas {
 		numeroDeMejoresSolucionesEncontradas++;
 	}
 	
+	public int getNumeroDeActualizacionesMejorValor() {
+		return numeroDeActualizacionesMejorValor;
+	}
+
+	public void addActualizacionMejorValor() {
+		this.numeroDeActualizacionesMejorValor = this.numeroDeActualizacionesMejorValor+1;
+	}
+	
 	public String toString(){
 		String s = "Número de Iteraciones         = "+ numeroDeIteraciones + "\n"+
 		           "Número de Llamadas Recursivas = "+ numeroDeLLamadasRecursivas+ "\n"+
@@ -153,10 +165,12 @@ public class Metricas {
 		           "Numero de Usos de la Memoria  = "+ numeroDeUsosDeLaMemoria + "\n"+
 		           "Tiempo de Ejecucion en nanoseg= "+ getTiempoDeEjecucion() + "\n" +
 		           "Número de Casos Base          = "+ numeroDeCasosBase + "\n" +
+		           "Número de Fuera de Rango      = "+ numeroDeFueraDeRango + "\n" +
 		           "Número de Veces que Filtra    = "+ numeroDeVecesQueFiltra+ "\n"+
 		           "Numero de Estados Finales     = "+ numeroEstadosFinales+ "\n" +
 		           "Número de Soluciones Encont.  = "+ numeroDeSolucionesEncontradas+ "\n"+
-		           "Número de Mejores Sol. Enc.   = "+ numeroDeMejoresSolucionesEncontradas;
+		           "Número de Mejores Sol. Enc.   = "+ numeroDeMejoresSolucionesEncontradas+ "\n"+
+		 		   "Número de Act. Mejor Valor    = "+ numeroDeActualizacionesMejorValor;
 		return s;
 	}
 	

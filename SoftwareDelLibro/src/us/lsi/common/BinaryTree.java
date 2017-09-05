@@ -2,6 +2,8 @@ package us.lsi.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleEntry;
 
 /**
  * @author Miguel Toro
@@ -234,7 +236,7 @@ public class BinaryTree<T> {
 	 */
 	public static <E> List<E> getPreOrderIter(BinaryTree<E> t){
 		List<E> ls = new ArrayList<>();
-		Pila<BinaryTree<E>> p = Pila.create();
+		Stack2<BinaryTree<E>> p = Stack2.create();
 		if(!t.isEmpty()) p.add(t);
 		while(!p.isEmpty()){
 			BinaryTree<E> a = p.remove();
@@ -287,17 +289,17 @@ public class BinaryTree<T> {
 	 */
 	public static <E> List<E> getPostOrderIter(BinaryTree<E> t){
 		List<E> ls = new ArrayList<>();
-		Pila<Entry<BinaryTree<E>,Boolean>> p = Pila.create();
-		if(!t.isEmpty()) p.add(Entry.create(t, false));
+		Stack2<Entry<BinaryTree<E>,Boolean>> p = Stack2.create();
+		if(!t.isEmpty()) p.add(new SimpleEntry<>(t, false));
 		while(!p.isEmpty()){
 			Entry<BinaryTree<E>,Boolean> a = p.peek();
-			if (a.value) {
+			if (a.getValue()) {
 				a = p.remove();
-				ls.add(a.key.getLabel());				
+				ls.add(a.getKey().getLabel());				
 			} else {
-				a.value = true;				
-				if (a.key.right != null) p.add(Entry.create(a.key.right,false));
-				if (a.key.left != null) p.add(Entry.create(a.key.left,false));
+				a.setValue(true);				
+				if (a.getKey().right != null) p.add(new SimpleEntry<>(a.getKey().right,false));
+				if (a.getKey().left != null) p.add(new SimpleEntry<>(a.getKey().left,false));
 			}
 		}
 		return ls;
@@ -344,17 +346,17 @@ public class BinaryTree<T> {
 	 */
 	public static <E> List<E> getInOrderIter(BinaryTree<E> t){
 		List<E> ls = new ArrayList<>();
-		Pila<Entry<BinaryTree<E>,Boolean>> p = Pila.create();
-		if(!t.isEmpty()) p.add(Entry.create(t, false));
+		Stack2<Entry<BinaryTree<E>,Boolean>> p = Stack2.create();
+		if(!t.isEmpty()) p.add(new SimpleEntry<>(t, false));
 		while(!p.isEmpty()){
 			Entry<BinaryTree<E>,Boolean> a = p.remove();
-			if (a.value) {
-				ls.add(a.key.getLabel());				
+			if (a.getValue()) {
+				ls.add(a.getKey().getLabel());				
 			} else {
-				a.value = true;
-				if (a.key.right != null) p.add(Entry.create(a.key.right,false));
+				a.setValue(true);
+				if (a.getKey().right != null) p.add(new SimpleEntry<>(a.getKey().right,false));
 				p.add(a);
-				if (a.key.left != null) p.add(Entry.create(a.key.left,false));				
+				if (a.getKey().left != null) p.add(new SimpleEntry<>(a.getKey().left,false));				
 			}
 		}
 		return ls;
@@ -396,7 +398,7 @@ public class BinaryTree<T> {
 	 */
 	public static <E> List<E> getByLevel(BinaryTree<E> t){
 		List<E> ls = new ArrayList<>();
-		Cola<BinaryTree<E>> p = Cola.create();
+		Queue2<BinaryTree<E>> p = Queue2.create();
 		if(!t.isEmpty()) p.add(t);
 		while(!p.isEmpty()){
 			BinaryTree<E> a = p.remove();

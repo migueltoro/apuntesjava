@@ -18,7 +18,7 @@
 <span class="sourceLineNo">010</span><a name="line.10"></a>
 <span class="sourceLineNo">011</span>import com.google.common.collect.Sets;<a name="line.11"></a>
 <span class="sourceLineNo">012</span><a name="line.12"></a>
-<span class="sourceLineNo">013</span>import us.lsi.common.ParInteger;<a name="line.13"></a>
+<span class="sourceLineNo">013</span>import us.lsi.common.PairInteger;<a name="line.13"></a>
 <span class="sourceLineNo">014</span>import us.lsi.stream.*;<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
 <span class="sourceLineNo">016</span><a name="line.16"></a>
@@ -94,12 +94,12 @@
 <span class="sourceLineNo">086</span>                Set&lt;Integer&gt; s2 = Sets.newHashSet(16, 13, 15);<a name="line.86"></a>
 <span class="sourceLineNo">087</span>                Stream2.create(s1.stream())<a name="line.87"></a>
 <span class="sourceLineNo">088</span>                                .cartesianProduct(s2.stream(),<a name="line.88"></a>
-<span class="sourceLineNo">089</span>                                                (x, y) -&gt; ParInteger.create(x, y))<a name="line.89"></a>
+<span class="sourceLineNo">089</span>                                                (x, y) -&gt; PairInteger.create(x, y))<a name="line.89"></a>
 <span class="sourceLineNo">090</span>                                .forEach(imprimeEnConsola());<a name="line.90"></a>
 <span class="sourceLineNo">091</span>        }<a name="line.91"></a>
 <span class="sourceLineNo">092</span><a name="line.92"></a>
 <span class="sourceLineNo">093</span>        public static void ejemplo7() {<a name="line.93"></a>
-<span class="sourceLineNo">094</span>                Stream2.iterate(3L, x -&gt; x * x).whileIncluded(x -&gt; 81L - x &gt;= 0)<a name="line.94"></a>
+<span class="sourceLineNo">094</span>                Stream2.iterate(3L, x -&gt; x * x).whilePredicate(x -&gt; 81L - x &gt;= 0)<a name="line.94"></a>
 <span class="sourceLineNo">095</span>                                .forEach(imprimeEnConsola());<a name="line.95"></a>
 <span class="sourceLineNo">096</span>        }<a name="line.96"></a>
 <span class="sourceLineNo">097</span><a name="line.97"></a>
@@ -111,7 +111,7 @@
 <span class="sourceLineNo">103</span><a name="line.103"></a>
 <span class="sourceLineNo">104</span>        public static void ejemplos9() {<a name="line.104"></a>
 <span class="sourceLineNo">105</span>                Stream2.&lt;Integer&gt;iterate(0, x -&gt; x + 4)<a name="line.105"></a>
-<span class="sourceLineNo">106</span>                                .whileIncluded(x -&gt; x &lt;= 1000)<a name="line.106"></a>
+<span class="sourceLineNo">106</span>                                .whilePredicate(x -&gt; x &lt;= 1000)<a name="line.106"></a>
 <span class="sourceLineNo">107</span>                                .toList().forEach(imprimeEnConsola());<a name="line.107"></a>
 <span class="sourceLineNo">108</span>        }<a name="line.108"></a>
 <span class="sourceLineNo">109</span><a name="line.109"></a>

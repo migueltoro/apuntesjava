@@ -10,45 +10,46 @@
 <span class="sourceLineNo">002</span><a name="line.2"></a>
 <span class="sourceLineNo">003</span><a name="line.3"></a>
 <span class="sourceLineNo">004</span><a name="line.4"></a>
-<span class="sourceLineNo">005</span>import java.util.stream.Collectors;<a name="line.5"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
 <span class="sourceLineNo">006</span><a name="line.6"></a>
 <span class="sourceLineNo">007</span>import org.jgrapht.GraphPath;<a name="line.7"></a>
-<span class="sourceLineNo">008</span>import org.jgrapht.Graphs;<a name="line.8"></a>
-<span class="sourceLineNo">009</span><a name="line.9"></a>
-<span class="sourceLineNo">010</span>import us.lsi.algoritmos.Algoritmos;<a name="line.10"></a>
-<span class="sourceLineNo">011</span>import us.lsi.astar.AStarAlgorithm;<a name="line.11"></a>
-<span class="sourceLineNo">012</span>import us.lsi.astar.AStarGraph;<a name="line.12"></a>
-<span class="sourceLineNo">013</span>import us.lsi.common.ParInteger;<a name="line.13"></a>
-<span class="sourceLineNo">014</span>import us.lsi.graphs.AlternativeSimpleEdge;<a name="line.14"></a>
+<span class="sourceLineNo">008</span><a name="line.8"></a>
+<span class="sourceLineNo">009</span>import us.lsi.algoritmos.Algoritmos;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import us.lsi.astar.AStarAlgorithm;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import us.lsi.astar.AStarGraph;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import us.lsi.astar.puzzle.ProblemaPuzzle;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import us.lsi.common.PairInteger;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>import us.lsi.graphs.ActionSimpleEdge;<a name="line.14"></a>
 <span class="sourceLineNo">015</span><a name="line.15"></a>
 <span class="sourceLineNo">016</span>public class TestAStarPuzzle {<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
 <span class="sourceLineNo">018</span>        public static void main(String[] args) {<a name="line.18"></a>
 <span class="sourceLineNo">019</span>                <a name="line.19"></a>
-<span class="sourceLineNo">020</span>                EstadoPuzzle.numFilas = 3;<a name="line.20"></a>
-<span class="sourceLineNo">021</span>                EstadoPuzzle p1 = EstadoPuzzle.create(1,0,2,3,4,5,6,7,8);<a name="line.21"></a>
+<span class="sourceLineNo">020</span>                ProblemaPuzzle.numFilas = 3;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>                EstadoPuzzle2 p1 = EstadoPuzzle2.create(0,1,2,3,4,5,6,7,8);<a name="line.21"></a>
 <span class="sourceLineNo">022</span>//              EstadoPuzzle p2 = EstadoPuzzle.create(1,2,3,4,5,6,7,8,0);<a name="line.22"></a>
 <span class="sourceLineNo">023</span>//              EstadoPuzzle p3 = EstadoPuzzle.create(1,2,3,4,5,0,6,7,8);<a name="line.23"></a>
 <span class="sourceLineNo">024</span>//              EstadoPuzzle p4 = EstadoPuzzle.create(1,2,3,4,5,0,6,7,8);<a name="line.24"></a>
-<span class="sourceLineNo">025</span>                EstadoPuzzle p5 = EstadoPuzzle.create(1,2,3,4,0,5,6,7,8);<a name="line.25"></a>
+<span class="sourceLineNo">025</span>                EstadoPuzzle2 p5 = EstadoPuzzle2.create(1,2,3,4,0,5,6,7,8);<a name="line.25"></a>
 <span class="sourceLineNo">026</span>        <a name="line.26"></a>
-<span class="sourceLineNo">027</span>                AStarGraph&lt;EstadoPuzzle,AlternativeSimpleEdge&lt;ParInteger,EstadoPuzzle&gt;&gt; graph = PuzzleGraph1.create(p1,p5);<a name="line.27"></a>
-<span class="sourceLineNo">028</span>                AStarAlgorithm&lt;EstadoPuzzle,AlternativeSimpleEdge&lt;ParInteger,EstadoPuzzle&gt;&gt; d = Algoritmos.createAStar(graph, p1, p5);<a name="line.28"></a>
-<span class="sourceLineNo">029</span>                GraphPath&lt;EstadoPuzzle,AlternativeSimpleEdge&lt;ParInteger,EstadoPuzzle&gt;&gt; path = d.getPath();<a name="line.29"></a>
-<span class="sourceLineNo">030</span>                System.out.println(Graphs.getPathVertexList(path));<a name="line.30"></a>
-<span class="sourceLineNo">031</span>                System.out.println(Graphs.getPathVertexList(path).size());<a name="line.31"></a>
-<span class="sourceLineNo">032</span>                System.out.println(path.getEdgeList().stream().map(x-&gt;x.getAlternative()).collect(Collectors.toList()));<a name="line.32"></a>
-<span class="sourceLineNo">033</span>                System.out.println(path.getEdgeList().stream().map(x-&gt;x.getAlternative()).collect(Collectors.toList()).size());<a name="line.33"></a>
-<span class="sourceLineNo">034</span>/*              System.out.println(((PuzzleGraph3)graph).getNumVertexInEdgesOf());<a name="line.34"></a>
-<span class="sourceLineNo">035</span>                GraphPath&lt;EstadoPuzzle,DefaultSimpleEdge&lt;EstadoPuzzle&gt;&gt; path2 = d.getPath(p2);<a name="line.35"></a>
-<span class="sourceLineNo">036</span>                GraphPath&lt;EstadoPuzzle,DefaultSimpleEdge&lt;EstadoPuzzle&gt;&gt; path3 = d.getPath(p3);<a name="line.36"></a>
-<span class="sourceLineNo">037</span>                GraphPath&lt;EstadoPuzzle,DefaultSimpleEdge&lt;EstadoPuzzle&gt;&gt; path4 = d.getPath(p4);<a name="line.37"></a>
-<span class="sourceLineNo">038</span>                System.out.println(Graphs.getPathVertexList(path2));<a name="line.38"></a>
-<span class="sourceLineNo">039</span>                System.out.println(Graphs.getPathVertexList(path3));<a name="line.39"></a>
-<span class="sourceLineNo">040</span>                System.out.println(Graphs.getPathVertexList(path4));<a name="line.40"></a>
-<span class="sourceLineNo">041</span>*/      }<a name="line.41"></a>
-<span class="sourceLineNo">042</span><a name="line.42"></a>
-<span class="sourceLineNo">043</span>}<a name="line.43"></a>
+<span class="sourceLineNo">027</span>                AStarGraph&lt;EstadoPuzzle2,ActionSimpleEdge&lt;PairInteger,EstadoPuzzle2&gt;&gt; graph = PuzzleGraph2.create(p1,p5);<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                AStarAlgorithm&lt;EstadoPuzzle2,ActionSimpleEdge&lt;PairInteger,EstadoPuzzle2&gt;&gt; d = Algoritmos.createAStar(graph, p1, p5);<a name="line.28"></a>
+<span class="sourceLineNo">029</span>                GraphPath&lt;EstadoPuzzle2,ActionSimpleEdge&lt;PairInteger,EstadoPuzzle2&gt;&gt; path = d.getPath();<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                System.out.println(path.getWeight());<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                System.out.println(path.getVertexList());<a name="line.31"></a>
+<span class="sourceLineNo">032</span>//              System.out.println(path.getVertexList().size());<a name="line.32"></a>
+<span class="sourceLineNo">033</span>//              System.out.println(path.getEdgeList().stream().map(x-&gt;x.getAction()).collect(Collectors.toList()));<a name="line.33"></a>
+<span class="sourceLineNo">034</span>//              System.out.println(path.getEdgeList().stream().map(x-&gt;x.getAction()).collect(Collectors.toList()).size());<a name="line.34"></a>
+<span class="sourceLineNo">035</span>/*              System.out.println(((PuzzleGraph3)graph).getNumVertexInEdgesOf());<a name="line.35"></a>
+<span class="sourceLineNo">036</span>                GraphPath&lt;EstadoPuzzle,DefaultSimpleEdge&lt;EstadoPuzzle&gt;&gt; path2 = d.getPath(p2);<a name="line.36"></a>
+<span class="sourceLineNo">037</span>                GraphPath&lt;EstadoPuzzle,DefaultSimpleEdge&lt;EstadoPuzzle&gt;&gt; path3 = d.getPath(p3);<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                GraphPath&lt;EstadoPuzzle,DefaultSimpleEdge&lt;EstadoPuzzle&gt;&gt; path4 = d.getPath(p4);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                System.out.println(Graphs.getPathVertexList(path2));<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                System.out.println(Graphs.getPathVertexList(path3));<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                System.out.println(Graphs.getPathVertexList(path4));<a name="line.41"></a>
+<span class="sourceLineNo">042</span>*/      }<a name="line.42"></a>
+<span class="sourceLineNo">043</span><a name="line.43"></a>
+<span class="sourceLineNo">044</span>}<a name="line.44"></a>
 
 
 

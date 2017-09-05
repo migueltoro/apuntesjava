@@ -30,14 +30,14 @@
 <span class="sourceLineNo">022</span>                List&lt;Double&gt; lista = Math2.getListDoubleAleatoria(50, -20., 20.);<a name="line.22"></a>
 <span class="sourceLineNo">023</span>                Ordering&lt;Double&gt; ord = Ordering.natural();<a name="line.23"></a>
 <span class="sourceLineNo">024</span>                Double pivote = lista.get(0);<a name="line.24"></a>
-<span class="sourceLineNo">025</span>                Par&lt;Integer,Integer&gt; p = ProblemasDeListas.reordenaMedianteBanderaHolandesa(lista, pivote, 0,lista.size(), ord);<a name="line.25"></a>
-<span class="sourceLineNo">026</span>                for(int i=0;i&lt;p.getP1();i++){<a name="line.26"></a>
+<span class="sourceLineNo">025</span>                Tuple2&lt;Integer,Integer&gt; p = ProblemasDeListas.reordenaMedianteBanderaHolandesa(lista, pivote, 0,lista.size(), ord);<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                for(int i=0;i&lt;p.getV1();i++){<a name="line.26"></a>
 <span class="sourceLineNo">027</span>                        assertTrue(lista.get(i)&lt;pivote);<a name="line.27"></a>
 <span class="sourceLineNo">028</span>                }<a name="line.28"></a>
-<span class="sourceLineNo">029</span>                for(int i=p.getP1();i&lt;p.getP2();i++){<a name="line.29"></a>
+<span class="sourceLineNo">029</span>                for(int i=p.getV1();i&lt;p.getV2();i++){<a name="line.29"></a>
 <span class="sourceLineNo">030</span>                        assertTrue(lista.get(i).equals(pivote));<a name="line.30"></a>
 <span class="sourceLineNo">031</span>                }<a name="line.31"></a>
-<span class="sourceLineNo">032</span>                for(int i=p.getP2();i&lt;lista.size();i++){<a name="line.32"></a>
+<span class="sourceLineNo">032</span>                for(int i=p.getV2();i&lt;lista.size();i++){<a name="line.32"></a>
 <span class="sourceLineNo">033</span>                        assertTrue(lista.get(i)&gt;pivote);<a name="line.33"></a>
 <span class="sourceLineNo">034</span>                }<a name="line.34"></a>
 <span class="sourceLineNo">035</span>        }<a name="line.35"></a>

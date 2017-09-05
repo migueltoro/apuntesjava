@@ -12,7 +12,7 @@
 <span class="sourceLineNo">004</span><a name="line.4"></a>
 <span class="sourceLineNo">005</span>import org.jgrapht.Graph;<a name="line.5"></a>
 <span class="sourceLineNo">006</span>import org.jgrapht.GraphPath;<a name="line.6"></a>
-<span class="sourceLineNo">007</span>import org.jgrapht.graph.GraphPathImpl;<a name="line.7"></a>
+<span class="sourceLineNo">007</span>import org.jgrapht.graph.GraphWalk;<a name="line.7"></a>
 <span class="sourceLineNo">008</span><a name="line.8"></a>
 <span class="sourceLineNo">009</span>import com.google.common.base.Preconditions;<a name="line.9"></a>
 <span class="sourceLineNo">010</span>import com.google.common.collect.Lists;<a name="line.10"></a>
@@ -29,14 +29,14 @@
 <span class="sourceLineNo">021</span>                Preconditions.checkArgument(r1.getEndVertex().equals(r2.getStartVertex()),"El vértice final no es igual al inicial");<a name="line.21"></a>
 <span class="sourceLineNo">022</span>                List&lt;E&gt; edgeList = Lists.newArrayList(r1.getEdgeList());<a name="line.22"></a>
 <span class="sourceLineNo">023</span>                edgeList.addAll(r2.getEdgeList());<a name="line.23"></a>
-<span class="sourceLineNo">024</span>                return new GraphPathImpl&lt;V,E&gt;(r1.getGraph(), r1.getStartVertex(), r1.getEndVertex(),<a name="line.24"></a>
+<span class="sourceLineNo">024</span>                return new GraphWalk&lt;V,E&gt;(r1.getGraph(), r1.getStartVertex(), r2.getEndVertex(),<a name="line.24"></a>
 <span class="sourceLineNo">025</span>                                edgeList, r1.getWeight()+r2.getWeight());<a name="line.25"></a>
 <span class="sourceLineNo">026</span>        }<a name="line.26"></a>
 <span class="sourceLineNo">027</span><a name="line.27"></a>
 <span class="sourceLineNo">028</span>        public static &lt;V,E&gt; GraphPath&lt;V,E&gt; create(Graph&lt;V,E&gt; g, V v1, V v2, E e, Double d){<a name="line.28"></a>
 <span class="sourceLineNo">029</span>                List&lt;E&gt; edgeList = Lists.newArrayList();<a name="line.29"></a>
 <span class="sourceLineNo">030</span>                edgeList.add(e);<a name="line.30"></a>
-<span class="sourceLineNo">031</span>                return new GraphPathImpl&lt;V,E&gt;(g, v1, v2, edgeList, d);<a name="line.31"></a>
+<span class="sourceLineNo">031</span>                return new GraphWalk&lt;V,E&gt;(g, v1, v2, edgeList, d);<a name="line.31"></a>
 <span class="sourceLineNo">032</span>        }<a name="line.32"></a>
 <span class="sourceLineNo">033</span>}<a name="line.33"></a>
 

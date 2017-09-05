@@ -1,0 +1,8 @@
+Juan, 10, Amparo; Rosa
+Maria, 10, Rosa
+Sara, 11, Amparo; Rosa
+Andres, 11, Marco; Rosa
+Antonio, 11, Marco
+Sonia, 12, Marco
+Marta, 12, Marco
+Ivan, 12, Amparo

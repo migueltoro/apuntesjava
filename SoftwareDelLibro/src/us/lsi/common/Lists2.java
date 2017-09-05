@@ -2,6 +2,7 @@ package us.lsi.common;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import us.lsi.math.Math2;
 import us.lsi.stream.Stream2;
@@ -12,39 +13,35 @@ import com.google.common.base.*;
 public class Lists2 {
 	
 	/**
-	 * @param <E1> Tipo de los elementos
-	 * @param <E2> Tipo de los elementos
-	 * @param lista1 Una lista
-	 * @param lista2 Una lista 
-	 * @return El producto cartesiano como una lista de pares
+	 * @param <E> tipo de los elementos de la lista
+	 * @param ls Una lista
+	 * @return Un conjunto formado por los elementos de la lista
 	 */
-	public static <E1,E2> List<Par<E1,E2>> cartesianProduct(List<E1> lista1, List<E2> lista2){
-		List<Par<E1,E2>> lp = Lists.newLinkedList();
-		for(E1 e1: lista1){
-			for(E2 e2:lista2){
-				lp.add(Par.create(e1, e2));
-			}
-		}
-		return lp;
+	public static <E> Set<E> toSet(List<E> ls){
+		return ls.stream().collect(Collectors.toSet());
+	}
+	/**
+	 * @param <E> tipo de los elementos de la lista
+	 * @param ls Una lista
+	 * @pos La lista queda con el último elemento eliminado
+	 * @pre la lista no puede estar vacía
+	 * @return El último elemento eliminado
+	 */
+	public static <E> E removeLast(List<E> ls){
+		int last = ls.size()-1;
+		E e = ls.remove(last);
+		return e;
 	}
 	
 	/**
-	 * @param <E1> Tipo de los elementos
-	 * @param <E2> Tipo de los elementos
-	 * @param s1 Un conjunto
-	 * @param s2 Un conjunto
-	 * @return El producto cartesiano como un conjunto de pares de pares
+	 * @param <E> tipo de los elementos de la lista
+	 * @param ls Una lista
+	 * @param e Un elemento
+	 * @pos La lista queda con e añadido en primer lugar
 	 */
-	public static <E1,E2> Set<Par<E1,E2>> cartesianProduct(Set<E1> s1, Set<E2> s2){
-		Set<Par<E1,E2>> lp = Sets.newHashSet();
-		for(E1 e1: s1){
-			for(E2 e2: s2){
-				lp.add(Par.create(e1, e2));
-			}
-		}
-		return lp;
+	public static <E> void addFirst(List<E> ls, E e){
+		ls.add(0,e);
 	}
-	
 	
 	/**
 	 * @param <E> Tipo de los elementos
@@ -154,6 +151,20 @@ public class Lists2 {
 	}
 	
 	/**
+	 * @param <E> tipo de los elementos
+	 * @param e Una serie de elementos
+	 * @return Una lista construida a partir de ellos
+	 */
+	@SafeVarargs
+	public static <E> List<E> newList(E... e){
+		return Arrays.stream(e).collect(Collectors.toList());
+	}
+	
+	public static <E,U extends Collection<E>> List<E> newList(U elements){
+		return elements.stream().collect(Collectors.toList());
+	}
+	
+	/**
 	 * @param <T> Tipo de los elementos
 	 * @param ls Una lista
 	 * @return Una lista unitaria escogida aleatoriamente o vacía si lo es la de entrada
@@ -179,6 +190,8 @@ public class Lists2 {
 		}
 		return r;
 	}
+	
+	
 	
 }
 

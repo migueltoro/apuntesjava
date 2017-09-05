@@ -29,8 +29,10 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 
-import us.lsi.common.Entry;
-import us.lsi.common.Par;
+import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleEntry;
+
+import us.lsi.common.Tuple2;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Multiset;
@@ -355,7 +357,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un stream formado por los enteros a + c i con 0 &le; i   y a + c i &lt; b
 	 */
 	public static IntStream range(Integer a, Integer b, Integer c){
-		return Streams2.range(a, b, c);
+		return Streams.range(a, b, c);
 	}
 	
 	/**
@@ -366,7 +368,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un stream formado por los enteros a + c i con 0 &le; i   y a + c i &le; b
 	 */
 	public static IntStream rangeClosed(Integer a, Integer b, Integer c){
-		return Streams2.rangeClosed(a, b, c);
+		return Streams.rangeClosed(a, b, c);
 	}
 	
 	/**
@@ -376,7 +378,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un stream formado por los enteros a, a+1, a+2, ... hasta b sin incluir
 	 */
 	public static IntStream range(Integer a, Integer b){
-		return Streams2.range(a, b, 1);
+		return Streams.range(a, b, 1);
 	}
 	/**
 	 * @pre a == b o (b- a) c &gt; 0
@@ -386,7 +388,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un stream formado por los enteros a + c i con 0 &le; i   y a + c i &lt; b
 	 */
 	public static LongStream range(Long a, Long b, Long c){
-		return Streams2.range(a, b, c);
+		return Streams.range(a, b, c);
 	}
 	/**
 	 * @pre a == b o (b- a) c &gt; 0
@@ -396,7 +398,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un stream formado por los enteros a + c i con 0 &le; i   y a + c i &le; b
 	 */
 	public static LongStream rangeClosed(Long a, Long b, Long c){
-		return Streams2.rangeClosed(a, b, c);
+		return Streams.rangeClosed(a, b, c);
 	}
 	/**
 	 * @pre (b- a) &ge; 0
@@ -405,7 +407,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un stream formado por los enteros a, a+1, a+2, ... hasta b sin incluir
 	 */
 	public static LongStream range(Long a, Long b){
-		return Streams2.range(a, b, 1L);
+		return Streams.range(a, b, 1L);
 	}
 	
 	/**
@@ -413,7 +415,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un stream con las líneas del fichero
 	 */
 	public static Stream2<String> fromFile(String file){
-		return Stream2.create(Streams2.fromFile(file));
+		return Stream2.create(Streams.fromFile(file));
 	}
 	
 	/**
@@ -423,7 +425,7 @@ public class Stream2<T> implements Stream<T> {
 	 * 
 	 */
 	public static Stream2<String> fromString(String s, String delim){
-		return Stream2.create(Streams2.fromString(s,delim));
+		return Stream2.create(Streams.fromString(s,delim));
 	}
 	/**
 	 * @param it Un Iterable
@@ -451,7 +453,7 @@ public class Stream2<T> implements Stream<T> {
 	 * 
 	 */
 	public T elementRandom()  {
-		return StreamExtensions.elementRandom(this);
+		return Streams.elementRandom(this);
 	}
 	
 	/**
@@ -460,7 +462,7 @@ public class Stream2<T> implements Stream<T> {
 	 * del stream original
 	 */
 	public Stream2<T> unitaryRandomStream(){
-		return  Stream2.create(StreamExtensions.unitaryRandomStream(this));
+		return  Stream2.create(Stream.of(Streams.elementRandom(this)));
 	}
 	
 	
@@ -506,10 +508,10 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Una substream de this que contiene elementos de this que verifican pt. 
 	 * El stream devuelto acaba cuando se encuentra un elemento que no verifica pt. Ese elemento no se incluye.
 	 */
-	public Stream2<T> whileIncluded(Predicate<T> pt) {
-		UnmodifiableIterator<T> um = new Streams2.IteratorWhile<T>(this.iterator(), pt);
-		return Stream2.create(StreamSupport.stream(
-				Spliterators.spliteratorUnknownSize(um, Spliterator.IMMUTABLE | Spliterator.ORDERED),false));
+	public Stream2<T> whilePredicate(Predicate<T> pt) {
+		Stream.Builder<T> b = Stream.builder();
+		this.peek(x->{if(pt.test(x))b.add(x);}).filter(pt.negate()).findFirst();
+		return Stream2.create(b.build());
 	}
 	
 	
@@ -522,7 +524,7 @@ public class Stream2<T> implements Stream<T> {
 	 * por un elemento de this y otro de s2
 	 */
 	public <U, R> Stream2<R> cartesianProduct(Stream<U> s2, BiFunction<T, U, R> f){
-		return Stream2.create(StreamExtensions.cartesianProduct(this, s2, f));
+		return Stream2.create(Streams.cartesianProduct(this, s2, f));
 	}
 
 	/**
@@ -539,7 +541,7 @@ public class Stream2<T> implements Stream<T> {
 	public <U, K, R> Stream2<R> joint(Stream<U> s2,Function<? super T, ? extends K> f1,
 			Function<? super U, ? extends K> f2, 
 			BiFunction<T, U, R> fr){
-		return Stream2.create(StreamExtensions.joint(this, s2, f1, f2, fr));
+		return Stream2.create(Streams.joint(this, s2, f1, f2, fr));
 	}
 	
 	/**
@@ -548,7 +550,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un grupo de nivel 1 formado según las claves calculadas por f1
 	 */
 	public <K1> Group1<K1, List<T>> groupBy1(Function<? super T, ? extends K1> f1){
-		return StreamExtensions.grouping1(this, f1);
+		return Streams.grouping1(this, f1);
 	}
 	
 	/**
@@ -561,7 +563,7 @@ public class Stream2<T> implements Stream<T> {
 	 */
 	public  <K1, R> Group1<K1,R> groupBy1(Function<? super T, ? extends K1> f1, Comparator<K1> cmp,
 			Collector<T,?,R> cl) {
-		return StreamExtensions.grouping1Sort(this, f1, cmp, cl);
+		return Streams.grouping1Sort(this, f1, cmp, cl);
 	}
 	
 	/**
@@ -572,7 +574,7 @@ public class Stream2<T> implements Stream<T> {
 	 * @return Un grupo de nivel 1 y los grupos con la misma clave agrupados según cl
 	 */
 	public <K1, R> Group1<K1,R> groupBy1(Function<? super T, ? extends K1> f1, Collector<T,?,R> cl){
-		return StreamExtensions.grouping1Sort(this, f1, cl);
+		return Streams.grouping1Sort(this, f1, cl);
 	}
 	
 	/**
@@ -584,7 +586,7 @@ public class Stream2<T> implements Stream<T> {
 	 */
 	public <K1, K2> Group2<K1, K2, List<T>> groupBy2(Function<? super T, ? extends K1> f1,
 			Function<? super T, ? extends K2> f2){
-		return StreamExtensions.grouping2(this, f1, f2);
+		return Streams.grouping2(this, f1, f2);
 	}
 	
 	/**
@@ -603,7 +605,7 @@ public class Stream2<T> implements Stream<T> {
 			Comparator<K1> cmp1,
 			Comparator<K2> cmp2,
 			Collector<T,?,R> cl){
-		return StreamExtensions.grouping2Sort(this, f1, f2, cmp1, cmp2, cl);
+		return Streams.grouping2Sort(this, f1, f2, cmp1, cmp2, cl);
 	}
 	
 	/**
@@ -618,7 +620,7 @@ public class Stream2<T> implements Stream<T> {
 	public <K1, K2, R> Group2<K1,K2,R>  groupBy2(Function<? super T, ? extends K1> f1,
 			Function<? super T, ? extends K2> f2,
 			Collector<T,?,R> cl) {
-		return StreamExtensions.grouping2Sort(this, f1, f2, cl);
+		return Streams.grouping2Sort(this, f1, f2, cl);
 	}
 	
 	/**
@@ -633,7 +635,7 @@ public class Stream2<T> implements Stream<T> {
 	public <K1, K2, K3> Group3<K1, K2, K3, List<T>> groupBy3(Function<? super T, ? extends K1> f1,		
 			Function<? super T, ? extends K2> f2,
 			Function<? super T, ? extends K3> f3) {
-		return StreamExtensions.grouping3(this, f1, f2, f3);
+		return Streams.grouping3(this, f1, f2, f3);
 	}
 	
 	/**
@@ -658,7 +660,7 @@ public class Stream2<T> implements Stream<T> {
 			Comparator<K2> cmp2,
 			Comparator<K3> cmp3,
 			Collector<T,?,R> cl){
-		return StreamExtensions.grouping3Sort(this, f1, f2, f3, cmp1, cmp2, cmp3, cl);
+		return Streams.grouping3Sort(this, f1, f2, f3, cmp1, cmp2, cmp3, cl);
 	}
 	/**
 	 * @param f1 Una función para calcular la primera clave
@@ -676,7 +678,7 @@ public class Stream2<T> implements Stream<T> {
 			Function<? super T, ? extends K2> f2,
 			Function<? super T, ? extends K3> f3,
 			Collector<T,?,R> cl){
-		return StreamExtensions.grouping3Sort(this, f1, f2, f3, cl);
+		return Streams.grouping3Sort(this, f1, f2, f3, cl);
 	}
 	
 	/**
@@ -696,7 +698,7 @@ public class Stream2<T> implements Stream<T> {
 	 */
 	public <K,V> EntryStream<K,V> mapToEntry(Function<? super T, ? extends K> f1,
 			Function<? super T, ? extends V> f2){
-		return new EntryStream<K,V>(this.<Entry<K,V>>map(x->Entry.<K,V>create(f1.apply(x),f2.apply(x))));
+		return new EntryStream<K,V>(this.<Entry<K,V>>map(x->new SimpleEntry<>(f1.apply(x),f2.apply(x))));
 				
 	}
 
@@ -705,8 +707,8 @@ public class Stream2<T> implements Stream<T> {
 	 * 
 	 * @return Un stream de pares de valores consecutivos en st
 	 */
-	public Stream<Par<T,T>> toParStream(){
-		return Streams2.toParStream(this);
+	public Stream<Tuple2<T,T>> toPairStream(){
+		return Streams.toPairStream(this);
 				
 	}
 

@@ -7,7 +7,6 @@ import us.lsi.ag.agchromosomes.IndexRangeChromosome;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
 import us.lsi.ag.agstopping.SolutionsNumber;
 import us.lsi.ag.agstopping.StoppingConditionFactory;
-import us.lsi.algoritmos.AbstractAlgoritmo;
 import us.lsi.algoritmos.Algoritmos;
 import us.lsi.pd.mochila.ProblemaMochila;
 import us.lsi.pd.mochila.SolucionMochila;
@@ -27,7 +26,7 @@ public class TestMochilaAGRange {
 		StoppingConditionFactory.stoppingConditionType = StoppingConditionFactory.StoppingConditionType.SolutionsNumber;
 		
 		ProblemaMochila.capacidadInicial = 78;
-		ProblemaAGIndex<SolucionMochila> p = new ProblemaMochilaAGRange(AbstractAlgoritmo.getRaiz()+"objetosmochila.txt");
+		ProblemaAGIndex<SolucionMochila> p = new ProblemaMochilaAGRange(AlgoritmoAG.raiz+"objetosmochila.txt");
 		
 		AlgoritmoAG ap = Algoritmos.createAG(ChromosomeType.IndexRange,p);
 		ap.ejecuta();

@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import us.lsi.common.ParInteger;
+import us.lsi.common.PairInteger;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -194,7 +194,10 @@ public class Math2 {
 	}
 	
     public static Random rnd   = new Random(System.nanoTime());
-	    
+	  
+    public static void initRandom(){
+    	rnd   = new Random(System.nanoTime());
+    }
 	
     /**
      * @return Un objeto de tipo Random
@@ -236,11 +239,11 @@ public class Math2 {
 	 * @param b Límte Superior
 	 * @return Un par aleatorio cuyos elementos son distintos y están en el intervalo  a &lt; = r &lt; b
 	 */
-	public static ParInteger getParAleatorioYDistinto(Integer a, Integer b){   	
+	public static PairInteger getParAleatorioYDistinto(Integer a, Integer b){   	
     	Preconditions.checkArgument(b-a>=2,a+","+b);
     	Integer c1 = getEnteroAleatorio(a,b-1);
     	Integer c2 = getEnteroAleatorio(c1+1,b);
-		return ParInteger.create(c1, c2);
+		return PairInteger.create(c1, c2);
 	}
 	
 	/**
@@ -360,7 +363,7 @@ public class Math2 {
 	public static boolean esPrimo(BigInteger a){
 		return a.isProbablePrime(100);
 	}
-		
+	
 	/**
 	 * @param a Un entero
 	 * @return Siguiente primo

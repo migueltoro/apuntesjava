@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.jgrapht.GraphPath;
-import org.jgrapht.Graphs;
+
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 
-import us.lsi.common.ParInteger;
+import us.lsi.common.PairInteger;
 import us.lsi.graphs.*;
 import us.lsi.stream.Stream2;
 
@@ -104,13 +104,13 @@ public class Casilla implements VirtualVertex<Casilla,SimpleEdge<Casilla>> {
 
 	@Override
 	public Set<Casilla> getNeighborListOf() {
-		List<ParInteger> ls = Lists.newArrayList(ParInteger.create(1,0),
-				ParInteger.create(0,1),ParInteger.create(-1,0),ParInteger.create(0,-1));
+		List<PairInteger> ls = Lists.newArrayList(PairInteger.create(1,0),
+				PairInteger.create(0,1),PairInteger.create(-1,0),PairInteger.create(0,-1));
 		return ls.stream()
-				 .<ParInteger> map((ParInteger x)-> ParInteger.create(x.p1+this.x, x.p2+this.y))
-				 .filter((ParInteger x)-> x.p1>=0 && x.p1 < numX && x.p2>=0 && x.p2 < numY && 
-				 		  datosCasillas.get(x.p1, x.p2) >=0)
-				 .<Casilla>map((ParInteger x)-> Casilla.create(x.p1,x.p2))
+				 .<PairInteger> map((PairInteger x)-> PairInteger.create(x.v1+this.x, x.v2+this.y))
+				 .filter((PairInteger x)-> x.v1>=0 && x.v1 < numX && x.v2>=0 && x.v2 < numY && 
+				 		  datosCasillas.get(x.v1, x.v2) >=0)
+				 .<Casilla>map((PairInteger x)-> Casilla.create(x.v1,x.v2))
 				 .collect(Collectors.<Casilla>toSet());
 	}
 
@@ -142,7 +142,7 @@ public class Casilla implements VirtualVertex<Casilla,SimpleEdge<Casilla>> {
 	}
 	
 	public static String show(GraphPath<Casilla,SimpleEdge<Casilla>> p){
-		List<Casilla> lc = Graphs.getPathVertexList(p);		
+		List<Casilla> lc = p.getVertexList();		
 		String s = "";
 		Casilla c;
 		for(int y = Casilla.numY-1; y>=0; y--){
