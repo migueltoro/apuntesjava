@@ -21,7 +21,7 @@
 <li><a href="#ejm">Algunos ejemplos</a> </li>
 <li><a href="#cmcp">Caso mejor, caso peor y caso medio</a> </li>
 </ul>
-<a name="int"><h1> Introducción a la complejidad </h1>
+<h1><a id="int"> Introducción a la complejidad </h1>
 <p> El análisis de la complejidad de una algoritmo es el estudio del tiempo que tarda en ejecutarse un algoritmo
 en función del tamaño del problema que estamos resolviendo. Representaremos esta idea mediante \( T(n) \). La función \(T(n)\)
 es monótona creciente y normalmente estamos interesados, más que en su expresión cuantitativa, en su comportamiento
@@ -31,7 +31,7 @@ para grandes valores de \(n\). Lo que buscaremos es la clase de equivalencia en 
 <p>
 Hacemos las seguientes definiciones:
 <ul>
-<li> \( h(n) \cong_{\infty} g(n)  \equiv 0 < \lim_{n \to \infty}\frac{h(n)}{g(n)} <   \infty \)</li>
+<li> \( h(n) \cong_{\infty} g(n)  \equiv 0 \lt \lim_{n \to \infty}\frac{h(n)}{g(n)} \lt   \infty \)</li>
 <li> \( h(n) =_{\infty} g(n)  \equiv \lim_{n \to \infty}\frac{h(n)}{g(n)} = 1 \)</li>
 <li> \( h(n) \lt_{\infty} g(n)  \equiv \lim_{n \to \infty}\frac{h(n)}{g(n)}  =   0  \) </li>
 <li> \(  h(n) \gt_{\infty} g(n)  \equiv \lim_{n \to \infty}\frac{h(n)}{g(n)}  =   \infty \) </li>
@@ -64,11 +64,11 @@ se deducen de las propiedades de los límites son:
 <ul>
 <li> \(	\Theta (f(n)) = \Theta (af(n)+b) \) para dos constantes \( a, b \) positivas cualesquiera </li>
 <li> \(	f(n) \ge_{\infty} g(n) \Rightarrow  \Theta (af(n)+bg(n)) = \Theta (f(n))\) para dos constantes \( a, b \) positivas cualesquiera </li>
-<li> \(	\Theta (n) < \Theta (n^2 ) \) </li>
+<li> \(	\Theta (n) \lt \Theta (n^2 ) \) </li>
 <li> \(	\Theta (n) > \Theta (\log_a n) \) para cualquier \( a \) </li>
-<li> \(	\Theta (n^a ) < \Theta (a^n ) \) para cualquier entero \( a > 1 \) </li>
-<li> \(	\Theta (a^n ) = \Theta (0) < \Theta (1) \) para cualquier \( a < 1 \) </li>
-<li> \(	\Theta (n^{d+ \epsilon} ) > \Theta (n^d \log_a^p n) \) para cualesquier \( d > 0, a > 0, p > 0, \epsilon >0 \). </li>
+<li> \(	\Theta (n^a ) \gt \Theta (a^n ) \) para cualquier entero \( a > 1 \) </li>
+<li> \(	\Theta (a^n ) = \Theta (0) \lt \Theta (1) \) para cualquier \( a \lt 1 \) </li>
+<li> \(	\Theta (n^{d+ \epsilon} ) \gt \Theta (n^d \log_a^p n) \) para cualesquier \( d > 0, a > 0, p > 0, \epsilon >0 \). </li>
 
 </ul>
 
@@ -87,7 +87,7 @@ Una lista de clases de complejidad, junto con sus nombres usuales, y ordenada de
 <li> \(	\Theta (n^n) \)  </li>
 </ul>
 
-<a name="int"><cma> Análisis de la complejidad de un algoritmo </h1>
+<h1><a id="cma"> Análisis de la complejidad de un algoritmo </h1>
 
 El análisis de la complejidad de un algoritmo consiste en obtener el orden de complejidad del tiempo de
 ejecución de un algoritmo en función del tamaño \( n\) del problema que resuelve. Es decir \( \Theta T(n) \).
@@ -125,7 +125,7 @@ Dónde \( \mathcal{P} \) es el conjunto de todos los subproblemas encontrados al
 del subproblema \(p\) y \( f(n) \) la complejidad del cuerpo del algoritmo exluyendo las llamadas recursivas.
 </li>
 </ul>
-<h1><a name="#smrc">Complejidad de sumatorios y recurrencias </h1>
+<h1><a id="#smrc">Complejidad de sumatorios y recurrencias </h1>
 
 Para calcular la complejidad de sumatorios podemos apoyarnos en los siguientes propiedades dependiendo que la variable 
 recorra una progresión aritmética o geométrica.
@@ -201,7 +201,7 @@ T(n)= T(n-b)+ n^d \log^p ⁡n  \equiv \sum_{x \in pa(a,r)}^n x^d \log^p x
 \[
 T(n)= T(n/b)+ n^d \log^p ⁡n  \equiv \sum_{x \in pg(a,r)}^n x^d \log^p x
 \]
-<h1><a name="#ejm"> Algunos ejemplos </h1>
+<h1><a id="#ejm"> Algunos ejemplos </h1>
 Veamos en primer lugar el ejemplo:
 
 <pre>
@@ -304,7 +304,7 @@ Con memoria en cualquier caso de los dos anteriores:
 \[
 \sum_{x \in pg(1,2)}^n x^2 \log x \in \Theta(n^2 \log n)
 \]
-<h1><a name="#cmcp">Caso mejor, caso peor y caso medio </h1>
+<h1><a id="#cmcp">Caso mejor, caso peor y caso medio </h1>
 
 Varios problemas con el mismo tamaño pueden tardar tiempos diferentes. 
 Esto es debido a que puede haber varios problemas distintos con el mismo tamaño \( n \). 

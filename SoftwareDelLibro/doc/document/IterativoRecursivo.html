@@ -23,7 +23,7 @@
 <li><a href="#itrc">Transformación Iterativo-Recursivo</a> </li>
 <li><a href="#rcit">Transformación Recursivo-Iterativo</a> </li>
 </ul>
-<a name="nt"><h1> Notación </h1>
+<a id="nt"><h1> Notación </h1>
 <ul>
   <li><strong>Rangos</strong>. Son secuencias de números enteros. Los representaremos por \([a,b), [a,b]\). 
 El primero no incluye el extremo derecho el segundo si. </li>
@@ -61,7 +61,7 @@ Esto lo indicaremos en al forma \( s = [t(x), x \in sq| f(x)] \). Donde \(t(x), 
 el filtro aplicados.
 También podemos definir operaciones de acumulación que permiten, como su nombre indica, acumular los valores de la secuencia. </li>
 </ul>
-<a name="inv"><h1> Invariantes y Asignación Paralela </h1>
+<a id="inv"><h1> Invariantes y Asignación Paralela </h1>
 <h2>Bloque básico</h2>
 <p>
 En los lenguajes imperativos hay sentencias que producen un cambio del valor de una variable dada. 
@@ -265,7 +265,7 @@ Este último caso es posible cuanda en la definición de cada variables sólo apare
 Por último solo destacar que un conjunto de restricciones de iguadad se transforma de manera sencialla 
 en una asignación paralela y ésta, como hemos visto antes, se puede transformar en un bloque básico.
 </p>
-<a name="it"><h1> Algoritmos Iterativos </h1>
+<a id="it"><h1> Algoritmos Iterativos </h1>
 
 Los algoritmos iterativos tienen la estructura general:
 
@@ -308,8 +308,8 @@ también podemos decir Tamaño del Problema).
 final del cuerpo del while. Es decir debe cumplirse \(I(e_0), I(s(e)\). O visto de otra manera: asumiendo que se cumple 
 \(I(e)\) demos comprobar que se cumple \(I(s(e))\).
 </li>
-<li> La función de cota, \(C(e,x)\), devuelve un entero y debe cumplir \(C(e',x) < C(e,x)\). Dónde \(e'\) es el valor del
-estado al final del cuerpo del bucle. Es decir debe cumplir \(C(s(e),x) < C(e,x)\). 
+<li> La función de cota, \(C(e,x)\), devuelve un entero y debe cumplir \(C(e',x) \lt C(e,x)\). Dónde \(e'\) es el valor del
+estado al final del cuerpo del bucle. Es decir debe cumplir \(C(s(e),x) \lt C(e,x)\). 
 </li>
 </ul>
 <p>
@@ -552,7 +552,7 @@ Y la restricción entrada-salida deducida:
 Es decir hubiéramos llegado a este algoritmo si hubiéramos escogido este invariante. Pero llegamos al algoritmo instanciando
 el esquema algoritmico iterativo propuesto.
 
-<a name="#j8"><h1>Esquemas equivalentes en Java 8 a los Esquemas Iterativos</h1>
+<a id="#j8"><h1>Esquemas equivalentes en Java 8 a los Esquemas Iterativos</h1>
 El esquema iterativo visto arriba:
 <pre>
 f(x) {
@@ -701,7 +701,7 @@ Otros ejemplos resueltos en Java 8 pueden encontrars en las clases
 <a href="../us/lsi/java8ejemplos/Ejemplos.html" target="_blank">Ejemplos</a> y <a href="../us/lsi/java8ejemplos/OtrosEjemplos.html" target="_blank">OtrosEjemplos</a>.
 
 
-<a name="rc"><h1> Esquemas Recursivos </h1>
+<h1><a id="rc"> Esquemas Recursivos </h1>
 
 La definición recursiva de un problema es una especificación de la solución del mismo en base a la de otros 
 problemas de la misma naturaleza pero de un tamaño más pequeño. 
@@ -889,7 +889,7 @@ f(x) {
 }
 </pre>
 
-<a name="itrc"><h1>Transformación Iterativo-Recursivo final y viceversa </h1>
+<a id="itrc"><h1>Transformación Iterativo-Recursivo final y viceversa </h1>
 
 El algoritmo iterativo:
 <pre>
@@ -971,7 +971,7 @@ mcd(a,b) {
 	return a;
 }
 </pre>
-<a name="rcit"><h1>Transformación Recursivo-Iterativo </h1>
+<a id="rcit"><h1>Transformación Recursivo-Iterativo </h1>
 <p>
 Como hemos visto en la sección anterior los algortimos recursivos finales tienen sus equivalentes iterativos. 
 Los algoritmos recursivos generales pueden, en algunos casos, tranformarse a recursivos finales. 

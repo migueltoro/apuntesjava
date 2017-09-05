@@ -62,7 +62,7 @@ Cuando el contexto está claro no hacemos explícto el rango donde se mueven detem
 Indicamos em máximo de una lista cuyos elementos se extraen de \( A_p \). Igualmente para un conjunto o diccionario.
 
 </p>
-<a name="PD"><h1> Programación Dinámica </h1>
+<h1></h1><a id="PD"><h1> Programación Dinámica </h1>
 <p>
 La Programación Dinámica tiene distintas acepciones en la literatura. 
 Aquí llamaremos Programación Dinámica a una generalización de la técnica de Divide y Vencerás 
@@ -266,7 +266,7 @@ Algunas equivalencias son:
 </center>
 </p>
 
-<a name="PDR"><h1> Programación Dinámica tipo Reducción </h1>
+<a id="PDR"><h1> Programación Dinámica tipo Reducción </h1>
 
 <p>
 La Programación Dinámica tiene un caso particular de mucho uso: La Programación Dinámica de Reducción. Este caso ocurre cuando el número de subproblemas
@@ -309,7 +309,7 @@ alcanzaremos un problema \( p_r \). Si \( p_r \) es un caso base la  secuencia d
 define una solución del problema \(p_0 \). Alternativamente una secuencia de alternativas (un camino en el grafo) 
 puede acabar en un problema que no tenga solución.
 </p>
-<a name="BT"><h2> Vuelta Atrás (Bactracking) </h2>
+<a id="BT"><h2> Vuelta Atrás (Bactracking) </h2>
 <p>Los algoritmos de Vuelta Atrás (Bactracking) son implementaciones eficientes del esquema de Programación
 Dinámica con Reducción que se usan cuando no hay, o hay pocos problemas compartidos y por lo tanto
 no es necesario el uso de memoria.
@@ -328,7 +328,7 @@ debe tener métodos para avanzar al problema siguiente según una alternativa, ret
 calcular la solución del problema inicial asociada al camino seguido hasta el caso base. 
 </p>
 
-<a name="filtro"><h2>Técnica de Filtro </h2>
+<a id="filtro"><h2>Técnica de Filtro </h2>
 <p>
 Las técnicas de filtro se usan al resolver Problemas de Optimización mediante 
 algortimos de Programación Dinámica con Reducción (o equivalentement Bactracking)
@@ -350,8 +350,7 @@ En un problema de minimización pueden ser descartadas las alternativas tales que
 \[ va + ct(p,a) < mv \]
 
 En efecto \( va+ct(p,a) \) es una cota inferior para el valor de la propiedad a optimizar 
-del problema inicial \( p_0\) luego si siguiendo esa alternativa cumple \( va+ct(p,a)<mv\) y 
-entonces puede ser descartada. 
+del problema inicial \( p_0\). Luego siguiendo esa alternativa se cumple \( va+ct(p,a) \lt mv \) y  la alternativa puede ser descartada. 
 </p>
 Podemos ver un grafo del Problema de la Mochila resuelto sin filtro:
 <p>
@@ -424,7 +423,7 @@ Para el uso de las técnicas de filtro disponemos de los métodos:
 </center>
 </p>
 
-<a name="VR"><h1> Algoritmos Voraces </h1>
+<a id="VR"><h1> Algoritmos Voraces </h1>
 <p>
 Los algoritmos voraces guardan relación con los Algoritmos de Vuelta Atrás. 
 Partiendo de un Algoritmo de Vuelta Atrás podemos diseñar otro Voraz indicando para cada conjunto 
@@ -471,7 +470,7 @@ entonces es preferible al algoritmo de Vuelta Atrás correspondiente. Pero es dem
 para algoritmos Voraces concretos </li>
 </ul>
 
-<a name="AS"><h1> Algoritmos A* </h1>
+<a id="AS"><h1> Algoritmos A* </h1>
 <p>
 Los Algoritmos A* son adecuados para encontrar el camino mínimo en un grafo. Tienen importantes relaciones con
 los problemas que se resuelven mediante Bactracking. Como veremos un esquema de Bactracking puede ser convertido
