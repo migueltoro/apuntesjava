@@ -515,10 +515,10 @@ Un acumulador se especifica con un elemento inicial y una función binaria: \( A 
 Aplicado a una secuencia produce un valor acumulado. A la secuencia vacía se le asigna un
 valor acumulado de \(a_0\). Aplicar un acumulador a una secuencia lo indicamos \( Ac(sq, A) \). 
 Por ejemplo \( \prod_{i=1}^n i \) 
-acumula la secuencia \( [1,2,...,n] \] con el acumulador \( (1, _*_) \). El algoritmo
-anterior define una acumualdor y el valor acumulado devuelto es: 
+acumula la secuencia \( [1,2,...,n] \) con el acumulador \( (1, \_*\_) \). El algoritmo
+anterior define una acumulador y el valor acumulado devuelto es: 
 
-\[ Ac(sq,A), sq = [t(e) e \in (e0, s(e), p(e)) | h(e)], A =(a_0,ac(_,_))\]
+\[ Ac(sq,A), sq = [ t(e) e \in (e0, s(e), p(e)) | h(e)], A =(a_0,ac(\_,\_)) \]
 El invariante del algoritmo asegura que el valor del acumulador es igual al valor acumulado por el acumulador definido
 por el algoritmo sobre la secuencia definida por él de una longitud igual al número de iteraciones.
 </p>
@@ -552,7 +552,7 @@ Y la restricción entrada-salida deducida:
 Es decir hubiéramos llegado a este algoritmo si hubiéramos escogido este invariante. Pero llegamos al algoritmo instanciando
 el esquema algoritmico iterativo propuesto.
 
-<a id="#j8"><h1>Esquemas equivalentes en Java 8 a los Esquemas Iterativos</h1>
+<h1><a id="#j8">Esquemas equivalentes en Java 8 a los Esquemas Iterativos</h1>
 El esquema iterativo visto arriba:
 <pre>
 f(x) {

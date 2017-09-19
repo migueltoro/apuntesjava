@@ -87,15 +87,25 @@ Una lista de clases de complejidad, junto con sus nombres usuales, y ordenada de
 <li> \(	\Theta (n^n) \)  </li>
 </ul>
 
+Por cada clase de complejidad podemos escoger un representante canónico. Así \( n \) es el representante canónico de la
+clase de complejidad que hemos llamado orden lineal. Para cada función de la clase existe el concepto de 
+<strong> constante multiplicativa </strong>. Si dos funciones \( f(n), g(n) \) son de la misma clase de complejidad
+y \(g(n)\) es el representante canónico de la misma definimos la constante multiplicativa de \(f(n) \) como 
+la constante \( 0 \lt k \lt \infty \):
+
+\[   k = \lim_{n \to \infty}\frac{f(n)}{g(n)} \]
+
+Así la constante multiplicativa de \( 5n^2+3n+8 \) es 5. 
+
 <h1><a id="cma"> Análisis de la complejidad de un algoritmo </h1>
 
 El análisis de la complejidad de un algoritmo consiste en obtener el orden de complejidad del tiempo de
-ejecución de un algoritmo en función del tamaño \( n\) del problema que resuelve. Es decir \( \Theta T(n) \).
+ejecución de un algoritmo en función del tamaño \( n\) del problema que resuelve. Es decir \( \Theta (T(n)) \).
 Abordaremos en problema en cuatro casos: un bloque básico generalizado, un bucle, una algorimo recursivo sin memoria y
 un algoritmo recursivo con memoria.
 <ul>
 <li> El orden de <strong> complejidad de un  bloque básico generalizado </strong>, se compone de una secuencia de asignaciones combinadas con if,
-es constante. Es decir \(\Theta T(n) = \Theta (1) \). La razón es que el bloque básico tardará un tiempo deteminado que es constante
+es constante. Es decir \(\Theta (T(n)) = \Theta (1) \). La razón es que el bloque básico tardará un tiempo deteminado que es constante
 y no depende del tamaño del problema. </li>
 <li> El orden de <strong> complejidad de un bucle </strong>(while, for, dowhile) puede expresarse como un sumatorio de la complejidad
 del cuerpo sobre las iteraciones del bucle.
@@ -105,7 +115,7 @@ En los casos más usuales el conjunto \( \mathcal{I} \) contiene una progresión
 enteros. Por las propiedades
 del sumatorio asumiremos que ambas progresiones son siempre crecientes. Estos  casos los representaremos por:
 \[ \Theta(\sum_{i \in pa(a,r)}^n f(i)), \Theta(\sum_{i \in pg(a,r)}^n f(n)) \]
-Donde \( pa(a,r), pg(a,r \) representan, respectivamente una progresión aritmética o geométrica de primer término 
+Donde \( pa(a,r), pg(a,r) \) representan, respectivamente una progresión aritmética o geométrica de primer término 
 \( a \) y razón \(r \). Más abajo veremos cómo calcular las complejidades de esos sumatorios.
   </li>
 <li> La <strong> complejidad de un algoritmo recursivo sin memoria </strong> se expresa mediante 
@@ -122,15 +132,19 @@ subproblemas necesarios para resolver el problema dado de la complejidad del cue
 
 \[ \Theta(\sum_{p \in \mathcal{P}} f(n_p)) \]
 Dónde \( \mathcal{P} \) es el conjunto de todos los subproblemas encontrados al resolver \( p_0 \), \(n_p\) el tamaño
-del subproblema \(p\) y \( f(n) \) la complejidad del cuerpo del algoritmo exluyendo las llamadas recursivas.
+del subproblema \(p\) y \( f(n) \) la complejidad del cuerpo del algoritmo excluyendo las llamadas recursivas.
+</li>
+<li>
+Si designamos por \( \Theta(T_s(n)), \Theta(T_m(n)) \) las complejidades de un algoritmo recursivo sin memoria y con memoria
+se cumple: \( \Theta(T_m(n)) \le \Theta(T_s(n)) \). La igualdad se cumple cuando no hay subproblemas compartidos
+en el algoritmo recursivo. Es decir donde cada subproblema se resuelve una sola vez. Veremos ejemplos de estos conceptos.
 </li>
 </ul>
 <h1><a id="#smrc">Complejidad de sumatorios y recurrencias </h1>
 
 Para calcular la complejidad de sumatorios podemos apoyarnos en los siguientes propiedades dependiendo que la variable 
 recorra una progresión aritmética o geométrica.
-<ul>
-<li> 
+
 \[ \sum_{x \in pa(a,r)}^n x^d \log^p x  =_{\infty} \frac{1}{r(d+1)} n^{d+1} \log^p n \] 
 \[ \sum_{x \in pg(a,r)}^n x^d \log^p x  \cong_{\infty} 
 \begin{cases}
@@ -142,7 +156,8 @@ secuencia  \( a+ri, i=,0,1,2,... \) hasta \( x = n \). Y por \( pg(a,r) \) quere
 Es decir que los valores de \( x \) recorren la 
 secuencia  \( a r^i, i=,0,1,2,... \) hasta \( x = n \).
 Consideraremos dos tipos de recurrencias según que los tamaños del subproblema, con respecto al del problema, guarden
-la relación \( n-b \) o \( n/b \):
+la relación \( n-b \) o \( n/b \).
+<br>
 Las soluciones a la recurrencia:
 \[
 T(n)= aT(n-b)+ n^d \log^p n
@@ -156,7 +171,7 @@ n^{d+1} \log^p n, & \text{si } a = 1 \\
 n^d \log^p n, & \text{si } a \lt 1 \\
 \end{cases}
 \]
-Las soluciones a la recurrencia:
+Y las soluciones a la recurrencia:
 \[
 T(n)= aT(n/b)+ n^d \log^p ⁡n
 \]
