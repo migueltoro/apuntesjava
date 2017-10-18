@@ -15,262 +15,316 @@
 <body>
 <h1>Indice </h1>
 <ul>
-<li><a href="#nt">Notación</a> </li>
-<li><a href="#inv">Invariantes y Asignación paralela</a> </li>
+<li><a href="#nt">Notaci&oacute;n</a> </li>
+<li><a href="#inv">Invariantes y Asignaci&oacute;n paralela</a> </li>
 <li><a href="#it">Esquemas Iterativos</a> </li>
 <li><a href="#j8">Esquemas equivalentes en Java 8 a los Esquemas Iterativos</a> </li>
 <li><a href="#rc">Esquemas Recursivos</a> </li>
-<li><a href="#itrc">Transformación Iterativo-Recursivo</a> </li>
-<li><a href="#rcit">Transformación Recursivo-Iterativo</a> </li>
+<li><a href="#itrc">Transformaci&oacute;n Iterativo-Recursivo</a> </li>
+<li><a href="#rcit">Transformaci&oacute;n Recursivo-Iterativo</a> </li>
+<li><a href="#est">Estrategias para el dise&ntilde;o de algoritmos</a> </li>
 </ul>
-<a id="nt"><h1> Notación </h1>
+<a id="nt"><h1> Notaci&oacute;n </h1>
 <ul>
-  <li><strong>Rangos</strong>. Son secuencias de números enteros. Los representaremos por \([a,b), [a,b]\). 
+  <li><strong>Rangos</strong>. Son secuencias de n&uacute;meros enteros. Los representaremos por \([a,b), [a,b]\). 
 El primero no incluye el extremo derecho el segundo si. </li>
  <li><strong>Tuplas</strong>. Son agregados inmutables de valores posiblemente de diferentes tipos. 
-Las representaremos por \( (t_0,t_1,...,t_{r-1})\). Si \( t \) es una tupla \( t[i] \)
- representa el i-esimo elementos y \( |t| \) el número de elementos.</li>
-  <li><strong>Listas</strong>. Son secuencias indexadas de elementos. Las representaremos por \( [e(x), x \in sq, \mbox{si }p(x)]\). 
-Dónde \( e(x), p(x), sq \) son, respectivamente una expresión, un predicado y una secuencia. Si \( ls \) 
+Las representaremos por \( T =(t_0,t_1,&hellip;,t_{r-1})\). Si \( t \) es una tupla \( t[i] \)
+ representa el i-esimo elementos y \( |t| \) el n&uacute;mero de elementos.</li>
+  <li><strong>Listas</strong>. Son secuencias indexadas de elementos. Las representaremos por \( L = [e(x), x \in s | p(x)]\). 
+D&oacute;nde \( e(x), p(x), s \) son, respectivamente una expresi&oacute;n, un predicado y una secuencia. Si \( ls \) 
 es una lista representaremos por \(ls[i]\) el elemento de la casilla \(i\),  por \(|ls|\) su longitud y por
-\(ls[b,c]\) la sublista que va del índice \(a\) al \(b\) sin incluir este último.  </li>
-  <li><strong>Conjuntos</strong>. Son agregados sin repetición de elementos. 
-Las representaremos por \( \{e(x), x \in sq, \mbox{si }p(x)\}\). Si \( s \) 
-es un conjunto representaremos por \(|s|\) su cardinal y por \( \{\} \) el conjunto vacío.</li>
-<li><strong>Multiconjuntos</strong>. Son agregados con repetición de elementos. 
-Las representaremos por \( \{e(x):n(x), x \in sq, \mbox{si }p(x)\}\). Con \( n(x) \) una expresión que devuelve un entero positivo o cero.
+\(ls[b,c]\) la sublista que va del &iacute;ndice \(a\) al \(b\) sin incluir este &uacute;ltimo.  </li>
+  <li><strong>Conjuntos</strong>. Son agregados sin repetici&oacute;n de elementos. 
+Las representaremos por \( St = \{e(x), x \in S | p(x)\}\). Si \( s \) 
+es un conjunto representaremos por \(|s|\) su cardinal y por \( \{\} \) el conjunto vac&iacute;o.</li>
+<li><strong>Multiconjuntos</strong>. Son agregados con repetici&oacute;n de elementos. 
+Las representaremos por \( Ms =\{e(x):n(x), x \in S | p(x)\}\). Con \( n(x) \) una expresi&oacute;n que devuelve un entero positivo o cero.
 Si \( ms \) 
-es un multiconjunto representaremos por \(ms[e]\) el número de veces que se repite 
-\(e \) en \( ms \) y por \( \{\} \) el multiconjunto vacío.</li>
-  <li><strong>Diccionarios</strong>. Son conjuntos de pares clave-valor dónde las claves no están repetidas. 
-Las representaremos por \( \{c(x):v(x), x \in sq, \mbox{si }p(x)\}\). Dónde \( c(x), v(x) \) son expresiones.
-Si \( d \) 
-es un diccionario representaremos por \(d[c]\) el valor asociado a la clave \(c\), por \(d.keys, d.items\) 
-el conjunto de sus claves y de sus pares clave-valor respectivamente y por \( \{\} \) un diccionario vacío. 
+es un multiconjunto representaremos por \(ms[e]\) el n&uacute;mero de veces que se repite 
+\(e \) en \( ms \) y por \( \{\} \) el multiconjunto vac&iacute;o.</li>
+  <li><strong>Diccionarios</strong>. Son conjuntos de pares clave-valor d&oacute;nde las claves no est&aacute;n repetidas. 
+Las representaremos por \( M = \{c(x):v(x), x \in S | p(x)\}\). D&oacute;nde \( c(x), v(x) \) son expresiones.
+Si \( m \) 
+es un diccionario representaremos por \(m[c]\) el valor asociado a la clave \(c\), por \(m.keys, m.items\) 
+el conjunto de sus claves y de sus pares clave-valor respectivamente y por \( \{\} \) un diccionario vac&iacute;o. 
 su longitud.</li>
   <li><strong>Secuencias</strong>. Son agregados de elementos que se pueden recorrer secuencialmente. Los rangos, 
 las listas, los conjuntos, el conjunto de los pares de un diccionario y 
-el conjunto de sus claves pueden ser convertidos a secuencias. Desde el punto de vista que nos interesa aquí, 
-una secuencia básica puede especificarse mediante \( (e_0, s(e), p(e)) \) dónde los valores \( e_o, e \) 
-son de un tipo \( E\). 
-La secuencia tiene un estado, un valor del tipo \(E\), un valor inicial \(e_0\), para cada elemento tiene un elemento 
+el conjunto de sus claves pueden ser convertidos a secuencias. 
+Desde el punto de vista que nos interesa aqu&iacute;, 
+una secuencia b&aacute;sica puede especificarse mediante \( S = (e_0, s(e), p(e)) \). 
+La secuencia tiene elementos de tipo \(E\), un elemento inicial \(e_0\), para cada elemento uno 
 siguiente
-\(s(e)\) y un predicado que deben cumplir todos los elementos de la secuencia. Las secuencias pueden ser dotadas de 
-operaciones de filtro y transformación con las que es posible construir secuencias más complejas a partir de otras más simples. 
-Esto lo indicaremos en al forma \( s = [t(x), x \in sq| f(x)] \). Donde \(t(x), f(x)\) son la transformación y
-el filtro aplicados.
-También podemos definir operaciones de acumulación que permiten, como su nombre indica, acumular los valores de la secuencia. </li>
+\(s(e)\) y un predicado que deben cumplir todos los elementos de la secuencia. Si no incluimos el predicado entenderemos
+que la secuencia es infinita. 
+Es posible construir secuencias m&aacute;s complejas a partir de otras m&aacute;s simples mediante
+operaciones de filtro y transformaci&oacute;n. 
+Esto lo indicaremos en la forma \( S^{\prime} = [t(x), x \in S | h(x)] \). D&acute;nde \(t(x), h(x)\) son la transformaci&oacute;n y
+el filtro aplicados. A partir de una secuencia podemos extraer el prefijo formado por los \(n\) primeros elementos, que indicaremos por 
+\( S|n\) o por los que cumplen un determinado predicado \( S|g(e)\) hasta el primero que no lo cumple exclu&iacute;do.
+ </li>
+<li><strong>Acumuladores</strong>.  Son, como su nombre indica, mecanismos que permiten acumular los valores de la secuencia.
+Los especificaremos mediante \( A = (a_0,c(a,e))\). D&oacute;nde \(a_0, c(a,e)\) son, respectivamente, 
+el valor inicial del acumulador y la funci&oacute;n de acumulaci&oacute;n. 
+Son acumuladores sumar, multiplicar, contar, para todo, existe, agrupar en una lista, en un diccionario, etc.
+Un acumulador puede ser aplicado
+a una secuencia por la izquierda para obtener un resultado, lo que indicaremos por \(C_I(A,S)\) o por la derecha \(C_D(A,S)\).
+Algunos acumuladores dan el mismo resultado independientemente de que se apliquen por la derecha o por la izquierda a una secuencia.
+</li>
 </ul>
-<a id="inv"><h1> Invariantes y Asignación Paralela </h1>
-<h2>Bloque básico</h2>
+<a id="inv"><h1> Invariantes y Asignaci&oacute;n Paralela </h1>
+<h2>Bloque b&aacute;sico</h2>
 <p>
 En los lenguajes imperativos hay sentencias que producen un cambio del valor de una variable dada. 
-La más usual es la sentencia de asignación. Una asignación se representa en la mayoría de los lenguajes de la forma:
+La m&aacute;s usual es la sentencia de asignaci&oacute;n. Una asignaci&oacute;n se representa en la mayor&iacute;a de los lenguajes de la forma:
 
 \[ x=e(x,a); \]
 
 Tenemos que recordar que una variable tiene dos aspectos que debemos tener en cuenta. 
-Por una parte es una ubicación dónde se puede guardar un valor de un determinado tipo. 
-Por otra parte es un valor que se guarda en dicha ubicación. 
-La ubicación de la variable permanece fija pero el valor va cambiando a lo largo de la ejecución de un programa. 
-Los sucesivos valores que una variable \( x \) va tomando los designaremos por \( x,x',x'',x''',… \) . 
-Si la variable aparece en una expresión en la parte derecha de una asignación diremos que la estamos usando. Si parece en la parte izquierda
+Por una parte es una ubicaci&oacute;n d&oacute;nde se puede guardar un valor de un determinado tipo. 
+Por otra parte es un valor que se guarda en dicha ubicaci&oacute;n. 
+La ubicaci&oacute;n de la variable permanece fija pero el valor va cambiando a lo largo de la ejecuci&oacute;n de un programa. 
+Los sucesivos valores que una variable \( x \) va tomando los designaremos por \( x,x',x'',x''',\ldots \) . 
+Si la variable aparece en una expresi&oacute;n en la parte derecha de una asignaci&oacute;n diremos que la estamos usando. Si parece en la parte izquierda
 diremos que la estamos definiendo.
 </p>
 <p>
-Llamaremos bloque básico a una secuencia de sentencias de asignación. 
-Por tanto en un bloque básico no hay if ni while.  Un primer ejemplo de bloque básico es:
+Llamaremos bloque b&aacute;sico a una secuencia de sentencias de asignaci&oacute;n. 
+Por tanto en un bloque b&aacute;sico no hay if ni while.  Un primer ejemplo de bloque b&aacute;sico es:
 <code><pre>
-a=x;
-b=y;
-x=b;
-y=a;
+	a=x;
+	b=y;
+	x=b;
+	y=a;
 </pre></code>
 
 Otro segundo ejemplo es:
 <code><pre>
-a=x;
-x=y;
-y=a;
+	a=x;
+	x=y;
+	y=a;
 </pre></code>
 Y un tercero:
 <code><pre>
-x=y;
-a=x;
-y=a;
+	x=y;
+	a=x;
+	y=a;
 </pre></code>
 
 <p>
-Una restricción entre varias variables es un predicado sobre las mismas. 
-También se le suele llamara aserto. Un conjunto de restricciones es un conjunto de predicados relacionales (=, >=, ...) combinados con el operador lógico
-and que no haremos explícito. 
-Más adelante introduciremos adicionalmente el operador lógico or para construir restricciones mas complejas. 
+Una restricci&oacute;n entre varias variables es un predicado sobre las mismas. 
+Tambi&eacute;n se le suele llamara aserto. Un conjunto de restricciones es un conjunto de predicados relacionales (=, >=, &hellip;) combinados con el operador l&oacute;gico
+and que no haremos expl&iacute;cito. 
+M&aacute;s adelante introduciremos adicionalmente el operador l&oacute;gico or para construir restricciones mas complejas. 
 Un ejemplo de conjunto de restricciones es el visto arriba:
-<pre>
-x'=y;y'=y;
-</pre>
+\[
+R \equiv \{ x'=y;y'=y;\}
+\]
 
 En este caso el conjunto de restricciones se compone de dos predicados de igualdad combinados, como hemos comentado, por el operador and. 
-Los conjuntos de restricciones tienen propiedades completamente diferentes de la secuencia de asignaciones que forman un bloque básico. 
-La primera propiedad importante es que el orden no importa en el conjunto de restricciones y sí en el bloque básico. 
-Las asignaciones en un bloque básico tienen un orden que no se puede cambiar.
-La segunda es que el conjunto de restricciones puede ser manipulado simbólicamente. 
-Es decir podemos despejar una variable en una restricción de igualdad y sustituirla en el resto de las restricciones como solemos hacer en matemáticas. 
-La sustitución simbólica de \( a \)  por \( y \) en la expresión \(e\) la representaremos por  \( e[a¦y] \). 
-En un bloque básico no es posible la manipulación simbólica por los efectos laterales que va produciendo el operador de asignación. 
+Los conjuntos de restricciones tienen propiedades completamente diferentes de la secuencia de asignaciones que forman un bloque b&aacute;sico. 
+La primera propiedad importante es que el orden no importa en el conjunto de restricciones y s&iacute; en el bloque b&aacute;sico. 
+Las asignaciones en un bloque b&aacute;sico tienen un orden que no se puede cambiar.
+La segunda es que el conjunto de restricciones puede ser manipulado simb&oacute;licamente. 
+Es decir podemos despejar una variable en una restricci&oacute;n de igualdad y sustituirla en el resto de las restricciones como solemos hacer en matem&aacute;ticas. 
+La sustituci&oacute;n simb&oacute;lica de \( a \)  por \( y \) en la expresi&oacute;n \(e\) la representaremos por  \( e[a|y] \). 
+En un bloque b&aacute;sico no es posible la manipulaci&oacute;n simb&oacute;lica por los efectos laterales que va produciendo el operador de asignaci&oacute;n. 
 </p>
 
 <p>
 
-En un bloque básico podemos estar interesados en obtener una restricción entre los valores finales de 
+En un bloque b&aacute;sico podemos estar interesados en obtener una restricci&oacute;n entre los valores finales de 
 un conjunto de variables con los valores iniciales de las mismas.
 Designaremos un conjunto de variables 
-como \( x=(x_1,x_2,…,x_m) \), por \( x_i'\) el valor de la variable \( x_i \) tras ejecutar un bloque de código y por \( x' \)
-el valor final de todas ellas. La relación entre los valores finales y los iniciales la expresamos por un conjunto de restricciones entre ellos. 
-Una forma de restricción es la igualdad. 
-Usaremos el operador = para representar la igualdad entre valores.  
-El operador = si es simétrico a diferencia del operador de asignación (=) 
+como \( x=(x_1,x_2,\ldots,x_m) \), por \( x_i'\) el valor de la variable \( x_i \) tras ejecutar un bloque de c&oacute;digo y por \( x' \)
+el valor final de todas ellas. La relaci&oacute;n entre los valores finales y los iniciales la expresamos por un conjunto de restricciones entre ellos. 
+Una forma de restricci&oacute;n es la igualdad. 
+Usaremos el operador = para representar la igualdad entre valores. Cuando estamos usando restricciones el operador = representa la igualdad.
+ Cuando estemos usando bloques
+b&aacute;sicos representa asignaci&oacute;n.
+El operador igualdad si es sim&eacute;trico a diferencia del operador de asignaci&oacute;n 
 que no lo es, como hemos dicho. 
-El operador = representa la igualdad entre valores. 
-Es decir representa lo mismo que el operador = en Java usado entre tipos básicos o .equals() 
-usado entre tipos objeto. Cunado estamos usando restricciones el operadro = representa la igualdad. Cuando estemos usando bloques
-básicos representa asignación.
+El operador = representa la igualdad entre valores en una restricci&oacute;n.
+Es decir, en una restricci&oacute;n, representa lo mismo que el operador == en Java usado entre tipos b&aacute;sicos o .equals() 
+usado entre tipos objeto. 
 </p>
 <p>
-Un bloque básico se puede transformar en un conjunto de restricciones de igualdad siguiendo las pautas siguientes:
+Un bloque b&aacute;sico se puede transformar en un conjunto de restricciones de igualdad siguiendo las pautas siguientes:
 <ul>
-<li> Comenzamos con un conjunto de restricciones vacío. 
-Cada vez que se define variable (está en la izquierda de una asignación) se crea un identificador nuevo, 
-se renombran los usos posteriores de esa variable y se añade una restricción de igualdad al conjunto de restricciones.  
-Las identificadores nuevos los representaremos por \( x',x'',x''',… \) </li>
+<li> Comenzamos con un conjunto de restricciones vac&iacute;o. 
+Cada vez que se define variable (est&aacute; en la izquierda de una asignaci&oacute;n) se crea un identificador nuevo, 
+se renombran los usos posteriores de esa variable y se a&ntilde;ade una restricci&oacute;n de igualdad al conjunto de restricciones.  
+Las identificadores nuevos los representaremos por \( x',x'',x''',\ldots \) </li>
 </ul>
 Veamos un ejemplo:
 
-\[ b = x; x = y;  y = b; \]
-\[ b' = x; x' = y; y' = b';\]
+<pre>
+	b = x; 
+	x = y;  
+	y = b;
+</pre>
+
+\[ R \equiv \{b' = x; x' = y; y' = b';\}\]
 
 <p>
-El primero es un bloque básico. En est el operador = representa asignación. El segundo es un conjunto de restricciones. 
+El primero es un bloque b&aacute;sico. En est el operador = representa asignaci&oacute;n. 
+El segundo es un conjunto de restricciones. 
 Aqui el operador = representa la igualdad.
-Es éste podemos despejar variables y sustituir. 
-En el bloque básico no. En el conjunto de restricciones podemos despejar \( x',y' \) en función de \(x,y\)  
-resultando el conjunto de restricciones \( x'=y;y'==x;\). 
-Estas restricciones nos dan el resultado neto del bloque básico sobre los valores iniciales \(x,y\).
+Es &eacute;ste podemos despejar variables y sustituir. 
+En el bloque b&aacute;sico no. En el conjunto de restricciones podemos despejar \( x',y' \) en funci&oacute;n de \(x,y\)  
+resultando el conjunto de restricciones \( \{ x'=y;y'==x;\} \). 
+Estas restricciones nos dan el resultado neto del bloque b&aacute;sico sobre los valores iniciales \(x,y\).
 </p>
 <p>
-Dos bloques básicos son equivalentes si dan lugar al mismo conjunto de restricciones 
+Dos bloques b&aacute;sicos son equivalentes si dan lugar al mismo conjunto de restricciones 
 entre los valores iniciales y finales de las variables. 
-Esto podemos usarlo para simplificar un bloque básico. Algunas simplificaciones son:
+Esto podemos usarlo para simplificar un bloque b&aacute;sico. Algunas simplificaciones son:
 
 <ul>
-<li> Eliminación de asignaciones y  variables intermedias. 
-Si una variable es definida en un bloque básico, mediante la asignación \( u=e(z);\), podemos sustituir 
-la variable \(u\) por \(e(z)\) en el segmento de bloque básico hasta la siguiente definición de \(u, z\) y 
-eliminar la asignación.
-La sustitución simbólica la representaremos por b[u¦e(z) ]. 
+<li> Eliminaci&oacute;n de asignaciones y  variables intermedias. 
+Si una variable es definida en un bloque b&aacute;sico, mediante la asignaci&oacute;n \( u=e(z);\), podemos sustituir 
+la variable \(u\) por \(e(z)\) en el segmento de bloque b&aacute;sico hasta la siguiente definici&oacute;n de \(u, z\) y 
+eliminar la asignaci&oacute;n.
+La sustituci&oacute;n simb&oacute;lica la representaremos por \( b[u|e(z) ] \). 
 </li>
 <li>
 Una variable que se define y no se usa puede ser eliminada
 </li>
 <li>
-Si una variable se define y se vuelve a definir antes de ser usada la primera asignación puede ser eliminada
+Si una variable se define y se vuelve a definir antes de ser usada la primera asignaci&oacute;n puede ser eliminada
 </li>
 <li>
-Cambio de orden de asignaciones. Una secuencia de  asignaciones de la forma \( x=f(x,a);y=g(y,a);z=h(z,a); \) 
+Cambio de orden de asignaciones. Una secuencia de  asignaciones de la forma 
+<pre>
+	x=f(x,a);
+	y=g(y,a);
+	z=h(z,a);
+</pre>
+ 
 pueden ser cambiadas de orden. Eso ocurre si  las variables definidas \(x,y,z\) no son usadas 
-en la definición del resto de variables.
+en la definici&oacute;n del resto de variables.
 </li>
 <li>
-Cambio de orden de asignaciones. Una secuencia de  asignaciones de la forma \( x=f(x,a);y=g(x,y,a); \) 
-pueden ser cambiadas de orden haciendo la sustitución simbólica correspondiente. 
-El bloque equivalente es \( y=g(f(x,a),y,a);x=f(x,a); \) 
+Cambio de orden de asignaciones. Una secuencia de  asignaciones de la forma 
+<pre>
+	x=f(x,a);
+	y=g(x,y,a);
+</pre>
+
+pueden ser cambiadas de orden haciendo la sustituci&oacute;n simb&oacute;lica correspondiente. 
+El bloque equivalente es 
+<pre>
+	y=g(f(x,a),y,a);
+	x=f(x,a);
+</pre> 
 </li>
 </ul>
 
-Veamos la simplificación del bloque básico siguiente:
-
-\[ a = y; b = x; x = a;  y = b; \]
+Veamos la simplificaci&oacute;n del bloque b&aacute;sico siguiente:
+<pre>
+	a = y; 
+	b = x; 
+	x = a;
+	y = b;
+</pre>
 Se simplifica a:
-\[ b = x; x = y; y = b;  \]
+<pre>
+	b = x;
+	x = y;
+	y = b;
+</pre>
 <p>	
-En el primer bloque básico la variable \(a\) es definida en \(a=y;\). La variable
-\(y\) se define en \(y = b;\). En el el segmento intermedio  se puede sutituir s[a|y] y eliminar la aignación a \(a\) y
+En el primer bloque b&aacute;sico la variable \(a\) es definida en \(a=y;\). La variable
+\(y\) se define en \(y = b;\). En el el segmento intermedio  se puede sutituir \( a \) por \(y\)
+y eliminar la asignaci&oacute;n a \(a\) y
 la propia variable.
 </p>
-<h2> El operador de asignación paralela </h2>
+<h2> El operador de asignaci&oacute;n paralela </h2>
 
-Algunos lenguajes de programación cuentan con el denominado operador de asignación paralela. 
+Algunos lenguajes de programaci&oacute;n cuentan con el denominado operador de asignaci&oacute;n paralela. 
 Con este operador se pueden llevar a cabo varias asignaciones en paralelo como \( (x,y) = (y,x); \).
 
-El operador = es la asignación paralela. 
-Es decir la asignación de los valores de una tupla de  expresiones a una tupla de variables. 
-El efecto neto de la asignación paralela anterior es el conjunto de restricciones \( x'=y;y'=x;\). 
-En un primer momento la notación puede ser confusa porque podemos darnos cuenta que la secuencia de asignaciones:
+El operador = es la asignaci&oacute;n paralela. 
+Es decir la asignaci&oacute;n de los valores de una tupla de  expresiones a una tupla de variables. 
+El efecto neto de la asignaci&oacute;n paralela anterior es el conjunto de restricciones \( \{x'=y;y'=x;\}\). 
+En un primer momento la notaci&oacute;n puede ser confusa porque podemos darnos cuenta que la secuencia de asignaciones:
 <pre>
-x=y;
-y=x;
+	x=y;
+	y=x;
 </pre>
-
 No consigue el efecto deseado. 
-Es decir no es equivalente a una asignación paralela ya que da lugar al conjunto de restricciones \(x'=y;y'=y;\). 
-En general el operador de asignación paralela tiene la forma: 
+Es decir no es equivalente a una asignaci&oacute;n paralela ya que da lugar al conjunto de restricciones \(\{ x'=y;y'=y;\}\). 
+En general el operador de asignaci&oacute;n paralela tiene la forma: 
 \[
-(x_1,x_2,…,x_m)=(e_1 (x_1,x_2,…,x_m ),e_2 (x_1,x_2,…,x_m ),…,e_m (x_1,x_2,…,x_m ))
+(x_1,x_2,\ldots,x_m)=(e_1 (x_1,x_2,\ldots,x_m ),e_2 (x_1,x_2,\ldots,x_m ),\ldots,e_m (x_1,x_2,\ldots,x_m ))
 
 \]
 Es conveniente conocer con detalle la forma de implementar este operador, 
-su relación con las restricciones entre los valores de las variables antes y después de su ejecución 
-y, también, su relación con los bloque básicos de código. Veamos cada uno de estos conceptos y sus relaciones.
+su relaci&oacute;n con las restricciones entre los valores de las variables antes y despu&eacute;s de su ejecuci&oacute;n 
+y, tambi&eacute;n, su relaci&oacute;n con los bloque b&aacute;sicos de c&oacute;digo. Veamos cada uno de estos conceptos y sus relaciones.
 <p>
 <p>
-Los valores posteriores de esas variables son \( x_i'=e_i (x_1,x_2,…,x_m); \). 
+Los valores posteriores de esas variables son \( x_i'=e_i (x_1,x_2,\ldots,x_m); \). 
 
-Es decir en una asignación paralela se toman los valores previos de cada una de las expresiones de la derecha,  
+Es decir en una asignaci&oacute;n paralela se toman los valores previos de cada una de las expresiones de la derecha,  
 de forma independiente (paralela) se calculan los valores finales de cada una de las variables asignadas y se les asigna.
 Por La propiedad anterior implica que la variables de la parte izquierda pueden reordenarse de cualquier 
 manera siempre que se reordenen de la misma forma las expresiones de la derecha. 
 </p>
 <p>
-Los lenguajes de programación usuales disponen de bloques básicos pero no de asignación paralela. 
-Debemos aprender a convertir una asignación paralela en un bloque básico y viceversa. 
-Las asignaciones paralelas son más cómodas cuando hablamos de esquemas algorítmicos.
+Los lenguajes de programaci&oacute;n usuales disponen de bloques b&aacute;sicos pero no de asignaci&oacute;n paralela. 
+Debemos aprender a convertir una asignaci&oacute;n paralela en un bloque b&aacute;sico y viceversa. 
+Las asignaciones paralelas son m&aacute;s c&oacute;modas cuando hablamos de esquemas algor&iacute;tmicos.
 </p>
 <p>
-Veamos ahora como conseguir un bloque básico equivalente a una asignación paralela. 
+Veamos ahora como conseguir un bloque b&aacute;sico equivalente a una asignaci&oacute;n paralela. 
 La idea general es usar variables nuevas, asignar a estas variables los valores de las expresiones, 
-posteriormente asignar las nuevas variables a las antiguas y simplificar el bloque básico. El esquema es entonces:
+posteriormente asignar las nuevas variables a las antiguas y simplificar el bloque b&aacute;sico. El esquema es entonces:
 \[
-(x_1,x_2,…,x_m )=(e_1,e_2,…,e_m) \equiv a_1 = e_1; a_2 = e_2; …,a_m = e_m; x_1 = a_1; x_2 = a_2; …,x_m = a_m;
+(x_1,x_2,\ldots,x_m )=(e_1,e_2,\ldots,e_m) \equiv a_1 = e_1; a_2 = e_2;\ldots,a_m = e_m; x_1 = a_1; x_2 = a_2;\ldots,x_m = a_m;
 \]
 Por ejemplo
-\[
-(x,y)=(y,x) \equiv a = y; b = x;x = a;y = b; \equiv b = x;x = y;y = b;
-\]
+<pre> 
+	(x,y)=(y,x);
+</pre>
+Es equivalente a:
+<pre>
+	a = y;
+	b = x;
+	x = a;
+	y = b;
+</pre>
+Que a su vez es equivalente a:
+<pre>
+	b = x;
+	x = y;
+	y = b;
+</pre>
 <p>
-En el tercer paso hemos eliminado la variable \(a\) y la ecuación donde se definía y 
-hemos sustituido su uso por su valor en la ecuación que define la \(x\). 
-Como podemos comprobar el operador de asignación paralela 
-se reduce a un bloque básico formado por una secuencia de asignaciones, en cualquier orden, 
-cuando cada variable definida no usa ninguna de las demás variables definidas. 
+En el tercer paso hemos eliminado la variable \(a\) y la ecuaci&oacute;n donde se defin&iacute;a y 
+hemos sustituido su uso por su valor en la ecuaci&oacute;n que define la \(x\). 
+Como podemos comprobar el operador de asignaci&oacute;n paralela 
+se reduce a un bloque b&aacute;sico formado por una secuencia de asignaciones, en cualquier orden, 
+cuando cada variable definida no usa ninguna de las dem&aacute;s variables definidas. 
 </p>
 <p>
 Por otra parte si las expresiones \(e_i\), y las correspondientes variables, pueden ser reordenada de tal forma que
-\(e_i\) sólo dependa de las variables \(x_i, x_{i+1},...,x_m\) entonces 
-la asignación paralela es equivalente al bolque básico:
+\(e_i\) s&oacute;lo dependa de las variables \(x_i, x_{i+1},&hellip;,x_m\) entonces 
+la asignaci&oacute;n paralela es equivalente al bloque b&aacute;sico:
 \[
-(x_1, x_2,…, x_m )=(e_1, e_2,…, e_m) \equiv x_1 = e_1; x_2 = e_2; …,x_m = e_m;
+(x_1, x_2,\ldots, x_m )=(e_1, e_2,\ldots, e_m) \equiv x_1 = e_1; x_2 = e_2; \ldots,x_m = e_m;
 \]
-Este último caso es posible cuanda en la definición de cada variables sólo aparecen variables no definidas.
+Este &uacute;ltimo caso es posible cuanda en la definici&oacute;n de cada variables s&oacute;lo aparecen variables no definidas.
 <p>
-Por último solo destacar que un conjunto de restricciones de iguadad se transforma de manera sencialla 
-en una asignación paralela y ésta, como hemos visto antes, se puede transformar en un bloque básico.
+Por &uacute;ltimo solo destacar que un conjunto de restricciones de iguadad se transforma de manera sencilla 
+en una asignaci&oacute;n paralela y &eacute;sta, como hemos visto antes, se puede transformar en un bloque b&aacute;sico.
 </p>
 <a id="it"><h1> Algoritmos Iterativos </h1>
 
 Los algoritmos iterativos tienen la estructura general:
 
 <pre>
-
 f(x) {
 	e = e_0(x);
 	while(g(e)){
@@ -291,40 +345,49 @@ f(x) {
 	return r(e);
 }
 </pre>
-Que es equivalente al anterior si sustituimos \(g(e)\) por \(g(e) \land !p(e)\). Ahora si tenemos un invariante \(I(e)\),
-después de salir del bucle se cumple \((!g(e) \lor p(e)) \land I(e) \). 
+Que es equivalente al anterior si sustituimos \(g(e)\) por \(g(e) \land !p(e)\). Si tenemos un invariante \(I(e)\),
+despu&eacute;s de salir del bucle se cumple \(!g(e) \lor p(e)) \land I(e) \). 
 <p>
-Al valor \(e\) se le denomina estado y normalmente está constituido por una tupla de valores. Como vemos los algortimos
-iterativos comienzan en un estado inicial cuyo valor puede depender de losm parámetros \(x\) que también suelen 
-ser una tupla de valores. Mientras eque el estado cumpla una condición, la guarda \(g(e)\), el algoritmo pasa al estado siguiente
-mendiante la función \(s(e)\). Cuando la guarda ya no se cumple el algoritmo devuelve \(r(e)\),
+Al valor \(e\) se le denomina estado y normalmente est&aacute; constituido por una tupla de valores. Como vemos los algoritmos
+iterativos comienzan en un estado inicial, cuyo valor puede depender de los par&aacute;metros \(x\), que tambi&eacute;n suelen 
+ser una tupla de valores. Mientras que el estado cumpla una condici&oacute;n, la guarda \(g(e)\), el algoritmo pasa al estado siguiente
+mendiante la funci&oacute;n \(s(e)\). Cuando la guarda ya no se cumple el algoritmo devuelve \(r(e)\),
 </p>
 <p>
-Para diseñar algoritmos iterativos tenemos que introducir dos conceptos: el Invariante y la Función de Cota (
-también podemos decir Tamaño del Problema).
+Para dise&ntilde;ar algoritmos iterativos tenemos que introducir dos conceptos: el Invariante y la Funci&oacute;n de Cota 
+(tambi&eacute;n llamada Tama&ntilde;o del Problema).
 </p>
 <ul>
-<li> El invariante, \(I(e)\), es una restricción sobre los valores del estado que debe cumplirse al principio y al
-final del cuerpo del while. Es decir debe cumplirse \(I(e_0), I(s(e)\). O visto de otra manera: asumiendo que se cumple 
-\(I(e)\) demos comprobar que se cumple \(I(s(e))\).
+<li> El invariante, \(I(e)\), es una restricci&oacute;n sobre los valores del estado alcanzados por el algoritmo. 
+Debe cumplirse para todos los valores del estado recorridos. Para desmostrar eso debemos mostrar que
+se cumple en el estado inicial \(I(e_0)\) y
+asumiendo que se cumple en un estado
+\(I(e)\) demos comprobar que se cumple en el estado siguiente \(I(s(e))\).
+
 </li>
-<li> La función de cota, \(C(e,x)\), devuelve un entero y debe cumplir \(C(e',x) \lt C(e,x)\). Dónde \(e'\) es el valor del
-estado al final del cuerpo del bucle. Es decir debe cumplir \(C(s(e),x) \lt C(e,x)\). 
+<li> La funci&oacute;n de cota, \(C(e,x)\) devuelve un entero mayor o igual a cero y debe cumplir \(C(e',x) \lt C(e,x)\). D&oacute;nde \(e'\) es el valor del
+estado al final del cuerpo del bucle. Es decir \(C(s(e),x) \lt C(e,x)\). 
 </li>
 </ul>
 <p>
-Las propiedades de la cota nos aseguran que el algoritmo acabará. Las propiedades del invariante nos aseguran que cuando el algoritmo
-acabe se cumplirá \( I(e) \land !g(e) \), lo cual nos puede permitir deducir una restricción, \(R(r,x)\), 
-entre los parámetros de entrada y los resultados. La llamaremos restricción entrada-salida. 
-En muchos casos el camino para diseñar un algoritmo iterativo partirá
-de la restricción \(R(r,x)\) y tras elegir el tipo \(E\) y un invariante sobre el mismo, \(I(e)\), buscaremos \(e_0, s(e), g(e)\).
+Las propiedades de la cota nos aseguran que el algoritmo acabar&aacute;. Las propiedades del invariante nos aseguran que cuando el algoritmo
+acabe se cumplir&aacute; \( I(e) \land !g(e) \), lo cual nos puede permitir deducir una restricci&oacute;n, \(R(r,x)\), 
+entre los par&aacute;metros de entrada y los resultados. La llamaremos restricci&oacute;n entrada-salida. 
+En muchos casos el camino para dise&ntilde;ar un algoritmo iterativo partir&aacute;
+de la restricci&oacute;n \(R(r,x)\) y tras elegir el tipo del estado \(E\) y un invariante sobre el mismo, \(I(e)\), buscaremos \(e_0, s(e), g(e)\).
 Normalmente el estado \(e\) es una tupla de valores que debemos imaginar. A este paso de encontrar el estado se le denomina generalizar
 el problema.
 </p>
 <p>
-Veamos el diseño de un algoritmo iterativo para calcular el factorial de un entero \(n!\). Si r son los resultados y \(n\)
-el parámetro de entrada la restricción entrada-salida que define el algoritmo es \(R(n,r) \equiv r = n! \).Para diseñar el algoritmo
-escogemos un estado \(E = (i,a)\), un invariante \(I(i,a) \equiv a = i!\), una función de cota 
+A partir de las condiciones anteriores vemos que un algoritmo iterativo tiene asociada la secuencia \(e_0, s(e), g(e)\). Todos los elementos de
+esa secuencia cumplen el invariante \(I(e)\) y la guarda \(g(e)\). Adem&aacute;s de la propiedades de la funci&oacute;n de cota 
+podemos concluir que la secuencia es finita. El resultado del algoritmo es \(r(e)\), con un valor de \(e\)
+que verifica \( I(e)) \land !g(e) \).
+</p>
+<p>
+Veamos el dise&ntilde;o de un algoritmo iterativo para calcular el factorial de un entero \(n!\). Si r son los resultados y \(n\)
+el par&aacute;metro de entrada la restricci&oacute;n entrada-salida que define el algoritmo es \(R(n,r) \equiv r = n! \).Para dise&ntilde;ar el algoritmo
+escogemos un estado \(E = (i,a)\), un invariante \(I(i,a) \equiv a = i!\), una funci&oacute;n de cota 
 \(C(i,a,n) \equiv n-i\). Con esas decisiones tomadas el algoritmo 
 resultante queda:
 </p>
@@ -339,14 +402,14 @@ f(n) {
 </pre>
 <p>
 Como podemos ver el estado inicial cumple el invariante, \( 1 = 0!\). 
-Al final del bucle, haciendo en el invariante, \(a = i!\), la sustitución simbólica asociada a \(s(e)\), 
+Al final del bucle, haciendo en el invariante, \(a = i!\), la sustituci&oacute;n simb&oacute;lica asociada a \(s(e)\), 
 tendremos \(a*i = (i+1)!\),  que podemos 
 comprobar que es cierto. Para ello vemos \[ a*(i+1) = (i+1)! = (i+1)*i! \equiv a = i! \] Luego el invariante es cierto
 al final del bucle si asumimos que es cierto al principio. 
-Igualmente la función de cota al principio y al final del bucle cumple la condición requerida  \[ n -(i+1) = n-i-1 < n-i \]
+Igualmente la funci&oacute;n de cota al principio y al final del bucle cumple la condici&oacute;n requerida  \[ n -(i+1) = n-i-1 < n-i \]
 </p>
 <p>
-La restricción entrada salida que podemos obtener es:
+La restricci&oacute;n entrada salida que podemos obtener es:
 
 \begin{align}
 R(r,n) & \equiv r = a \land a = i! \land !(i < n) \\
@@ -358,7 +421,7 @@ R(r,n) & \equiv r = a \land a = i! \land !(i < n) \\
 Con lo visto anteriormente podemos concluir que los algoritmos iterativos pueden considerarse como secuencias especificadas por
 \( e_0, s(x), g(x) \)
 </p>
-Como último paso podemos eliminar las tuplas y la asignación paralela para resultar:
+Como &uacute;ltimo paso podemos eliminar las tuplas y la asignaci&oacute;n paralela para resultar:
 <pre>
 int factorial(n) {
 	i = 0;
@@ -370,30 +433,30 @@ int factorial(n) {
 	return a;
 }
 </pre>
-La forma del cuerpo del bucle corresponde a la asiganción paralela porque su conjunto de restricciones asociada es:
+La forma del cuerpo del bucle corresponde a la asignaci&oacute;n paralela porque su conjunto de restricciones asociada es:
 \[ i' = i+1, a' = a * i' \equiv i' = i+1, a' = a * (i+1) \]
-<h2> Ejemplos de diseño iterativo </h2>
-Vamos a ver un par de ejemplos de diseño iterativo.  El primero será la búsqueda binaria. 
+<h2> Ejemplos de dise&ntilde;o iterativo </h2>
+Vamos a ver un par de ejemplos de dise&ntilde;o iterativo.  El primero ser&aacute; la b&uacute;squeda binaria. 
 El segundo el conocido como la bandera holandesa.
 
 <p>
 El problema consiste en, dada una lista \( ls\) ordenada  con respecto a un orden, encontrar,si existe, 
-la posición de un elemento dado o -1 si no lo encuentra. 
+la posici&oacute;n de un elemento dado o -1 si no lo encuentra. 
 </p>
 <p>
-Partimos de la lista ordenada \(ls\) de tamaño \(n = |ls|\) y un elemento \(e\) a buscar. El primer paso
+Partimos de la lista ordenada \(ls\) de tama&ntilde;o \(n = |ls|\) y un elemento \(e\) a buscar. El primer paso
 es escoger un estado. Es lo que llamamos generalizar el problema. Escogemos un estado representado por la tupla \( (i, j\) 
-verificándose \( j \ge i, i,j \in [0,n) \). En segundo lugar escogemos un invariante:
+verific&aacute;ndose \( j \ge i, i,j \in [0,n) \). En segundo lugar escogemos un invariante:
 
-\[( e \not \in ls[i,j] \land e \not \in ls) \lor ( e \in ls[i,j] \land e \in ls)\]. 
-Es decir el elemento no está en la 
-lista ni en al sublista \(ls[i,j]\) o si está pertenece a la sublista \(ls[i,j]\). El tamaño del problema (o la función de cota) será \( j-i\).
+\[ e \in ls[i,j] =  e \in ls \]. 
+Es decir si el elemento est&aacute; en la 
+lista \(ls\) est&aacute; en la sublista \(ls[i,j]\). El tama&ntilde;o del problema (o la funci&oacute;n de cota) ser&aacute; \( j-i\).
 </p>
 <p>
-El segundo paso es escoger el estado inicial, la guarda y la función siguiente para que se mantega el invariante y 
-la función de cota cumpla las propiedades exigidas. 
+El segundo paso es escoger el estado inicial, la guarda y la funci&oacute;n siguiente para que se mantega el invariante y 
+la funci&oacute;n de cota cumpla las propiedades exigidas. 
 </p>
-Escogemos como función siguiente:
+Escogemos como funci&oacute;n siguiente:
 \[s(i,j) =
 \begin{cases}
 (i,k), & \text{si } e < ls[k] \\
@@ -403,7 +466,7 @@ Escogemos como función siguiente:
 Con \( k = (i+j)/2 \). Con esos elementos planteamos el algoritmo de la forma:
 <pre>
 bb(ls,e) {
-        r = -1;
+	r = -1;
 	n = |ls|;
 	(i,j) = (0,n);
 	while(j-i >0){
@@ -417,58 +480,59 @@ bb(ls,e) {
                (i,j) = (k+1,j);
 	    }
 	}
-        return r;
+	return r;
 }
 </pre>
 <p>
-Podemos comprobar que se cumple el invariante. Por otra parte la restricción de las salida es:
+Podemos comprobar que se cumple el invariante. Por otra parte la restricci&oacute;n de las salida es:
 \[ ((r=-1 \land j-i= 0) \lor (r = k \land ls[k]= e)) \land I(i,j) \]
 De lo que podemos deducir que el algortimo cumple su cometido.
 </p>
-El problema de la bandera holandes se enuncia así: <br>
+El problema de la bandera holandesa se enuncia as&iacute;: <br>
 <p>
 Dada una lista y un elemento del mismo tipo que las casillas, que llamaremos pivote, reordenarla, 
 de menor a mayor, para que resulten tres bloques: los menores que el pivote, los iguales al pivote y los mayores 
 que el pivote. El algoritmo debe devolver dos enteros que son las posiciones de las casillas que separan 
 los tres bloques formados. 
 </p>
-<p> Partimos de la lista \(ls\) de tamaño \( n = |ls|\) y el pivote \(e\). 
+<p> Partimos de la lista \(ls\) de tama&ntilde;o \( n = |ls|\) y el pivote \(e\). 
 Escogemos el estado formado por la tupla \( (a,b,c) \) y el invariante que asegura que en la sublista \(ls[0,a]\) todos
-los elementos son más pequeños que el pivote, en la sublista \(ls[a,b]\) todos
+los elementos son m&aacute;s peque&ntilde;os que el pivote, en la sublista \(ls[a,b]\) todos
 los elementos son iguales al el pivote, en la sublista \(ls[c,n]\) todos
-los elementos son mayores que el pivote (elementos desconocidos) y en la sublista \(ls[b,c]\) la relación de los 
-los elementos con  el pivote es desconocida. El tamaño del problema será \(b-c\) ya que cuando se va haciendo más pequeño
-más reducida es la zona desconocida.
+los elementos son mayores que el pivote (elementos desconocidos) y en la sublista \(ls[b,c]\) la relaci&oacute;n de los 
+los elementos con  el pivote es desconocida. El tama&ntilde;o del problema ser&aacute; \(b-c\) ya que cuando se va haciendo m&aacute;s peque&ntilde;o
+m&aacute;s reducida es la zona desconocida.
 </pre>
 Con los elementos anteriores se propone se siguiente algoritmo:
 <pre>
 bh(ls, p){
-        (a,b,c) = (i,i,j);
+	n = |ls|;
+	(a,b,c) = (0,0,n);
 	while(c-b>0){
-		if(p < ls[b]){
+		if(ls[b] < p ){
 		    it(a,b,ls);
 		    a++;
 		    b++;
-		}else if(p == ls[b]){
+		}else if(ls[b] == p){
 		    b++;
 		}else{
 		    it(b,c-1,ls);
 		    c--;
 		}
 	}
-        return (a,b);
+	return (a,b);
 }
 
 </pre>
-Donde la función \(it\) intercambia los valores de las dos casillas \(a,b\) y es de la forma:
+Donde la funci&oacute;n \(it\) intercambia los valores de las dos casillas \(a,b\) y es de la forma:
 <pre>
 it(a,b,ls){
 	(ls[a],ls[b]) = (ls[b],ls[a]);
 }
 </pre>
-Podemos comprobar que la función de cota se reduce en cada iteración y que se mantiene el invariante. 
+Podemos comprobar que la funci&oacute;n de cota se reduce en cada iteraci&oacute;n y que se mantiene el invariante. 
 Como vemos, escogemos la primera casilla de la zona de elementos desconocidos para ubicarlo en una de las tres zonas de
-elementos conocidos. Cada vez que ubicamos uno disminuye \(b-c\) y por lo tanto el tamño del problema.
+elementos conocidos. Cada vez que ubicamos uno disminuye \(b-c\) y por lo tanto el tam&ntilde;o del problema.
 En el efecto en el caso \(p \lt ls[b]\) debemos intercambiar las casillas \(a,b\) para colocar el valor correspondiente 
 en la zona \(0,a\). Aumentamos \(a, b\) en uno porque la primera zona ha aumentado en 1 y la zona tercera de elementos no conocidos ha disminuido en 1.
 \(ls\)
@@ -483,51 +547,57 @@ f(x) {
 	while(g(e)){	   
 	   if(h(e){
 	      r = t(e);
-	      a = ac(a,r);
+	      a = c(a,r);
 	   }
 	   e = s(e);		   
-        }
-	return a;
+	}
+	return r(a);
 }
 </pre>
 <p>
-Aquí aparecen elementos nuevos: el acumulador \(a\), el filtro \(h(e)\), la transformación \(t(e)\) y 
-la función de acumulación \(c(a,r)\).
-Todo ello junto al estado \(e\), el estado inicial \(e_0\), la guarda \(g(e)\), y la función siguiente \(s(e)\).
-Ahora \(e_0,s(e),g(e)\)  es la secuencia asociada al algoritmo, posteriormente filtrada por el predicado \(h(e)\), 
-transformada por la función
-\(t(e)\) y acumulada por la función de acumulación \(ac(a,r)\). 
-La secuencia definida por el problema es de la forma:
-\[ s = [t(x), x \in (e_0,s(e),g(e)) | h(x)] \]
-El esquema algoritmico anterior acumula los valores de la secuencia combinándolos mediante al función 
-\(ca(a,r)\) en la forma:
-\[
-c(...(c(c(a_0,t(e_0)),t(e_1))...,t(e_{m-1}))
-\]
-El algoritmo define una secuencia, un acumulador y un valor acumulado.
-En definitiva el algoritmo genera la secuencia \(e_0,e_1,...,e_{m-1}\).  Esta es la secuencia más larga 
+Aqu&iacute; aparecen elementos nuevos: el acumulador \(a\), el filtro \(h(e)\), la transformaci&oacute;n \(t(e)\) y 
+la funci&oacute;n de acumulaci&oacute;n \(c(a,r)\).
+Todo ello junto al estado \(e\), el estado inicial \(e_0\), la guarda \(g(e)\), y la funci&oacute;n siguiente \(s(e)\).
+El algoritmo tiene una secuencia asociada \(S = (e_0,s(e),g(e))\), posteriormente filtrada por el predicado \(h(e)\), 
+transformada por la funci&oacute;n
+\(t(e)\) y acumulada por el acumulador \(A =(a_0,c(a,r))\). 
+La secuencia definida por el problema tras el filtro y la transformaci&oacute;n es de la forma:
+\[ S = [t(x), x \in (e_0,s(e),g(e)) | h(x)] \]
+Los elementos de esta secuencia los representaremos por \(e_0,e_1,&hellip;,e_{m-1}\).
+Esta es la secuencia m&aacute;s larga 
 que partiendo de \(e_0\) y
 aplicando \(s(e)\) podemos obtener de tal forma que todos sus elementos cumplan \(g(e)\). Luego
-la filtra  y la transforma en 
-\(t(e_0),t(e_1),...,t(e_m)\). Todos los elementos de secuencia filtrada cumplen 
-\(g(e) \land h(e)\). Posteriormente acumula el resultado mediante un acumulador.
-Un acumulador se especifica con un elemento inicial y una función binaria: \( A = (a_0, ac(a,e)) \). 
-Aplicado a una secuencia produce un valor acumulado. A la secuencia vacía se le asigna un
-valor acumulado de \(a_0\). Aplicar un acumulador a una secuencia lo indicamos \( Ac(sq, A) \). 
+se filtra mediante \(h(e)\) y se transforma mediante \(t(e)\).  
+El esquema algoritmico anterior acumula los valores de la secuencia combin&aacute;ndolos mediante el acumulador
+\(A = (a_0,c(a,r))\) en la forma:
+\[
+c(&hellip;(c(c(a_0,e_0),e_1)&hellip;,e_{m-1})
+\]
+El algoritmo, por lo tanto, define una secuencia, un acumulador y un valor acumulado.
+Posteriormente acumula los elementos de la secuencia mediante el acumulador. Los elementos de la secuencia que se acumulan
+son 
+Como hemos dicho un acumulador se especifica con un elemento inicial y una funci&oacute;n binaria de acumulaci&oacute;n: \( A = (a_0, c(a,e)) \). 
+Aplicado a una secuencia produce un valor acumulado. A la secuencia vac&iacute;a se le asigna un
+valor acumulado de \(a_0\). Aplicar un acumulador a una secuencia lo indicamos \( C_I(A,S) \). D&oacute;nde el sub&iacute;ndice \(I\) 
+indica que los elementos de la secuencia se acumulan de izquierda a derecha. Otra alternativa
+de acumulaci&oacute;n que veremos m&aacute;s adelante es de derecha a izquierda que indicaremos con el sub&iacute;ndice \(D\).
+Finalmente el algoritmo devuelve un valor calculado a partir del acumulador y del primer valor de \(e\) 
+que cumple \(!g(e)\). Es decir \( r(a) = r(C_I(A,S))\). 
+<br>
 Por ejemplo \( \prod_{i=1}^n i \) 
-acumula la secuencia \( [1,2,...,n] \) con el acumulador \( (1, \_*\_) \). El algoritmo
+acumula la secuencia \( [1,2,&hellip;,n] \) con el acumulador \( (1, a*e) \). El algoritmo
 anterior define una acumulador y el valor acumulado devuelto es: 
 
-\[ Ac(sq,A), sq = [ t(e) e \in (e0, s(e), p(e)) | h(e)], A =(a_0,ac(\_,\_)) \]
+\[ C_I(A,S), S = [ t(e), e \in (e0, s(e), p(e)) | h(e)], A =(a_0,c(a,e)) \]
 El invariante del algoritmo asegura que el valor del acumulador es igual al valor acumulado por el acumulador definido
-por el algoritmo sobre la secuencia definida por él de una longitud igual al número de iteraciones.
+por el algoritmo sobre la secuencia definida por &eacute;l de una longitud igual al n&uacute;mero de iteraciones.
 </p>
 <p>
 Podemos considerar, de nuevo, el problema de la factorial visto arriba. Ahora siguiendo el esquema anterior podemos considerar
-el factorial como la acumulación de un producto:
+el factorial como la acumulaci&oacute;n de un producto:
 
 \[ n! = \prod_{i=1}^n i \]
-Y si el valor para la secuencia vacía del acumulador anterior \( 0! = 1\). Con esas ideas el esquema anterior se concreta 
+Y si el valor para la secuencia vac&iacute;a del acumulador anterior \( 0! = 1\). Con esas ideas el esquema anterior se concreta 
 en un nuevo algoritmo para el factorial:
 
 <pre>
@@ -537,22 +607,22 @@ f(n) {
 	while(e < = n){	   
 	   a = a * e;
 	   e = e + 1;		   
-        }
+	}
 	return a;
 }
 </pre>
-Podemos observar las pequeñas diferencias con el algoritmo del factorial visto arriba.  
-La asignación paralela equivalente al cuerpo del bucle es \( (a,e) = (a*e,e+1) \). Ahora el invariante, que no hemos tenido que proponer,
+Podemos observar las peque&ntilde;as diferencias con el algoritmo del factorial visto arriba.  
+La asignaci&oacute;n paralela equivalente al cuerpo del bucle es \( (a,e) = (a*e,e+1) \). Ahora el invariante, que no hemos tenido que proponer,
 es \( a = (e-1)!\).
-Vemos que se cumple al comenzar el bucle. También que se mantiene en cada iteración. Si si hacemos la sustitución
-simbólica correspondiente en el invariante:
+Vemos que se cumple al comenzar el bucle. Tambi&eacute;n que se mantiene en cada iteraci&oacute;n. Si si hacemos la sustituci&oacute;n
+simb&oacute;lica correspondiente en el invariante:
 \[ a*e = (e+1-1)! \equiv a*e = e! \equiv a*e = (e-1)!*e \equiv a = (e-1)! \]
-Y la restricción entrada-salida deducida:
+Y la restricci&oacute;n entrada-salida deducida:
 \[ r = a \land a = (e-1)! \land !(e < = n) \equiv r = a \land a = (e-1)! \land e = (n+1) \equiv r = n! \]
-Es decir hubiéramos llegado a este algoritmo si hubiéramos escogido este invariante. Pero llegamos al algoritmo instanciando
+Es decir hubi&eacute;ramos llegado a este algoritmo si hubi&eacute;ramos escogido este invariante. Pero llegamos al algoritmo instanciando
 el esquema algoritmico iterativo propuesto.
 
-<h1><a id="#j8">Esquemas equivalentes en Java 8 a los Esquemas Iterativos</h1>
+<a id="j8"><h1>Esquemas equivalentes en Java 8 a los Esquemas Iterativos</h1>
 El esquema iterativo visto arriba:
 <pre>
 f(x) {
@@ -561,25 +631,25 @@ f(x) {
 	while(g(e)){	   
 	   if(h(e){
 	      r = t(e);
-	      a = ac(a,r); // o a.ac(r) si el acumulador es mutable
-	      	           // if(p(a)) break; para algunos acumuladores
+	      a = c(a,r); // o a.c(r) si el acumulador es mutable
+	      	          // if(p(a)) break; para algunos acumuladores
 	   }
 	   e = s(e);		   
-        }
+	}
 	return a;
 }
 </pre>
 Tiene su equivalente en los Stream de Java 8 y en otros lenguajes actuales. 
 <p>
-Como ya comentamos aparecen: el acumulador \(a\), el filtro \(h(e)\), la transformación \(t(e)\) y 
-la función de acumulación \(c(a,r)\).
-Todo ello junto al estado \(e\), el estado inicial \(e_0\), la guarda \(g(e)\), y la función siguiente \(s(e)\).
+Como ya comentamos aparecen: el acumulador \(a\), el filtro \(h(e)\), la transformaci&oacute;n \(t(e)\) y 
+la funci&oacute;n de acumulaci&oacute;n \(c(a,r)\).
+Todo ello junto al estado \(e\), el estado inicial \(e_0\), la guarda \(g(e)\), y la funci&oacute;n siguiente \(s(e)\).
 Ahora \(e_0,s(e),g(e)\)  es la secuencia asociada al algoritmo, posteriormente filtrada por el predicado \(h(e)\), 
-transformada por la función
-\(t(e)\) y acumulada por la función de acumulación \(ac(a,r)\). 
+transformada por la funci&oacute;n
+\(t(e)\) y acumulada por la funci&oacute;n de acumulaci&oacute;n \(c(a,r)\). 
 La secuencia definida por el problema es de la forma:
 \[ s = [t(x), x \in (e_0,s(e),g(e)) | h(x)] \]
-El esquema algoritmico anterior acumula los valores de la secuencia combinándolos mediante al función 
+El esquema algoritmico anterior acumula los valores de la secuencia combin&aacute;ndolos mediante al funci&oacute;n 
 \(ca(a,r)\).
 </p>
 Los elementos similares en Java 8 son:
@@ -587,42 +657,45 @@ Los elementos similares en Java 8 son:
 <li>
 El tipo <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html"  target="_blank">Stream</a>
 es el adecuado para representar secuencias de datos que pueden ser filtrados transformados y acumulados.
-Existen versiones específicas para los tipos básicos como 
+Existen versiones espec&iacute;ficas para los tipos b&aacute;sicos como 
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html" target="_blank">IntStream</a>, etc.
 Los elementos para trabajar con el tipo Stream son los de las secuencias en general:
 <ul>
 <li>
-Secuencias básicas: <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#range-int-int-" target="_blank">range(a,b)</a>,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#iterate-T-java.util.function.UnaryOperator-" target="_blank">iterate(e0,s(e))</a>, ...
+Secuencias b&aacute;sicas: <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#range-int-int-" target="_blank">range(a,b)</a>,
+ <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#iterate-T-java.util.function.UnaryOperator-" target="_blank">iterate(e0,s(e))</a>, &hellip;
+</li>
+<li>
+Subsecuencia delimitada por un predicado: <a href="../../../us/lsi/stream/Stream2.html#whilePredicate-java.util.function.Predicate-" target="_blank">whilePredicate(p)</a>
 </li>
 <li>
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#filter-java.util.function.Predicate-" target="_blank">Filtro </a>
 </li>
 <li>
-<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#map-java.util.function.Function-" target="_blank">Transformación</a>
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#map-java.util.function.Function-" target="_blank">Transformaci&oacute;n</a>
 </li> 
-<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#collect-java.util.stream.Collector-" target="_blank">Acumulación</a>
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#collect-java.util.stream.Collector-" target="_blank">Acumulaci&oacute;n</a>
 </li>
 </ul>
 <li>
-Un acumulador sobre un tipo mutable es una implementación de <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" target="_blank">Collector</a>
+Un acumulador sobre un tipo mutable es una implementaci&oacute;n de <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" target="_blank">Collector</a>
 </li>
 <li>
-Una factoría de acumuladores podemos encontrar en <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html" target="_blank">Collectors</a>
+Una factor&iacute;a de acumuladores podemos encontrar en <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html" target="_blank">Collectors</a>
 </li>
 <li>
-Los acumuladores sobre tipos inmutables son métodos como 
+Los acumuladores sobre tipos inmutables son m&eacute;todos como 
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#allMatch-java.util.function.Predicate-" target="_blank">allMatch</a>, 
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#anyMatch-java.util.function.Predicate-" target="_blank">anyMatch</a>,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#max-java.util.Comparator-" target="_blank">max</a>,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#min-java.util.Comparator-" target="_blank">min </a>, 
-<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#reduce-T-java.util.function.BinaryOperator-" target="_blank">reduce(e0,b(x,y)) </a>,,...
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#reduce-T-java.util.function.BinaryOperator-" target="_blank">reduce(e0,b(x,y)) </a>,,&hellip;
 </li>
 </ul>
 Veamos algunos ejemplos en Java 8 y su equivalente en al algoritmo iterativo visto arriba. 
 <ul>
-<li> Un número \(n\) es primo si no es divisible por ningún número en el rango \([2,\sqrt{n}]\). </li>
-<li> El siguiente primo de un número \(n\)es el primero de la secuencia de impares mayores que \(n\)
+<li> Un n&uacute;mero \(n\) es primo si no es divisible por ning&uacute;n n&uacute;mero en el rango \([2,\sqrt{n}]\). </li>
+<li> El siguiente primo de un n&uacute;mero \(n\) es el primero de la secuencia de impares mayores que \(n\)
 filtrada por los que sean primos.</li>
 <li> Los primos menores o iguales a \(n\) se forman acumulando la secuencia \([1,siguientePrimo(e),e \le n]\)
 en una lista</li>
@@ -697,71 +770,87 @@ en una lista</li>
 	}
 </pre>
 
-Otros ejemplos resueltos en Java 8 pueden encontrars en las clases 
+Otros ejemplos resueltos en Java 8 pueden encontrarse en las clases 
 <a href="../us/lsi/java8ejemplos/Ejemplos.html" target="_blank">Ejemplos</a> y <a href="../us/lsi/java8ejemplos/OtrosEjemplos.html" target="_blank">OtrosEjemplos</a>.
 
 
 <h1><a id="rc"> Esquemas Recursivos </h1>
 
-La definición recursiva de un problema es una especificación de la solución del mismo en base a la de otros 
-problemas de la misma naturaleza pero de un tamaño más pequeño. 
-Todo problema tiene un conjunto de propiedades y una solución. 
-En toda definición recursiva aparecen los conceptos de caso base, caso recursivo y tamaño de un problema. 
+La definici&oacute;n recursiva de un problema es una especificaci&oacute;n de la soluci&oacute;n del mismo en base a la de otros 
+problemas de la misma naturaleza pero de un tama&ntilde;o m&aacute;s peque&ntilde;o. 
+Todo problema tiene un conjunto de propiedades y posiblemente una soluci&oacute;n. 
+En toda definici&oacute;n recursiva aparecen los conceptos de caso base, caso recursivo y tama&ntilde;o de un problema. 
 Veamos para ir aclarando estos conceptos un ejemplo. 
 Queremos definir el problema \( n! \) (factorial de n) y queremos hacerlo de forma recursiva. 
-La definición es de la forma:
+La definici&oacute;n es de la forma:
 \[
 n! =
 \begin{cases}
 1, & \text{si }n = 0 \\
-n*n(n-1), & \text{si }n >0
+n*(n-1)!, & \text{si }n >0
 \end{cases}
 
 \]
 
-La idoneidad de la definición podemos verla con un ejemplo:
+La idoneidad de la definici&oacute;n podemos verla con un ejemplo:
 \[
 3!=3*2!=3*2*1!=3*2*1*0!=3*2*1
 \]
 <p>
-Lo primero que debemos tener en cuenta es que cuando vamos a hacer una definición recursiva de un problema siempre 
-debemos tener en cuenta un conjunto de problemas. 
-Al conjunto de problemas los llamamos también dominio. En este caso el conjunto de problemas viene dado por todos 
-los problemas del tipo \(n!\) para todo \(n>=0 \). 
+Lo primero que debemos tener en cuenta en una definici&oacute;n recursiva de un problema es que siempre 
+debemos partir de un conjunto de problemas. 
+En este caso el conjunto de problemas viene dado por todos 
+los problemas del tipo \(n!\) con dominio \( n>=0 \). 
 </p>
 <p>
-En lo que sigue representaremos los problemas por \( p,p_1,p_2,…,p_r\). 
-Un conjunto de problemas lo representaremos por P. Cada problema tendrá unas propiedades \(x\). 
-Cada propiedad específica la representaremos mediante un superíndice: \(x=(x^1,…,x^m)\). 
-Dentro de un conjunto de problemas \(P\) los valores de sus propiedades identifican al problema de manera única.
+En lo que sigue representaremos los problemas por \( p,p_1,p_2,\ldots,p_r\). 
+Un conjunto de problemas lo representaremos por P. Cada problema tendr&aacute; unas propiedades \(x\). 
+Cada propiedad espec&iacute;fica la representaremos mediante un sub&iacute;ndice: \(x=(x_1,\ldots,x_m)\). 
+Dentro de un conjunto de problemas \(P\) los valores de sus propiedades identifican al problema de manera &uacute;nica.
 Un problema podemos pensarlo como un objeto.
-El dominio, \(D(x)\), es una expresión válida para las propiedades de todos los problemas 
-que están incluidos en el conjunto de problemas de interés. 
-A cada problema podemos asociar el concepto de tamaño que es una nueva propiedad derivada del mismo. 
-Normalmente representaremos el tamaño de un problema mediante \(n\) 
-y lo calcularemos mediante una función sobre las propiedades del mismo. Lo representamos por \(n=n(x)\) o \(n=n(p)\). 
-El tamaño del problema deber ser un entero mayor o igual que cero que nos dé una idea de la complejidad del mismo. 
-Problemas de tamaño mayor serán más complejos que otros de tamaño menor. 
-Puede haber distintas formas para escoger el tamaño de un problema. 
-Dentro de un conjunto de problemas aquellos que tienen una solución directa los llamamos casos base. 
-Estos suelen tener un tamaño pequeño. En el conjunto de problemas \(n!,n \ge 0\) el problema \(0!\) es un caso base. 
-Su solución es 1. Puede haber más de un caso base. El resto de problemas del conjunto considerado 
+El dominio, \(D(x)\), es una expresi&oacute;n v&aacute;lida para las propiedades de todos los problemas 
+que est&aacute;n incluidos en el conjunto de problemas de inter&eacute;s. 
+A cada problema podemos asociar el concepto de tama&ntilde;o que es una nueva propiedad derivada del mismo. 
+Normalmente representaremos el tama&ntilde;o de un problema mediante \(n\) 
+y lo calcularemos mediante una funci&oacute;n sobre sus propiedes. 
+Lo representamos por \(n=n(x)\) o \(n=n(p)\). 
+El tama&ntilde;o del problema deber ser un entero mayor o igual que cero que nos d&eacute; una idea de la complejidad del mismo. 
+Problemas de tama&ntilde;o mayor ser&aacute;n m&aacute;s complejos que otros de tama&ntilde;o menor. 
+Puede haber distintas formas para escoger el tama&ntilde;o de un problema. 
+Dentro de un conjunto de problemas aquellos que tienen una soluci&oacute;n directa los llamamos 
+<strong>casos base</strong>. 
+Estos suelen tener un tama&ntilde;o peque&ntilde;o. En el conjunto de problemas \(n!,n \ge 0\) el problema \(0!\) es un caso base. 
+Su soluci&oacute;n es 1. Puede haber m&aacute;s de un caso base. El resto de problemas del conjunto considerado 
 (en este caso todos los que tienen \(n>0\)) los denominaremos casos recursivos. 
+La soluci&oacute;n de un caso recursivo se define en funci&oacute;n de la de otros problemas de tama&ntilde;o menor. 
+Estos los denominaremos sub-problemas. Un mismo problema puede tener diferentes definiciones recursivas. 
 </p>
-La solución de un caso recursivo se define en función de la de otros problemas de tamaño menor. 
-Estos los denominaremos sub-problemas. Un mismo problema puede tener diferentes definiciones recursivas. Otra definición recursiva para la factorial es:
+<p>
+Como hemos dicho antes, una definici&oacute;n recursiva necesita partir de 
+un conjunto de problemas de inter&eacute;s para poder
+expresar la soluci&oacute;n de un problema en base a la de otro u otros de tama&ntilde;o m&aacute;s peque&ntilde;o.
+En muchos casos debemos imaginar ese conjunto de problemas a partir del problema original. 
+A ese proceso lo llamamos <strong> generalizar </strong>.
+Generalizar un problema es a&ntilde;adir propiedades al problema
+original para considerarlo un caso particular de un conjunto de problemas m&aacute;s amplio.
+Existen generalizaciones conocidas para secuencias indexables y no indexables que se pueden encontrar 
+en la secci&oacute;n Generalizaci&oacute;n de Problemas del <a href="http://gustavo.lsi.us.es:8117/document/Tema10.pdf" target="_blank">Tema 10</a>
+
+</p>
+
+Otra definici&oacute;n recursiva para la factorial es:
 
 \[
 n! =
 \begin{cases}
 1, & \text{si }n = 0 \\
 1, & \text{si }n = 1 \\
-n*n(n-1), & \text{si }n >1
+n*(n-1)!, & \text{si }n >1
 \end{cases}
 
 \]
 
-En este caso hay dos casos base. Y otra más es:
+En este caso hay dos casos base. Y otra m&aacute;s es:
 \[
 n! = f(n,1)
 \]
@@ -774,36 +863,40 @@ f(n-1,n*a), & \text{si }n >0 \\
 
 \]
 
-Esta última definición recursiva es menos evidente pero, como veremos más adelante, importante. 
-Ahora el conjunto de problemas es \((n,a),n \ge 0,a \ge 1\). Con esa última 
-definición la solución del problema original, \(n!\), es igual la del problema \(fa(n,1)\). 
-Es decir hemos definido la solución del problema \(n!\), que tiene una sola propiedad, en base a otro que tiene dos: 
-\(fa(n,m)\). A este proceso se le llama generalización y es el mecanismo adecuado para colocar un problema 
-a resolver dentro de un conjunto de problemas necesario para la definición recursiva.
-El tamaño del problema \(n!\) es \(n\) y el de \((n,m)\) también es \(n\). 
+Esta &uacute;ltima definici&oacute;n recursiva es menos evidente pero, como veremos m&aacute;s adelante, importante. 
+Ahora el conjunto de problemas es \((n,a),n \ge 0,a \ge 1\). Con esa &uacute;ltima 
+definici&oacute;n la soluci&oacute;n del problema original, \(n!\), es igual la del problema \(fa(n,1)\). 
+Es decir hemos definido la soluci&oacute;n del problema \(n!\), que tiene una sola propiedad, en base a otro que tiene dos: 
+\(fa(n,m)\). A este proceso se le llama generalizaci&oacute;n y es el mecanismo adecuado para colocar un problema 
+a resolver dentro de un conjunto de problemas necesario para la definici&oacute;n recursiva.
+El tama&ntilde;o del problema \(n!\) es \(n\) y el de \((n,m)\) tambi&eacute;n es \(n\). 
 
-Podemos comprobar con un ejemplo que la definición es adecuada. En efecto:
+Podemos comprobar con un ejemplo que la definici&oacute;n es adecuada. En efecto:
 \[
 3!=(3,1)=(2,3*1)=(1,2*3*1)=(0,1*2*3*1)=1*2*3*1
 \]
 
 Pero no todas las definiciones recursivas son adecuadas para construir un algoritmo. 
-Para que una definición recursiva pueda convertirse en un algoritmo debe tener al menos un caso base
-y cada caso recursivo definirse en base a otro u otros de menor tamaño. 
+Para que una definici&oacute;n recursiva pueda convertirse en un algoritmo debe tener al menos un caso base
+y cada caso recursivo definirse en base a otro u otros de menor tama&ntilde;o. 
 Las siguientes son propiedades de la factorial.
+\[
+n! =
 \begin{cases}
-0! = 1\\
-\frac{(n+1)!}{n+1} = n! \\
+1, & \text{si }n = 0 \\
+\frac{(n+1)!}{n+1}, & \text{si }n >0
 \end{cases}
+\]
+
 <p>
 Pero juntas no forman un algoritmo recursivo. Las definiciones anteriores no constituyen
- un algoritmo porque el caso recursivo se ha definido en base a otros problemas de tamaño mayor. 
-En un algoritmo es necesario que los sub-problemas usados para definir el caso recursivo tengan un tamaño menor. 
-Así en cada paso recursivo (paso de un problema a los sub-problemas que lo definen) se reduce el tamaño. 
-Como éste deber ser mayor o igual a cero para todos los problemas del conjunto considerado en algún momento 
-llegaremos al caso base y el algoritmo acabará. Esto no ocurre en la definición incorrecta anterior.
+ un algoritmo porque el caso recursivo se ha definido en base a otros problemas de tama&ntilde;o mayor. 
+En un algoritmo es necesario que los sub-problemas usados para definir el caso recursivo tengan un tama&ntilde;o menor. 
+As&iacute; en cada paso recursivo (paso de un problema a los sub-problemas que lo definen) se reduce el tama&ntilde;o. 
+Como &eacute;ste deber ser mayor o igual a cero para todos los problemas del conjunto considerado en alg&uacute;n momento 
+llegaremos al caso base y el algoritmo acabar&aacute;. Esto no ocurre en la definici&oacute;n incorrecta anterior.
 </p>
-El algoritmo que podemos deducir de la definición anterior es: 
+El algoritmo que podemos deducir de las definiciones anteriores es: 
 
 <pre>
 f(n) {
@@ -816,7 +909,7 @@ f(n) {
 }
 </pre>
 <p>
-Este algoritmo recursivo es la transcripción mimética de la primera definición recursiva que dimos para la factorial. 
+Este algoritmo recursivo es la transcripci&oacute;n mim&eacute;tica de la primera definici&oacute;n recursiva que dimos para la factorial. 
 Las otras definiciones tienen algoritmos similares. 
 </p>
 El esquema general de un algoritmo recursivo es:
@@ -829,44 +922,58 @@ f(x) {
 		s_1 = f(y);
 		y_2 = sp_2(x);
 		s_2 = f(y2);
-		...
-		s = c(s_1,s_2,...,x);
+		&hellip;
+		s = c(s_1,s_2,&hellip;,x);
 	} 
 	return s;
 }
 </pre>
-El un algoritmo recursivo aparecen los siguinetes conceptos:
+El un algoritmo recursivo aparecen los siguientes conceptos:
 <ul>
-<li> b(x): Es una función lógica que devuelve verdadero si el problema es un caso base </li>
-<li> sb(x): Es una función que devuelve la solución del caso base. </li>
-<li> sp_1(x), sp_2, ...:Son funciones que calculan los sub-problemas al que se reduce el problema original. </li>
-<li> c(s,x): Es una función, que llamaremos función de combinación, que obtiene la solución del problema
+<li> b(x): Es una funci&oacute;n l&oacute;gica que devuelve verdadero si el problema es un caso base </li>
+<li> sb(x): Es una funci&oacute;n que devuelve la soluci&oacute;n del caso base. </li>
+<li> sp_1(x), sp_2, &hellip;:Son funciones que calculan los sub-problemas al que se reduce el problema original. </li>
+<li> c(s,x): Es una funci&oacute;n, que llamaremos funci&oacute;n de combinaci&oacute;n, que obtiene la soluci&oacute;n del problema
 combinando las soluciones de los sub-problemas con las propiedades del problema. </li>
 </ul>
 <p>
 La recursividad puede ser de diferentes tipos. 
-En primer lugar la vamos a clasificar según el número de sub-problemas 
-en recursividad simple (también llamada recursividad lineal) cuando el número de sub-problemas es uno y 
-recursividad múltiple cuando el número de sub-problemas es mayor que uno. Un ejemplo de recursividad múltiple
-es la definición de los números de Fibonacci.
+En primer lugar la vamos a clasificar seg&uacute;n el n&uacute;mero de sub-problemas 
+en recursividad simple (tambi&eacute;n llamada recursividad lineal) cuando el n&uacute;mero de sub-problemas es uno y 
+recursividad m&uacute;ltiple cuando el n&uacute;mero de sub-problemas es mayor que uno. Un ejemplo de recursividad m&uacute;ltiple
+es la definici&oacute;n de los n&uacute;meros de Fibonacci.
 \[
 fib(n) =
 \begin{cases}
 n, & \text{si }n <= 1 \\
-f(n-1)+fib(n-2), & \text{si }n >1 \\
+fib(n-1)+fib(n-2), & \text{si }n >1 \\
 \end{cases}
 
 \]
 </p>
+<p> 
+La recursividad lineal puede, a su vez, clasificarse en recursividad lineal final y recursividad
+lineal no final. Cuando la forma de la funci&oacute;n de combinaci&oacute;n es de la forma \( c(x,r) = r \), es
+decir no depende de las propiedades del problema y siempre es igual a \( r \), el resultado del subproblema,
+entonces la recursividad lineal es final. En otro caso es no final.
+Otra forma de distinguir los dos tipos de recursividad lineal: en la recursividad lineal final el
+resultado del sub-problema es el mismo que el del problema. En la recursividad lineal no final
+el resultado del problema se obtiene haciendo alg&uacute;n tipo de c&aacute;lculo (la funci&oacute;n de
+combinaci&oacute;n) a partir del resultado del sub-problema y los par&aacute;metros del problema.
+Una propiedad importante de la recursividad lineal final es que la soluci&oacute;n del problema es la
+misma que la del caso base puesto que cada problema tiene la misma soluci&oacute;n que el subproblema
+al que se reduce. 
+Recordemos que los esquemas recursivos lineales finales tienen un esquema iteraivo equivalente y viceversa.
+</p>
 En muchos algoritmos recursivos como el anterior se repiten muchos subproblemas lo que hace que el algoritmo
-tarde más en ejecutarse.
-Para evitar los cálculos repetidos podemos mejorar es esquema recursivo anterior (que lo denominamos 
-divide y vencerás)
-intentando recordar los cálculos ya realizados. 
-Para ello diseñamos un nuevo algoritmo recursivo que llamaremos divide y vencerás con memoria 
-(en anterior era divide y vencerás sin memoria). 
+tarde m&aacute;s en ejecutarse.
+Para evitar los c&aacute;lculos repetidos podemos mejorar es esquema recursivo anterior (que lo denominamos 
+divide y vencer&aacute;s)
+intentando recordar los c&aacute;lculos ya realizados. 
+Para ello dise&ntilde;amos un nuevo algoritmo recursivo que llamaremos divide y vencer&aacute;s con memoria 
+(en anterior era divide y vencer&aacute;s sin memoria). 
 Para ello necesitamos una variable \(m\),   de tipo diccionario,
-que guarde la solución \(s\) para cada problema \(x\) ya resuelto. 
+que guarde la soluci&oacute;n \(s\) para cada problema \(x\) ya resuelto. 
 
 El esquema es:
 <pre>
@@ -881,17 +988,66 @@ f(x) {
 		s_1 = f(y1);
 		y_2 = sp_2(x);
 		s_2 = f(y2);
-		...
-		s = c(s_1,s_2,...,x);
+		&hellip;
+		s = c(s_1,s_2,&hellip;,x);
 		m[x] = s;
 	} 
 	return s;
 }
 </pre>
 
-<a id="itrc"><h1>Transformación Iterativo-Recursivo final y viceversa </h1>
+<a id="itrc"><h1>Transformaci&oacute;n Iterativo-Recursivo final y viceversa </h1>
 
 El algoritmo iterativo:
+<pre>
+f(x) {
+	e = e_0(x);
+	a = a_0;
+	while(g(e)){	   
+	   if(h(e){
+	      r = t(e);
+	      a = c(a,r);
+	   }
+	   e = s(e);		   
+	}
+	return r(a);
+}
+</pre>
+Tiene la siguiente versi&oacute;n recursiva:
+
+\[ f(x) = fr(a_0,e_0(x)) \]
+\[ fr(a,e) = 
+\begin{cases}
+r(a), & \text{si } !g(e) \\
+fr(c(a,t(e)),s(e)), & \text{si } g(e) \land h(e) \\
+fr(a,s(e)), & \text{si } g(e) \land !h(e) \\
+\end{cases}
+\]
+El algoritmo recursivo resultante es de recursividad simple y final. Simple porque tiene una sola llamada recursiva. 
+Final porque el resultado es igual al de la llamada recursiva sin ninguna operaci&oacute;n posterior. El esquema
+anterior se puede escribir directamente en forma de c&oacute;digo:
+
+<pre>
+f(x){
+	return fr(a_0,e_0(x));
+}
+fr(a,e){
+	R u;
+	if(!g(e)){
+		u = r(a);
+	else if(h(e)){
+		u = fr(c(a,t(e)),s(e));
+	} else {
+		u = fr(a,s(e)));
+	}
+	return u;
+}
+</pre>
+La versi&oacute;n anterior del algoritmo iterativo, y su versi&oacute;n recursivo final, recorren la secuencia
+completa para calcular el acumulador. Hay algunos casos en que, por cuestiones de eficiencia, 
+no hace falta recorrer la secuencia completa porque el valor del acumulador est&aacute; determinado
+antes si cumple una determinada propiedad. En ese caso podemos terminar el bucle con el valor ya conocido del acumulador. La
+variante del algoritmo iterativo es de la forma:
 <pre>
 f(x) {
 	e = e_0;
@@ -899,61 +1055,94 @@ f(x) {
 	while(g(e)){	   
 	   if(h(e){
 	      r = t(e);
-	      a = ac(a,r);
+	      a = c(a,r);
+	      if(p(a)) break;
 	   }
 	   e = s(e);		   
-    }
-	return a;
+	}
+	return r(a);
 }
 </pre>
-Tiene la siguiente versión recursiva:
+
+Esta variante tiene la versi&oacute;n recursiva:
 
 \[ f(x) = fr(a_0,e_0) \]
 \[ fr(a,e) = 
 \begin{cases}
-a, & \text{si } !g(e) \\
-fr(c(a,t(e)),s(e)), & \text{si } g(e) \land h(e) \\
+r(a), & \text{si } !g(e) \\
+r(c(a,t(e))), & \text{si } g(e) \land h(e) \land p(c(a,t(e)))\\
+fr(c(a,t(e)),s(e)), & \text{si } g(e) \land h(e) \land  !p(c(a,t(e)))\\
 fr(a,s(e)), & \text{si } g(e) \land !h(e) \\
 \end{cases}
 \]
-El algoritmo recursivo resultante es de recursividad simple y final. Simple porque tiene una sola llamada recursiva. 
-Final porque el resultado es igual al de la llamada recursiva sin ninguna operación posterior.
-A la inversa también es cierto. Un algoritmo recursivo final tiene una versión iterativa equivalente. Así la definición 
+Y en forma de c&oacute;digo:
+
+<pre>
+f(x){
+	return fr(a_0,e_0);
+}
+fr(a,e){
+	R u;
+	if(!g(e)){
+		u = r(a);
+	else if(h(e)){
+		a = c(a,t(e));
+		if(p(a)) return r(a);
+		u = fr(a,s(e));
+	} else {
+		u = fr(a,s(e)));
+	}
+	return u;
+}
+</pre>
+
+
+A la inversa tambi&eacute;n es cierto. Un algoritmo recursivo final general tiene una versi&oacute;n iterativa equivalente. 
+As&iacute; la definici&oacute;n 
 recursiva final:
-\[ f(e) = 
+\[ fr(e) = 
 \begin{cases}
 r(e), & \text{si } !g(e) \\
 fr(s(e)), & \text{si } g(e) \\
 \end{cases}
 \]
-El esquema recursivo previo es un caso particular de este más general. Para ver la equivalencia hagamos \( e = (a,e_1) \)
- y la función siguiente de la forma:
+
+El &uacute;ltimo esquema recursivo tiene el equivalente iterativo:
+<pre>
+fe(e) {
+	while(g(e)){	   
+	   e = s(e);	   
+	}
+	return r(e);
+}
+</pre>
+
+El esquema recursivo anterior es un caso particular de este &uacute;ltimo m&aacute;s general. 
+Para ver la equivalencia hagamos \( e = (a,e_1) \)
+ y las funciones:
 \[ s(a,e_1) = 
 \begin{cases}
 s(c(a,t(e_1)),s_1(e_1)), & \text{si } h(e_1) \\
 s(a,s_1(e_1)), & \text{si } !h(e_1) \\
 \end{cases}
 \]
-El último esquema recursivo tiene el equivalente iterativo:
-<pre>
-fe(e) {
-	while(g(e)){	   
-	   e = s(e);	   
-    }
-	return r(e);
-}
-</pre>
-Vemos, pues, que el esquema recursivo final, y su equivalente iterativo definen una secuencia definida por el primer
-valor de \( e\) y al sucesiva aplicación de \( s(e) \) mientras que se cumpla \(g(e) \).
-Veamos como ejemplo el algoritmo recursivo para el maximo común divisor que podemos derivar de las propiedades del mismo:
+Igualmente
+\[ r(a,e_1) = r_1(a) \]
+
+
+Vemos, pues, que el esquema recursivo final, y su equivalente iterativo definen una secuencia 
+constituida por el primer
+valor de \( e\) y al sucesiva aplicaci&oacute;n de \( s(e) \) mientras que se cumpla \(g(e) \).
+<br>
+Veamos como ejemplo el algoritmo recursivo para el maximo com&uacute;n divisor que podemos derivar de las propiedades del mismo:
 \[
 \begin{cases}
 mcd(a,b) = mcd(b,a) \\
 mcd(a,0) = a \\
-mcd(a,b) = mcd(b,a%b)
+mcd(a,b) = mcd(b,a\%b)
 \end{cases}
 \]
-Escogiendo como tamaño del problema \( t(a,b) = b \) llegamos al algoritmo recursivo:
+Escogiendo como tama&ntilde;o del problema \( t(a,b) = b \) llegamos al algoritmo recursivo:
 \[
 mcd(a,b) =
 \begin{cases}
@@ -961,89 +1150,179 @@ a, & \text{si } b = 0 \\
 mcd(b,a\%b), & \text{si } b >0
 \end{cases}
 \]
-Que, como vemos, es recursivo final y por lo tanto admite la versión iterativa:
+Que, como vemos, es recursivo final y por lo tanto admite la versi&oacute;n iterativa:
 
 <pre>
 mcd(a,b) {
 	while(b > 0){	   
 	   (a,b) = (b,a%b)	   
-        }
+	}
 	return a;
 }
 </pre>
-<a id="rcit"><h1>Transformación Recursivo-Iterativo </h1>
+<a id="rcit"><h1>Transformaci&oacute;n Recursivo-Iterativo </h1>
 <p>
-Como hemos visto en la sección anterior los algortimos recursivos finales tienen sus equivalentes iterativos. 
-Los algoritmos recursivos generales pueden, en algunos casos, tranformarse a recursivos finales. 
-Veamos dos aproximaciones: una para algortimos recusivos simples no finales cuyo operador de combinación tiene algunas
-propiedades, otra para algoritmos recursivos múltiples con algunas características determinadas.
+Como hemos visto en la secci&oacute;n anterior los algoritmos recursivos finales tienen sus equivalentes iterativos. 
+Los algoritmos recursivos generales pueden, en algunos casos, transformarse a recursivos finales. 
+Veamos dos aproximaciones: una para algoritmos recursivos simples no finales cuyo operador de combinaci&oacute;n tiene algunas
+propiedades, otra para algoritmos recursivos m&uacute;ltiples con algunas caracter&iacute;sticas determinadas.
 </p>
-<h3> Transformación de recursivo simple a iterativo con acumulador </h3>
+<h3> Transformaci&oacute;n de recursivo simple a iterativo con acumulador </h3>
 <p>
 Un algoritmo recursivo simple tiene la forma:
 \[
-f(e) =
+f(x) = fr(e_0(x))
+\]
+\[
+fr(e) =
 \begin{cases}
 sb(e), & \text{si } b(e) \\
-c(f(s(e),e), & \text{si } !b(e) \\
+c(fr(s(e)),e), & \text{si } !b(e) \\
 \end{cases}
 \]
-Como dijimos arriba el operador \( c(a,e) \) se denomina operador de combinación. Si \(e_0\) es el primer valor de \(e\)
-y \(e_b \) el caso base entonces el algoritmo define una secuencia \( [e_0,s(e_0),...e_{m-1},e_b] \). 
-En esa secuencia todos los elementos cumplen el predicado \( g(e) \) salvo el caso base \( e_b \). El algoritmo acumula
-los valores de la secuencia \( [e_0,s(e_0),...e_{m-1}] \) con el acumumulador \( (sb(e_b), c(a,e) ) \). 
-Pero hace la acumulación de derecha a izquierda a diferencia del esquema recursivo final que hacía la acumulación
-de izquierda a derecha. Si la función de combinación cumple las propiedades:
-<ul>
-<li> Sea asociativa. Es decir \( c(a_1,c(a_2,e)) = c(c(a1,a2),e) \) </li>
-<li> Tenga un elemento neutro, \(a_0 \), por la izquierda.  
-Es decir \( c(a_0,e) = e \) </li>
-<li>
-\(sb(e_b)\) sea un elemento neutro por la derecha. Es decir \( c(a,sb(e_b)) = a \)
-</li>
-</ul>
-El resultado de acumular la secuencia por la derecha será igual que acumularla por la izquierda con el correspondiente
-elemento neutro por la izquierda. En ese caso el esquema anterior es equivalente al recursivo final:
-\[
-f(e) = fr(a_0,e) = 
-\begin{cases}
-a, & \text{si } b(e) \\
-fr(c(a,e),s(e)), & \text{si } !b(e) \\
-\end{cases}
-\]
-Que como sabemos tiene el equivalente iterativo:
+Como dijimos arriba el operador \( c(a,e) \) se denomina operador de combinaci&oacute;n. Como 
+\(e_0\) es el valor inicial para \(e\), entonces el algoritmo define una secuencia \( S = (e_0, s(e), !b(e)) \).
+Llamaremos \(e_b\) al valor de \(e\) que cumple \(b(e_b)\). Este elemento es el siguiente
+al &uacute;ltimo de la secuencia \(S \) y no pertenece a la misma.
+El algoritmo acumula
+los valores de la secuencia partiendo del elemento inicial para el acumulador, \(sb(e_b)\), 
+y como funci&oacute;n de acumulaci&oacute;n \(c(a,e)\). El acumulador es, por tanto, \( A =(sb(e_b), c(a,e) ) \). 
+Pero hace la acumulaci&oacute;n de derecha a izquierda, a diferencia del esquema recursivo final que hac&iacute;a la acumulaci&oacute;n
+de izquierda a derecha. El resultado del algoritmo es \(C_D(A,S)\).
+<br>
+Por otra parte recordemos el esquema iterativo con acumulador (en principio si filtro ni transformaci&oacute;n):
 <pre>
 f(x) {
-	(a,e) = (a_0, x);
+	e = e_0(x);
+	a = a_0;
 	while(!b(e)){	   
-	   (a,e) = (c(a,e),s(e));	   
-        }
-	return a;
+		a = c1(a,e);
+		e = s(e);		   
+	}
+	return r(a);
 }
 </pre>
-Si \(sb(e_b)\) no fuera un elemento neutro por la derecha de \( c(a,e) \) entonces el esquema recursivo final equivalente
-es ligeramente diferente:
-\[
-f(e) = fr(a_0,e) = 
+Y su equivalente recursivo final:
+\[ f(x) = fr(a_0,e_0) \]
+\[ fr(a,e) = 
 \begin{cases}
-c(a,sb(e)), & \text{si } b(e) \\
-fr(c(a,e),s(e)), & \text{si } !b(e) \\
+r(a), & \text{si } b(e) \\
+fr(c1(a,e),s(e)), & \text{si } !b(e) \\
 \end{cases}
 \]
+
+Que definen una secuencia \( S = (e_0, s(e), !b(e)) \), un acumulador \( A1 =(a_0, c1(a,e) ) \) y un resultado 
+del algoritmo \(r(C1_I(A1,S))\). 
+<br>
+Pretendemos hacer equivalentes
+el algoritmo recursivo no final y el final, o a la versi&oacute;n iterativa correspondiente.
+Para que lo sean deben dar el mismo resultado para una entrada dada \( e_0\). Es decir
+\[r(C1_I(A1,S)) = C_D(A,S)\]
+Para conseguirlo escogemos:
+<ul>
+<li> \(a_0 \) un elemento neutro por la izquierda de \( c1 \).   Es decir \( c1(a_0,e) = e \) </li>
+<li> \(r(a) = c1(a,sb(e_b)) \)</li>
+<li> \(c1(a,e) = c(a,e)\). Si \( c(a,e) = a \oplus e \) y  \( \oplus \) es un operador binario asociativo y conmutativo</li>
+</ul>
+Con esa elecci&oacute;n ambos algoritmos son equivalentes 
+porque el resultado de acumular la secuencia por la derecha ser&aacute; igual que acumularla por la izquierda con el correspondiente
+elemento neutro por la izquierda. El esquema recursivo 
+final equivalente al recursivo no final es:
+
+<pre>
+f(x){
+	return fr(a_0,e_0(x));
+}
+fr(a,e){
+	R u;
+	if(!b(e)){
+		u = c(a,sb(e));
+	} else {
+		u = fr(c(a,e),s(e));
+	} 
+	return u;
+}
+</pre>
 Y su  equivalente iterativo:
 <pre>
 f(x) {
-	(a,e) = (a_0, x);
-	while(!b(e)){	   
-	   (a,e) = (c(a,e),s(e));	   
-        }
-	return c(a,sb(e));
+	e = e_0(x);
+	a = a_0;
+	while(!b(e)){
+		a = c(a,e); 	   
+		e = s(e);	   
+	}
+	return c(a,sb(e_b));
 }
 </pre>
-Hay casos en que la transformación anterior no es posible pero podemos imaginar otra solución al problema donde si lo sea.
-La potencia entera es el cálculo de \(b^n \) donde \( n \) es un entero no negativo. Según usemos algunas propiedades 
-u otras resultará un algoritmo para su cálculo:
-El primer algoritmo se basa en las propiedades de la potencia entera. Dos difiniciones posibles son:
+Algunos ajustes son posibles. Si \(sb(e_b)\) fuera un elemento neutro por la derecha de \( c(a,e) \) entonces la espresi&oacute;n \(c(a,sb(e_b))\)
+quedar&iacute;a reducida a \(a \). 
+Si el operador \( \oplus \), en  \( c(a,e) = a \oplus e \), fuera asociativo pero no conmutativo entonces 
+escogemos \( c1(a, e) = e \oplus a \). Es decir invertimos el orden de los operandos.
+<br> 
+La transformaci&oacute;n anterior se puede extender para una versi&oacute;n recursivo no final generalizada d&oacute;nde
+aparezcan filtros y transformaciones.
+Un algoritmo recursivo simple, haciendo expl&iacute;citos filtros y transformaciones, tiene la forma:
+<pre>
+f(x){
+	fr(e_0(x));
+}
+fr(e){
+	R u;
+	if(b(e)){
+		u = sb(e);
+	} else if(h(e)){
+		u = c(fr(s(e)),t(e));
+	} else {
+		u = fr(s(e)));
+	}
+	return u;
+}
+</pre>
+Con las mismas consideraciones anteriores sobre el nuevo acumulador \(A1\) que necesitamos,
+el algoritmo iterativo equivalente es ahora:
+<pre>
+f(x) {
+	e = e_0(x);
+	a = a_0;
+	while(!b(e)){	   
+	   if(h(e){
+	      r = t(e);
+	      a = c1(a,r);
+	   }
+	   e = s(e);		   
+	}
+	return c1(a,sb(e));
+}
+</pre>
+Con la siguiente versi&oacute;n recursiva:
+<pre>
+f(x){
+	return fr(a_0,e_0(x));
+}
+fr(a,e){
+	R u;
+	if(!b(e)){
+		u = c1(a,sb(e));
+	} else if(h(e)){
+		u = fr(c1(a,t(e)),s(e));
+	} else {
+		u = fr(a,s(e)));
+	}
+	return u;
+}
+</pre>
+<br>
+Hay muchos casos en que los que la funci&oacute;n de combinaci&oacute;n no cumple las propiedades requeridas.
+En esos casos debemos imaginar un nuevo acumulador \(A1\), y posiblemente una nueva secuencia \( S1 \),
+ para que se cumpla:
+\[r(C1_I(A1,S1)) = C_D(A,S)\]
+ 
+Como ejemplo de estas ideas, de la b&uacute;squeda de un nuevo acumulador para permitir la transformaci&oacute;n
+a iterativo, veamos el caso de la potencia entera. 
+La potencia entera es el c&aacute;lculo de \(b^n \) donde \( n \) es un entero no negativo. Seg&uacute;n usemos algunas propiedades 
+u otras resultar&aacute; un algoritmo para su c&aacute;lculo:
+Dos definiciones posibles son:
 \[
 b^n =
 \begin{cases}
@@ -1056,13 +1335,15 @@ b^{n-1}*b, & \text{si } n \gt 0
 b^n =
 \begin{cases}
 1, & \text{si } n = 0 \\
-(b^{n/2})^2*b, & \text{si } n\%2 = 1 \\
-(b^{n/2})^2, & \text{si } n\%2 = 0
+(b^{n/2})^2*b, & \text{si } n \gt 0 \land n\%2 = 1 \\
+(b^{n/2})^2, & \text{si } n \gt 0 \land n\%2 = 0
 \end{cases}
 \]
-La primera permite una transformación a recursivo final si consideramos la secuencia \( [n,n-1,...,i, ..., 1] \), 
-la función de transformación \(t(i) = b \) y el operador 
-de acumulación \( (1,a*e) \). En la segunda definición la función de combinación es: 
+La primera permite una transformaci&oacute;n a recursivo final si consideramos la secuencia 
+\( S = (n,n-1,n>0)= [n,n-1,&hellip;,i, &hellip;, 1] \), 
+la funci&oacute;n de transformaci&oacute;n \(t(e) = b \) y el operador 
+de acumulaci&oacute;n \( (1,a*e) \). En la segunda definici&oacute;n la secuencia definida es 
+\( S = (n,n/2,n>0) \) y un acumulador por la derecha \(A = (1,c(a,n))\) cuya la funci&oacute;n de acumulaci&oacute;n es: 
 \[
 c(a,n) =
 \begin{cases}
@@ -1070,9 +1351,11 @@ a^2*b, & \text{si } n\%2 = 1 \\
 a^2, & \text{si } n\%2 = 0
 \end{cases}
 \]
-
-Esta función no cumple los requisitos de asociatividad, etc. No podemos aplicar el método anterior. Pero podemos 
-pensar en una tercera definición basada en la descomposición en binario del exponente:
+Esta funci&oacute;n no cumple los requisitos de asociatividad, etc. No podemos aplicar el m&eacute;todo anterior. Pero podemos 
+pensar en una tercera definici&oacute;n basada en la descomposici&oacute;n en binario del exponente. Esta defini&oacute;n nos permite
+encontrar otro acumulador adecuado para la transformaci&oacute;n a iterativo y posiblemente otra secuencia.
+<br>
+Observemos que:
 
 \[
 \begin{cases}
@@ -1082,25 +1365,27 @@ b^n & =  b^{\sum_{0}^{p} d_i 2^i} \\
 \end{cases}
 
 \]
-
-Los sucesivos dígitos de la representación en binario de \(n\) son iguales a \(n\%2\) y los valores de \(n\) 
-siguen la secuencia \(n,n/2,n/4,...\). Podemos observar que 
+Es decir:
 \[ 
-\prod_{0}^{p} (b^{2^i})^{d_i}
+b^n = \prod_{0}^{p} (b^{2^i})^{d_i}
 \]
-puede ser considerado como la acumulación, mediante el acumulador \((1,a*e)\),
-de la secuencia \([b^{2^0},b^{2^1},b^{2^2},...]\) filtrada para \( n\%2 = 1 \).  En efecto para 
+En la secuencia \([b^{2^0},b^{2^1},b^{2^2},&hellip;]\) cada elemento es el cuadrado
+del anterior con un primer elemento igual a \(b\).
+Podemos  una secuencia de pares \((e,n)\) definida por 
+\[ S = ((b,n),s(e,n) = (e^2,n/2), n \gt 0) = [b^{2^0},b^{2^1},b^{2^2},&hellip;]\]
+<br>
+Los sucesivos d&iacute;gitos de la representaci&oacute;n en binario de \(n\) son iguales a \(n\%2\) y por lo tanto
+para  
 \( n\%2 = 1, d_i = 1, (b^{2^i})^{d_i} = b^{2^i} \) y para \( n\%2 = 0, d_i = 0, (b^{2^i})^{d_i} = 1\). 
- A su vez en la secuencia \([b^{2^0},b^{2^1},b^{2^2},...]\) cada elemento es el cuadrado
-del anterior con un primer elemento igual a \(b\). Si representamos los elementos de la secuencia por \(e\) tenemos una secuencia
-de pares \(e,n\) definida por  \([(b,n),s(e,n) = (e^2,n/2), ...]\). El algortimo iterativo queda:
+Por lo tanto existe un filtro, sobre la secuencia \(S\), mediante \( n\%2 = 1 \) y
+ un acumulador \((1,c(a,(e,n))=a*e)\).
+Con esos elementos el algoritmo iterativo queda:
 <pre>
-
 pot(b,n){
 	e = b;
 	a = 1;
 	while( n > 0){
-        	if(n%2==1){
+        if(n%2==1){
 		     a = a * e;
 		}
 		e = e * e;
@@ -1108,26 +1393,91 @@ pot(b,n){
 	}
 	return a;
 }
-
-
 </pre>
-<h3> Aproximación de abajo arriba </h3>
-En segundo lugar veremos como transformar algunos problemas recursivos (múltiples o simples) en iterativos. 
+
+El algoritmo de la potencia entera anterior puede ser adaptado para resolver otros  problemas diferentes:
+<ul>
+<li> \( b^n\) con \(b\) de tipo entero o real </li>
+<li> \(	B^n \) con \(B\) una matriz cuadrada. El tipo matriz y sus operaciones se puede tomar de 
+<a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math4/linear/package-summary.html"  target="_blank">Matriz</a>.
+Ahora \(1\) ser&aacute; la matriz unidad y \(*\) el producto de matrices.</li>
+<li> Una recurrencia lineal del tipo \( f(n) = a_1 f(n-1)+\ldots+a_k f(n-k) \) 
+con condiciones iniciales \(f(k-1)=c_{k-1},\ldots, f(0) = c_0 \). 
+Este problema puede ser reducido al segundo puesto que la recurrencia puede ser escrita 
+como una ecuaci&oacute;n matricial. As&iacute;, para el caso \( k=3 \), 
+la recurrencia de la forma \[ f(n)= a_1 f(n-1)+ a_2 f(n-2)+ a_3 f(n-3)\]
+ 
+con condiciones iniciales 
+\[f(2)=c_2,f(1)=c1,f(0)=c_0\]
+
+se puede escribir como:
+
+\[
+
+\begin{pmatrix}
+  f_n \\
+  f_{n-1} \\
+  f_{n-2}
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  a_1 & a_2 & a_3 \\
+  1 & 0 & 0 \\
+  0 & 1 & 0
+ \end{pmatrix}
+ \begin{pmatrix}
+  f_{n-1} \\
+  f_{n-2} \\
+  f_{n-3}
+ \end{pmatrix},
+ B = \begin{pmatrix}
+  a_1 & a_2 & a_3 \\
+  1 & 0 & 0 \\
+  0 & 1 & 0
+ \end{pmatrix},
+ I = \begin{pmatrix}
+  1 & 0 & 0 \\
+  0 & 1 & 0 \\
+  0 & 0 & 1
+ \end{pmatrix}
+\]
+
+Con soluci&oacute;n:
+\[
+\begin{pmatrix}
+  f_{n+2} \\
+  f_{n+1} \\
+  f_n
+ \end{pmatrix}
+ =
+ B^n
+ \begin{pmatrix}
+  c_2 \\
+  c_1 \\
+  c_0
+ \end{pmatrix}
+\] </li>
+
+</ul>
+
+<h3> Aproximaci&oacute;n de abajo arriba </h3>
+En segundo lugar veremos como transformar algunos problemas recursivos (m&uacute;ltiples o simples) en iterativos. 
 El esquema recursivo general con \(k\) sub-problemas es:
 
 \[ 
 f(x) =
 \begin{cases}
 sb(x), & \text{si } b(x) \\
-c(f(sp_0(x),f(sp_1(x),...,f(sp_{k-1}(x),x), & \text{si } !b(x)
+c(f(sp_0(x),f(sp_1(x),&hellip;,f(sp_{k-1}(x),x), & \text{si } !b(x)
 \end{cases}
 \]
+
 <p>
-La idea es generalizar el problema incorporando el tamaño del problema y las soluciones de calculadas de algunos subproblemas de tamaño menor, 
+La idea es generalizar el problema incorporando el tama&ntilde;o del problema y las soluciones calculadas de algunos subproblemas de tama&ntilde;o menor, 
 establecemos un invariante sobre  el estado elegido
-y usamos las técnicas de diseño iterativo. Para ello hacemos que el invariante se cumpla para los casos base y vamos
-aumentando, el el programa iterativo, el tamaño de los problemas hasta llegar al problema original.
-La versión recursiva final se puede obtener de la versión iterativa.
+y usamos las t&eacute;cnicas de dise&ntilde;o iterativo. Para ello hacemos que el invariante se cumpla para los casos base y vamos
+aumentando, en el programa iterativo, el tama&ntilde;o de los problemas hasta llegar al problema original.
+La versi&oacute;n recursiva final se puede obtener de la versi&oacute;n iterativa.
 </p>
 Veamos como ejemplo el problema de Fibonacci
 
@@ -1143,7 +1493,7 @@ Definimos el problema generalizado, el estado del algoritmo iterativo, con las p
 y  establecemos el invariante \( a=fib(i+1), b=fib(i) \). 
 El problema final es \( i=n \). Un problema inicial que cumple el invariante es (0,1,0).  
 Decidimos incrementar en cada paso la variable \( i \) en \(1\). 
-Pretendemos deducir del invariante y del incremento decididido para  \(i\) la función \( s(e) \). Tenemos
+Pretendemos deducir del invariante y del incremento decididido para  \(i\) la funci&oacute;n \( s(e) \). Tenemos
 \[
 \begin{cases}
 (i',a',b') & = (i',fib(i'+1),fib(i') \\
@@ -1154,7 +1504,7 @@ Pretendemos deducir del invariante y del incremento decididido para  \(i\) la fu
 \]
 
 
-Y de aquí el esquema resultante  es:
+Y de aqu&iacute; el esquema resultante  es:
 
 <pre>
 fib(n){
@@ -1165,7 +1515,7 @@ fib(n){
 	return b;
 }
 </pre>
-Desplegando la asignación paralela
+Desplegando la asignaci&oacute;n paralela
 <pre>
 fib(n){
 	i = 0;
@@ -1182,8 +1532,8 @@ fib(n){
 </pre>
 La idea anterior se puede generalizar a un conjunto variable de subproblemas.  
 En ese caso es mejor usar un dicionario para guardar las soluciones. 
-Veamos como ejemplo de este caso el cálculo del número
-combinatorio \( \binom{n}{k} \). Los números combinatorios tienen las propiedades:
+Veamos como ejemplo de este caso el c&aacute;lculo del n&uacute;mero
+combinatorio \( \binom{n}{k} \). Los n&uacute;meros combinatorios tienen las propiedades:
 
 \[
 
@@ -1196,13 +1546,13 @@ combinatorio \( \binom{n}{k} \). Los números combinatorios tienen las propiedade
 
 \]
 
-Escogiendo como tamaño \(min(k,n-k)\) tenemos la definición recursiva:
+Escogiendo como tama&ntilde;o \(min(k,n-k)\) tenemos la definici&oacute;n recursiva:
 
 \[
 \binom{n}{k} =
 \begin{cases}
 1, & \text{si } k = 0 \lor k = n\\
-n, & \text{si } k = n  \lor k = n-1\\
+n, & \text{si } k = 1  \lor k = n-1\\
 \binom{n-1}{k-1} + \binom{n-1}{k}, & \text{en otro caso}\\
 \end{cases}
 
@@ -1234,6 +1584,35 @@ binom(n,k) {
         return lsa[k];
 }
 </pre>
-
+<a id="est"><h1> Estrategias para el dise&ntilde;o de algoritmos</h1>
+Con lo visto anteriormente disponemos de varias estrategias para dise&ntilde;ar algoritmos:
+<ul>
+<li>
+<strong> Secuencia m&aacute;s acumulador </strong>. Es la estrategia m&aacute;s sencilla de usar. Se trata de imaginar una secuencia finita
+\((e_0,s(e),g(e))\) y un acumulador que acumule todos los valores de esa secuencia. En estos algoritmos 
+el valor de acumulador en cada iteraci&oacute;n e igual al valor acumulado de la subsecuencia recorrida (este
+es su invariante). Con esa estrategia se pueden dise&ntilde;ar muchos algoritmos. Todos los que se resuelven 
+con los Stream de Java8.
+</li>
+<li> <strong> Secuencia m&aacute;s Invariante m&aacute;s Funci&oacute;n de Cota </strong>. En esta estrategia, posiblemente
+a partir de un predicado, \(R(x,r)\), que relacione la entrada con la salida de un algoritmo, escogemos
+un estado y un invariante \(I\). A partir de ellos buscamos un valor inicial y un siguiente, \(e_0,s(e)\)
+que verifiquen: \(I(e_0), I(e) \implies I(s(e)), C(s(e)) \lt C(e)\). El resultado obtenido verificar&aacute;
+\(I(e) \land !g(e)\).
+</li>
+<li>
+<strong> Partir de una definici&oacute;n recursiva para obtener un algoritmo recursivo </strong>. Hay que 
+definir un tama&ntilde;o para cada problema y comprobar que para cada problema podemos obtener su soluci&oacute;n
+siempre que tengamos la soluci&oacute;n de otros de tama&ntilde;o m&aacute;s peque&ntilde;o. Habr&aacute; algunos problemas cuya
+soluci&oacute;n podr&aacute; ser obtenida sin recurrir a la de otros: son los casos base. 
+</li>
+<li>
+<strong> Imaginar un conjunto de problemas</strong>. A partir de un problema inicial generalizarlo.
+Es decir a&ntilde;adirle nuevas propiedades o visto de otra forma imaginar un conjunto de problemas que incluyen 
+al de partida. A cada problema asociar un tama&ntilde;o y dividir el conjunto en dos: los casos base, cuya 
+soluci&oacute;n es conocida, y los casos recursivos cuya soluci&oacute;n puede ser obtenida a partir de la soluci&oacute;n
+de otros de tama&ntilde;o menor.
+</li>
+</ul>
 </body>
 </html>

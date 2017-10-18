@@ -101,7 +101,7 @@
 <span class="sourceLineNo">093</span>         * @return El primer real que encuentre que sea mayor que un umbral dado como parámetro<a name="line.93"></a>
 <span class="sourceLineNo">094</span>         */<a name="line.94"></a>
 <span class="sourceLineNo">095</span>        public static Double ejemploG(List&lt;Double&gt; ls, Double umbral){<a name="line.95"></a>
-<span class="sourceLineNo">096</span>                return ls.stream().filter(x-&gt; umbral &gt; x).findFirst().get();<a name="line.96"></a>
+<span class="sourceLineNo">096</span>                return ls.stream().filter(x-&gt; x &gt; umbral).findFirst().get();<a name="line.96"></a>
 <span class="sourceLineNo">097</span>        }<a name="line.97"></a>
 <span class="sourceLineNo">098</span>        <a name="line.98"></a>
 <span class="sourceLineNo">099</span>        /**<a name="line.99"></a>

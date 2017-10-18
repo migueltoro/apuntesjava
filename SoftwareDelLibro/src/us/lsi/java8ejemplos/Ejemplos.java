@@ -93,7 +93,7 @@ public class Ejemplos {
 	 * @return El primer real que encuentre que sea mayor que un umbral dado como parámetro
 	 */
 	public static Double ejemploG(List<Double> ls, Double umbral){
-		return ls.stream().filter(x-> umbral > x).findFirst().get();
+		return ls.stream().filter(x-> x > umbral).findFirst().get();
 	}
 	
 	/**

@@ -140,7 +140,7 @@ se cumple: \( \Theta(T_m(n)) \le \Theta(T_s(n)) \). La igualdad se cumple cuando
 en el algoritmo recursivo. Es decir donde cada subproblema se resuelve una sola vez. Veremos ejemplos de estos conceptos.
 </li>
 </ul>
-<h1><a id="#smrc">Complejidad de sumatorios y recurrencias </h1>
+<h1><a id="smrc">Complejidad de sumatorios y recurrencias </h1>
 
 Para calcular la complejidad de sumatorios podemos apoyarnos en los siguientes propiedades dependiendo que la variable 
 recorra una progresión aritmética o geométrica.
@@ -216,7 +216,7 @@ T(n)= T(n-b)+ n^d \log^p ⁡n  \equiv \sum_{x \in pa(a,r)}^n x^d \log^p x
 \[
 T(n)= T(n/b)+ n^d \log^p ⁡n  \equiv \sum_{x \in pg(a,r)}^n x^d \log^p x
 \]
-<h1><a id="#ejm"> Algunos ejemplos </h1>
+<h1><a id="ejm"> Algunos ejemplos </h1>
 Veamos en primer lugar el ejemplo:
 
 <pre>
@@ -265,7 +265,7 @@ T(n) = 2T(n-2)+1, T(n) = 2 T(n-1) +1
 \]
 Luego
 \[
-\Theta(2^{n/2} )< Theta(T(n))< \Theta(2^n)
+\Theta(2^{n/2} )< \Theta(T(n))< \Theta(2^n)
 \]
 Aqui si se repiten los subproblemas. La complejidad del algoritmo con memoria es:
 \[
@@ -319,7 +319,7 @@ Con memoria en cualquier caso de los dos anteriores:
 \[
 \sum_{x \in pg(1,2)}^n x^2 \log x \in \Theta(n^2 \log n)
 \]
-<h1><a id="#cmcp">Caso mejor, caso peor y caso medio </h1>
+<h1><a id="cmcp">Caso mejor, caso peor y caso medio </h1>
 
 Varios problemas con el mismo tamaño pueden tardar tiempos diferentes. 
 Esto es debido a que puede haber varios problemas distintos con el mismo tamaño \( n \). 
