@@ -1,7 +1,7 @@
 package us.lsi.graphs;
 
+import org.jgrapht.Graph;
 
-import org.jgrapht.UndirectedGraph;
 
 /**
  * <p> Implementación de un grafo virtual simple y no dirigido
@@ -21,7 +21,7 @@ import org.jgrapht.UndirectedGraph;
  */
 public class UndirectedSimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEdge<V>>
 		extends SimpleVirtualGraph<V,E> 
-		implements UndirectedGraph<V,E>{
+		implements Graph<V,E>{
 	
 	
 	public UndirectedSimpleVirtualGraph() {

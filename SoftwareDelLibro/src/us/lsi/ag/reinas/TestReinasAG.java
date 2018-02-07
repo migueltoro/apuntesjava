@@ -2,8 +2,8 @@ package us.lsi.ag.reinas;
 
 import java.util.List;
 
-import us.lsi.ag.AlgoritmoAG;
-import us.lsi.ag.ProblemaAGIndex;
+import us.lsi.ag.IndexProblemAG;
+import us.lsi.ag.agchromosomes.AlgoritmoAG;
 import us.lsi.ag.agchromosomes.ChromosomeFactory;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.CrossoverType;
@@ -32,7 +32,7 @@ public class TestReinasAG {
 		ChromosomeFactory.crossoverType = CrossoverType.OnePoint;
 		
 		ProblemaReinasAG.numeroDeReinas = 20;
-		ProblemaAGIndex<List<Reina>> p = ProblemaReinasAG.create();
+		IndexProblemAG<List<Reina>> p = ProblemaReinasAG.create();
 		AlgoritmoAG ap = Algoritmos.createAG(ChromosomeType.IndexPermutation,p);
 		ap.ejecuta();
 		System.out.println("================================");

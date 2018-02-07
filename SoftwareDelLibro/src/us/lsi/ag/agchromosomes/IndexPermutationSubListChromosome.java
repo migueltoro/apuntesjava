@@ -5,17 +5,20 @@ import java.util.List;
 
 
 
+
+
 import org.apache.commons.math3.genetics.AbstractListChromosome;
 import org.apache.commons.math3.genetics.BinaryChromosome;
+
+
+
 import org.apache.commons.math3.genetics.Chromosome;
-
-
-
 import org.apache.commons.math3.genetics.InvalidRepresentationException;
 import org.apache.commons.math3.genetics.RandomKey;
 
-import us.lsi.ag.ProblemaAG;
-import us.lsi.ag.ProblemaAGIndex;
+import us.lsi.ag.IndexChromosome;
+import us.lsi.ag.ProblemAG;
+import us.lsi.ag.IndexProblemAG;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -29,22 +32,28 @@ import com.google.common.collect.Lists;
  * @author Miguel Toro
  * 
  * 
- * <p> Una implementación del tipo IChromosome&lt;Integer&gt;. Toma como información la definición de un problema que implementa el interfaz ProblemaAGIndex.
- * A partir de esa información construye una secuencia normal. Asumimos que el número de objetos es n y el tamaño de la secuencia normal r. </p>
+* <p> Una implementación del tipo IndexChromosome. Toma como información la definición de un problema que implementa el interfaz IndexProblemAG.
+ * A partir de esa información construye una secuencia normal. 
+ * Asumimos que el número de objetos es <code>n </code>y el tamaño de la secuencia normal <code>r</code>. 
+ * Lista decodificada es una permutación de un subconjunto de la secuencia normal.</p>
  *  
- * <p> La lista decodificada está formada por una lista de  tamaño menor o igual que r, cuyos valores son 
- * índices en el rango [0,n-1], y cada índice i se puede repetir un máximo número de veces dado por la multiplicidad máxima del objeto i
+ * <p> La lista decodificada está formada, por tanto, 
+ *  por una lista de  tamaño menor o igual a <code>r</code>, cuyos valores son 
+ * índices en el rango <code> [0,n-1]</code>, y cada índice <code>i</code> se  repite un número de veces igual o menor 
+ * al dado por la multiplicidad máxima del objeto <code> i </code>
  * definida en el problema. </p>
  * 
- * <p> La implementación usa un cromosoma binario y otro de tipo clave aleatoria. Ambos de tamaño r.
- * Es un cromosoma adecuado para codificar problemas de permutaciones de subconjuntos de multiconjuntos </p>
- *
+ * <p> La implementación usa un cromosoma de clave aleatoria de tamaño <code> r </code> y oro binario del 
+ * mismo tamaño.
+ * Es un cromosoma adecuado para codificar problemas de subcojuntos de permutaciones.</p>
  */
-public class IndexPermutationSubListChromosome extends Chromosome implements IndexChromosome {
+public class IndexPermutationSubListChromosome extends org.apache.commons.math3.genetics.Chromosome 
+
+							implements IndexChromosome {
 
 	public static List<Integer> normalSequence;
 	
-	public static ProblemaAGIndex<?> problema;
+	public static IndexProblemAG<?> problema;
 	
 	/**
 	 * Dimensión del cromosoma
@@ -53,8 +62,8 @@ public class IndexPermutationSubListChromosome extends Chromosome implements Ind
 	protected static int DIMENSION;
 	
 	
-	public static void iniValues(ProblemaAG problema){
-		IndexPermutationSubListChromosome.problema = (ProblemaAGIndex<?>) problema; 
+	public static void iniValues(ProblemAG problema){
+		IndexPermutationSubListChromosome.problema = (IndexProblemAG<?>) problema; 
 		IndexPermutationSubListChromosome.normalSequence = IndexPermutationSubListChromosome.problema.getNormalSequence();
 		IndexPermutationSubListChromosome.DIMENSION = IndexPermutationSubListChromosome.normalSequence.size();
 	}
@@ -113,7 +122,7 @@ public class IndexPermutationSubListChromosome extends Chromosome implements Ind
 	}
 	
 	@Override
-	public ProblemaAGIndex<?> getProblem() {
+	public IndexProblemAG<?> getProblem() {
 		return IndexPermutationSubListChromosome.problema;
 	}
 
@@ -122,7 +131,7 @@ public class IndexPermutationSubListChromosome extends Chromosome implements Ind
 	}
 
 	public Integer getMax(int i) {
-		return IndexPermutationSubListChromosome.problema.getMax(i);
+		return IndexPermutationSubListChromosome.problema.getMaxMultiplicity(i);
 	}
 	
 	
@@ -159,11 +168,7 @@ public class IndexPermutationSubListChromosome extends Chromosome implements Ind
 		return randomKey.getLength();
 	}	
 	
-	@Override
-	public Chromosome asChromosome() {
-		return this;
-	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

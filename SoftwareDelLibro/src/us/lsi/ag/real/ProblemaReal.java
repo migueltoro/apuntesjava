@@ -1,38 +1,40 @@
 package us.lsi.ag.real;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import us.lsi.ag.ProblemaAGReal;
-import us.lsi.ag.agchromosomes.IRealChromosome;
-import us.lsi.common.Tuple2;
+import us.lsi.ag.ValuesInRangeChromosome;
+import us.lsi.ag.ValuesInRangeProblemAG;
 
-public class ProblemaReal implements ProblemaAGReal<List<Double>> {
+public class ProblemaReal implements ValuesInRangeProblemAG<Double,List<Double>> {
 
 	public ProblemaReal(){
 		
 	}
 
 	@Override
-	public List<Double> getSolucion(IRealChromosome chromosome) {
+	public List<Double> getSolucion(ValuesInRangeChromosome<Double> chromosome) {
 		return chromosome.decode();
 	}
 
 	@Override
-	public Integer getNumeroDeVariables() {
+	public Integer getVariableNumber(){
 		return 2;
 	}
-
+	
 	@Override
-	public List<Tuple2<Double, Double>> getLimites() {
-		List<Tuple2<Double,Double>> ls = new ArrayList<>();
-		ls.add(Tuple2.create(0., 15.));
-		ls.add(Tuple2.create(-15., 15.));
-		return ls; 
+	public Double getMax(Integer i) {		
+		Double[] r = {15.,15.};
+		return r[i];
 	}
 
 	@Override
-	public Double fitnessFunction(IRealChromosome chromosome) {
+	public Double getMin(Integer i) {
+		Double[] r = {0.,-15.};
+		return r[i];
+	}
+
+	@Override
+	public Double fitnessFunction(ValuesInRangeChromosome<Double> chromosome) {
 		List<Double> ls = chromosome.decode();
 		Double a = ls.get(0);
 		Double b = ls.get(1);
@@ -45,5 +47,7 @@ public class ProblemaReal implements ProblemaAGReal<List<Double>> {
 	    	Double r = -a + b -1;	    	
 	    	return r*r;
 	    }
+
+		
 		
 }

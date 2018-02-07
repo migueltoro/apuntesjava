@@ -3,12 +3,12 @@ package us.lsi.common;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import us.lsi.math.Math2;
 import us.lsi.stream.Stream2;
 
 import com.google.common.collect.*;
-import com.google.common.base.*;
 
 public class Lists2 {
 	
@@ -92,6 +92,15 @@ public class Lists2 {
 	
 	/**
 	 * @param <T> Tipo de los elementos
+	 * @return Devuelve una lista vacía
+	 */
+	public static <T> List<T> newList(){
+	    return new ArrayList<T>();
+	}
+	
+	
+	/**
+	 * @param <T> Tipo de los elementos
 	 * @param n Número de copias
 	 * @param a Elemento a copiar
 	 * @return Devuelve una lista formada por n copias de a
@@ -160,8 +169,26 @@ public class Lists2 {
 		return Arrays.stream(e).collect(Collectors.toList());
 	}
 	
-	public static <E,U extends Collection<E>> List<E> newList(U elements){
-		return elements.stream().collect(Collectors.toList());
+	/**
+	 * @param <E> Tipo de los elementos de la lista
+	 * @param <U> Tipo de la collección
+	 * @param collection Una colección
+	 * @return La colección convertida en lista
+	 */
+	public static <E,U extends Collection<E>> List<E> newList(U collection){
+		return collection.stream().collect(Collectors.toList());
+	}
+	
+	/**
+	 * @param <E> Tipo de los elementos de la lista
+	 * @param ls1 Una lista
+	 * @param ls2 Una segunda lista
+	 * @return La concatenación d elas dos listas
+	 */
+	public static <E> List<E> concat(List<E> ls1, List<E> ls2){
+		List<E> r = Lists2.newList(ls1);
+		r.addAll(ls2);
+		return r;
 	}
 	
 	/**
@@ -178,20 +205,18 @@ public class Lists2 {
 		return r;
 	}
 
-	
 	/**
-	 * @param ls Una lista de bits
-	 * @return El número entero conrrespondiente
+	 * @param <T> Tipo de los elementos
+	 * @param ls Una lista
+	 * @return Una lista con la casilla primera intercambiada por la última, 
+	 * la segunda por la penúltima, etc.
 	 */
-	public static  Integer decode(List<Integer> ls){
-		Integer r = 0;
-		for(Integer e:ls){
-			r = r*2+e;
-		}
-		return r;
+	public static <T> List<T> reverse(List<T> ls){
+		final int n = ls.size();
+		return IntStream.range(0,n)
+				.mapToObj(i->ls.get(n-1-i))
+				.collect(Collectors.toList());
 	}
-	
-	
 	
 }
 

@@ -122,6 +122,27 @@ public class Math2 {
 		return au;
 	}
 	
+	/**
+	 * @pre base &gt; 0
+	 * @param base Base de la potencia
+	 * @param n Exponente de la potencia
+	 * @return base &#94; n en una versión iterativa de complejidad log(n)
+	 */
+	public static Long pow(Integer base, Integer n){
+		Long r; 
+		Long u;
+		r = (long) base;
+		u = 1L;
+		while( n > 0){
+	       if(n%2==1){
+			     u = u * r;
+		   }
+		   r = r * r;
+		   n = n/2;
+		}
+		return u;
+
+	}
 	
 	/**
 	 * @pre base &gt; 0
@@ -129,16 +150,16 @@ public class Math2 {
 	 * @param n Exponente de la potencia
 	 * @return base &#94; n en una versión iterativa de complejidad log(n)
 	 */
-	public static Double powi(Double base, Integer n){
+	public static Double pow(Double base, Integer n){
 		Double r, u;
 		r = base;
 		u = 1.;
 		while( n > 0){
 	       if(n%2==1){
 			     u = u * r;
-			}
-			r = r * r;
-			n = n/2;
+		   }
+		   r = r * r;
+		   n = n/2;
 		}
 		return u;
 
@@ -164,15 +185,6 @@ public class Math2 {
 			}
 		}
 		return r;
-	}
-	
-	/**
-	 * @param base Base de la potencia
-	 * @param n Exponente de la potencia
-	 * @return base &#94; n en una versión iterativa de complejidad log(n)
-	 */
-	public static Double pow(Double base, Integer n){
-		return powr(base,n);
 	}
 	
 	
@@ -212,7 +224,7 @@ public class Math2 {
 	 * @pre b &gt; a
 	 * @param a Límite inferior
 	 * @param b Límte Superior
-	 * @return Un entero aleatorio r tal que a &lt; = r &lt; b
+	 * @return Un entero aleatorio r tal que a &le; = r &lt; b
 	 */
 	public static Integer getEnteroAleatorio(Integer a, Integer b){   	
 	    	Integer valor;
@@ -421,40 +433,127 @@ public class Math2 {
 	}
 	
 	/**
+	 * @pre Todos los parámetros son positivos. El valor de e debe ser menor que maxEscala
+	 * @param e Un entero
+	 * @param maxEscala Un entero 
+	 * @param maxRange Un entero
+	 * @return Devuelve un valor en el rango 0..maxRange-1 con la expresión e*maxRange/maxEscala
+	 */
+	public static Integer escala(Integer e, Integer maxEscala, Integer maxRange){
+	     int a = e*maxRange/maxEscala;
+	     return a;
+	}
+	
+	
+	/**
+	 * @pre Todos los parámetros son positivos. El valor de e debe ser menor que maxEscala
+	 * @param e Un entero
+	 * @param maxEscala Un entero 
+	 * @param maxRange Un entero
+	 * @return Devuelve un valor en el rango 0..maxRange con la expresión e*(maxRange+1)/maxEscala
+	 */
+	public static Integer escalaIncluded(Integer e, Integer maxEscala, Integer maxRange){
+	     int a = e*(maxRange+1)/maxEscala;
+	     return a;
+	}
+
+	/**
+	 * @param ls Una lista de bits
+	 * @return El número entero conrrespondiente
+	 */
+	public static  Integer decode(List<Integer> ls){
+		Integer r = 0;
+		for(Integer e:ls){
+			r = r*2+e;
+		}
+		return r;
+	}
+	
+	/**
+	 * @pre j &gt; i, i &ge;0
+	 * @param i Un entero
+	 * @param j Un entero
+	 * @param ls Una lista de bits
+	 * @return El número entero conrrespondiente a la sublista definida por el intevalo [i,j).
+	 */
+	public static  Integer decode(List<Integer> ls, Integer i, Integer j){
+		Integer r = 0;
+		for(Integer e:ls.subList(i,j)){
+			r = r*2+e;
+		}
+		return r;
+	}
+	
+	/**
+	 * @pre n*nBits = ls.size()
+	 * @param n Numero de enteros a decodificar
+	 * @param nBits Numero de bits por entero.
+	 * @param ls Una lista de bits
+	 * @return Los numero enteros correspondientes a las n sublistas definidas 
+	 */
+	public static  List<Integer> decodes(List<Integer> ls, Integer n, Integer nBits){
+		Preconditions.checkArgument(n*nBits == ls.size());
+		List<Integer> lsr = new ArrayList<>();
+		for (int i = 0; i < ls.size(); i = i + nBits) {
+			Integer r = 0;
+			for (Integer e : ls.subList(i,i+nBits)) {
+				r = r * 2 + e;
+			}
+			lsr.add(r);
+		}
+		return lsr;
+	}
+	
+	private static Integer[] pow2 = {1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288};
+	
+	/**
+	 * @pre n*nBits = ls.size(), n = maxRanges.size()
+	 * @pos return.size() = n, 0 &le; return[i] &lt; maxRanges(i)
+	 * @param n Numero de enteros a decodificar
+	 * @param nBits Numero de bits por entero.
+	 * @param ls Una lista de bits
+	 * @param maxRanges Una lista con los rangos máximos de los enteros resultantes
+	 * @return Los numero enteros correspondientes a las n sublistas definidas en una escala con maximo maxRanges(i)-1
+	 */
+	public static  List<Integer> decodesInScala(List<Integer> ls, Integer n, Integer nBits, List<Integer> maxRanges){
+		Preconditions.checkArgument(n*nBits == ls.size());
+		Preconditions.checkArgument(maxRanges.size()==n);
+		int maxEscala = nBits<20?pow2[nBits]:Math2.pow(2, nBits).intValue();
+		List<Integer> lsr = decodes(ls,n,nBits);
+		List<Integer> r = new ArrayList<>();
+		for(int i =0; i<n;i++){
+			r.add(escala(lsr.get(i),maxEscala,maxRanges.get(i)));
+		}
+		return r;
+	}
+	
+	/**
 	 * @param e Un entero positivo
-	 * @return El número de btis necesario para poder codificarlo en binario
+	 * @return El número de bits necesario para poder codificarlo en binario
 	 */
 	public static Integer numeroDeBits(Integer e){
 		      int bits_necesarios = 0;
-		      while(e > 0) {
+		      while(e >=2) {
 		            bits_necesarios++;
 		            e = e/2; // Desplazo bits (división por 2)
 		      }
-		      return bits_necesarios;
+		      return bits_necesarios+1;
 	}
 	
 	/**
-	 * @pre Todos los parámetros son positivos. El valor de e debe ser menor que maxEscala
-	 * @param e Un entero
-	 * @param maxEscala Un entero 
-	 * @param num Un entero
-	 * @return Devuelve un valor en el rango 0..num-1 con la expresión e*num/maxEscala
+	 * @param e Un entero positivo
+	 * @return Una lista con la codificación en binario
 	 */
-	public static Integer escala(Integer e, Integer maxEscala, Integer num){
-	     int a = e*num/maxEscala;
-	     return a;
-	}
-	
-	
-	/**
-	 * @pre Todos los parámetros son positivos. El valor de e debe ser menor que maxEscala
-	 * @param e Un entero
-	 * @param maxEscala Un entero 
-	 * @param num Un entero
-	 * @return Devuelve un valor en el rango 0..num con la expresión e*(num+1)/maxEscala
-	 */
-	public static Integer escalaIncluded(Integer e, Integer maxEscala, Integer num){
-	     int a = e*(num+1)/maxEscala;
-	     return a;
+	public static List<Integer> code(Integer e){
+		      List<Integer> r = new ArrayList<>();
+		      while(e >=2) {
+		           if(e%2==0)
+		        	   r.add(0,0);
+		           else
+		        	   r.add(0,1);
+		           e = e/2;
+		      }
+		      r.add(0,e);		      
+		      return r;
 	}
 }

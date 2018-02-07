@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import org.jgrapht.Graph;
-import org.jgrapht.WeightedGraph;
 
 /**
  * <p>
@@ -71,8 +70,8 @@ public class GraphsReader {
 
 		Map<String, V> idVertices = new HashMap<>();
 		Graph<V, E> ret = graph;
-		WeightedGraph<V,E> wg = null;
-		if (ew!=null) wg = (WeightedGraph<V, E>) graph;
+		Graph<V,E> wg = null;
+		if (ew!=null) wg = graph;
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new File(file));

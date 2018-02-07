@@ -1,6 +1,6 @@
 package us.lsi.ag.sudoku;
 
-import us.lsi.ag.AlgoritmoAG;
+import us.lsi.ag.agchromosomes.AlgoritmoAG;
 import us.lsi.ag.agchromosomes.ChromosomeFactory;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.CrossoverType;
 import us.lsi.ag.agstopping.StoppingConditionFactory;

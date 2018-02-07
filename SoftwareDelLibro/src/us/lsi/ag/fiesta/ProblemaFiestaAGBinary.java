@@ -4,20 +4,19 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import us.lsi.ag.ProblemaAGBinary;
-import us.lsi.ag.agchromosomes.BinaryChromosome;
+import us.lsi.ag.ValuesInRangeChromosome;
+import us.lsi.ag.ValuesInRangeProblemAG;
 import us.lsi.common.Tuple2;
 
-public class ProblemaFiestaAGBinary implements
-		ProblemaAGBinary<List<Actividad>> {
+public class ProblemaFiestaAGBinary implements ValuesInRangeProblemAG<Integer,List<Actividad>> {
 
 	@Override
-	public int getDimensionDelChromosoma() {
+	public Integer getVariableNumber() {
 		return ProblemaFiesta.actividadesDisponibles.size();
 	}
 
 	@Override
-	public Double fitnessFunction(BinaryChromosome cr) {
+	public Double fitnessFunction(ValuesInRangeChromosome<Integer> cr) {
 		List<Integer> list = cr.decode();
 		Double valoracionTotal = 0.0;
 		Double costeTotal = 0.0;
@@ -47,7 +46,7 @@ public class ProblemaFiestaAGBinary implements
 	}
 
 	@Override
-	public List<Actividad> getSolucion(BinaryChromosome cr) {
+	public List<Actividad> getSolucion(ValuesInRangeChromosome<Integer> cr) {
 		List<Actividad> actividades = Lists.newArrayList();
 		List<Integer> ls = cr.decode();
 		for (int i = 0; i < ls.size(); i++) {
@@ -58,5 +57,16 @@ public class ProblemaFiestaAGBinary implements
 		return actividades;
 
 	}
+
+	@Override
+	public Integer getMax(Integer i) {
+		return 1;
+	}
+
+	@Override
+	public Integer getMin(Integer i) {
+		return 0;
+	}
+	
 
 }

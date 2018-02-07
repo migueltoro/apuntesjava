@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.tiposrecursivos;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.ArrayList;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.HashMap;<a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.util.List;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import java.util.Map;<a name="line.6"></a>
+<span class="sourceLineNo">007</span><a name="line.7"></a>
+<span class="sourceLineNo">008</span>import us.lsi.common.Preconditions;<a name="line.8"></a>
+<span class="sourceLineNo">009</span>import us.lsi.regularexpressions.Tokenizer;<a name="line.9"></a>
+<span class="sourceLineNo">010</span>import us.lsi.regularexpressions.Tokenizer.TokenType;<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>public class SentenceParser {<a name="line.12"></a>
+<span class="sourceLineNo">013</span><a name="line.13"></a>
+<span class="sourceLineNo">014</span>        public static Sentence scan(String s) {<a name="line.14"></a>
+<span class="sourceLineNo">015</span>                System.out.println(Operator.functions);<a name="line.15"></a>
+<span class="sourceLineNo">016</span>                System.out.println(Operator.reservedWords);<a name="line.16"></a>
+<span class="sourceLineNo">017</span>                Tokenizer tk = Tokenizer.create(s, Operator.functions,<a name="line.17"></a>
+<span class="sourceLineNo">018</span>                                Operator.reservedWords);<a name="line.18"></a>
+<span class="sourceLineNo">019</span>                Map&lt;String, Exp&lt;?&gt;&gt; vars = new HashMap&lt;&gt;();<a name="line.19"></a>
+<span class="sourceLineNo">020</span>                Sentence r = scanSentence(tk, vars);<a name="line.20"></a>
+<span class="sourceLineNo">021</span>                return r;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>        }<a name="line.22"></a>
+<span class="sourceLineNo">023</span><a name="line.23"></a>
+<span class="sourceLineNo">024</span>        private static Sentence scanSentence(Tokenizer tk, Map&lt;String, Exp&lt;?&gt;&gt; vars) {<a name="line.24"></a>
+<span class="sourceLineNo">025</span>                Sentence r = null;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                switch (tk.seeNextTokenType()) {<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                case VariableIdentifier:<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                        VariableExp&lt;?&gt; var;<a name="line.28"></a>
+<span class="sourceLineNo">029</span>                        String s1 = tk.seeNextToken();<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                        Preconditions.checkState(s1.charAt(0) != ('@'), s1<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                                        + " debe ser una variable");<a name="line.31"></a>
+<span class="sourceLineNo">032</span>                        var = ExpParser.scanVariable(tk, vars);<a name="line.32"></a>
+<span class="sourceLineNo">033</span>                        tk.matchTokens("=");<a name="line.33"></a>
+<span class="sourceLineNo">034</span>                        Exp&lt;?&gt; exp = ExpParser.scanExp(tk, vars);<a name="line.34"></a>
+<span class="sourceLineNo">035</span>                        tk.matchTokens(";");<a name="line.35"></a>
+<span class="sourceLineNo">036</span>                        Preconditions.checkState(var.getExpType().equals(exp.getExpType()),<a name="line.36"></a>
+<span class="sourceLineNo">037</span>                                        "Typos no iguales en la asignación");<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                        r = Sentence.assign(var, exp);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                        break;<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                case ReservedWord:<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                        String s2 = tk.seeNextToken();<a name="line.41"></a>
+<span class="sourceLineNo">042</span>                        switch (s2) {<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                        case "if":<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                                tk.matchTokens("if");<a name="line.44"></a>
+<span class="sourceLineNo">045</span>                                tk.matchTokens("(");<a name="line.45"></a>
+<span class="sourceLineNo">046</span>                                @SuppressWarnings("unchecked")<a name="line.46"></a>
+<span class="sourceLineNo">047</span>                                Exp&lt;Boolean&gt; condition1 = (Exp&lt;Boolean&gt;) ExpParser.scanExp(tk,<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                                                vars);<a name="line.48"></a>
+<span class="sourceLineNo">049</span>                                tk.matchTokens(")");<a name="line.49"></a>
+<span class="sourceLineNo">050</span>                                Sentence consequent = scanSentence(tk, vars);<a name="line.50"></a>
+<span class="sourceLineNo">051</span>                                tk.matchTokens("else");<a name="line.51"></a>
+<span class="sourceLineNo">052</span>                                Sentence alternative = scanSentence(tk, vars);<a name="line.52"></a>
+<span class="sourceLineNo">053</span>                                r = Sentence.ifThenElse(condition1, consequent, alternative);<a name="line.53"></a>
+<span class="sourceLineNo">054</span>                                break;<a name="line.54"></a>
+<span class="sourceLineNo">055</span>                        case "while":<a name="line.55"></a>
+<span class="sourceLineNo">056</span>                                tk.matchTokens("while");<a name="line.56"></a>
+<span class="sourceLineNo">057</span>                                tk.matchTokens("(");<a name="line.57"></a>
+<span class="sourceLineNo">058</span>                                @SuppressWarnings("unchecked")<a name="line.58"></a>
+<span class="sourceLineNo">059</span>                                Exp&lt;Boolean&gt; condition2 = (Exp&lt;Boolean&gt;) ExpParser.scanExp(tk,vars);<a name="line.59"></a>
+<span class="sourceLineNo">060</span>                                tk.matchTokens(")");<a name="line.60"></a>
+<span class="sourceLineNo">061</span>                                Sentence block = scanSentence(tk, vars);<a name="line.61"></a>
+<span class="sourceLineNo">062</span>                                r = Sentence.whileSentence(condition2, block);<a name="line.62"></a>
+<span class="sourceLineNo">063</span>                                break;<a name="line.63"></a>
+<span class="sourceLineNo">064</span>                        default:<a name="line.64"></a>
+<span class="sourceLineNo">065</span>                                tk.matchTokens("if", "while");<a name="line.65"></a>
+<span class="sourceLineNo">066</span>                        }<a name="line.66"></a>
+<span class="sourceLineNo">067</span>                        break;<a name="line.67"></a>
+<span class="sourceLineNo">068</span>                case Separator:<a name="line.68"></a>
+<span class="sourceLineNo">069</span>                        tk.matchTokens("{");<a name="line.69"></a>
+<span class="sourceLineNo">070</span>                        r = scanSentences(tk, vars);<a name="line.70"></a>
+<span class="sourceLineNo">071</span>                        tk.matchTokens("}");<a name="line.71"></a>
+<span class="sourceLineNo">072</span>                        break;<a name="line.72"></a>
+<span class="sourceLineNo">073</span>                default:<a name="line.73"></a>
+<span class="sourceLineNo">074</span>                        tk.matchTokenTypes(TokenType.VariableIdentifier,<a name="line.74"></a>
+<span class="sourceLineNo">075</span>                                        TokenType.Separator, TokenType.VariableIdentifier);<a name="line.75"></a>
+<span class="sourceLineNo">076</span>                }<a name="line.76"></a>
+<span class="sourceLineNo">077</span>                return r;<a name="line.77"></a>
+<span class="sourceLineNo">078</span>        }<a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span>        private static Sentence scanSentences(Tokenizer tk, Map&lt;String, Exp&lt;?&gt;&gt; vars) {<a name="line.80"></a>
+<span class="sourceLineNo">081</span>                List&lt;Sentence&gt; r = new ArrayList&lt;&gt;();<a name="line.81"></a>
+<span class="sourceLineNo">082</span>                while (!tk.seeNextToken().equals("}")) {<a name="line.82"></a>
+<span class="sourceLineNo">083</span>                        Sentence s = scanSentence(tk, vars);<a name="line.83"></a>
+<span class="sourceLineNo">084</span>                        r.add(s);<a name="line.84"></a>
+<span class="sourceLineNo">085</span>                }<a name="line.85"></a>
+<span class="sourceLineNo">086</span>                return Sentence.sentences(r);<a name="line.86"></a>
+<span class="sourceLineNo">087</span>        }<a name="line.87"></a>
+<span class="sourceLineNo">088</span><a name="line.88"></a>
+<span class="sourceLineNo">089</span>        public static void main(String[] args) {<a name="line.89"></a>
+<span class="sourceLineNo">090</span>                String s1 = "{x=0.;y=3.;while(x+y==5.){x=y+2.;if(x==0.){x = 2.+3.;}else{y = x^2;}}}";<a name="line.90"></a>
+<span class="sourceLineNo">091</span>                Sentence s = SentenceParser.scan(s1);<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                s.toDOT("Program.gv", "Program");<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                System.out.println(s);<a name="line.93"></a>
+<span class="sourceLineNo">094</span>        }<a name="line.94"></a>
+<span class="sourceLineNo">095</span>}<a name="line.95"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

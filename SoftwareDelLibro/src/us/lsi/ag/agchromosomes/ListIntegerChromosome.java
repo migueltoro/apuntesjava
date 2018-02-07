@@ -3,10 +3,10 @@ package us.lsi.ag.agchromosomes;
 import java.util.List;
 
 import org.apache.commons.math3.genetics.AbstractListChromosome;
-import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.InvalidRepresentationException;
 
-import us.lsi.ag.ProblemaAG;
+import us.lsi.ag.Chromosome;
+import us.lsi.ag.ProblemAG;
 import us.lsi.ag.ProblemaAGListInteger;
 
 /**
@@ -21,7 +21,7 @@ import us.lsi.ag.ProblemaAGListInteger;
  *
  */
 
-public class ListIntegerChromosome extends AbstractListChromosome<Integer> implements IChromosome<List<Integer>> {
+public class ListIntegerChromosome extends AbstractListChromosome<Integer> implements Chromosome<List<Integer>> {
 
 	public static ProblemaAGListInteger<?> problema;
 	
@@ -31,7 +31,7 @@ public class ListIntegerChromosome extends AbstractListChromosome<Integer> imple
 	
 	public static int DIMENSION;
 	
-	public static void iniValues(ProblemaAG problema){
+	public static void iniValues(ProblemAG problema){
 		ListIntegerChromosome.problema = (ProblemaAGListInteger<?>) problema; 
 		ListIntegerChromosome.DIMENSION = ListIntegerChromosome.problema.getDimension();
 	}
@@ -65,11 +65,6 @@ public class ListIntegerChromosome extends AbstractListChromosome<Integer> imple
 	@Override
 	public double fitness() {
 		return ft;
-	}
-
-	@Override
-	public Chromosome asChromosome() {
-		return this;
 	}
 
 	@Override

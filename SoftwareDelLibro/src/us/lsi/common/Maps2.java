@@ -20,6 +20,10 @@ public class Maps2 {
 		return new SimpleEntry<>(key,value);
 	}
 	
+	public static <K,V> Map<K,V> newHashMap(Map<K,V> r){
+		return new HashMap<>(r);
+	}
+	
 	public static <K,V> Map<K,V> newHashMap(K key,V value){
 		Map<K,V> m = new HashMap<>();
 		m.put(key,value);
@@ -48,11 +52,13 @@ public class Maps2 {
 	 * @param m Un Map
 	 * @return Un map inverso asumiendo que los elementos en todos los conjuntos imagen son distintos
 	 */
-	public static <K,V,U extends Collection<V>> Map<V,K> newHashMap(Map<K,U> m){
+	public static <K,V,U extends Collection<V>> Map<V,K> reverseHashMap(Map<K,U> m){
 		return m.keySet().stream()
 				.<Entry<K,V>>flatMap(x->m.get(x).stream().map(y->Maps2.newEntry(x,y)))
 				.collect(Collectors.toMap(z->z.getValue(), z->z.getKey()));
 	}
+	
+	
 	
 	/**
 	 * @param <K> tipo de las claves
@@ -86,6 +92,8 @@ public class Maps2 {
     }
     
 	/**
+	 * @param <K> El tipo de las claves 
+	 * @param <V> El tipo de los valores 
 	 * @param f Una función
 	 * @return Un Map cuyo dominio y valores son los de la función. Este Map sólo tiene disponible el método get.
 	 */

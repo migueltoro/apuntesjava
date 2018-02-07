@@ -1,9 +1,9 @@
 package us.lsi.ag.real;
 
-import us.lsi.ag.AlgoritmoAG;
-import us.lsi.ag.ProblemaAGReal;
+import us.lsi.ag.ValuesInRangeChromosome;
+import us.lsi.ag.ValuesInRangeProblemAG;
+import us.lsi.ag.agchromosomes.AlgoritmoAG;
 import us.lsi.ag.agchromosomes.ChromosomeFactory;
-import us.lsi.ag.agchromosomes.IRealChromosome;
 import us.lsi.ag.agstopping.StoppingConditionFactory;
 import us.lsi.ag.agstopping.StoppingConditionFactory.StoppingConditionType;
 import us.lsi.algoritmos.Algoritmos;
@@ -24,11 +24,11 @@ public class TestReal {
 		
 		ChromosomeFactory.crossoverType = ChromosomeFactory.CrossoverType.OnePoint;
 		
-		ProblemaAGReal<List<Double>> p = new ProblemaReal();
+		ValuesInRangeProblemAG<Double,List<Double>> p = new ProblemaReal();
 		AlgoritmoAG ap = Algoritmos.createAG(ChromosomeFactory.ChromosomeType.Real,p);
 		ap.ejecuta();
 		
-		IRealChromosome cr = ChromosomeFactory.asReal(ap.getBestFinal());
+		ValuesInRangeChromosome<Double> cr = ChromosomeFactory.asValuesInRange(ap.getBestFinal());
 		System.out.println("================================");
 		System.out.println(p.getSolucion(cr)+","+(cr.fitness()));
 		System.out.println("================================");

@@ -1,5 +1,7 @@
 package us.lsi.iterativo;
 
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.fraction.BigFractionField;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
@@ -21,17 +23,19 @@ public class Matrices {
 
 	/**
 	 * @param k La dimensión
+	 * @param f El campo de los elementos de la matriz
+	 * @param <T> El tipo de los elmentos de la matriz
 	 * @return La matriz unidad de esa dimensión
 	 */
-	public static FieldMatrix<BigFraction> getId(int k){
-		FieldMatrix<BigFraction> r = new Array2DRowFieldMatrix<>(BigFractionField.getInstance(),k,k);
+	public static  <T extends FieldElement<T>> FieldMatrix<T> getId(int k, Field<T> f){
+		FieldMatrix<T> r = new Array2DRowFieldMatrix<>(f,k,k);
 	
 		for (int i = 0; i < k; i++) {
 			for (int j = 0; j < k; j++) {
 				if (i == j) {
-					r.setEntry(i,j,BigFraction.ONE);
+					r.setEntry(i,j,f.getOne());
 				} else {
-					r.setEntry(i,j,BigFraction.ZERO);
+					r.setEntry(i,j,f.getZero());
 				}
 			}
 		}
@@ -86,7 +90,7 @@ public class Matrices {
 	}
 	
 	public static void main(String[] args) {
-		FieldMatrix<BigFraction> e = Matrices.getId(3);
+		FieldMatrix<BigFraction> e = Matrices.getId(3,BigFractionField.getInstance());
 		System.out.println(Matrices.show(e));
 		Integer[] cf = {1,2,3};
 		e = Matrices.getBase(3,cf);

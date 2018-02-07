@@ -1,11 +1,11 @@
 package us.lsi.pd.floyd;
 
 
-import us.lsi.basictypes.Tree;
 import us.lsi.graphs.GraphView;
 import us.lsi.graphs.examples.Carretera;
 import us.lsi.graphs.examples.Ciudad;
 import us.lsi.pd.AlgunosTestsPD;
+import us.lsi.tiposrecursivos.Tree;
 
 public class Test2 {
 

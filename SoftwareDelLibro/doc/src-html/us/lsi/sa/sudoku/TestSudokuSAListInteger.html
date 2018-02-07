@@ -32,7 +32,7 @@
 <span class="sourceLineNo">024</span>//              System.out.println(CuadroSudoku.comienzoDeFilas+","+CuadroSudoku.numPosicionesLibres);<a name="line.24"></a>
 <span class="sourceLineNo">025</span>                a.ejecuta();<a name="line.25"></a>
 <span class="sourceLineNo">026</span>                System.out.println("Mejor Solución =");<a name="line.26"></a>
-<span class="sourceLineNo">027</span>                CuadroSudoku c = CuadroSudoku.create(ChromosomeFactory.asListInteger(a.mejorSolucionEncontrada.asChromosome()).decode());<a name="line.27"></a>
+<span class="sourceLineNo">027</span>                CuadroSudoku c = CuadroSudoku.create(ChromosomeFactory.asListInteger(a.mejorSolucionEncontrada).decode());<a name="line.27"></a>
 <span class="sourceLineNo">028</span>                c.show();<a name="line.28"></a>
 <span class="sourceLineNo">029</span>                System.out.println(c.getObjetivoMin());<a name="line.29"></a>
 <span class="sourceLineNo">030</span>                Multiset&lt;Integer&gt; ms = HashMultiset.create();<a name="line.30"></a>

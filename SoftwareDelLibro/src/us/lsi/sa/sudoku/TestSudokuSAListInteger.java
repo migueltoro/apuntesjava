@@ -24,7 +24,7 @@ public class TestSudokuSAListInteger {
 //		System.out.println(CuadroSudoku.comienzoDeFilas+","+CuadroSudoku.numPosicionesLibres);
 		a.ejecuta();
 		System.out.println("Mejor Solución =");
-		CuadroSudoku c = CuadroSudoku.create(ChromosomeFactory.asListInteger(a.mejorSolucionEncontrada.asChromosome()).decode());
+		CuadroSudoku c = CuadroSudoku.create(ChromosomeFactory.asListInteger(a.mejorSolucionEncontrada).decode());
 		c.show();
 		System.out.println(c.getObjetivoMin());
 		Multiset<Integer> ms = HashMultiset.create();

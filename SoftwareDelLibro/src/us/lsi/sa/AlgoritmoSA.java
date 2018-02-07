@@ -5,10 +5,8 @@ import org.apache.commons.math3.genetics.MutationPolicy;
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.genetics.StoppingCondition;
 import org.apache.commons.math3.random.JDKRandomGenerator;
-
-import us.lsi.ag.ProblemaAG;
+import us.lsi.ag.ProblemAG;
 import us.lsi.ag.agchromosomes.ChromosomeFactory;
-import us.lsi.ag.agchromosomes.IChromosome;
 import us.lsi.ag.agstopping.StoppingConditionFactory;
 import us.lsi.algoritmos.AbstractAlgoritmo;
 import us.lsi.math.Math2;
@@ -39,7 +37,7 @@ public class AlgoritmoSA extends AbstractAlgoritmo {
 		/**
 		 * Mejor solución encontrada
 		 */
-		public IChromosome<?> mejorSolucionEncontrada = null;    
+		public org.apache.commons.math3.genetics.Chromosome mejorSolucionEncontrada = null;    
 	    /**
 	     * Número de intentos. En cada intento se parte del estado incial y se llevan a cabo
 	     * un número de iteraciones por intento. En cada iteración se llevan a cabo un número de iteraciones 
@@ -78,8 +76,8 @@ public class AlgoritmoSA extends AbstractAlgoritmo {
 		
 		private double temperatura;
 		private boolean parar = false;
-		private IChromosome<?> estado;
-		private IChromosome<?> nextEstado; 
+		private org.apache.commons.math3.genetics.Chromosome estado;
+		private org.apache.commons.math3.genetics.Chromosome nextEstado; 
 		private ChromosomeFactory.ChromosomeType type;
 		private MutationPolicy mutationPolicy;
 		private StoppingCondition stopCond;
@@ -88,7 +86,7 @@ public class AlgoritmoSA extends AbstractAlgoritmo {
 		 * @param p Problema a resolver
 		 * @param type El tipo del cromosoma
 		 */
-		public AlgoritmoSA(ChromosomeFactory.ChromosomeType type, ProblemaAG p){
+		public AlgoritmoSA(ChromosomeFactory.ChromosomeType type, ProblemAG p){
 			this.type = type;
 			ChromosomeFactory.iniValues(type, p);			
 			this.soluciones = new ElitisticListPopulation(50, 0.20);
@@ -113,7 +111,7 @@ public class AlgoritmoSA extends AbstractAlgoritmo {
 				for (int numeroDeIteraciones = 0; !parar
 						&& numeroDeIteraciones < numeroDeIteracionesPorIntento; numeroDeIteraciones++) {
 					for (int s = 0; !parar && s < numeroDeIteracionesALaMismaTemperatura; s++) {
-						this.nextEstado = (IChromosome<?>) this.mutationPolicy.mutate(this.estado.asChromosome());
+						this.nextEstado = this.mutationPolicy.mutate(this.estado);
 						double incr = nextEstado.fitness() - estado.fitness();
 						if (aceptaCambio(incr)) {
 							estado = nextEstado;
@@ -123,7 +121,7 @@ public class AlgoritmoSA extends AbstractAlgoritmo {
 					}
 					this.temperatura= nexTemperatura(numeroDeIteraciones);
 				}
-				soluciones.addChromosome(this.estado.asChromosome());
+				soluciones.addChromosome(this.estado);
 			}
 		}
 

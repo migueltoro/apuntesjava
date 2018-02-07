@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package us.lsi.tiposrecursivos;<a name="line.1"></a>
+<span class="sourceLineNo">002</span>import java.util.List;<a name="line.2"></a>
+<span class="sourceLineNo">003</span>import java.util.stream.Collector;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.util.stream.Collectors;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>import us.lsi.tiposrecursivos.Exp.ExpType;<a name="line.6"></a>
+<span class="sourceLineNo">007</span><a name="line.7"></a>
+<span class="sourceLineNo">008</span>public class AccumulatorExp&lt;T,R&gt; implements Operator {<a name="line.8"></a>
+<span class="sourceLineNo">009</span><a name="line.9"></a>
+<span class="sourceLineNo">010</span>        private Collector&lt;T,?,R&gt; collectorOperator = null;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>        private String name;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>        private String shortName = null;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>        private ExpType[] expType;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>        private int id;<a name="line.14"></a>
+<span class="sourceLineNo">015</span>        private static int lastId = 0;<a name="line.15"></a>
+<span class="sourceLineNo">016</span>        <a name="line.16"></a>
+<span class="sourceLineNo">017</span>        <a name="line.17"></a>
+<span class="sourceLineNo">018</span>        public AccumulatorExp(Collector&lt;T,?,R&gt; collector, String name, String shortName, <a name="line.18"></a>
+<span class="sourceLineNo">019</span>                        ExpType[] expType) {<a name="line.19"></a>
+<span class="sourceLineNo">020</span>                super();<a name="line.20"></a>
+<span class="sourceLineNo">021</span>                this.collectorOperator = collector;<a name="line.21"></a>
+<span class="sourceLineNo">022</span>                this.shortName = shortName;<a name="line.22"></a>
+<span class="sourceLineNo">023</span>                this.name = name;<a name="line.23"></a>
+<span class="sourceLineNo">024</span>                this.expType = expType;<a name="line.24"></a>
+<span class="sourceLineNo">025</span>                this.id = lastId;<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                lastId++;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>        }<a name="line.27"></a>
+<span class="sourceLineNo">028</span>        <a name="line.28"></a>
+<span class="sourceLineNo">029</span>        public Collector&lt;T,?,R&gt; getCode() {<a name="line.29"></a>
+<span class="sourceLineNo">030</span>                return collectorOperator;<a name="line.30"></a>
+<span class="sourceLineNo">031</span>        }<a name="line.31"></a>
+<span class="sourceLineNo">032</span><a name="line.32"></a>
+<span class="sourceLineNo">033</span>        @Override<a name="line.33"></a>
+<span class="sourceLineNo">034</span>        public Integer getArity() {<a name="line.34"></a>
+<span class="sourceLineNo">035</span>                return -1;<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        }       <a name="line.36"></a>
+<span class="sourceLineNo">037</span>        <a name="line.37"></a>
+<span class="sourceLineNo">038</span>        @Override<a name="line.38"></a>
+<span class="sourceLineNo">039</span>        public String toString() {<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                return name;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>        }<a name="line.41"></a>
+<span class="sourceLineNo">042</span><a name="line.42"></a>
+<span class="sourceLineNo">043</span>        public String getId() {<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                return "A_"+id;<a name="line.44"></a>
+<span class="sourceLineNo">045</span>        }<a name="line.45"></a>
+<span class="sourceLineNo">046</span><a name="line.46"></a>
+<span class="sourceLineNo">047</span>        public String getName() {<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                return name;<a name="line.48"></a>
+<span class="sourceLineNo">049</span>        }<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        <a name="line.50"></a>
+<span class="sourceLineNo">051</span>        @SuppressWarnings("unchecked")<a name="line.51"></a>
+<span class="sourceLineNo">052</span>        public NaryExp&lt;T,R&gt; exp(List&lt;Exp&lt;?&gt;&gt; ls){<a name="line.52"></a>
+<span class="sourceLineNo">053</span>                List&lt;Exp&lt;T&gt;&gt; ops = ls.stream().map(x-&gt;(Exp&lt;T&gt;)x).collect(Collectors.toList());<a name="line.53"></a>
+<span class="sourceLineNo">054</span>                return Exp.nary(ops, this);<a name="line.54"></a>
+<span class="sourceLineNo">055</span>        }<a name="line.55"></a>
+<span class="sourceLineNo">056</span>        <a name="line.56"></a>
+<span class="sourceLineNo">057</span>        @Override<a name="line.57"></a>
+<span class="sourceLineNo">058</span>        public int hashCode() {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>                final int prime = 31;<a name="line.59"></a>
+<span class="sourceLineNo">060</span>                int result = 1;<a name="line.60"></a>
+<span class="sourceLineNo">061</span>                result = prime * result + id;<a name="line.61"></a>
+<span class="sourceLineNo">062</span>                return result;<a name="line.62"></a>
+<span class="sourceLineNo">063</span>        }<a name="line.63"></a>
+<span class="sourceLineNo">064</span><a name="line.64"></a>
+<span class="sourceLineNo">065</span>        @Override<a name="line.65"></a>
+<span class="sourceLineNo">066</span>        public boolean equals(Object obj) {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>                if (this == obj)<a name="line.67"></a>
+<span class="sourceLineNo">068</span>                        return true;<a name="line.68"></a>
+<span class="sourceLineNo">069</span>                if (obj == null)<a name="line.69"></a>
+<span class="sourceLineNo">070</span>                        return false;<a name="line.70"></a>
+<span class="sourceLineNo">071</span>                if (!(obj instanceof AccumulatorExp))<a name="line.71"></a>
+<span class="sourceLineNo">072</span>                        return false;<a name="line.72"></a>
+<span class="sourceLineNo">073</span>                AccumulatorExp&lt;?,?&gt; other = (AccumulatorExp&lt;?,?&gt;) obj;<a name="line.73"></a>
+<span class="sourceLineNo">074</span>                if (id != other.id)<a name="line.74"></a>
+<span class="sourceLineNo">075</span>                        return false;<a name="line.75"></a>
+<span class="sourceLineNo">076</span>                return true;<a name="line.76"></a>
+<span class="sourceLineNo">077</span>        }<a name="line.77"></a>
+<span class="sourceLineNo">078</span><a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>        public static int add() {<a name="line.81"></a>
+<span class="sourceLineNo">082</span>                        <a name="line.82"></a>
+<span class="sourceLineNo">083</span>                        ExpType[] expType1  = {ExpType.Integer,ExpType.Integer};<a name="line.83"></a>
+<span class="sourceLineNo">084</span>                        AccumulatorExp&lt;Integer,Integer&gt; op1 = new AccumulatorExp&lt;&gt;(Collectors.reducing(0,(x,y)-&gt;x+y), "A_PlusInteger","+",expType1);<a name="line.84"></a>
+<span class="sourceLineNo">085</span>                        Operator.add("+",ExpType.Integer,op1);<a name="line.85"></a>
+<span class="sourceLineNo">086</span>                        <a name="line.86"></a>
+<span class="sourceLineNo">087</span>                        ExpType[] expType2  = {ExpType.Double,ExpType.Double};<a name="line.87"></a>
+<span class="sourceLineNo">088</span>                        AccumulatorExp&lt;Double,Double&gt; op2 = new AccumulatorExp&lt;&gt;(Collectors.reducing(0.,(x,y)-&gt;x+y), "A_PlusDouble", "+",expType2);<a name="line.88"></a>
+<span class="sourceLineNo">089</span>                        Operator.add("+",ExpType.Double,op2);<a name="line.89"></a>
+<span class="sourceLineNo">090</span>                        <a name="line.90"></a>
+<span class="sourceLineNo">091</span>                        ExpType[] expType3  = {ExpType.Integer,ExpType.Integer};<a name="line.91"></a>
+<span class="sourceLineNo">092</span>                        op1 = new AccumulatorExp&lt;&gt;(Collectors.reducing(0,(x,y)-&gt;x*y), "A_MultiplyInteger","*",expType3);<a name="line.92"></a>
+<span class="sourceLineNo">093</span>                        Operator.add("*",ExpType.Integer,op1);<a name="line.93"></a>
+<span class="sourceLineNo">094</span>                        <a name="line.94"></a>
+<span class="sourceLineNo">095</span>                        ExpType[] expType4  = {ExpType.Double,ExpType.Double};<a name="line.95"></a>
+<span class="sourceLineNo">096</span>                        AccumulatorExp&lt;Double,Double&gt; op4 = new AccumulatorExp&lt;&gt;(Collectors.reducing(0.,(x,y)-&gt;x*y), "A_MultiplyDouble","*",expType4);<a name="line.96"></a>
+<span class="sourceLineNo">097</span>                        Operator.add("*",ExpType.Double,op4);<a name="line.97"></a>
+<span class="sourceLineNo">098</span>                        <a name="line.98"></a>
+<span class="sourceLineNo">099</span>                        ExpType[] expType5  = {ExpType.Integer,ExpType.Integer};<a name="line.99"></a>
+<span class="sourceLineNo">100</span>                        AccumulatorExp&lt;Integer,Integer&gt; op5 = new AccumulatorExp&lt;&gt;(Collectors.reducing(Integer.MAX_VALUE,(x,y)-&gt;Integer.min(x,y)), "A_MinInteger","min",expType5);<a name="line.100"></a>
+<span class="sourceLineNo">101</span>                        Operator.add("min",ExpType.Integer,op5);<a name="line.101"></a>
+<span class="sourceLineNo">102</span>                        functions.add("min");<a name="line.102"></a>
+<span class="sourceLineNo">103</span>                        <a name="line.103"></a>
+<span class="sourceLineNo">104</span>                        ExpType[] expType6  = {ExpType.Integer,ExpType.Integer};<a name="line.104"></a>
+<span class="sourceLineNo">105</span>                        AccumulatorExp&lt;Integer,Integer&gt; op6 = new AccumulatorExp&lt;&gt;(Collectors.reducing(Integer.MIN_VALUE,(x,y)-&gt;Integer.max(x,y)), "A_MaxInteger","max",expType6);<a name="line.105"></a>
+<span class="sourceLineNo">106</span>                        Operator.add("max",ExpType.Integer,op6);<a name="line.106"></a>
+<span class="sourceLineNo">107</span>                        functions.add("max");<a name="line.107"></a>
+<span class="sourceLineNo">108</span>                        <a name="line.108"></a>
+<span class="sourceLineNo">109</span>                        ExpType[] expType7  = {ExpType.Double,ExpType.Double};<a name="line.109"></a>
+<span class="sourceLineNo">110</span>                        AccumulatorExp&lt;Double,Double&gt; op7 = new AccumulatorExp&lt;&gt;(Collectors.reducing(Double.MAX_VALUE,(x,y)-&gt;Double.min(x,y)), "A_MinDouble","min",expType7);<a name="line.110"></a>
+<span class="sourceLineNo">111</span>                        Operator.add("min",ExpType.Double,op7);<a name="line.111"></a>
+<span class="sourceLineNo">112</span>                        <a name="line.112"></a>
+<span class="sourceLineNo">113</span>                        ExpType[] expType8  = {ExpType.Double,ExpType.Double};<a name="line.113"></a>
+<span class="sourceLineNo">114</span>                        AccumulatorExp&lt;Double,Double&gt; op8 = new AccumulatorExp&lt;&gt;(Collectors.reducing(Double.MIN_VALUE,(x,y)-&gt;Double.max(x,y)), "A_MaxDouble","max",expType8);<a name="line.114"></a>
+<span class="sourceLineNo">115</span>                        Operator.add("max",ExpType.Double,op8);<a name="line.115"></a>
+<span class="sourceLineNo">116</span>        <a name="line.116"></a>
+<span class="sourceLineNo">117</span>                <a name="line.117"></a>
+<span class="sourceLineNo">118</span>                        return 1;<a name="line.118"></a>
+<span class="sourceLineNo">119</span>        }<a name="line.119"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
+<span class="sourceLineNo">121</span>        @Override<a name="line.121"></a>
+<span class="sourceLineNo">122</span>        public String getShortName() {<a name="line.122"></a>
+<span class="sourceLineNo">123</span>                return shortName;<a name="line.123"></a>
+<span class="sourceLineNo">124</span>        }<a name="line.124"></a>
+<span class="sourceLineNo">125</span><a name="line.125"></a>
+<span class="sourceLineNo">126</span>        public ExpType[] getExpType() {<a name="line.126"></a>
+<span class="sourceLineNo">127</span>                return expType;<a name="line.127"></a>
+<span class="sourceLineNo">128</span>        }<a name="line.128"></a>
+<span class="sourceLineNo">129</span>        <a name="line.129"></a>
+<span class="sourceLineNo">130</span>        @Override<a name="line.130"></a>
+<span class="sourceLineNo">131</span>        public Integer getPriority() {<a name="line.131"></a>
+<span class="sourceLineNo">132</span>                return 0;<a name="line.132"></a>
+<span class="sourceLineNo">133</span>        }<a name="line.133"></a>
+<span class="sourceLineNo">134</span>}<a name="line.134"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

@@ -28,13 +28,13 @@ public class ProblemasDeListas {
 		int r;
 		int k;
 		if(j-i == 0){
-			r = -i-1;
+			r = -1;
 		}else{
 			k = (i+j)/2;
 			int r1 = ord.compare(key,lista.get(k));
 			if(r1==0){
 				r = k;
-			}else if(r1 <0){
+			}else if(r1<0){
 				r = bSearch(lista,i,k,key,ord);
 			}else{
 				r = bSearch(lista,k+1,j,key,ord);
@@ -66,7 +66,7 @@ public class ProblemasDeListas {
 		    } else if (cmp.compare(elem, pivote)>0) {
 		    	Lists2.intercambia(lista,b,c-1);
 				c--;	
-		    } else if (elem.equals(pivote)) {
+		    } else {
 		    	b++;
 		    }
 		}

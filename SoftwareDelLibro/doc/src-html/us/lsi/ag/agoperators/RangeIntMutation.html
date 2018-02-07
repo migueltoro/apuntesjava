@@ -14,7 +14,7 @@
 <span class="sourceLineNo">006</span>import org.apache.commons.math3.genetics.Chromosome;<a name="line.6"></a>
 <span class="sourceLineNo">007</span>import org.apache.commons.math3.genetics.MutationPolicy;<a name="line.7"></a>
 <span class="sourceLineNo">008</span><a name="line.8"></a>
-<span class="sourceLineNo">009</span>import us.lsi.ag.ProblemaAGIndex;<a name="line.9"></a>
+<span class="sourceLineNo">009</span>import us.lsi.ag.IndexProblemAG;<a name="line.9"></a>
 <span class="sourceLineNo">010</span>import us.lsi.ag.agchromosomes.ListIntegerChromosome;<a name="line.10"></a>
 <span class="sourceLineNo">011</span>import us.lsi.math.Math2;<a name="line.11"></a>
 <span class="sourceLineNo">012</span><a name="line.12"></a>
@@ -30,7 +30,7 @@
 <span class="sourceLineNo">022</span>        /**<a name="line.22"></a>
 <span class="sourceLineNo">023</span>         * Variable que debe ser inicializada por el problema<a name="line.23"></a>
 <span class="sourceLineNo">024</span>         */<a name="line.24"></a>
-<span class="sourceLineNo">025</span>        public static ProblemaAGIndex&lt;?&gt; problema;<a name="line.25"></a>
+<span class="sourceLineNo">025</span>        public static IndexProblemAG&lt;?&gt; problema;<a name="line.25"></a>
 <span class="sourceLineNo">026</span>        <a name="line.26"></a>
 <span class="sourceLineNo">027</span>        public RangeIntMutation() {}<a name="line.27"></a>
 <span class="sourceLineNo">028</span><a name="line.28"></a>
@@ -40,7 +40,7 @@
 <span class="sourceLineNo">032</span>                int d = c.getLength();<a name="line.32"></a>
 <span class="sourceLineNo">033</span>                List&lt;Integer&gt; ls = Lists.newArrayList(c.decode());<a name="line.33"></a>
 <span class="sourceLineNo">034</span>                int index = Math2.getEnteroAleatorio(0, d);<a name="line.34"></a>
-<span class="sourceLineNo">035</span>                Integer sup = problema.getMax(index);<a name="line.35"></a>
+<span class="sourceLineNo">035</span>                Integer sup = problema.getMaxMultiplicity(index);<a name="line.35"></a>
 <span class="sourceLineNo">036</span>                Integer v = Math2.getEnteroAleatorio(0, sup+1); <a name="line.36"></a>
 <span class="sourceLineNo">037</span>                ls.set(index,v);<a name="line.37"></a>
 <span class="sourceLineNo">038</span>                return new ListIntegerChromosome(ls);<a name="line.38"></a>

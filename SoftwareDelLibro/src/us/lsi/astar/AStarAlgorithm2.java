@@ -153,16 +153,16 @@ public class AStarAlgorithm2<V, E> implements AStarAlgorithm<V, E> {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
+
 	private void expandNode(FibonacciHeapNode<V> currentNode, V endVertex)
     {
         numberOfExpandedNodes++;
 
         Set<E> outgoingEdges = null;
-        if (graph instanceof UndirectedGraph) {
+        if (graph instanceof Graph) {
             outgoingEdges = graph.edgesOf(currentNode.getData());
-        } else if (graph instanceof DirectedGraph) {
-            outgoingEdges = ((DirectedGraph<V, E>) graph).outgoingEdgesOf(currentNode.getData());
+        } else if (graph instanceof Graph) {
+            outgoingEdges = graph.outgoingEdgesOf(currentNode.getData());
         }
 
         

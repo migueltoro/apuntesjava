@@ -25,9 +25,9 @@ public class Tuple3<T1, T2, T3> {
 	}
 	
 	
-	private final T1 v1;
-	private final T2 v2;
-	private final T3 v3;
+	public final T1 v1;
+	public final T2 v2;
+	public final T3 v3;
 	
 	private Tuple3(T1 p1, T2 p2, T3 p3) {
 		super();

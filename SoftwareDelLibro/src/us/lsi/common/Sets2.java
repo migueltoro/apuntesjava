@@ -24,7 +24,7 @@ public class Sets2 {
 		return Arrays.stream(e).collect(Collectors.toSet());
 	}
 
-	public static <E,U extends Collection<E>> Set<E> newList(U elements){
+	public static <E,U extends Collection<E>> Set<E> newSet(U elements){
 		return elements.stream().collect(Collectors.toSet());
 	}
 }

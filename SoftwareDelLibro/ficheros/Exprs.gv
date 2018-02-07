@@ -1,0 +1,22 @@
+digraph Expresion {  
+    size="100,100"; 
+    "BE_9" [label="*"];
+    "BE_9" -> "BE_8";
+    "BE_9" -> "U_4";
+    "BE_8" [label="+"];
+    "BE_8" -> "BE_7";
+    "BE_8" -> "V_0";
+    "BE_7" [label="*"];
+    "BE_7" -> "BE_6";
+    "BE_7" -> "V_1";
+    "BE_6" [label="+"];
+    "BE_6" -> "V_0";
+    "BE_6" -> "C_0";
+    "V_0" [label="x"];
+    "C_0" [label="3.2"];
+    "V_1" [label="y"];
+    "U_4" [label="sqrt"];
+    "U_4" -> "U_3";
+    "U_3" [label="^3"];
+    "U_3" -> "C_0";
+}

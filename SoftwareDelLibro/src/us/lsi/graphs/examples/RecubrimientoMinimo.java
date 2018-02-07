@@ -4,12 +4,12 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 import org.jgrapht.Graph;
-import org.jgrapht.UndirectedGraph;
-import org.jgrapht.ext.ComponentNameProvider;
-import org.jgrapht.ext.DOTExporter;
-import org.jgrapht.ext.IntegerComponentNameProvider;
 import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import org.jgrapht.io.ComponentNameProvider;
+import org.jgrapht.io.DOTExporter;
+import org.jgrapht.io.DefaultAttribute;
+import org.jgrapht.io.IntegerComponentNameProvider;
 
 import us.lsi.common.Files2;
 import us.lsi.common.Maps2;
@@ -48,8 +48,7 @@ public class RecubrimientoMinimo {
 		
 		Map<Ciudad,Double> habitantes = Maps2.newHashMap(x->1/x.getHabitantes());
 		
-		VertexCover<Ciudad> r2 = avc.getVertexCover(
-				(UndirectedGraph<Ciudad, Carretera>) subGraph,habitantes);
+		VertexCover<Ciudad> r2 = avc.getVertexCover(subGraph,habitantes);
 		
 		System.out.println(r);
 		
@@ -59,8 +58,11 @@ public class RecubrimientoMinimo {
 				vertexIDProvider,
 				x->x.getNombre(), 
 				x->x.getNombre(),
-				x->r2.getVertices().contains(x)? Maps2.newHashMap("color","green","style","filled"): null,
-				x->r.getEdges().contains(x)?Maps2.newHashMap("style","bold"): null);
+				x->r2.getVertices().contains(x)? Maps2.newHashMap(
+						"color",DefaultAttribute.createAttribute("green"),
+						"style",DefaultAttribute.createAttribute("filled")): null,
+				x->r.getEdges().contains(x)?Maps2.newHashMap(
+						"style",DefaultAttribute.createAttribute("bold")): null);
 		
 		PrintWriter f = Files2.getWriter("./ficheros/recubrimientoAndalucia.gv");
 		de.exportGraph(graph, f);

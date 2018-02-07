@@ -6,11 +6,11 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import us.lsi.ag.ProblemaAGIndex;
-import us.lsi.ag.agchromosomes.IndexChromosome;
+import us.lsi.ag.IndexChromosome;
+import us.lsi.ag.IndexProblemAG;
 import us.lsi.bt.reinas.Reina;
 
-public class ProblemaReinasAG implements ProblemaAGIndex<List<Reina>> {
+public class ProblemaReinasAG implements IndexProblemAG<List<Reina>> {
 
 public static int numeroDeReinas = 8;
 	

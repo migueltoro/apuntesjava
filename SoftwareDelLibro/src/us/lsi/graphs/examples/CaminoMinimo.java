@@ -6,10 +6,11 @@ import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.alg.interfaces.ShortestPathAlgorithm;
-import org.jgrapht.ext.ComponentNameProvider;
-import org.jgrapht.ext.DOTExporter;
-import org.jgrapht.ext.IntegerComponentNameProvider;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import org.jgrapht.io.ComponentNameProvider;
+import org.jgrapht.io.DOTExporter;
+import org.jgrapht.io.DefaultAttribute;
+import org.jgrapht.io.IntegerComponentNameProvider;
 
 import us.lsi.common.Files2;
 import us.lsi.common.Maps2;
@@ -38,7 +39,8 @@ public class CaminoMinimo {
 				x->x.getNombre(), 
 				x->x.getNombre()+"--"+x.getKm(),
 				null,
-				x->gp.getEdgeList().contains(x)?Maps2.newHashMap("style","bold"): null);
+				x->gp.getEdgeList().contains(x)?Maps2.newHashMap("style",
+						DefaultAttribute.createAttribute("bold")): null);
 		PrintWriter f = Files2.getWriter("./ficheros/caminoMinimoAndalucia.gv");
 		de.exportGraph(graph, f);
 	}

@@ -14,7 +14,7 @@ import us.lsi.ag.agchromosomes.ListIntegerChromosome;
  * 
  * <p> Es un cromosoma general para trabajar con problemas cuyas soluciones pueden ser modeladas por listas de enteros.</p>
  */
-public interface ProblemaAGListInteger<S> extends ProblemaAG {
+public interface ProblemaAGListInteger<S> extends ProblemAG {
 
 	/**
 	 * @return La dimensión de la lista de enteros

@@ -6,7 +6,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.MutationPolicy;
 
-import us.lsi.ag.ProblemaAGIndex;
+import us.lsi.ag.IndexProblemAG;
 import us.lsi.ag.agchromosomes.ListIntegerChromosome;
 import us.lsi.math.Math2;
 
@@ -22,7 +22,7 @@ public class RangeIntMutation implements MutationPolicy {
 	/**
 	 * Variable que debe ser inicializada por el problema
 	 */
-	public static ProblemaAGIndex<?> problema;
+	public static IndexProblemAG<?> problema;
 	
 	public RangeIntMutation() {}
 
@@ -32,7 +32,7 @@ public class RangeIntMutation implements MutationPolicy {
 		int d = c.getLength();
 		List<Integer> ls = Lists.newArrayList(c.decode());
 		int index = Math2.getEnteroAleatorio(0, d);
-		Integer sup = problema.getMax(index);
+		Integer sup = problema.getMaxMultiplicity(index);
 		Integer v = Math2.getEnteroAleatorio(0, sup+1);	
 		ls.set(index,v);
 		return new ListIntegerChromosome(ls);

@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.math3.fraction.BigFraction;
+import org.apache.commons.math3.fraction.BigFractionField;
 import org.apache.commons.math3.linear.FieldMatrix;
 
 
@@ -88,7 +89,7 @@ public class EjemplosIterativos {
 		if(cf.length != vi.length) return null;
 		int k = cf.length;
 		FieldMatrix<BigFraction> e = Matrices.getBase(k,cf);			
-		FieldMatrix<BigFraction> a = Matrices.getId(k);
+		FieldMatrix<BigFraction> a = Matrices.getId(k,BigFractionField.getInstance());
 		FieldMatrix<BigFraction> c = Matrices.getColumn(vi);
 		while(n > 0){
 	        if(n%2==1){
@@ -114,6 +115,7 @@ public class EjemplosIterativos {
 	    }
 		return a;
 	}
+	
 	public static void main(String[] args) {
 		System.out.println(binom(10,5));
 		System.out.println(fib(10));
@@ -121,7 +123,10 @@ public class EjemplosIterativos {
 		System.out.println(mcd(10546,3280));
 		Integer[] cf = {1,1};
 		Integer[] vi = {1,0};
-		System.out.println(secuencia(50,cf,vi));
+		Long t1 = System.nanoTime();
+		BigInteger r = secuencia(1000,cf,vi);
+		Long t2 = System.nanoTime()-t1;
+		System.out.println("Iterativo ="+t2+"---"+r);
 		Integer[] cf2 = {2,3,-1};
 		Integer[] vi2 = {1,1,2};
 		System.out.println(secuencia(50,cf2,vi2));

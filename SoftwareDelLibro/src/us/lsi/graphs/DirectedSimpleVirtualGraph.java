@@ -2,8 +2,7 @@ package us.lsi.graphs;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import org.jgrapht.DirectedGraph;
+import org.jgrapht.Graph;
 /**
  * <p> Implementación de un grafo virtual simple y dirigido
  * Asumimos que los vértices son subtipo de VirtualDirectedVertex &lt; V,E &gt;
@@ -20,9 +19,10 @@ import org.jgrapht.DirectedGraph;
  * @param <E> El tipo de las aristas
  * 
  */
+
 public class DirectedSimpleVirtualGraph<V extends VirtualDirectedVertex<V,E>, E extends SimpleEdge<V>>
 		extends SimpleVirtualGraph<V, E> 
-		implements DirectedGraph<V, E> {
+		implements Graph<V, E> {
 		
 
 	public DirectedSimpleVirtualGraph() {

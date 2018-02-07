@@ -6,9 +6,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import us.lsi.algoritmos.AbstractAlgoritmo;
-import us.lsi.basictypes.Tree;
 import us.lsi.common.Lists2;
 import us.lsi.pd.ProblemaPD.Tipo;
+import us.lsi.tiposrecursivos.Tree;
 
 import com.google.common.collect.*;
 
@@ -135,7 +135,7 @@ public class AlgoritmoPD<S,A> extends AbstractAlgoritmo {
 					la.add(rh);
 				}
 			}
-			r = Tree.create(sp.alternativa,la);
+			r = Tree.nary(sp.alternativa,la);
 		}
 		return r;
 	}

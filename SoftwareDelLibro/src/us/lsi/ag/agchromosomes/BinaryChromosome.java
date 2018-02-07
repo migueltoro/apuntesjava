@@ -3,11 +3,11 @@ package us.lsi.ag.agchromosomes;
 import java.util.List;
 
 import org.apache.commons.math3.genetics.AbstractListChromosome;
-import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.InvalidRepresentationException;
 
-import us.lsi.ag.ProblemaAG;
-import us.lsi.ag.ProblemaAGBinary;
+import us.lsi.ag.ProblemAG;
+import us.lsi.ag.ValuesInRangeChromosome;
+import us.lsi.ag.ValuesInRangeProblemAG;
 
 /**
  * @author Miguel Toro
@@ -17,9 +17,9 @@ import us.lsi.ag.ProblemaAGBinary;
  * La implementación es una adaptación de la clase {@link org.apache.commons.math3.genetics.Chromosome Chromosome} de Apache. </p>
  *
  */
-public class BinaryChromosome extends org.apache.commons.math3.genetics.BinaryChromosome implements IBinaryChromosome {
+public class BinaryChromosome extends org.apache.commons.math3.genetics.BinaryChromosome implements ValuesInRangeChromosome<Integer> {
 	
-	public static ProblemaAGBinary<?> problema;
+	public static ValuesInRangeProblemAG<Integer,?> problem;
 	
 	/**
 	 * Dimensión del cromosoma
@@ -27,9 +27,10 @@ public class BinaryChromosome extends org.apache.commons.math3.genetics.BinaryCh
 	
 	protected static int DIMENSION;
 	
-	public static void iniValues(ProblemaAG problema){
-		BinaryChromosome.problema = (ProblemaAGBinary<?>) problema; 
-		BinaryChromosome.DIMENSION = BinaryChromosome.problema.getDimensionDelChromosoma();
+	@SuppressWarnings("unchecked")
+	public static void iniValues(ProblemAG problema){
+		BinaryChromosome.problem = (ValuesInRangeProblemAG<Integer,?>) problema; 
+		BinaryChromosome.DIMENSION = BinaryChromosome.problem.getVariableNumber();
 	}
 
 	public BinaryChromosome(List<Integer> representation) throws InvalidRepresentationException {
@@ -55,7 +56,7 @@ public class BinaryChromosome extends org.apache.commons.math3.genetics.BinaryCh
 	private Double ft = null;
 	
 	private double calculateFt(){
-		return BinaryChromosome.problema.fitnessFunction(this);
+		return BinaryChromosome.problem.fitnessFunction(this);
 	}
 
 	@Override
@@ -63,17 +64,12 @@ public class BinaryChromosome extends org.apache.commons.math3.genetics.BinaryCh
 		return new BinaryChromosome(ar);
 	}
 
-	public ProblemaAGBinary<?> getProblema() {
-		return problema;
+	public ValuesInRangeProblemAG<Integer,?> getProblem() {
+		return problem;
 	}
 
 	public static int getDimension() {
-		return BinaryChromosome.problema.getDimensionDelChromosoma();
-	}
-
-	@Override
-	public Chromosome asChromosome() {
-		return this;
+		return BinaryChromosome.problem.getVariableNumber();
 	}
 	
 	public static BinaryChromosome getInitialChromosome() {

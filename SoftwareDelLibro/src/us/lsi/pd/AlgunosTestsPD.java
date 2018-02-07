@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import us.lsi.basictypes.Tree;
 import us.lsi.math.Math2;
 import us.lsi.pd.AlgoritmoPD.Sp;
+import us.lsi.tiposrecursivos.Tree;
 
 public class AlgunosTestsPD<S, A> {
 	
@@ -77,7 +77,7 @@ public class AlgunosTestsPD<S, A> {
 	public static <S, A> Tree<A> test2(ProblemaPD<S, A> p) {
 		Tree<A> r = null;
 		if (p.esCasoBase() || p.estaFueraDeRango()) {
-			r = Tree.create();
+			r = Tree.empty();
 		} else {
 			List<A> alternativas = p.getAlternativas();
 			A a = null;
@@ -85,16 +85,16 @@ public class AlgunosTestsPD<S, A> {
 				Integer n = Math2.getEnteroAleatorio(0, alternativas.size());
 				a = alternativas.get(n);
 				int np = p.getNumeroSubProblemas(a);
-				r = Tree.create(a);
+				r = Tree.leaf(a);
 				List<Tree<A>> la = Lists.newArrayList();
 				for (int i = 0; i < np; i++) {
 					ProblemaPD<S,A> sp = p.getSubProblema(a, i);
 					Tree<A> th = test2(sp);
 					la.add(th);
 				}
-				r = Tree.create(a,la);
+				r = Tree.nary(a,la);
 			} else {
-				r = Tree.create();
+				r = Tree.empty();
 			}
 		}
 		return r;

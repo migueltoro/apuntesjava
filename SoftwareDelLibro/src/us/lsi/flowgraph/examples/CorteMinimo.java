@@ -2,7 +2,8 @@ package us.lsi.flowgraph.examples;
 
 
 import java.util.Set;
-import org.jgrapht.UndirectedGraph;
+
+import org.jgrapht.Graph;
 import org.jgrapht.alg.StoerWagnerMinimumCut;
 import org.jgrapht.alg.flow.EdmondsKarpMFImpl;
 import org.jgrapht.graph.SimpleWeightedGraph;
@@ -19,17 +20,17 @@ import us.lsi.graphs.examples.Ciudad;
  */
 public class CorteMinimo {
 
-	public static UndirectedGraph<Ciudad,Carretera> creaFichero(String fileIn){
+	public static Graph<Ciudad,Carretera> creaFichero(String fileIn){
 		
-		UndirectedGraph<Ciudad,Carretera> g =  new SimpleWeightedGraph<Ciudad,Carretera>(Carretera::create);
-		g =  (UndirectedGraph<Ciudad,Carretera>) GraphsReader.newGraph(fileIn,Ciudad::create, Carretera::create,g,Carretera::getKm);
+		Graph<Ciudad,Carretera> g =  new SimpleWeightedGraph<Ciudad,Carretera>(Carretera::create);
+		g =  GraphsReader.newGraph(fileIn,Ciudad::create, Carretera::create,g,Carretera::getKm);
 		return g;
 	}
 	
 	
 	public static void main(String[] args) {
 		
-		UndirectedGraph<Ciudad,Carretera> graph = CorteMinimo.creaFichero("./ficheros/andalucia.txt");
+		Graph<Ciudad,Carretera> graph = CorteMinimo.creaFichero("./ficheros/andalucia.txt");
 		StoerWagnerMinimumCut<Ciudad,Carretera> a = new StoerWagnerMinimumCut<Ciudad,Carretera>(graph);
 		Set<Ciudad> source = a.minCut();
 		System.out.println(source);

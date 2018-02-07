@@ -3,8 +3,8 @@ package us.lsi.sa.anuncios;
 
 import org.apache.commons.math3.genetics.Chromosome;
 
-import us.lsi.ag.AlgoritmoAG;
-import us.lsi.ag.ProblemaAGIndex;
+import us.lsi.ag.IndexProblemAG;
+import us.lsi.ag.agchromosomes.AlgoritmoAG;
 import us.lsi.ag.agchromosomes.ChromosomeFactory;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
 import us.lsi.ag.anuncios.ProblemaAnunciosAG;
@@ -31,7 +31,7 @@ public class TestAnunciosSA {
 		AlgoritmoSA.numeroDeIteracionesPorIntento = 400;
 		AlgoritmoSA.numeroDeIteracionesALaMismaTemperatura = 20;
 		AlgoritmoSA.numeroDeIntentos = 4;
-		ProblemaAGIndex<ListaDeAnunciosAEmitir> p = new ProblemaAnunciosAG(AlgoritmoAG.raiz+"anuncios.txt");		
+		IndexProblemAG<ListaDeAnunciosAEmitir> p = new ProblemaAnunciosAG(AlgoritmoAG.raiz+"anuncios.txt");		
 		AlgoritmoSA ap = Algoritmos.createSA(ChromosomeType.IndexPermutationSubList,p);
 		ap.ejecuta();		
 		System.out.println("------");
@@ -45,7 +45,7 @@ public class TestAnunciosSA {
 		}
 		System.out.println("------");
 		System.out.println("------");
-		System.out.println(p.getSolucion(ChromosomeFactory.asIndex(ap.mejorSolucionEncontrada.asChromosome())));
+		System.out.println(p.getSolucion(ChromosomeFactory.asIndex(ap.mejorSolucionEncontrada)));
 		System.out.println(ProblemaAnuncios.tiempoTotal);
 	}
 }

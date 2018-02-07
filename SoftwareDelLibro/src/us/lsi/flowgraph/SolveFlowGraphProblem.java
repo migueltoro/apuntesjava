@@ -3,21 +3,17 @@ package us.lsi.flowgraph;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jgrapht.Graph;
-import org.jgrapht.ext.ComponentAttributeProvider;
 
-
-
-
-
-
-
-import org.jgrapht.ext.StringComponentNameProvider;
+import org.jgrapht.io.Attribute;
+import org.jgrapht.io.ComponentAttributeProvider;
+import org.jgrapht.io.DOTExporter;
+import org.jgrapht.io.DefaultAttribute;
+import org.jgrapht.io.StringComponentNameProvider;
 
 import us.lsi.algoritmos.Algoritmos;
+import us.lsi.common.Files2;
 import us.lsi.common.StringExtensions2;
 import us.lsi.graphs.Graphs2;
-import us.lsi.graphs.GraphsFileExporter;
 import us.lsi.graphs.GraphsReader;
 import us.lsi.pl.AlgoritmoPL;
 import us.lsi.pl.ProblemaPL;
@@ -93,24 +89,25 @@ public class SolveFlowGraphProblem {
 	}
 
 
-	public static void saveFileFlow(FlowGraph graph, String file,
-			boolean conNombres) {
-		GraphsFileExporter.saveFile((Graph<FlowVertex, FlowEdge>) graph, file,
-				new StringComponentNameProvider<FlowVertex>(), null, null,
+	public static void saveFileFlow(FlowGraph graph, String file, boolean conNombres) {
+		DOTExporter<FlowVertex, FlowEdge> de = new DOTExporter<>(
+				new StringComponentNameProvider<FlowVertex>(), 
+				null, 
+				null,
 				new EtiquetasVerticesFlow(graph, conNombres),
 				new EtiquetasAristasFlow(graph));
+		de.exportGraph(graph, Files2.getWriter(file));
 	}
 
 	public static void saveFileFlowSoutions(FlowGraph graph,
 			String file, Map<FlowVertex, Double> sourceFlow, Map<FlowVertex, Double> sinkFlow,
 			Map<FlowEdge, Double> edgeFlow, boolean conNombres) {
 
-		GraphsFileExporter.saveFile((Graph<FlowVertex, FlowEdge>) graph, file,
+		DOTExporter<FlowVertex, FlowEdge> de = new DOTExporter<>(
 				new StringComponentNameProvider<FlowVertex>(), null, null,
-				new EtiquetasVerticesSolutionFlow<FlowVertex>(sourceFlow, sinkFlow,
-						conNombres), new EtiquetasAristasSolutionFlow(
-						edgeFlow));
-
+				new EtiquetasVerticesSolutionFlow<FlowVertex>(sourceFlow, sinkFlow,conNombres), 
+				new EtiquetasAristasSolutionFlow(edgeFlow));
+		de.exportGraph(graph, Files2.getWriter(file));
 	}
 
 	
@@ -132,15 +129,15 @@ public class SolveFlowGraphProblem {
 		}
 
 		@Override
-		public Map<String, String> getComponentAttributes(V v) {
-			Map<String, String> map = new HashMap<>();
-			String nombre = conNombres ? v.toString() + "\n" : "";
+		public Map<String, Attribute> getComponentAttributes(V v) {
+			Map<String, Attribute> map = new HashMap<>();
+			String nombre = conNombres ? v.toString() + "\\n" : "";
 			if (source.containsKey(v)) {
-				map.put("style", "bold");
-				map.put("label", nombre + source.get(v).toString());
+				map.put("style", DefaultAttribute.createAttribute("bold"));
+				map.put("label", DefaultAttribute.createAttribute(nombre + source.get(v).toString()));
 			} else if (sink.containsKey(v)) {
-				map.put("style", "dotted");
-				map.put("label", nombre + "-" + sink.get(v));
+				map.put("style", DefaultAttribute.createAttribute("dotted"));
+				map.put("label", DefaultAttribute.createAttribute(nombre + "-" + sink.get(v)));
 			}
 			return map;
 		}
@@ -159,20 +156,20 @@ public class SolveFlowGraphProblem {
 		}
 
 		@Override
-		public Map<String, String> getComponentAttributes(FlowVertex v) {
-			Map<String, String> map = new HashMap<>();
-			String nombre = conNombres ? v.toString() + "\n" : "";
+		public Map<String, Attribute> getComponentAttributes(FlowVertex v) {
+			Map<String, Attribute> map = new HashMap<>();
+			String nombre = conNombres ? v.toString() + "\\n" : "";
 			String min = graph.getMinVertexWeight(v) > 0 ? ""
 					+ graph.getMinVertexWeight(v) : "";
 			String max = graph.getMaxVertexWeight(v) < Double.MAX_VALUE ? ""
 					+ graph.getMaxVertexWeight(v) : "";
 			if (min.length() > 0 || max.length() > 0) {
-				map.put("label", nombre + min + "/" + max);
+				map.put("label", DefaultAttribute.createAttribute(nombre + min + "/" + max));
 			}
 			if (graph.isSource(v)) {
-				map.put("style", "bold");
+				map.put("style", DefaultAttribute.createAttribute("bold"));
 			} else if (graph.isSink(v)) {
-				map.put("style", "dotted");
+				map.put("style", DefaultAttribute.createAttribute("dotted"));
 			}
 			return map;
 		}
@@ -189,10 +186,10 @@ public class SolveFlowGraphProblem {
 		private Map<FlowEdge, Double> m;
 
 		@Override
-		public Map<String, String> getComponentAttributes(FlowEdge a) {
-			Map<String, String> map = new HashMap<>();
+		public Map<String, Attribute> getComponentAttributes(FlowEdge a) {
+			Map<String, Attribute> map = new HashMap<>();
 			if (m.containsKey(a)) {
-				map.put("label", m.get(a).toString());
+				map.put("label", DefaultAttribute.createAttribute(m.get(a).toString()));
 			}
 			return map;
 		}
@@ -208,14 +205,14 @@ public class SolveFlowGraphProblem {
 		private FlowGraph graph;
 
 		@Override
-		public Map<String, String> getComponentAttributes(FlowEdge a) {
-			Map<String, String> map = new HashMap<>();
+		public Map<String, Attribute> getComponentAttributes(FlowEdge a) {
+			Map<String, Attribute> map = new HashMap<>();
 			String min = graph.getMinEdgeWeight(a) > 0 ? ""
 					+ graph.getMinEdgeWeight(a) : "";
 			String max = graph.getEdgeWeight(a) < Double.MAX_VALUE ? ""
 					+ graph.getEdgeWeight(a) : "";
 			if (min.length() > 0 || max.length() > 0) {
-				map.put("label", min + "/" + max);
+				map.put("label", DefaultAttribute.createAttribute(min + "/" + max));
 			}
 			return map;
 		}

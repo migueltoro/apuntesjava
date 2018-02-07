@@ -11,7 +11,7 @@ import org.apache.commons.math3.genetics.StoppingCondition;
 
 import com.google.common.collect.Lists;
 
-import us.lsi.ag.AlgoritmoAG;
+import us.lsi.ag.agchromosomes.AlgoritmoAG;
 import us.lsi.stream.Stream2;
 
 /**

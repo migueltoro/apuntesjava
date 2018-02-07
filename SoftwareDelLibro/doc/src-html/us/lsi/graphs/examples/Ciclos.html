@@ -15,55 +15,54 @@
 <span class="sourceLineNo">007</span>import java.util.stream.Collectors;<a name="line.7"></a>
 <span class="sourceLineNo">008</span><a name="line.8"></a>
 <span class="sourceLineNo">009</span>import org.jgrapht.Graph;<a name="line.9"></a>
-<span class="sourceLineNo">010</span>import org.jgrapht.UndirectedGraph;<a name="line.10"></a>
-<span class="sourceLineNo">011</span>import org.jgrapht.alg.HamiltonianCycle;<a name="line.11"></a>
-<span class="sourceLineNo">012</span>import org.jgrapht.alg.cycle.HierholzerEulerianCycle;<a name="line.12"></a>
-<span class="sourceLineNo">013</span>import org.jgrapht.alg.cycle.PatonCycleBase;<a name="line.13"></a>
-<span class="sourceLineNo">014</span>import org.jgrapht.alg.cycle.UndirectedCycleBase;<a name="line.14"></a>
-<span class="sourceLineNo">015</span>import org.jgrapht.graph.GraphWalk;<a name="line.15"></a>
-<span class="sourceLineNo">016</span>import org.jgrapht.graph.SimpleWeightedGraph;<a name="line.16"></a>
-<span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>import us.lsi.graphs.GraphWalk2;<a name="line.18"></a>
-<span class="sourceLineNo">019</span>import us.lsi.graphs.Graphs2;<a name="line.19"></a>
-<span class="sourceLineNo">020</span>import us.lsi.graphs.GraphsReader;<a name="line.20"></a>
-<span class="sourceLineNo">021</span><a name="line.21"></a>
-<span class="sourceLineNo">022</span>public class Ciclos {<a name="line.22"></a>
-<span class="sourceLineNo">023</span><a name="line.23"></a>
-<span class="sourceLineNo">024</span>        public static void main(String[] args) {<a name="line.24"></a>
-<span class="sourceLineNo">025</span>                <a name="line.25"></a>
-<span class="sourceLineNo">026</span>                Graph&lt;Ciudad,Carretera&gt; graph =  new SimpleWeightedGraph&lt;Ciudad,Carretera&gt;(Carretera::create);<a name="line.26"></a>
-<span class="sourceLineNo">027</span>                graph =  GraphsReader.newGraph("./ficheros/andalucia.txt",Ciudad::create, Carretera::create,graph,Carretera::getKm);<a name="line.27"></a>
-<span class="sourceLineNo">028</span>                <a name="line.28"></a>
-<span class="sourceLineNo">029</span>                SimpleWeightedGraph&lt;Ciudad, Carretera&gt; gc = Graphs2.completeGraph(graph,200000.);<a name="line.29"></a>
-<span class="sourceLineNo">030</span>                <a name="line.30"></a>
-<span class="sourceLineNo">031</span>                <a name="line.31"></a>
-<span class="sourceLineNo">032</span>                List&lt;Ciudad&gt; r3 = HamiltonianCycle.getApproximateOptimalForCompleteGraph(gc);<a name="line.32"></a>
-<span class="sourceLineNo">033</span>                GraphWalk&lt;Ciudad,Carretera&gt; gw = new GraphWalk&lt;&gt;(gc,r3,0.);<a name="line.33"></a>
-<span class="sourceLineNo">034</span>                <a name="line.34"></a>
-<span class="sourceLineNo">035</span>                System.out.println("Hamiltonian");<a name="line.35"></a>
-<span class="sourceLineNo">036</span>                System.out.println(r3);<a name="line.36"></a>
-<span class="sourceLineNo">037</span>                System.out.println(gw.getEdgeList());<a name="line.37"></a>
+<span class="sourceLineNo">010</span>import org.jgrapht.alg.cycle.HierholzerEulerianCycle;<a name="line.10"></a>
+<span class="sourceLineNo">011</span>import org.jgrapht.alg.cycle.PatonCycleBase;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>import org.jgrapht.alg.cycle.UndirectedCycleBase;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import org.jgrapht.alg.tour.TwoApproxMetricTSP;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>import org.jgrapht.graph.GraphWalk;<a name="line.14"></a>
+<span class="sourceLineNo">015</span>import org.jgrapht.graph.SimpleWeightedGraph;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>import us.lsi.graphs.GraphWalk2;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>import us.lsi.graphs.Graphs2;<a name="line.18"></a>
+<span class="sourceLineNo">019</span>import us.lsi.graphs.GraphsReader;<a name="line.19"></a>
+<span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span>public class Ciclos {<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>        public static void main(String[] args) {<a name="line.23"></a>
+<span class="sourceLineNo">024</span>                <a name="line.24"></a>
+<span class="sourceLineNo">025</span>                Graph&lt;Ciudad,Carretera&gt; graph =  new SimpleWeightedGraph&lt;Ciudad,Carretera&gt;(Carretera::create);<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                graph =  GraphsReader.newGraph("./ficheros/andalucia.txt",Ciudad::create, Carretera::create,graph,Carretera::getKm);<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                <a name="line.27"></a>
+<span class="sourceLineNo">028</span>                SimpleWeightedGraph&lt;Ciudad, Carretera&gt; gc = Graphs2.completeGraph(graph,200000.);<a name="line.28"></a>
+<span class="sourceLineNo">029</span>                <a name="line.29"></a>
+<span class="sourceLineNo">030</span>                TwoApproxMetricTSP&lt;Ciudad, Carretera&gt; tsp = new  TwoApproxMetricTSP&lt;&gt;();<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                List&lt;Ciudad&gt; r3 = tsp.getTour(gc).getVertexList();<a name="line.31"></a>
+<span class="sourceLineNo">032</span>                GraphWalk&lt;Ciudad,Carretera&gt; gw = new GraphWalk&lt;&gt;(gc,r3,0.);<a name="line.32"></a>
+<span class="sourceLineNo">033</span>                <a name="line.33"></a>
+<span class="sourceLineNo">034</span>                System.out.println("Hamiltonian");<a name="line.34"></a>
+<span class="sourceLineNo">035</span>                System.out.println(r3);<a name="line.35"></a>
+<span class="sourceLineNo">036</span>                System.out.println(gw.getEdgeList());<a name="line.36"></a>
+<span class="sourceLineNo">037</span>                <a name="line.37"></a>
 <span class="sourceLineNo">038</span>                <a name="line.38"></a>
 <span class="sourceLineNo">039</span>                <a name="line.39"></a>
-<span class="sourceLineNo">040</span>                <a name="line.40"></a>
-<span class="sourceLineNo">041</span>                final Graph&lt;Ciudad,Carretera&gt; g = graph;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>                <a name="line.42"></a>
-<span class="sourceLineNo">043</span>                HierholzerEulerianCycle&lt;Ciudad,Carretera&gt; hc = new HierholzerEulerianCycle&lt;&gt;();<a name="line.43"></a>
-<span class="sourceLineNo">044</span>                Boolean r2 = hc.isEulerian(graph);<a name="line.44"></a>
-<span class="sourceLineNo">045</span>                <a name="line.45"></a>
-<span class="sourceLineNo">046</span>                System.out.println(r2);<a name="line.46"></a>
-<span class="sourceLineNo">047</span>                <a name="line.47"></a>
-<span class="sourceLineNo">048</span>                UndirectedCycleBase&lt;Ciudad,Carretera&gt; sc = new PatonCycleBase&lt;Ciudad,Carretera&gt;((UndirectedGraph&lt;Ciudad, Carretera&gt;) graph);<a name="line.48"></a>
-<span class="sourceLineNo">049</span>                List&lt;List&lt;Ciudad&gt;&gt; r = sc.findCycleBase();<a name="line.49"></a>
-<span class="sourceLineNo">050</span>                <a name="line.50"></a>
-<span class="sourceLineNo">051</span>                Set&lt;GraphWalk2&lt;Ciudad,Carretera&gt;&gt; sgw = <a name="line.51"></a>
-<span class="sourceLineNo">052</span>                                r.stream().map(x-&gt;new GraphWalk2&lt;Ciudad,Carretera&gt;(g,x))<a name="line.52"></a>
-<span class="sourceLineNo">053</span>                                                .collect(Collectors.toSet());<a name="line.53"></a>
-<span class="sourceLineNo">054</span>                <a name="line.54"></a>
-<span class="sourceLineNo">055</span>                sgw.stream().forEach(x-&gt;System.out.println(x.getWeight()+"==="+x.getLength()+"==="+x.getVertexList()));<a name="line.55"></a>
-<span class="sourceLineNo">056</span>        }<a name="line.56"></a>
-<span class="sourceLineNo">057</span><a name="line.57"></a>
-<span class="sourceLineNo">058</span>}<a name="line.58"></a>
+<span class="sourceLineNo">040</span>                final Graph&lt;Ciudad,Carretera&gt; g = graph;<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                <a name="line.41"></a>
+<span class="sourceLineNo">042</span>                HierholzerEulerianCycle&lt;Ciudad,Carretera&gt; hc = new HierholzerEulerianCycle&lt;&gt;();<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                Boolean r2 = hc.isEulerian(graph);<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                <a name="line.44"></a>
+<span class="sourceLineNo">045</span>                System.out.println(r2);<a name="line.45"></a>
+<span class="sourceLineNo">046</span>                <a name="line.46"></a>
+<span class="sourceLineNo">047</span>                UndirectedCycleBase&lt;Ciudad,Carretera&gt; sc = new PatonCycleBase&lt;Ciudad,Carretera&gt;(graph);<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                List&lt;List&lt;Ciudad&gt;&gt; r = sc.findCycleBase();<a name="line.48"></a>
+<span class="sourceLineNo">049</span>                <a name="line.49"></a>
+<span class="sourceLineNo">050</span>                Set&lt;GraphWalk2&lt;Ciudad,Carretera&gt;&gt; sgw = <a name="line.50"></a>
+<span class="sourceLineNo">051</span>                                r.stream().map(x-&gt;new GraphWalk2&lt;Ciudad,Carretera&gt;(g,x))<a name="line.51"></a>
+<span class="sourceLineNo">052</span>                                                .collect(Collectors.toSet());<a name="line.52"></a>
+<span class="sourceLineNo">053</span>                <a name="line.53"></a>
+<span class="sourceLineNo">054</span>                sgw.stream().forEach(x-&gt;System.out.println(x.getWeight()+"==="+x.getLength()+"==="+x.getVertexList()));<a name="line.54"></a>
+<span class="sourceLineNo">055</span>        }<a name="line.55"></a>
+<span class="sourceLineNo">056</span><a name="line.56"></a>
+<span class="sourceLineNo">057</span>}<a name="line.57"></a>
 
 
 

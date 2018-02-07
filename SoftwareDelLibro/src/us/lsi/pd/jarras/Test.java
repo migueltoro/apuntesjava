@@ -1,8 +1,8 @@
 package us.lsi.pd.jarras;
 
 import us.lsi.algoritmos.Algoritmos;
-import us.lsi.basictypes.Tree;
 import us.lsi.pd.AlgoritmoPD;
+import us.lsi.tiposrecursivos.Tree;
 
 public class Test {
 

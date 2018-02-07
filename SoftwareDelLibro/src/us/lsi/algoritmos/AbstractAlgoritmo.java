@@ -22,7 +22,7 @@ public  class AbstractAlgoritmo  {
 	 */
 	public static void setFile(String f) {
 		try {
-			file = new PrintStream(new File(f));
+			file = new PrintStream(new File(raiz+f));
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("No se puede abrir el fichero "+file);
 		}

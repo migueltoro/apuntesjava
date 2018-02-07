@@ -13,7 +13,7 @@
 <span class="sourceLineNo">005</span>import us.lsi.graphs.examples.Carretera;<a name="line.5"></a>
 <span class="sourceLineNo">006</span>import us.lsi.graphs.examples.Ciudad;<a name="line.6"></a>
 <span class="sourceLineNo">007</span><a name="line.7"></a>
-<span class="sourceLineNo">008</span>import org.jgrapht.WeightedGraph;<a name="line.8"></a>
+<span class="sourceLineNo">008</span>import org.jgrapht.Graph;<a name="line.8"></a>
 <span class="sourceLineNo">009</span>import org.jgrapht.graph.SimpleWeightedGraph;<a name="line.9"></a>
 <span class="sourceLineNo">010</span><a name="line.10"></a>
 <span class="sourceLineNo">011</span>public class GrafoDelMapa {<a name="line.11"></a>
@@ -23,7 +23,7 @@
 <span class="sourceLineNo">015</span>                return new GrafoDelMapa(fichero);<a name="line.15"></a>
 <span class="sourceLineNo">016</span>        }<a name="line.16"></a>
 <span class="sourceLineNo">017</span><a name="line.17"></a>
-<span class="sourceLineNo">018</span>        private WeightedGraph&lt;Ciudad,Carretera&gt; grafo;          <a name="line.18"></a>
+<span class="sourceLineNo">018</span>        private Graph&lt;Ciudad,Carretera&gt; grafo;          <a name="line.18"></a>
 <span class="sourceLineNo">019</span>        <a name="line.19"></a>
 <span class="sourceLineNo">020</span>        private GrafoDelMapa(String fichero) {<a name="line.20"></a>
 <span class="sourceLineNo">021</span>                super();<a name="line.21"></a>
@@ -32,13 +32,13 @@
 <span class="sourceLineNo">024</span><a name="line.24"></a>
 <span class="sourceLineNo">025</span>        public void leeDatos(String fichero){<a name="line.25"></a>
 <span class="sourceLineNo">026</span>                this.grafo = new SimpleWeightedGraph&lt;Ciudad,Carretera&gt;(Carretera::create);<a name="line.26"></a>
-<span class="sourceLineNo">027</span>                this.grafo = (WeightedGraph&lt;Ciudad, Carretera&gt;) GraphsReader.newGraph(fichero, Ciudad::create,Carretera::create,grafo,Carretera::getKm);                        <a name="line.27"></a>
+<span class="sourceLineNo">027</span>                this.grafo = GraphsReader.newGraph(fichero, Ciudad::create,Carretera::create,grafo,Carretera::getKm);                   <a name="line.27"></a>
 <span class="sourceLineNo">028</span>                for(Carretera c: grafo.edgeSet()){<a name="line.28"></a>
 <span class="sourceLineNo">029</span>                        grafo.setEdgeWeight(c, c.getKm());<a name="line.29"></a>
 <span class="sourceLineNo">030</span>                }               <a name="line.30"></a>
 <span class="sourceLineNo">031</span>        }<a name="line.31"></a>
 <span class="sourceLineNo">032</span><a name="line.32"></a>
-<span class="sourceLineNo">033</span>        public WeightedGraph&lt;Ciudad, Carretera&gt; getGrafo() {<a name="line.33"></a>
+<span class="sourceLineNo">033</span>        public Graph&lt;Ciudad, Carretera&gt; getGrafo() {<a name="line.33"></a>
 <span class="sourceLineNo">034</span>                return grafo;<a name="line.34"></a>
 <span class="sourceLineNo">035</span>        }       <a name="line.35"></a>
 <span class="sourceLineNo">036</span>        <a name="line.36"></a>

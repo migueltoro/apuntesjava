@@ -6,9 +6,9 @@ import java.util.function.Predicate;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
-import us.lsi.ag.AlgoritmoAG;
+import us.lsi.ag.agchromosomes.AlgoritmoAG;
 import us.lsi.ag.agchromosomes.ChromosomeFactory.ChromosomeType;
-import us.lsi.ag.ProblemaAG;
+import us.lsi.ag.ProblemAG;
 import us.lsi.astar.AStarAlgorithm;
 import us.lsi.astar.AStarGraph;
 import us.lsi.bt.AlgoritmoBT;
@@ -56,7 +56,7 @@ public class Algoritmos {
 	 * @return AlgoritmoSA
 	 */
 	
-	public static  AlgoritmoSA createSA(ChromosomeType tipo, ProblemaAG p) {
+	public static  AlgoritmoSA createSA(ChromosomeType tipo, ProblemAG p) {
 		return new AlgoritmoSA(tipo,p);
 	}
 	
@@ -124,7 +124,7 @@ public class Algoritmos {
 	 * @return AlgoritmoAG
 	 */
 	
-	public static AlgoritmoAG createAG(ChromosomeType tipo, ProblemaAG p) {
+	public static AlgoritmoAG createAG(ChromosomeType tipo, ProblemAG p) {
 		return new AlgoritmoAG(tipo,p);
 	}
 		

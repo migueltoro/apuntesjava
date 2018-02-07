@@ -110,13 +110,18 @@ y no depende del tamaño del problema. </li>
 <li> El orden de <strong> complejidad de un bucle </strong>(while, for, dowhile) puede expresarse como un sumatorio de la complejidad
 del cuerpo sobre las iteraciones del bucle.
 \[ \Theta(\sum_{i \in \mathcal{I}} f(i)) \]
-Donde \( f(n) \) es la complejidad del cuerpo del bucle y \( \mathcal{I} \) un conjunto que contiene un valor para cada iteración.
-En los casos más usuales el conjunto \( \mathcal{I} \) contiene una progresión aritmética o una progresión aritmética de números
-enteros. Por las propiedades
-del sumatorio asumiremos que ambas progresiones son siempre crecientes. Estos  casos los representaremos por:
-\[ \Theta(\sum_{i \in pa(a,r)}^n f(i)), \Theta(\sum_{i \in pg(a,r)}^n f(n)) \]
+Donde \( f(n) \) es la complejidad del cuerpo del bucle y \( \mathcal{I} \) un conjunto que contiene un valor para cada iteración. Podemos asumir
+que este valor es un índice asociado al bucle que es un entero mayor o igual que cero. 
+En los casos más usuales el conjunto \( \mathcal{I} \) contiene una progresión aritmética o una progresión geométrica de números
+enteros. Usando el hecho de que la suma es conmutativa asumiremos que ambas progresiones son siempre crecientes. Estos  casos los representaremos por:
+\[ \Theta(\sum_{i \in pa(a,r)}^n f(i)), \Theta(\sum_{i \in pg(a,r)}^n f(i)) \]
 Donde \( pa(a,r), pg(a,r) \) representan, respectivamente una progresión aritmética o geométrica de primer término 
-\( a \) y razón \(r \). Más abajo veremos cómo calcular las complejidades de esos sumatorios.
+\( a \) y razón \(r \). Más abajo veremos cómo calcular las complejidades de esos sumatorios. La transformación, por si fuera necesario,  de esos sumatorios 
+ en sumarios <em>normales</em> se puede hacer mediante las igualdades:
+\[ \sum_{i \in pa(a,r)}^n f(i)) = \sum_{x=0}^{\frac{n-a}{r}} f(a+r x),  
+\sum_{i \in pg(a,r)}^n f(i)) = \sum_{x=0}^{\frac{\log n - \log a}{\log r}} f(a r^x) \]
+También debemos tener en cuenta algunas propiedades de los sumatorios como:
+\[ \sum_{i=a}^b f(i) = \sum_{i=0}^b f(i) - \sum_{i=0}^a f(i)\]
   </li>
 <li> La <strong> complejidad de un algoritmo recursivo sin memoria </strong> se expresa mediante 
 una ecuación de recurrencias en función de las complejidad de las llamadas recursivas y de la complejidad del cuerpo 
@@ -131,7 +136,7 @@ La <strong> complejidad de un algoritmo recursivo con memoria </strong> se expre
 subproblemas necesarios para resolver el problema dado de la complejidad del cuerpo del algoritmo.
 
 \[ \Theta(\sum_{p \in \mathcal{P}} f(n_p)) \]
-Dónde \( \mathcal{P} \) es el conjunto de todos los subproblemas encontrados al resolver \( p_0 \), \(n_p\) el tamaño
+Dónde \( \mathcal{P} \) es el conjunto de todos los subproblemas encontrados al resolver el problema inicial, \(n_p\) el tamaño
 del subproblema \(p\) y \( f(n) \) la complejidad del cuerpo del algoritmo excluyendo las llamadas recursivas.
 </li>
 <li>
@@ -183,7 +188,7 @@ n^d \log^{p+1} n, & \text{si } a = b^d \\
 n^d \log^p n, & \text{si } a \lt b^d \\
 \end{cases}
 \]
-La solución anterior es un caso particular de denominado <a href="https://en.wikipedia.org/wiki/Master_theorem" target="_blank"> Master 
+La solución anterior es un caso particular de denominado <a href="https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)" target="_blank"> Master 
 Theorem </a>.
 En el caso de recurrencias más generales puede ser interesante acotar la solución para poder aplicar las fórmulas anteriores.
 Así el orden de complejidad de la solución de la recurrencia:
@@ -204,9 +209,8 @@ verifica:
 \Theta(R(n)) < \Theta(T(n)) <\Theta(S(n))
 \]
 Donde 
-\[
-R(n) = (a_1+a_2+...+a_k) R(\frac{n}{b_k})+g(n), S(n) = (a_1+a_2+...+a_k) S(\frac{}{}) +g(n)
-\]
+\[ R(n) = (a_1+a_2+...+a_k) R(\frac{n}{b_k})+g(n)\]
+\[ S(n) = (a_1+a_2+...+a_k) S(\frac{n}{b_1}) +g(n) \]
 También debemos tener en cuenta las relaciones entre sumatorios y recurrencias. Debido  a la transformación de recursivo
 final a iterativo los órdenes de complejidad de los sumatorios son iguales a los de sus repectivas recurrencias. 
 Esta equivalencia nos confirma las fórmulas usadas para obtener las complejidades de los sumatorios.
@@ -233,7 +237,7 @@ double f (int n, double a) {
     return r;
 }
 </pre>
-Calculemos, en primer lugar, la complejidad del cuerpo del algoritmo asumiendo descartando la llamadas recursivas. Para 
+Calculemos, en primer lugar, la complejidad del cuerpo del algoritmo asumiendo descartadas la llamadas recursivas. Para 
 ello comencemos por el bucle y tengamos en cuenta que el cuerpo del bucle es un bloque básico:
 \[
 \sum_{i=1}^n 1 = n \in \Theta(n)
@@ -241,7 +245,7 @@ ello comencemos por el bucle y tengamos en cuenta que el cuerpo del bucle es un 
 El cuerpo del algoritmo tiene complejidad \( \Theta(1+n) = \Theta(n) \) puesto que la parte exterior del bucle es un bloque básico.
 A partir de aquí la complejidad del algoritmo recursivo sin memoria cumple la ecuación de recurrencia:
 \[
-T(n) = 2T(n)+n
+T(n) = 2T(n/2)+n
 \]
 Aplicando las fórmulas anteriores \( \Theta(T(n)) = \Theta(n \log n)\). La complejidad del algoritmo recursivo con memoria
 es la misma que la de sin memoria. Esto ocurre cuando no hay subproblemas repetidos como es el caso.
@@ -306,7 +310,7 @@ Hagamos el problema por partes. En primer lugar el primer bucle while:
 
 Los dos bucles anidados:
 \[
-\sum_{x \in pg(1,4)}^n \sum_{j=1}^n j \cong_{\infty}  n^2 \sum_{x \in pg(1,4)}^n  1  \in  \Theta(n^2 \log n)
+\sum_{x \in pg(1,4)}^n \sum_{i=1}^n n \cong_{\infty} n \sum_{x \in pg(1,4)}^n \sum_{i=1}^n 1 \cong_{\infty}  n^2 \sum_{x \in pg(1,4)}^n  1  \in  \Theta(n^2 \log n)
 \]
 Por último el algoritmo completo en dos versiones sin memoria: la original y sustituyendo la línea comentada:
 \[
@@ -326,19 +330,19 @@ Esto es debido a que puede haber varios problemas distintos con el mismo tamaño
 Dentro de los problemas con un mismo tamaño llamaremos caso peor a aquel problema que tarde más tiempo en resolverse 
 y lo representaremos por \( x_p \) y por \( T_p (n) \) el tiempo que tarda en función del tamaño. 
 Igualmente el problema que tarde menos tiempo en resolverse, de entre los que tienen el mismo tamaño, 
-lo llamaremos caso mejor y lo representaremos por \( x_m \) y por \( T_ (n) \) el tiempo que tarda en función del tamaño.
+lo llamaremos caso mejor y lo representaremos por \( x_m \) y por \( T_m (n) \) el tiempo que tarda en función del tamaño.
 No debe confundirse caso mejor con que su tamaño sea pequeño, ya que se trata de conceptos diferentes. 
 Por último, si designamos por \( P_n \) el conjunto de problemas con tamaño \(n\)  y suponiendo que 
 tienen una distribución de probabilidad \(f(p)\), 
 entonces llamaremos \( T_d (n)\) a la media de los tiempos que tarda cada uno de esos problemas. Es decir 
 \[
-T_d (n) = \sum_{p \in P_n} T(n)  f(p)
+T_d (n) = \sum_{p \in P_n} T(n_p)  f(p)
 \]
-El los algoritmos iterativos el caso mejor es aquel que para un tamaño dado realiza menos iteraciones. En los algoritmos
+Dónde \(n_p\) es el tamaño del problema \(p\). En los algoritmos iterativos el caso mejor es aquel que para un tamaño dado realiza menos iteraciones. En los algoritmos
 recursivos el que hace menos llamadas recursivas. Lo contrario para el caso peor.
 Veamos como ejemplo:
 <pre>
-boolean contieneMultiploDe3(List<Integer> lis, int a) {
+boolean contieneMultiplo(List<Integer> lis, int a) {
 	for(Integer e: lis){
              if(e%a==0) break;
 	}
@@ -367,9 +371,9 @@ Dado que:
 \]
 </li>
 </ul>
-Si cambiamos el algoritmo a otro si optimizar:
+Si cambiamos el algoritmo a otro sin optimizar:
 <pre>
-boolean contieneMultiploDe3(List<Integer> lis, int a) {
+boolean contieneMultiplo(List<Integer> lis, int a) {
 	boolean r = false;
 	for(Integer e: lis){
 		r = r || e%a==0;

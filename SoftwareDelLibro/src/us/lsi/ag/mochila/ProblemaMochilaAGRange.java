@@ -2,13 +2,14 @@ package us.lsi.ag.mochila;
 
 import java.util.List;
 
-import us.lsi.ag.ProblemaAGIndex;
-import us.lsi.ag.agchromosomes.IndexChromosome;
+
+import us.lsi.ag.ValuesInRangeChromosome;
+import us.lsi.ag.ValuesInRangeProblemAG;
 import us.lsi.pd.mochila.ObjetoMochila;
 import us.lsi.pd.mochila.ProblemaMochila;
 import us.lsi.pd.mochila.SolucionMochila;
 
-public class ProblemaMochilaAGRange implements ProblemaAGIndex<SolucionMochila>{
+public class ProblemaMochilaAGRange implements ValuesInRangeProblemAG<Integer,SolucionMochila>{
 
 	
 	public ProblemaMochilaAGRange(String fichero) {
@@ -16,10 +17,10 @@ public class ProblemaMochilaAGRange implements ProblemaAGIndex<SolucionMochila>{
 	}	
 
 	@Override
-	public SolucionMochila getSolucion(IndexChromosome chromosome) {
+	public SolucionMochila getSolucion(ValuesInRangeChromosome<Integer> chromosome) {
 		SolucionMochila s = SolucionMochila.create();
 		List<Integer> ls = chromosome.decode();
-		for (int i=0; i< this.getObjectsNumber();i++) {
+		for (int i=0; i< this.getVariableNumber();i++) {
 			s =	s.add(ProblemaMochila.getObjeto(i),ls.get(i));
 		}
 		return s;
@@ -30,7 +31,7 @@ public class ProblemaMochilaAGRange implements ProblemaAGIndex<SolucionMochila>{
 	private Double fitness = null;
 	
 	@Override
-	public Double fitnessFunction(IndexChromosome c) {
+	public Double fitnessFunction(ValuesInRangeChromosome<Integer> c) {
 		List<Integer> ls = c.decode();
 		double r;
 		double valor=0.;
@@ -57,14 +58,20 @@ public class ProblemaMochilaAGRange implements ProblemaAGIndex<SolucionMochila>{
 		return ProblemaMochila.getObjetosDisponibles();
 	}
 	
+
 	@Override
-	public Integer getMax(int index){
-		return ProblemaMochila.getObjetosDisponibles().get(index).getNumMaxDeUnidades();
+	public Integer getVariableNumber() {
+		return this.getObjetos().size();
 	}
 
 	@Override
-	public Integer getObjectsNumber() {
-		return this.getObjetos().size();
-	}	
+	public Integer getMax(Integer i) {
+		return this.getObjetos().get(i).getNumMaxDeUnidades();
+	}
+
+	@Override
+	public Integer getMin(Integer i) {
+		return 0;
+	}
 
 }

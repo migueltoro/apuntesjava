@@ -11,6 +11,16 @@
 	
 	
 	<title>MathJax TeX Test Page</title>
+	<style type="text/css">
+  	div.interior {
+  		border: 4px solid black; 
+  		width: 250px;	
+  		float: left;	
+	}
+	div.exterior {
+		overflow: auto;		
+	}
+  	</style>
 </head>
 <body>
 <h1>Indice </h1>
@@ -18,11 +28,36 @@
 <li><a href="#nt">Notaci&oacute;n</a> </li>
 <li><a href="#inv">Invariantes y Asignaci&oacute;n paralela</a> </li>
 <li><a href="#it">Esquemas Iterativos</a> </li>
+<ul>
+<li><a href="#it0">Ejemplos de verificaci&oacute;n de algoritmos iterativos</a> </li>
+<li><a href="#it1">Ejemplos de dise&ntilde;o iterativo</a> </li>
+<li><a href="#it2">Dise&ntilde;o iterativo con acumulador, filtro y transformaci&oacute;n</a> </li>
 <li><a href="#j8">Esquemas equivalentes en Java 8 a los Esquemas Iterativos</a> </li>
+</ul>
 <li><a href="#rc">Esquemas Recursivos</a> </li>
+<ul>
+<li><a href="#rc1">Verificaci&oacute;n de algoritmos recursivos</a> </li>
+</ul>
+<li> <a href="#tr"> Transformaciones de programas</a> </li>
+<ul>
 <li><a href="#itrc">Transformaci&oacute;n Iterativo-Recursivo</a> </li>
 <li><a href="#rcit">Transformaci&oacute;n Recursivo-Iterativo</a> </li>
+</ul>
 <li><a href="#est">Estrategias para el dise&ntilde;o de algoritmos</a> </li>
+<li><a href="#ej">Ejemplos de algoritmos recursivos y su complejidad: operaciones sobre enteros</a> </li>
+<ul>
+<li><a href="#ejSuma">Suma</a>, 
+<a href="#ejResta">Resta</a>, 
+<a href="#ejMayorOIgual">Comparaci&oacute;n</a>, 
+<a href="#ejProducto">Producto</a>, <a href="#ejDivision">Divisi&oacute;n</a>, 
+<a href="#ejPotencia">Potencia entera</a>,
+<a href="#ejAplicacionesPotencia">Aplicaciones de la Potencia entera</a> </li>
+</ul>
+<li><a href="#datosRecursivos">Tipos de datos recursivos</a> </li>
+<ul>
+<li><a href="#tree">&Aacute;rbol</a>, <a href="#expression">Expresi&oacute;n</a> </li>
+<li><a href="#text">Representaci&oacute;n textual de los tipos recursivos</a> </li>
+</ul>
 </ul>
 <a id="nt"><h1> Notaci&oacute;n </h1>
 <ul>
@@ -60,7 +95,7 @@ siguiente
 que la secuencia es infinita. 
 Es posible construir secuencias m&aacute;s complejas a partir de otras m&aacute;s simples mediante
 operaciones de filtro y transformaci&oacute;n. 
-Esto lo indicaremos en la forma \( S^{\prime} = [t(x), x \in S | h(x)] \). D&acute;nde \(t(x), h(x)\) son la transformaci&oacute;n y
+Esto lo indicaremos en la forma \( S^{\prime} = [t(x), x \in S | h(x)] \). D&oacute;nde \(t(x), h(x)\) son la transformaci&oacute;n y
 el filtro aplicados. A partir de una secuencia podemos extraer el prefijo formado por los \(n\) primeros elementos, que indicaremos por 
 \( S|n\) o por los que cumplen un determinado predicado \( S|g(e)\) hasta el primero que no lo cumple exclu&iacute;do.
  </li>
@@ -326,102 +361,79 @@ Los algoritmos iterativos tienen la estructura general:
 
 <pre>
 f(x) {
-	e = e_0(x);
+	e = e_0;
 	while(g(e)){
 	   e = s(e);
 	}
 	return r(e);
 }
 </pre>
-Una variante que veremos en algunos caso es:
-<pre>
-
-f(x) {
-	e = e_0(x);
-	while(g(e)){
-	   if(p(e) break;
-	   e = s(e);         
-	}
-	return r(e);
-}
-</pre>
-Que es equivalente al anterior si sustituimos \(g(e)\) por \(g(e) \land !p(e)\). Si tenemos un invariante \(I(e)\),
-despu&eacute;s de salir del bucle se cumple \(!g(e) \lor p(e)) \land I(e) \). 
 <p>
-Al valor \(e\) se le denomina estado y normalmente est&aacute; constituido por una tupla de valores. Como vemos los algoritmos
+Al valor \(e\) se le denomina estado y normalmente est&aacute; constituido por una tupla de valores. 
+Como vemos los algoritmos
 iterativos comienzan en un estado inicial, cuyo valor puede depender de los par&aacute;metros \(x\), que tambi&eacute;n suelen 
 ser una tupla de valores. Mientras que el estado cumpla una condici&oacute;n, la guarda \(g(e)\), el algoritmo pasa al estado siguiente
-mendiante la funci&oacute;n \(s(e)\). Cuando la guarda ya no se cumple el algoritmo devuelve \(r(e)\),
+mendiante la funci&oacute;n \(s(e)\). Cuando la guarda ya no se cumple, 
+o cuando se cumple alguna condici&oacute;n sobre el estado, el algoritmo devuelve \(r(e)\).
+Aunque s&oacute;lo lo hagamos expl&iacute;cito, las funciones anteriores depender&aacute;n de los par&aacute;metros de entrada en la forma
+ \(e_0(x), g(e,x), s(e,x), r(e,x), p(e,x) \). 
 </p>
 <p>
-Para dise&ntilde;ar algoritmos iterativos tenemos que introducir dos conceptos: el Invariante y la Funci&oacute;n de Cota 
-(tambi&eacute;n llamada Tama&ntilde;o del Problema).
+Para dise&ntilde;ar algoritmos iterativos tenemos que introducir varios conceptos: Secuencia, Invariante, funci&oacute;n de cota 
+(tambi&eacute;n llamada tama&ntilde;o del problema) y restricci&oacute;n entrada-salida.
 </p>
 <ul>
-<li> El invariante, \(I(e)\), es una restricci&oacute;n sobre los valores del estado alcanzados por el algoritmo. 
+<li> La <strong> secuencia asociada al algoritmo </strong> define los valores que puede tomar el estado y viene definida por
+\( S = (e_0,s(e),g(e)) \). Es decir un valor inicial, una definici&oacute;n de siguiente y la guarda que indica un criterio para acabar 
+la secuencia. Con la defici&oacute;n anterior la secuencia comienza por \(e_0\), continua con \( s(e)\) mientras se cumpla
+\(g(x)\). Acaba en el primer valor de \(e\) que no cumple \(g(e)\). Llamaremos a este elemento \(e_r\). 
+Este elemento \(e_r\) no est&acute; incluido en la secuencia y es el valor del estado al terminar el bucle.
+</li>
+<li> El <strong> invariante </strong>, \(I(e)\), es una restricci&oacute;n sobre los valores del estado alcanzados por el algoritmo. 
 Debe cumplirse para todos los valores del estado recorridos. Para desmostrar eso debemos mostrar que
 se cumple en el estado inicial \(I(e_0)\) y
 asumiendo que se cumple en un estado
-\(I(e)\) demos comprobar que se cumple en el estado siguiente \(I(s(e))\).
-
+\(I(e)\) debemos comprobar que se cumple en el estado siguiente \(I(s(e))\).
 </li>
-<li> La funci&oacute;n de cota, \(C(e,x)\) devuelve un entero mayor o igual a cero y debe cumplir \(C(e',x) \lt C(e,x)\). D&oacute;nde \(e'\) es el valor del
-estado al final del cuerpo del bucle. Es decir \(C(s(e),x) \lt C(e,x)\). 
+<li> La <strong> funci&oacute;n de cota o tama&ntilde;o del problema </strong>, \(C(e)\) devuelve un entero mayor o igual a cero que debe cumplir \(C(e') \lt C(e,x)\). D&oacute;nde \(e'\) es el valor del
+estado al final del cuerpo del bucle. Es decir \(C(s(e)) \lt C(e)\). 
 </li>
+<li> La <strong> restricci&oacute;n entrada-salida </strong>, \(R(x,r)\), es un predicado que relaciona los par&aacute;metros de entrada y 
+los resultados, siendo \(x,r\) los par&aacute;metros de entrada y los resultados respectivamente. </li>
 </ul>
 <p>
-Las propiedades de la cota nos aseguran que el algoritmo acabar&aacute;. Las propiedades del invariante nos aseguran que cuando el algoritmo
-acabe se cumplir&aacute; \( I(e) \land !g(e) \), lo cual nos puede permitir deducir una restricci&oacute;n, \(R(r,x)\), 
-entre los par&aacute;metros de entrada y los resultados. La llamaremos restricci&oacute;n entrada-salida. 
-En muchos casos el camino para dise&ntilde;ar un algoritmo iterativo partir&aacute;
-de la restricci&oacute;n \(R(r,x)\) y tras elegir el tipo del estado \(E\) y un invariante sobre el mismo, \(I(e)\), buscaremos \(e_0, s(e), g(e)\).
-Normalmente el estado \(e\) es una tupla de valores que debemos imaginar. A este paso de encontrar el estado se le denomina generalizar
-el problema.
+Las propiedades de la cota nos aseguran que la secuencia asociada es finita y por lo tanto el algoritmo acabar&aacute;. 
+Las propiedades del invariante aseguran que cuando el algoritmo
+acabe se cumplir&aacute; \( I(e) \land !g(e) \). El elemento \(e_r\), el valor del estado al terminar el bucle,
+cumple, por tanto, \( I(e_r) \land !g(e_r) \). Si hacemos exp&iacute;cita la posible dependencia
+del invariante, la guarda y la funci&oacute;n de salida
+de los par&aacute;metros de entrada podemos deducir la  
+restricci&oacute;n entrada-salida  eliminando \(e_r\) del conjunto de restricciones:
+ \[ R(x,r) \equiv r = r(e_r,x), I(e_r,x), !g(e_r,x) \] 
 </p>
-<p>
-A partir de las condiciones anteriores vemos que un algoritmo iterativo tiene asociada la secuencia \(e_0, s(e), g(e)\). Todos los elementos de
-esa secuencia cumplen el invariante \(I(e)\) y la guarda \(g(e)\). Adem&aacute;s de la propiedades de la funci&oacute;n de cota 
-podemos concluir que la secuencia es finita. El resultado del algoritmo es \(r(e)\), con un valor de \(e\)
-que verifica \( I(e)) \land !g(e) \).
+<p>Con las ideas anteriores podemos hacer dos cosas:
+<ul>
+<li><strong> Verificar un algoritmo iterativo </strong>:  dado un algoritmo iterativo demostrar que
+cumple una restricci&oacute;n entrada-salida dada. 
+Para hacer esto tenemos que, en primer lugar, deducir, a partir del algoritmo, el estado, la secuencia y la funci&oacute;n de salida.
+En segundo lugar debemos imaginar un invariante, demostrar por inducci&oacute;n que se cumple en todos los estados.
+Finalmente deducir la restricci&oacute;n entrada-salida de los elementos anteriores.
+</li>
+<li><strong>Diseñar un algoritmo iterativo</strong>: dada una restricci&oacute;n entrada-salida diseñar 
+un algoritmo iterativo que la cumpla. Para el primer paso es elegir un tipo \(E\) del estado. 
+A este paso de encontrar el estado se le denomina generalizar el problema. 
+Normalmente el estado \(e\) es una tupla de valores que debemos imaginar.
+En segundo lugar definiremos, aunque sea parcialmente,  la secuencia \(S = (e_0, s(e), g(e))\). 
+Luego elegimos un invariante \(I(e)\) y con &eacute;l acabamos de completar la secuencia para que el invariante se
+cumpla en todos los estados. Eso lo demostramos por inducci&oacute;n como hemos comentado arriba.</li>
+</ul>
 </p>
+<a id="it0"><h2> Ejemplos de verificaci&oacute;n de algoritmos iterativos </h2>
 <p>
-Veamos el dise&ntilde;o de un algoritmo iterativo para calcular el factorial de un entero \(n!\). Si r son los resultados y \(n\)
-el par&aacute;metro de entrada la restricci&oacute;n entrada-salida que define el algoritmo es \(R(n,r) \equiv r = n! \).Para dise&ntilde;ar el algoritmo
-escogemos un estado \(E = (i,a)\), un invariante \(I(i,a) \equiv a = i!\), una funci&oacute;n de cota 
-\(C(i,a,n) \equiv n-i\). Con esas decisiones tomadas el algoritmo 
-resultante queda:
-</p>
-<pre>
-f(n) {
-	(i,a) = (0,1);
-	while(i < n){
-	   (i,a) = (i+1,a*(i+1));
-	}
-	return a;
-}
-</pre>
-<p>
-Como podemos ver el estado inicial cumple el invariante, \( 1 = 0!\). 
-Al final del bucle, haciendo en el invariante, \(a = i!\), la sustituci&oacute;n simb&oacute;lica asociada a \(s(e)\), 
-tendremos \(a*i = (i+1)!\),  que podemos 
-comprobar que es cierto. Para ello vemos \[ a*(i+1) = (i+1)! = (i+1)*i! \equiv a = i! \] Luego el invariante es cierto
-al final del bucle si asumimos que es cierto al principio. 
-Igualmente la funci&oacute;n de cota al principio y al final del bucle cumple la condici&oacute;n requerida  \[ n -(i+1) = n-i-1 < n-i \]
-</p>
-<p>
-La restricci&oacute;n entrada salida que podemos obtener es:
-
-\begin{align}
-R(r,n) & \equiv r = a \land a = i! \land !(i < n) \\
- & \equiv  r = a \land a = i! \land i = n \\
- & \equiv r = n! \\
-\end{align}
-
-<p>
-Con lo visto anteriormente podemos concluir que los algoritmos iterativos pueden considerarse como secuencias especificadas por
-\( e_0, s(x), g(x) \)
-</p>
-Como &uacute;ltimo paso podemos eliminar las tuplas y la asignaci&oacute;n paralela para resultar:
+Veamos, primer lugar, la verificaci&oacute;n de algoritmos que calculen el factorial de un n&uacute;mero \(n\).
+La restricci&oacute;n entrada-salida es \(R(n,r) \equiv r = n! \). Si r son los resultados y \(n\)
+el par&aacute;metro de entrada, queremos verificar que el algoritmo siguiente
+cumple la restricci&oacute;n anterior.
 <pre>
 int factorial(n) {
 	i = 0;
@@ -433,21 +445,66 @@ int factorial(n) {
 	return a;
 }
 </pre>
-La forma del cuerpo del bucle corresponde a la asignaci&oacute;n paralela porque su conjunto de restricciones asociada es:
-\[ i' = i+1, a' = a * i' \equiv i' = i+1, a' = a * (i+1) \]
-<h2> Ejemplos de dise&ntilde;o iterativo </h2>
+El estado es de la forma \(E = (i,a)\) y las funciones que definen la secuencia:
+\[ e_0 = (0,1), s(i,a)=(i+1,a*(i+1)), g(i,a) = i \lt n \]
+La funci&oacute;n \(s(i,a)\) se obtiene a partir de la asignaci&oacute;n paralela equivalente al bloque del bucle.
+Un invariante posible es \(I(i,a) \equiv a = i!\), una funci&oacute;n de cota 
+\(C(i,a) \equiv n-i\). 
+<p>
+Veamos que todos loes estados cumplen el invariante. Podemos ver el estado inicial cumple el invariante, \( 1 = 0!\). 
+Si asumimos \(I(i,a) \equiv a = i!\) entonces se cumple \( I(s(i,a)) \) ya que:
+\[ I(s(i,a)) \equiv I(i+1,a*(i+1)) \equiv (i+1)!=a*(i+1) \equiv i! = a \]  
+La funci&oacute;n de cota cumple la condici&oacute;n requerida  \[C(s(i,a)) \lt C(i,a) \equiv n -(i+1) = n-i-1 \lt n-i \]
+</p>
+<p>
+La restricci&oacute;n entrada salida que podemos obtenerla eliminando las variables del estado:
+\begin{align}
+R(r,n) & \equiv r = a \land a = i! \land !(i \lt n) \\
+ & \equiv  r = a \land a = i! \land i = n \\
+ & \equiv r = n! \\
+\end{align}
+En lo anterior hay que tener en cuenta que los valores del estado que usamos para deducir la  restricci&oacute;n entrada-salida 
+son los resultantes al salir del bucle. Por eso de todos los valores que cumplen \( !(i \lt n) \) el correcto es \(i = n\).
+<p>
+Veamos la verificaci&oacute;n de otro algoritmo que tambi&eacute;n calcula el factorial de \(n\)
+<pre>
+int factorial(n) {
+	i = 1;
+	a = 1;
+	while(i <= n){
+		a = a * i;
+		i = i + 1;  
+	}
+	return a;
+}
+</pre>
+Ahora  el estado es de la forma \(E = (i,a)\) y las funciones que definen la secuencia:
+\[ e_0 = (1,1), s(i,a)=(i+1,a*i), g(i,a) = i \le n \]
+Un invariante posible ahora es \(I(i,a) \equiv a = (i-1)!\), una funci&oacute;n de cota 
+\(C(i,a) \equiv n-i-1\). 
+Veamos, como antes, que todos los estados cumplen el invariante. Podemos ver el estado inicial cumple el invariante, \( 1 = (1-1)! = 0!\). 
+Si asumimos \(I(i,a) \equiv a = (i-1)!\) entonces se cumple \( I(s(i,a)) \) ya que:
+\[ I(s(i,a)) \equiv I(i+1,a*i) \equiv (i+1-1)!=a*i \equiv i! = a*i \equiv (i-1)! = a \]  
+La funci&oacute;n de cota cumple la condici&oacute;n requerida  \[C(s(i,a)) \lt C(i,a) \equiv n -(i+1)-1 = n-i-1-1 \lt n-i-1 \]
+La restricci&oacute;n entrada salida que podemos obtenerla, como antes, eliminando las variables del estado:
+\begin{align}
+R(r,n) & \equiv r = a \land a = (i-1)! \land !(i \le n) \\
+ & \equiv  r = a \land a = (i-1)! \land i = n+1 \\
+ & \equiv r = n! \\
+\end{align}
+En lo anterior hay que tener en cuenta, como antes, que los valores del estado que usamos para deducir la  restricci&oacute;n entrada-salida 
+son los resultantes al salir del bucle. Por eso de todos los valores que cumplen \( !(i \le n) \) el correcto es \(i = n+1\).
+<a id="it1"><h2> Ejemplos de dise&ntilde;o iterativo </h2>
 Vamos a ver un par de ejemplos de dise&ntilde;o iterativo.  El primero ser&aacute; la b&uacute;squeda binaria. 
 El segundo el conocido como la bandera holandesa.
-
 <p>
-El problema consiste en, dada una lista \( ls\) ordenada  con respecto a un orden, encontrar,si existe, 
+El problema consiste en, dada una lista \( ls\), ordenada  con respecto a un orden, encontrar,si existe, 
 la posici&oacute;n de un elemento dado o -1 si no lo encuentra. 
 </p>
 <p>
 Partimos de la lista ordenada \(ls\) de tama&ntilde;o \(n = |ls|\) y un elemento \(e\) a buscar. El primer paso
 es escoger un estado. Es lo que llamamos generalizar el problema. Escogemos un estado representado por la tupla \( (i, j\) 
 verific&aacute;ndose \( j \ge i, i,j \in [0,n) \). En segundo lugar escogemos un invariante:
-
 \[ e \in ls[i,j] =  e \in ls \]. 
 Es decir si el elemento est&aacute; en la 
 lista \(ls\) est&aacute; en la sublista \(ls[i,j]\). El tama&ntilde;o del problema (o la funci&oacute;n de cota) ser&aacute; \( j-i\).
@@ -459,11 +516,14 @@ la funci&oacute;n de cota cumpla las propiedades exigidas.
 Escogemos como funci&oacute;n siguiente:
 \[s(i,j) =
 \begin{cases}
-(i,k), & \text{si } e < ls[k] \\
-(k,j), & \text{si } e > ls[k]
+(i,k), & \text{si } e \lt ls[k] \\
+(k,j), & \text{si } e \gt ls[k]
 \end{cases}
 \]
-Con \( k = (i+j)/2 \). Con esos elementos planteamos el algoritmo de la forma:
+Con \( k = (i+j)/2 \). La intuci&oacute;n sobre la funci&oacute;n siguiente es que si el elemento a buscar 
+es menor que el que est&aacute; en la posici&oacute;n \(k\) hay que buscar en la mitad de la izquierda y en otro caso en la mitad
+de la derecha.
+Con esos elementos planteamos el algoritmo de la forma:
 <pre>
 bb(ls,e) {
 	r = -1;
@@ -472,12 +532,12 @@ bb(ls,e) {
 	while(j-i >0){
 	    k = (i+j)/2;
 	    if(ls[k] == e){
-	       r = k;
-               break;	
-            } else if(e < ls[k]){
+			r = k;
+			break;	
+		} else if(e < ls[k]){
 	       (i,j) = (i,k);
 	    } else {
-               (i,j) = (k+1,j);
+			(i,j) = (k+1,j);
 	    }
 	}
 	return r;
@@ -485,8 +545,17 @@ bb(ls,e) {
 </pre>
 <p>
 Podemos comprobar que se cumple el invariante. Por otra parte la restricci&oacute;n de las salida es:
-\[ ((r=-1 \land j-i= 0) \lor (r = k \land ls[k]= e)) \land I(i,j) \]
-De lo que podemos deducir que el algortimo cumple su cometido.
+\[ ((r=-1 \land j-i= 0 \land I(i,j) ) \lor (r = k \land ls[k]= e)) \land I(i,j) \]
+Las condiciones resultan de tener en cuenta que el bucle se puede acabar cuando no se cumpla la guarda o cuando se cumpla la condic&oacute;n 
+que permite salr del bucle por el break. En ambas est&aacute; incluido el invariante que no asegura que si el elemento est&aacute; en la lista
+original tambi&eacute;n est&aacute; en la sublista definida por \((i,j)\).
+De ello podemos deducir que el algoritmo cumple su cometido.
+</p>
+La complejidad de este algoritmo es \(\log n\). Esto lo podemos ver asociando al bucle el sumatorio:
+\[ \Theta(\sum_{t \in pg(1,2)}^{n} 1)  = \Theta(\log n)\]
+Donde \(t = j-i\) es la funci&oacute;n de cota o tama&ntilde;o del problema y vemos que, al ir dividiendose por dos en cada iteraci&oacute;n, 
+evoluciona seg&uacute;n una progresi&oacute;n geom&eacute;trica de raz&oacute;n dos.
+<p>
 </p>
 El problema de la bandera holandesa se enuncia as&iacute;: <br>
 <p>
@@ -536,8 +605,20 @@ elementos conocidos. Cada vez que ubicamos uno disminuye \(b-c\) y por lo tanto 
 En el efecto en el caso \(p \lt ls[b]\) debemos intercambiar las casillas \(a,b\) para colocar el valor correspondiente 
 en la zona \(0,a\). Aumentamos \(a, b\) en uno porque la primera zona ha aumentado en 1 y la zona tercera de elementos no conocidos ha disminuido en 1.
 \(ls\)
-</pre>
-<h2> Una forma particular de algoritmo iterativo </h2>
+<p>
+La restricci&oacute;n entrada salida podemos obtenerla de forma similar a ejemplos anteriores:
+\[ R(a,b) \equiv b-c  = 0 \land I(a,b)  \]
+Donde no hemos hecho expl&iacute;citos los par&aacute;metros de entrada-salida ni de los entrada, repectivamente \(ls, e\).
+</p>
+<p>
+La complejidad de este algoritmo es \(n\). Esto lo podemos ver asociando al bucle el sumatorio:
+\[ \Theta(\sum_{t \in pa(1,a)}^{n} 1)  = \Theta(n)\]
+Donde \(t = c-b\) es la funci&oacute;n de cota o tama&ntilde;o del problema y vemos que, al ir decrement&aacuete;ndose en uno 
+en cada iteraci&oacute;n, 
+evoluciona seg&uacute;n una progresi&oacute;n ar&acute;tica de raz&oacute;n uno.
+</p>
+
+<a id="it2"><h2> Dise&ntilde;o iterativo con acumulador, filtro y transformaci&oacute;n </h2>
 </p>
 Con mucha frecuencia se presenta un caso particular de algoritmo iterativo en la forma:
 <pre>
@@ -547,7 +628,7 @@ f(x) {
 	while(g(e)){	   
 	   if(h(e){
 	      r = t(e);
-	      a = c(a,r);
+	      a = c(a,r); // o a.c(r) si el acumulador es mutable
 	   }
 	   e = s(e);		   
 	}
@@ -555,75 +636,73 @@ f(x) {
 }
 </pre>
 <p>
-Aqu&iacute; aparecen elementos nuevos: el acumulador \(a\), el filtro \(h(e)\), la transformaci&oacute;n \(t(e)\) y 
+Aqu&iacute; aparecen  elementos nuevos: el acumulador \(a\), el filtro \(h(e)\), la transformaci&oacute;n \(t(e)\) y 
 la funci&oacute;n de acumulaci&oacute;n \(c(a,r)\).
-Todo ello junto al estado \(e\), el estado inicial \(e_0\), la guarda \(g(e)\), y la funci&oacute;n siguiente \(s(e)\).
-El algoritmo tiene una secuencia asociada \(S = (e_0,s(e),g(e))\), posteriormente filtrada por el predicado \(h(e)\), 
+Es estado ahora es una tupla \(E = (e,a)\). La parte \(e\) del estado, tiene un valor inicial \(e_0\), y sige un secuencia definida por
+la guarda \(g(e)\), y la funci&oacute;n siguiente \(s(e)\).
+La secuencia \(S = (e_0,s(e),g(e))\), posteriormente filtrada por el predicado \(h(e)\) y 
 transformada por la funci&oacute;n
-\(t(e)\) y acumulada por el acumulador \(A =(a_0,c(a,r))\). 
-La secuencia definida por el problema tras el filtro y la transformaci&oacute;n es de la forma:
+\(t(e)\) es acumulada por el acumulador \(A =(a_0,c(a,r))\). 
+La secuencia seguida por la parte \(e\) del estado tras el filtro y la transformaci&oacute;n es de la forma:
 \[ S = [t(x), x \in (e_0,s(e),g(e)) | h(x)] \]
 Los elementos de esta secuencia los representaremos por \(e_0,e_1,&hellip;,e_{m-1}\).
-Esta es la secuencia m&aacute;s larga 
-que partiendo de \(e_0\) y
+Esta es la secuencia m&aacute;s larga que partiendo de \(e_0\) y
 aplicando \(s(e)\) podemos obtener de tal forma que todos sus elementos cumplan \(g(e)\). Luego
 se filtra mediante \(h(e)\) y se transforma mediante \(t(e)\).  
+Posteriormente acumula los elementos de la secuencia mediante el acumulador.
 El esquema algoritmico anterior acumula los valores de la secuencia combin&aacute;ndolos mediante el acumulador
-\(A = (a_0,c(a,r))\) en la forma:
-\[
-c(&hellip;(c(c(a_0,e_0),e_1)&hellip;,e_{m-1})
-\]
-El algoritmo, por lo tanto, define una secuencia, un acumulador y un valor acumulado.
-Posteriormente acumula los elementos de la secuencia mediante el acumulador. Los elementos de la secuencia que se acumulan
-son 
-Como hemos dicho un acumulador se especifica con un elemento inicial y una funci&oacute;n binaria de acumulaci&oacute;n: \( A = (a_0, c(a,e)) \). 
+\(A = (a_0,c(a,r))\).
+<p>
+Como dijimos al principio, un acumulador se especifica con un elemento inicial y una funci&oacute;n binaria de acumulaci&oacute;n: \( A = (a_0, c(a,e)) \). 
 Aplicado a una secuencia produce un valor acumulado. A la secuencia vac&iacute;a se le asigna un
 valor acumulado de \(a_0\). Aplicar un acumulador a una secuencia lo indicamos \( C_I(A,S) \). D&oacute;nde el sub&iacute;ndice \(I\) 
 indica que los elementos de la secuencia se acumulan de izquierda a derecha. Otra alternativa
-de acumulaci&oacute;n que veremos m&aacute;s adelante es de derecha a izquierda que indicaremos con el sub&iacute;ndice \(D\).
-Finalmente el algoritmo devuelve un valor calculado a partir del acumulador y del primer valor de \(e\) 
-que cumple \(!g(e)\). Es decir \( r(a) = r(C_I(A,S))\). 
-<br>
-Por ejemplo \( \prod_{i=1}^n i \) 
-acumula la secuencia \( [1,2,&hellip;,n] \) con el acumulador \( (1, a*e) \). El algoritmo
-anterior define una acumulador y el valor acumulado devuelto es: 
-
-\[ C_I(A,S), S = [ t(e), e \in (e0, s(e), p(e)) | h(e)], A =(a_0,c(a,e)) \]
-El invariante del algoritmo asegura que el valor del acumulador es igual al valor acumulado por el acumulador definido
-por el algoritmo sobre la secuencia definida por &eacute;l de una longitud igual al n&uacute;mero de iteraciones.
+de acumulaci&oacute;n, que veremos m&aacute;s adelante, es de derecha a izquierda lo que indicaremos con el sub&iacute;ndice \(D\).
 </p>
 <p>
-Podemos considerar, de nuevo, el problema de la factorial visto arriba. Ahora siguiendo el esquema anterior podemos considerar
-el factorial como la acumulaci&oacute;n de un producto:
-
-\[ n! = \prod_{i=1}^n i \]
-Y si el valor para la secuencia vac&iacute;a del acumulador anterior \( 0! = 1\). Con esas ideas el esquema anterior se concreta 
-en un nuevo algoritmo para el factorial:
-
+La secuencia completa asociada al algoritmo tiene el estado \(E = (e,a)\) y es de la forma:
+\[ S = ((e_0,a_0), s'(e,a) = (s(e), c'(a,e)), g'(e,a)=g(e) )\]
+Siendo \(c'(e,a)\) de la forma:
 <pre>
-f(n) {
-	e = 1;
-	a = 1;
-	while(e < = n){	   
-	   a = a * e;
-	   e = e + 1;		   
+A c'(e,a){
+	if(h(e){
+	      r = t(e);
+	      a = c(a,r);
 	}
 	return a;
 }
 </pre>
-Podemos observar las peque&ntilde;as diferencias con el algoritmo del factorial visto arriba.  
-La asignaci&oacute;n paralela equivalente al cuerpo del bucle es \( (a,e) = (a*e,e+1) \). Ahora el invariante, que no hemos tenido que proponer,
-es \( a = (e-1)!\).
-Vemos que se cumple al comenzar el bucle. Tambi&eacute;n que se mantiene en cada iteraci&oacute;n. Si si hacemos la sustituci&oacute;n
-simb&oacute;lica correspondiente en el invariante:
-\[ a*e = (e+1-1)! \equiv a*e = e! \equiv a*e = (e-1)!*e \equiv a = (e-1)! \]
-Y la restricci&oacute;n entrada-salida deducida:
-\[ r = a \land a = (e-1)! \land !(e < = n) \equiv r = a \land a = (e-1)! \land e = (n+1) \equiv r = n! \]
-Es decir hubi&eacute;ramos llegado a este algoritmo si hubi&eacute;ramos escogido este invariante. Pero llegamos al algoritmo instanciando
-el esquema algoritmico iterativo propuesto.
-
-<a id="j8"><h1>Esquemas equivalentes en Java 8 a los Esquemas Iterativos</h1>
-El esquema iterativo visto arriba:
+La funci&oacute;n \(c'(a,e)) indica que para acumular un elemento debe cumplir \(h(e)\) y si lo cumple el nuevo valor del acumulador es
+ \( c(a, t(e))\). 
+Finalmente el algoritmo devuelve un valor calculado a partir del valor del acumulador al salir del bucle
+mediante la funci&oacute;n \(r(a)\). Es decir \( r(a) = r(C_I(A,S'))\). Siendo \(S'\) la secuencia \(S\) filtrada y transformada.
+Es decir \(S' = [y \in (e_0,s(e),g(e)) | h(e)]) \).  
+El algoritmo, por lo tanto, define una secuencia, un acumulador y un valor acumulado.
+\[ C_I(A,S), S = [ t(e), e \in (e0, s(e), p(e)) | h(e)], A =(a_0,c(a,e)) \]
+El invariante de este timpo de algoritmos es que el valor del acumulador es igual al valor acumulado a partir 
+de la secuencia recorrida partiendo del valor inicial indicado. El invariante del algoritmo asegura,
+por lo tanto, que el valor del acumulador al salir del bucle 
+es igual al valor acumulado a partir de la secuencia sin incluir el valor del estado al salir del bucle.
+</p>
+<p>
+Usando las ideas anteriores podemos diseñar esquemas iterativos con acumulador, filtro y transformaci&oacute;n.
+Los pasos a seguir son:
+<ul>
+<li>Imaginar un estado y una secuencia de valores del mismo. Es decir \(S = (e_0,s(e),g(e))\). </li>
+<li>Imaginar un posible filtro y transformaci&oacute;n para esa secuencia. 
+Es decir las funciones \(\h(e), t(e)\). </li>
+<li>Imaginar un acumulador \( A = (a_0,c(a,e))\).</li>
+<li>El esquema visto arriba devuelve como resultado \(r(C_I(A,S))\). Cada operador binario \(c(a,e)\), con su
+correspondiente valor inicial define un acumulador. Hay muchos acumuladores conocidos: sum,count,max,min,
+ average,allMatch, anyMatch, noneMatch,findFirst,groupingBy,joining,partitioningBy,toList,toMap,toSet,toSortedSet y
+ muchos m&aacute;s. Hemos usado aqu&iacute; los nombres que se dan a estos acumuladores en Java pero podemos
+ encontrarlos con nombres similares esn otros lenguajes. Dejamos como ejercicio determinar para cada uno de ellos
+ el tipo del acumulador, el valor inicial, la funci&oacute;n de acumulaci&oacute;n y los posibles
+ par&aacute;metros que pueden necesitar.</li>
+</ul>
+Hay algunos acumuladores, denominados lazy (perezosos), que al cumplir una determinada condici&oacute;n, \(p(a)\),
+no requieren recorrer toda la secuencia para determinar el valor del acumulador. Es el caso de allMatch, anyMatch, noneMatch,findFirst.
+En ese caso el algoritmo toma la forma:
 <pre>
 f(x) {
 	e = e_0;
@@ -632,59 +711,119 @@ f(x) {
 	   if(h(e){
 	      r = t(e);
 	      a = c(a,r); // o a.c(r) si el acumulador es mutable
-	      	          // if(p(a)) break; para algunos acumuladores
+	      if(p(a)) break;
 	   }
 	   e = s(e);		   
+	}
+	return r(a);
+}
+</pre>
+</p>
+Veamos, de nuevo, como dise&ntilde;ar un algoritmo para calcular el factorial de \(n\) con estas ideas.
+Sabemos que \( n! = \prod_{i=1}^n i \). Tomando como estado la variable \(e\), 
+como secuencia \( S = (1,e->e+1,e->e \le n)\) y acumulador
+\( (1, a*e) \) obtenemos el resultado requerido. El algoritmo resultante es:
+</p>
+<pre>
+f(n) {
+	e = 1;
+	a = 1;
+	while(e <= n){	   
+	   a = a * e;
+	   e = e + 1;		   
 	}
 	return a;
 }
 </pre>
-Tiene su equivalente en los Stream de Java 8 y en otros lenguajes actuales. 
+Como segundo ejemplo veamos la forma de comprobar si una lista de tama&ntilde;o \(n\) est&aacute; ordenada.
+Para ello usando como estado la variable \(i\), la secuencia \((0,i->i+1,i \lt n-1)\), la transformaci&oacute;n
+\(i->ls[i] \le ls[i+1]\) y el acumulador forAll obtenemos el resultado requerido. Esto es debido a que una lista
+est&aacute; ordenada si cada casilla, sin incluir la &uacute;ltima,
+es menor o igual que la siguiente. Debemos tener en cuenta que el 
+acumulador forAll viene definido por \((true,(a,t)->a \land t)\), que el tipo del acumulador es 
+boolean y que este es lazy con \(p(t)=!t\). Esto &uacute;ltimo al hecho de que cuando el acumulador se hace falso
+seguir&aacute; siendo falso. El c&oacute;digo resultante es:
+<pre>
+ord(ls) {
+	n = ls.size();
+	i = 1;
+	a = true;
+	while(i&lt;n-1){	   
+		r = ls[i] &le; ls[i+1];
+		a = a && r;
+		if(!a) break;
+		i = i+1;		   
+	}
+	return a;
+}
+</pre>
+Que puede ser simplificado a:
+<pre>
+ord(ls) {
+	n = ls.size();
+	i = 1;
+	a = true;
+	while(i&ltn-1){	   
+		a = ls[i] &le; ls[i+1];
+		if(!a) break;
+		i = i+1;		   
+	}
+	return a;
+}
+</pre>
+<a id="j8"><h2>Esquemas equivalentes en Java 8 a los Esquemas Iterativos</h2>
+Java 8 ofrece los siguientes elementos para trabajar con secuencias finitas o infinitas.
 <p>
-Como ya comentamos aparecen: el acumulador \(a\), el filtro \(h(e)\), la transformaci&oacute;n \(t(e)\) y 
-la funci&oacute;n de acumulaci&oacute;n \(c(a,r)\).
-Todo ello junto al estado \(e\), el estado inicial \(e_0\), la guarda \(g(e)\), y la funci&oacute;n siguiente \(s(e)\).
-Ahora \(e_0,s(e),g(e)\)  es la secuencia asociada al algoritmo, posteriormente filtrada por el predicado \(h(e)\), 
-transformada por la funci&oacute;n
-\(t(e)\) y acumulada por la funci&oacute;n de acumulaci&oacute;n \(c(a,r)\). 
-La secuencia definida por el problema es de la forma:
-\[ s = [t(x), x \in (e_0,s(e),g(e)) | h(x)] \]
-El esquema algoritmico anterior acumula los valores de la secuencia combin&aacute;ndolos mediante al funci&oacute;n 
-\(ca(a,r)\).
-</p>
-Los elementos similares en Java 8 son:
-<ul>
-<li>
 El tipo <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html"  target="_blank">Stream</a>
-es el adecuado para representar secuencias de datos que pueden ser filtrados transformados y acumulados.
+es el adecuado para representar secuencias de datos que pueden ser filtrados transformados y acumuladas.
 Existen versiones espec&iacute;ficas para los tipos b&aacute;sicos como 
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html" target="_blank">IntStream</a>, etc.
-Los elementos para trabajar con el tipo Stream son los de las secuencias en general:
+Los elementos de Java 8 disponibles son:
+<ul>
+<li> Lo primero que necesitamos es una manera de definir secuencias finitas. La mecanismo m&aacute;s es simple es
+un rango de enteros lo podemos definir por <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#range-int-int-" target="_blank">range(a,b)</a>.
+</li>
+<li>
+Podemos partir, alternativamente, de una secuencia infinita y selecccionar o prefijo finito de la misma o el primero
+que cumple un predicado.
+<ul> 
+<li>
+Una secuencia infinita definida por un elemento inicial 
+y el siguiente por <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#iterate-T-java.util.function.UnaryOperator-" target="_blank">iterate(e0,s(e))</a>, &hellip;
+</li>
+<li>
+Obtener el primero que cumple un predicado p(x):
+<pre>
+	return Stream.iterate(e0,e->s(e))).filter(e->p(e)).findFirst().get();
+</pre>
+</li>
+<li>
+Una manera de obtener una nueva secuencia formada prefijo que cumple un predicado: 
+<pre>
+Stream2&lt;T&gt; whilePredicate(Predicate&lt;T&gt; pt) {
+	Stream.Builder&lt;T&gt; b = Stream.builder();
+	this.peek(x->{if(pt.test(x))b.add(x);}).filter(pt.negate()).findFirst();
+	return Stream2.create(b.build());
+}
+</pre>
+</li>
+<ul>
+</ul>
+</ul>
+</li>
+<li> Una manera de filtrar: 
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#filter-java.util.function.Predicate-" target="_blank">filter</a>
+</li>
+<li> Una manera de transformar: 
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#map-java.util.function.Function-" target="_blank">map</a>
+</li> 
+<li>
+Una manera de acumular con acumulador inmutable:
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#reduce-java.util.function.BinaryOperator-" target="_blank">reduce</a>
+</li>
 <ul>
 <li>
-Secuencias b&aacute;sicas: <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#range-int-int-" target="_blank">range(a,b)</a>,
- <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#iterate-T-java.util.function.UnaryOperator-" target="_blank">iterate(e0,s(e))</a>, &hellip;
-</li>
-<li>
-Subsecuencia delimitada por un predicado: <a href="../../../us/lsi/stream/Stream2.html#whilePredicate-java.util.function.Predicate-" target="_blank">whilePredicate(p)</a>
-</li>
-<li>
-<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#filter-java.util.function.Predicate-" target="_blank">Filtro </a>
-</li>
-<li>
-<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#map-java.util.function.Function-" target="_blank">Transformaci&oacute;n</a>
-</li> 
-<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#collect-java.util.stream.Collector-" target="_blank">Acumulaci&oacute;n</a>
-</li>
-</ul>
-<li>
-Un acumulador sobre un tipo mutable es una implementaci&oacute;n de <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" target="_blank">Collector</a>
-</li>
-<li>
-Una factor&iacute;a de acumuladores podemos encontrar en <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html" target="_blank">Collectors</a>
-</li>
-<li>
-Los acumuladores sobre tipos inmutables son m&eacute;todos como 
+Acumuladores sobre tipos inmutables son m&eacute;todos como:
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#allMatch-java.util.function.Predicate-" target="_blank">allMatch</a>, 
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#anyMatch-java.util.function.Predicate-" target="_blank">anyMatch</a>,
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#max-java.util.Comparator-" target="_blank">max</a>,
@@ -692,20 +831,66 @@ Los acumuladores sobre tipos inmutables son m&eacute;todos como
 <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#reduce-T-java.util.function.BinaryOperator-" target="_blank">reduce(e0,b(x,y)) </a>,,&hellip;
 </li>
 </ul>
-Veamos algunos ejemplos en Java 8 y su equivalente en al algoritmo iterativo visto arriba. 
+<li> 
+Una manera de acumular con acumulador mutable:
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#collect-java.util.stream.Collector-" target="_blank">collect</a>
+</li> 
+<ul>
+<li>
+Un acumulador sobre un tipo mutable es una implementaci&oacute;n de <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html" target="_blank">Collector</a>
+</li>
+<li>
+Una factor&iacute;a de acumuladores que podemos encontrar en <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collectors.html" target="_blank">Collectors</a>
+</li>
+</ul>
+</ul>
+</p>
+Los algoritmos iterativos que hemos visto se pueden escribir todos en la notaci&oacute;n funcional de Java 8 con los elementos
+anteriores.
+Podemos distinguir dos casos:
+<ol>
+<li>El esquema iterativo tiene la estructura de secuencia,filtro, transformaci&oacute;n, acumulador y 
+funci&oacute;n de salida \(r(e)\).</li>
+<li>Un esquema iterativo en general que no tiene que responder a la estructura anterior pero si tiene
+secuencia y funci&oacute;n de salida \(r(e)\).</li>
+</ol>
+<p>
+En el primer caso aparecen: la variable del acumulador \(a\), el acumulador \(A=(a_0,c(a,e)\) 
+el filtro \(h(e)\), la transformaci&oacute;n \(t(e)\) y 
+el estado \(e\), el estado inicial \(e_0\), la guarda \(g(e)\), y la funci&oacute;n siguiente \(s(e)\).
+Ahora \(e_0,s(e),g(e)\) es la secuencia finita asociada al algoritmo, posteriormente filtrada por el predicado \(h(e)\), 
+transformada por la funci&oacute;n
+\(t(e)\) y acumulada por el acumulador \(A = (a_0,c(a,r))\). 
+Asumiendo que tenemos disponible el acumulador adecuado, este esquema es f&aacute;cil de escribir es Java 8. Se trata 
+de partir de la secuencia indicada filtrarla, transformarla y acumularla.
+</p>
+<p>
+Si el algoritmo no tiene la forma particular con secuencia, filtro, tarnsformaci&oacute;n y acumulaci&oacute;n 
+consideramos el caso general de un algoritmo iterativo.
+En este caso tenemos una secuencia, en principio infinita, una guarda y una funci&oacute;n de salida. Recordemos
+que el algoritmo iterativo termina el bucle con el primer valor del estado que no cumple la guarda. 
+La idea para implementarlo en Java 8 es partir de la secuencia infinita, filtrarla con el predicado !g(e) 
+y encontrar el primero de esa secuencia filtrada. El elemento obtenido es el primer valor del estado que cumple
+!g(e). Para finalizar aplicar la funci&oacute;n de salida al valor
+del estado obtenido.
+</p>
+<h3>Ejemplos en Java 8</h3>
+Veamos algunos ejemplos en Java 8 y sus equivalentes en iterativos visto arriba. 
 <ul>
 <li> Un n&uacute;mero \(n\) es primo si no es divisible por ning&uacute;n n&uacute;mero en el rango \([2,\sqrt{n}]\). </li>
 <li> El siguiente primo de un n&uacute;mero \(n\) es el primero de la secuencia de impares mayores que \(n\)
 filtrada por los que sean primos.</li>
-<li> Los primos menores o iguales a \(n\) se forman acumulando la secuencia \([1,siguientePrimo(e),e \le n]\)
-en una lista</li>
-<li> La suma de los primos menores o iguales a \(n\) se forman sumando los elementos de la secuencia \([1,siguientePrimo(e),e \le n]\)</li>
+<li> Los primos menores a \(n\) se forman a partir de la secuencia \([2,\sqrt{n}]\), filtrada por los que son primos y
+acumulada en una lista</li>
+<li> La suma de los primos menores que \(n\) se forma sumando los elementos de la secuencia 
+\([2,\sqrt{n}]\), filtrada por los que son primos.
+</li>
 </ul>
 <pre>
     
 	public static boolean esPrimo1(Long n){
 		Long sqrt = (long)Math.sqrt((double)n);
-		return !LongStream.rangeClosed(2, sqrt).anyMatch(x->Math2.esDivisible(n, x));
+		return LongStream.rangeClosed(2, sqrt).noneMatch(x->Math2.esDivisible(n, x));
 	}
 	
 	public static boolean esPrimo2(Long n){
@@ -739,32 +924,38 @@ en una lista</li>
 		return a;
 	}
 	
-	public static List<Long> primosMenoresOIgualesA1(Long limit){
-		return Stream2.iterate(1L, x->siguientePrimo1(x)).whilePredicate(x->x<=limit).collect(Collectors.toList());
+	public static List<Long> primosMenoresA1(Long n){
+		Long sqrt = (long)Math.sqrt((double)n);
+		return LongStream.rangeClosed(1, sqrt).filter(x->esPrimo1(x)).collect(Collectors.toList());
 	}
 	
-	public static List<Long> primosMenoresOIgualesA2(Long limit){
+	public static List<Long> primosMenoresA2(Long limit){
+		Long sqrt = (long)Math.sqrt((double)n);
 		Long e = 1L;
 		List<Long> a = Lists.newArrayList();
-		while(e<=limit){
-			a.add(e);
-			e = siguientePrimo2(e);		   
+		while(e<=sqrt){
+			if(esPrimo1(e))
+				a.add(e);
+			e = e+1;	   
 		}
 		return a;
 	}
 	
 	
 	public static Long sumaPrimosMenoresOIgualesA1(Long limit){
-		return Stream2.iterate(1L, x->siguientePrimo1(x)).whilePredicate(x->x<=limit).reduce(1L,(x,y)->x+y);
+		Long sqrt = (long)Math.sqrt((double)n);
+		return LongStream.rangeClosed(1, sqrt).filter(x->esPrimo1(x)).sum();
 	}
 	
 	
 	public static Long sumaPrimosMenoresOIgualesA2(Long limit){
+		Long sqrt = (long)Math.sqrt((double)n);
 		Long e = 1L;
-		Long a = 0L;
-		while(e<=limit){
-			a = a+e;
-			e = siguientePrimo2(e);
+		Long a = 0;
+		while(e<=sqrt){
+			if(esPrimo1(e))
+				a = a + e;
+			e = e+1;	   
 		}
 		return a;
 	}
@@ -831,11 +1022,33 @@ un conjunto de problemas de inter&eacute;s para poder
 expresar la soluci&oacute;n de un problema en base a la de otro u otros de tama&ntilde;o m&aacute;s peque&ntilde;o.
 En muchos casos debemos imaginar ese conjunto de problemas a partir del problema original. 
 A ese proceso lo llamamos <strong> generalizar </strong>.
-Generalizar un problema es a&ntilde;adir propiedades al problema
-original para considerarlo un caso particular de un conjunto de problemas m&aacute;s amplio.
-Existen generalizaciones conocidas para secuencias indexables y no indexables que se pueden encontrar 
+Desde un punto de vista, generalizar un problema es a&ntilde;adir propiedades al problema
+original para considerarlo un caso particular de un conjunto de problemas m&aacute;s amplio. Desde otro punto de vista generalizar es considerar 
+el conjunto de problemas formado por las partes del problema original.
+</p>
+<p>
+Las generalizaciones m&aacute;s usuales para secuencias son:
+<ul>
+<li> <strong>Generalizaci&oacute;n sufijo en secuencias indexables</strong>.  Un problema sobre una secuencia indexable \(s\)
+de tama&ntilde;o \(n\) se generaliza a \((s,i)\) con \( 0 \le i \le n\). Un problema generalizado \((s,i)\)
+representa a la subsecuencia \(s[i,n]\) de tama&ntilde;o \(n-i\). Cada problema generalizado \((s,i)\) se puede
+reducir a \((s,i+1)\). Los casos bases posibles son: \((s,n),(s,n-1),(s,n-2)\).
+</li>
+<li> <strong>Generalizaci&oacute;n subsecuencia central en secuencias indexables</strong>.Un problema sobre una secuencia indexable \(s\)
+de tama&ntilde;o \(n\) se generaliza a \((s,i,j)\) con \( 0 \le i \le n, i \le j \le n\). Un problema generalizado \((s,i,j)\)
+representa a la subsecuencia \(s[i,j]\) de tama&ntilde;o \(j-i\). Cada problema generalizado \((s,i,j)\) se puede
+reducir a los dos m&acute;s peque&ntilde;os \((s,i,k), (s,k,j)\) con \( k = (j+i)/2 \). Los casos bases posibles son aquellos que cumplen: 
+\(j-i=0, j-i=1, j-i=2\).
+</li>
+<li> <strong>Generalizaci&oacute;n prefijo en secuencias no indexables</strong>. La secuencia no indexable \(s\) se descompone en un prefijo 
+m&aacute;s un elemento de la forma \(s = s^{\prime}+e \).  Los casos bases posibles son la secuencia vac&iacute;a o con un elemento.
+</li>
+<li> <strong>Generalizaci&oacute;n sufijo en secuencias no indexables</strong>. La secuencia no indexable \(s\) se descompone en un elemento 
+m&aacute;s un sufijo de la forma \(s = e + s^{\prime} \).  Los casos bases posibles son la secuencia vac&iacute;a o con un elemento.
+</li>
+</ul>
+Otras generalizaciones para secuencias indexables y no indexables que se pueden encontrar 
 en la secci&oacute;n Generalizaci&oacute;n de Problemas del <a href="http://gustavo.lsi.us.es:8117/document/Tema10.pdf" target="_blank">Tema 10</a>
-
 </p>
 
 Otra definici&oacute;n recursiva para la factorial es:
@@ -928,7 +1141,7 @@ f(x) {
 	return s;
 }
 </pre>
-El un algoritmo recursivo aparecen los siguientes conceptos:
+En un algoritmo recursivo aparecen los siguientes conceptos:
 <ul>
 <li> b(x): Es una funci&oacute;n l&oacute;gica que devuelve verdadero si el problema es un caso base </li>
 <li> sb(x): Es una funci&oacute;n que devuelve la soluci&oacute;n del caso base. </li>
@@ -995,8 +1208,37 @@ f(x) {
 	return s;
 }
 </pre>
-
-<a id="itrc"><h1>Transformaci&oacute;n Iterativo-Recursivo final y viceversa </h1>
+<a id="rc1"><h3> Verificaci&oacute;n de algoritmos recursivos</h3>
+La verificaci&oacute;n de algoritmos recursivos sigue las mismas ideas que la de los iterativos. Se trata de ver si un algoritmo
+recursivo cumple una determinada restrcci&oacute;n entrada-salida. Suponemos que tenemos un algoritmo. Es decir
+que hay definido una tama&ntilde;o para los problema, cada problema se define en funci&oacute;n de otro de tama&ntilde;o menor
+ y por lo tanto termina.
+ <p>
+ La verificaci&oacute;n de algoritmos recursivos se hace aplicando el m&eacute;do de inducci&oacute;n. 
+ Se comprueba que la restrcci&oacute;n entrada-salida se cumple para los casos base y asumiendo que se cumple
+ para los subproblemas de un problema deducir que se cumple para &eacute;ste.
+ Veamos el ejemplo del factorial recursivo que ya hemos visto arriba:
+ </p>
+ <pre>
+f(n) {
+	if(n==0){
+		r = 1;
+	} else {
+		r = n*f(n-1);
+	} 
+	return r;
+}
+</pre>
+Intentamos deducir que \(R(n,r) \equiv r = n! \). Vemos que se cumple en el caso base \( 1 = 0!\) y asumiendo
+que el subproblema produce el resultado correcto, \((n-1)!\), se cumple para el padre. Efectivamente es
+\(R(n,r) \equiv r = n*(n-1)! = n! \).
+<a id="tr"><h1>Transformaci&oacute;n de programas </h1>
+En muchos casos es necesario transformar versiones recursivas de un algoritmo en iterativas o viceversa. Esto no siempre
+puede hacerse pero hay casos particulares muy generales en los que si es posible.
+En particular veremos la transformaci&oacute;n de un algoritmo recursivo final a otro iterativo o viceversa,
+de un recursivo simple no final a otro final mediante un acumulador o un recusivo m&uacute;ltiple a iterativo mediante una aproximaci&oacute;n
+bottom-up.
+<a id="itrc"><h2>Transformaci&oacute;n Iterativo-Recursivo final y viceversa </h2>
 
 El algoritmo iterativo:
 <pre>
@@ -1180,89 +1422,7 @@ sb(e), & \text{si } b(e) \\
 c(fr(s(e)),e), & \text{si } !b(e) \\
 \end{cases}
 \]
-Como dijimos arriba el operador \( c(a,e) \) se denomina operador de combinaci&oacute;n. Como 
-\(e_0\) es el valor inicial para \(e\), entonces el algoritmo define una secuencia \( S = (e_0, s(e), !b(e)) \).
-Llamaremos \(e_b\) al valor de \(e\) que cumple \(b(e_b)\). Este elemento es el siguiente
-al &uacute;ltimo de la secuencia \(S \) y no pertenece a la misma.
-El algoritmo acumula
-los valores de la secuencia partiendo del elemento inicial para el acumulador, \(sb(e_b)\), 
-y como funci&oacute;n de acumulaci&oacute;n \(c(a,e)\). El acumulador es, por tanto, \( A =(sb(e_b), c(a,e) ) \). 
-Pero hace la acumulaci&oacute;n de derecha a izquierda, a diferencia del esquema recursivo final que hac&iacute;a la acumulaci&oacute;n
-de izquierda a derecha. El resultado del algoritmo es \(C_D(A,S)\).
-<br>
-Por otra parte recordemos el esquema iterativo con acumulador (en principio si filtro ni transformaci&oacute;n):
-<pre>
-f(x) {
-	e = e_0(x);
-	a = a_0;
-	while(!b(e)){	   
-		a = c1(a,e);
-		e = s(e);		   
-	}
-	return r(a);
-}
-</pre>
-Y su equivalente recursivo final:
-\[ f(x) = fr(a_0,e_0) \]
-\[ fr(a,e) = 
-\begin{cases}
-r(a), & \text{si } b(e) \\
-fr(c1(a,e),s(e)), & \text{si } !b(e) \\
-\end{cases}
-\]
-
-Que definen una secuencia \( S = (e_0, s(e), !b(e)) \), un acumulador \( A1 =(a_0, c1(a,e) ) \) y un resultado 
-del algoritmo \(r(C1_I(A1,S))\). 
-<br>
-Pretendemos hacer equivalentes
-el algoritmo recursivo no final y el final, o a la versi&oacute;n iterativa correspondiente.
-Para que lo sean deben dar el mismo resultado para una entrada dada \( e_0\). Es decir
-\[r(C1_I(A1,S)) = C_D(A,S)\]
-Para conseguirlo escogemos:
-<ul>
-<li> \(a_0 \) un elemento neutro por la izquierda de \( c1 \).   Es decir \( c1(a_0,e) = e \) </li>
-<li> \(r(a) = c1(a,sb(e_b)) \)</li>
-<li> \(c1(a,e) = c(a,e)\). Si \( c(a,e) = a \oplus e \) y  \( \oplus \) es un operador binario asociativo y conmutativo</li>
-</ul>
-Con esa elecci&oacute;n ambos algoritmos son equivalentes 
-porque el resultado de acumular la secuencia por la derecha ser&aacute; igual que acumularla por la izquierda con el correspondiente
-elemento neutro por la izquierda. El esquema recursivo 
-final equivalente al recursivo no final es:
-
-<pre>
-f(x){
-	return fr(a_0,e_0(x));
-}
-fr(a,e){
-	R u;
-	if(!b(e)){
-		u = c(a,sb(e));
-	} else {
-		u = fr(c(a,e),s(e));
-	} 
-	return u;
-}
-</pre>
-Y su  equivalente iterativo:
-<pre>
-f(x) {
-	e = e_0(x);
-	a = a_0;
-	while(!b(e)){
-		a = c(a,e); 	   
-		e = s(e);	   
-	}
-	return c(a,sb(e_b));
-}
-</pre>
-Algunos ajustes son posibles. Si \(sb(e_b)\) fuera un elemento neutro por la derecha de \( c(a,e) \) entonces la espresi&oacute;n \(c(a,sb(e_b))\)
-quedar&iacute;a reducida a \(a \). 
-Si el operador \( \oplus \), en  \( c(a,e) = a \oplus e \), fuera asociativo pero no conmutativo entonces 
-escogemos \( c1(a, e) = e \oplus a \). Es decir invertimos el orden de los operandos.
-<br> 
-La transformaci&oacute;n anterior se puede extender para una versi&oacute;n recursivo no final generalizada d&oacute;nde
-aparezcan filtros y transformaciones.
-Un algoritmo recursivo simple, haciendo expl&iacute;citos filtros y transformaciones, tiene la forma:
+En el esquema anterior se puede hacer expl&iacute;citos filtros y transformaciones en la forma:
 <pre>
 f(x){
 	fr(e_0(x));
@@ -1279,8 +1439,17 @@ fr(e){
 	return u;
 }
 </pre>
-Con las mismas consideraciones anteriores sobre el nuevo acumulador \(A1\) que necesitamos,
-el algoritmo iterativo equivalente es ahora:
+Como dijimos arriba, el operador \( c(a,e) \) se denomina operador de combinaci&oacute;n. Como podemos ver 
+\(e_0\) es el valor inicial para \(e\). El algoritmo define una secuencia \( S = [t(e), e \in (e_0, s(e), !b(e))| h(e)] \).
+Llamaremos \(e_b\) al valor de \(e\) que cumple \(b(e_b)\). Por una parte es el valor de caso base, por otra es el siguiente
+al &uacute;ltimo de la secuencia \(S \) sin filtrar y transformar y no pertenece a la misma.
+El algoritmo acumula los valores de la secuencia partiendo del un inicial para el acumulador, \(sb(e_b)\), 
+y una funci&oacute;n de acumulaci&oacute;n \(c(a,e)\). El acumulador es, por tanto, \( A =(sb(e_b), c(a,e) ) \). 
+Pero hace la acumulaci&oacute;n de derecha a izquierda, a diferencia del esquema recursivo final que hac&iacute;a la acumulaci&oacute;n
+de izquierda a derecha. El resultado del algoritmo es \(C_D(A,S)\).
+<br>
+Por otra parte recordemos el esquema iterativo con acumulador. Este esquema acumulaba una secuencia, filtrada y transformada, con un acumulador
+pero haciendo la acumulaci&oacute;n de izquierda a derecha. Este algoritmo, con peque&ntilde;os ajustes, es de la forma:
 <pre>
 f(x) {
 	e = e_0(x);
@@ -1295,14 +1464,14 @@ f(x) {
 	return c1(a,sb(e));
 }
 </pre>
-Con la siguiente versi&oacute;n recursiva:
+Con la versi&oacute;n recursiva final equivalente:
 <pre>
 f(x){
 	return fr(a_0,e_0(x));
 }
 fr(a,e){
 	R u;
-	if(!b(e)){
+	if(b(e)){
 		u = c1(a,sb(e));
 	} else if(h(e)){
 		u = fr(c1(a,t(e)),s(e));
@@ -1312,153 +1481,34 @@ fr(a,e){
 	return u;
 }
 </pre>
+Que definen una secuencia \( S = [t(e), e \in (e_0, s(e), !b(e)) | h(e) ]\), un acumulador \( A1 =(a_0, c1(a,e) ) \) y un resultado 
+del algoritmo \(c1(C1_I(A1,S),sb(e))\). 
+<br>
+Pretendemos hacer equivalentes
+el algoritmo recursivo no final y el final, o la versi&oacute;n iterativa correspondiente.
+Para que lo sean deben dar el mismo resultado para una entrada dada \( e_0\). Es decir
+\[c1(C1_I(A1,S),sb(e_b)) = C_D(A,S)\]
+Para conseguirlo escogemos:
+<ul>
+<li> \(a_0 \) un elemento neutro por la izquierda de \( c1 \).   Es decir \( c1(a_0,e) = e \) </li>
+<li> \(c1(a,e) = c(a,e)\). Si \( c(a,e) = a \oplus e \) y  \( \oplus \) es un operador binario asociativo y conmutativo</li>
+</ul>
+Con esa elecci&oacute;n ambos algoritmos son equivalentes 
+porque el resultado de acumular la secuencia por la derecha ser&aacute; igual que acumularla por la izquierda con el correspondiente
+elemento neutro por la izquierda. 
+<br>
+Algunos ajustes son posibles. Si \(sb(e_b)\) fuera un elemento neutro por la derecha de \( c(a,e) \) entonces la expresi&oacute;n \(c(a,sb(e_b))\)
+quedar&iacute;a reducida a \(a \). 
+Si el operador \( \oplus \), en  \( c(a,e) = a \oplus e \), fuera asociativo pero no conmutativo entonces 
+escogemos \( c1(a, e) = e \oplus a \). Es decir invertimos el orden de los operandos.
+<br>
+
 <br>
 Hay muchos casos en que los que la funci&oacute;n de combinaci&oacute;n no cumple las propiedades requeridas.
 En esos casos debemos imaginar un nuevo acumulador \(A1\), y posiblemente una nueva secuencia \( S1 \),
  para que se cumpla:
-\[r(C1_I(A1,S1)) = C_D(A,S)\]
+\[c1(C1_I(A1,S1),sb(e_b)) = C_D(A,S)\]
  
-Como ejemplo de estas ideas, de la b&uacute;squeda de un nuevo acumulador para permitir la transformaci&oacute;n
-a iterativo, veamos el caso de la potencia entera. 
-La potencia entera es el c&aacute;lculo de \(b^n \) donde \( n \) es un entero no negativo. Seg&uacute;n usemos algunas propiedades 
-u otras resultar&aacute; un algoritmo para su c&aacute;lculo:
-Dos definiciones posibles son:
-\[
-b^n =
-\begin{cases}
-1, & \text{si } n = 0 \\
-b^{n-1}*b, & \text{si } n \gt 0
-\end{cases}
-\]
-
-\[
-b^n =
-\begin{cases}
-1, & \text{si } n = 0 \\
-(b^{n/2})^2*b, & \text{si } n \gt 0 \land n\%2 = 1 \\
-(b^{n/2})^2, & \text{si } n \gt 0 \land n\%2 = 0
-\end{cases}
-\]
-La primera permite una transformaci&oacute;n a recursivo final si consideramos la secuencia 
-\( S = (n,n-1,n>0)= [n,n-1,&hellip;,i, &hellip;, 1] \), 
-la funci&oacute;n de transformaci&oacute;n \(t(e) = b \) y el operador 
-de acumulaci&oacute;n \( (1,a*e) \). En la segunda definici&oacute;n la secuencia definida es 
-\( S = (n,n/2,n>0) \) y un acumulador por la derecha \(A = (1,c(a,n))\) cuya la funci&oacute;n de acumulaci&oacute;n es: 
-\[
-c(a,n) =
-\begin{cases}
-a^2*b, & \text{si } n\%2 = 1 \\
-a^2, & \text{si } n\%2 = 0
-\end{cases}
-\]
-Esta funci&oacute;n no cumple los requisitos de asociatividad, etc. No podemos aplicar el m&eacute;todo anterior. Pero podemos 
-pensar en una tercera definici&oacute;n basada en la descomposici&oacute;n en binario del exponente. Esta defini&oacute;n nos permite
-encontrar otro acumulador adecuado para la transformaci&oacute;n a iterativo y posiblemente otra secuencia.
-<br>
-Observemos que:
-
-\[
-\begin{cases}
-b^n & =  b^{\sum_{0}^{p} d_i 2^i} \\
-& =  \prod_{0}^{p} b^{d_i 2^i} \\
-& =  \prod_{0}^{p} (b^{2^i})^{d_i}
-\end{cases}
-
-\]
-Es decir:
-\[ 
-b^n = \prod_{0}^{p} (b^{2^i})^{d_i}
-\]
-En la secuencia \([b^{2^0},b^{2^1},b^{2^2},&hellip;]\) cada elemento es el cuadrado
-del anterior con un primer elemento igual a \(b\).
-Podemos  una secuencia de pares \((e,n)\) definida por 
-\[ S = ((b,n),s(e,n) = (e^2,n/2), n \gt 0) = [b^{2^0},b^{2^1},b^{2^2},&hellip;]\]
-<br>
-Los sucesivos d&iacute;gitos de la representaci&oacute;n en binario de \(n\) son iguales a \(n\%2\) y por lo tanto
-para  
-\( n\%2 = 1, d_i = 1, (b^{2^i})^{d_i} = b^{2^i} \) y para \( n\%2 = 0, d_i = 0, (b^{2^i})^{d_i} = 1\). 
-Por lo tanto existe un filtro, sobre la secuencia \(S\), mediante \( n\%2 = 1 \) y
- un acumulador \((1,c(a,(e,n))=a*e)\).
-Con esos elementos el algoritmo iterativo queda:
-<pre>
-pot(b,n){
-	e = b;
-	a = 1;
-	while( n > 0){
-        if(n%2==1){
-		     a = a * e;
-		}
-		e = e * e;
-		n = n/2;
-	}
-	return a;
-}
-</pre>
-
-El algoritmo de la potencia entera anterior puede ser adaptado para resolver otros  problemas diferentes:
-<ul>
-<li> \( b^n\) con \(b\) de tipo entero o real </li>
-<li> \(	B^n \) con \(B\) una matriz cuadrada. El tipo matriz y sus operaciones se puede tomar de 
-<a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math4/linear/package-summary.html"  target="_blank">Matriz</a>.
-Ahora \(1\) ser&aacute; la matriz unidad y \(*\) el producto de matrices.</li>
-<li> Una recurrencia lineal del tipo \( f(n) = a_1 f(n-1)+\ldots+a_k f(n-k) \) 
-con condiciones iniciales \(f(k-1)=c_{k-1},\ldots, f(0) = c_0 \). 
-Este problema puede ser reducido al segundo puesto que la recurrencia puede ser escrita 
-como una ecuaci&oacute;n matricial. As&iacute;, para el caso \( k=3 \), 
-la recurrencia de la forma \[ f(n)= a_1 f(n-1)+ a_2 f(n-2)+ a_3 f(n-3)\]
- 
-con condiciones iniciales 
-\[f(2)=c_2,f(1)=c1,f(0)=c_0\]
-
-se puede escribir como:
-
-\[
-
-\begin{pmatrix}
-  f_n \\
-  f_{n-1} \\
-  f_{n-2}
- \end{pmatrix}
- =
- \begin{pmatrix}
-  a_1 & a_2 & a_3 \\
-  1 & 0 & 0 \\
-  0 & 1 & 0
- \end{pmatrix}
- \begin{pmatrix}
-  f_{n-1} \\
-  f_{n-2} \\
-  f_{n-3}
- \end{pmatrix},
- B = \begin{pmatrix}
-  a_1 & a_2 & a_3 \\
-  1 & 0 & 0 \\
-  0 & 1 & 0
- \end{pmatrix},
- I = \begin{pmatrix}
-  1 & 0 & 0 \\
-  0 & 1 & 0 \\
-  0 & 0 & 1
- \end{pmatrix}
-\]
-
-Con soluci&oacute;n:
-\[
-\begin{pmatrix}
-  f_{n+2} \\
-  f_{n+1} \\
-  f_n
- \end{pmatrix}
- =
- B^n
- \begin{pmatrix}
-  c_2 \\
-  c_1 \\
-  c_0
- \end{pmatrix}
-\] </li>
-
-</ul>
 
 <h3> Aproximaci&oacute;n de abajo arriba </h3>
 En segundo lugar veremos como transformar algunos problemas recursivos (m&uacute;ltiples o simples) en iterativos. 
@@ -1468,7 +1518,7 @@ El esquema recursivo general con \(k\) sub-problemas es:
 f(x) =
 \begin{cases}
 sb(x), & \text{si } b(x) \\
-c(f(sp_0(x),f(sp_1(x),&hellip;,f(sp_{k-1}(x),x), & \text{si } !b(x)
+c(f(sp_0(x)),f(sp_1(x)),&hellip;,f(sp_{k-1}(x)),x), & \text{si } !b(x)
 \end{cases}
 \]
 
@@ -1509,7 +1559,7 @@ Y de aqu&iacute; el esquema resultante  es:
 <pre>
 fib(n){
 	(i,a,b) = (0,1,0);
-	while(i < n){
+	while(i &lt; n){
 		(i,a,b) = (i+1,a+b,a);
 	}
 	return b;
@@ -1519,9 +1569,9 @@ Desplegando la asignaci&oacute;n paralela
 <pre>
 fib(n){
 	i = 0;
-        a = 1;
+	a = 1;
 	b = 0;
-	while(i < n){
+	while(i &lt; n){
 		i = i+1;
 		a0 = a;
 		a = a0+b;
@@ -1567,9 +1617,9 @@ Va incrementando uno a uno el valor de \(i\) hasta alcanzar \(n\). El esquema it
 binom(n,k) {
 	lsa = [1];
 	i = 1;
-	while(i <= n) {              
+	while(i &le; n) {              
 		ls = [];
-		for(s=0;s<=i;s++){			
+		for(s=0;s&le;i;s++){			
 			if(s == 0 || s == i) {
 				ls = ls + 1;
 			else if(s==1 || s == i-1){
@@ -1584,27 +1634,35 @@ binom(n,k) {
         return lsa[k];
 }
 </pre>
+
 <a id="est"><h1> Estrategias para el dise&ntilde;o de algoritmos</h1>
 Con lo visto anteriormente disponemos de varias estrategias para dise&ntilde;ar algoritmos:
 <ul>
 <li>
-<strong> Secuencia m&aacute;s acumulador </strong>. Es la estrategia m&aacute;s sencilla de usar. Se trata de imaginar una secuencia finita
-\((e_0,s(e),g(e))\) y un acumulador que acumule todos los valores de esa secuencia. En estos algoritmos 
-el valor de acumulador en cada iteraci&oacute;n e igual al valor acumulado de la subsecuencia recorrida (este
-es su invariante). Con esa estrategia se pueden dise&ntilde;ar muchos algoritmos. Todos los que se resuelven 
+<strong> Secuencia m&aacute;s acumulador </strong>. Es la estrategia m&aacute;s sencilla de usar. 
+Se trata de imaginar un estado \(e\), una secuencia finita de valores del mismo 
+\((e_0,s(e),g(e))\), posiblemente un filtro \(h(e)\), una transformaci&oacute;n \(t(e)\) y un acumulador que acumule todos los valores de esa secuencia. En estos algoritmos 
+los valores de la secuencia recorrida.  El invariante de este tipo
+de algoritmos es que valor acumulado de la subsecuencia recorrida es igual al valor del acumulador. 
+Con esa estrategia se pueden dise&ntilde;ar muchos algoritmos. Todos los que se resuelven 
 con los Stream de Java8.
 </li>
 <li> <strong> Secuencia m&aacute;s Invariante m&aacute;s Funci&oacute;n de Cota </strong>. En esta estrategia, posiblemente
-a partir de un predicado, \(R(x,r)\), que relacione la entrada con la salida de un algoritmo, escogemos
-un estado y un invariante \(I\). A partir de ellos buscamos un valor inicial y un siguiente, \(e_0,s(e)\)
-que verifiquen: \(I(e_0), I(e) \implies I(s(e)), C(s(e)) \lt C(e)\). El resultado obtenido verificar&aacute;
-\(I(e) \land !g(e)\).
+a partir de un predicado, \(R(x,r)\), que relacione la entrada con la salida del algoritmo, escogemos
+un estado y un invariante y una funci&oacute;n de cota \(I(e), C(e)\). 
+A partir de ellos buscamos un valor inicial y un siguiente, \(e_0,s(e)\)
+que verifiquen: \(I(e_0), I(e) \implies I(s(e)), C(s(e)) \lt C(e)\). Imaginamos una guarda \(g(e)\) tal que 
+\(g(e) \iff C(e) \gt 0, !g(e) \iff C(e) =0\)
+Al terminar el bucle el estado verificar&aacute;
+\(I(e) \land !g(e)\). Tras aplicar la funci&oacute;n de salida al estado obtenido debe cumplirse
+\[ r = r(e,x) \land I(e,x) \land !g(e,x) \implies R(x,r)\]
 </li>
 <li>
 <strong> Partir de una definici&oacute;n recursiva para obtener un algoritmo recursivo </strong>. Hay que 
-definir un tama&ntilde;o para cada problema y comprobar que para cada problema podemos obtener su soluci&oacute;n
-siempre que tengamos la soluci&oacute;n de otros de tama&ntilde;o m&aacute;s peque&ntilde;o. Habr&aacute; algunos problemas cuya
-soluci&oacute;n podr&aacute; ser obtenida sin recurrir a la de otros: son los casos base. 
+definir un tama&ntilde;o para cada problema y comprobar que, para cada problema, podemos obtener su soluci&oacute;n
+siempre que tengamos la soluci&oacute;n de otros de tama&ntilde;o m&aacute;s peque&ntilde;o. 
+Identificar los problemas cuya
+soluci&oacute;n puede ser obtenida sin recurrir a la de otros: son los casos base. 
 </li>
 <li>
 <strong> Imaginar un conjunto de problemas</strong>. A partir de un problema inicial generalizarlo.
@@ -1614,5 +1672,955 @@ soluci&oacute;n es conocida, y los casos recursivos cuya soluci&oacute;n puede s
 de otros de tama&ntilde;o menor.
 </li>
 </ul>
+Una vez conseguido un algoritmo podemos usar varias estrategias para transformarlo:
+<ul>
+<li><strong>Algoritmo Iterativo y su versi&oacute;n recursiva final con acumulador expl&iacute;cito</strong>. Es una estrategia que siempre podemos aplicar a un algoritmo
+recursivo final para transformalo a iterativo o a un algoritmo iterativo para transformarlo en recursivo final.
+<br>
+<br>
+<div class="exterior">
+<div class="interior">
+<strong> Algoritmo iterativo con acumulador </strong>
+<pre>
+f(x) {
+  e = e_0;
+  a = a_0;
+  while(g(e)){	   
+	if(h(e){
+	  r = t(e);
+	  a = c(a,r);
+	  if(p(a)) break; 
+	}
+	e = s(e);		   
+  }
+  return r(a);
+}
+</pre>
+</div>
+<div class="interior">
+<strong> Algoritmo recursivo final con acumulador </strong>
+<pre>
+f(x){
+  return fr(a_0,e_0);
+}
+fr(a,e){
+  R u;
+  if(!g(e)){
+    u = r(a);
+  } else if(h(e)){
+    a = c(a,t(e));
+    if(p(a)) return r(a); 
+    u = fr(a,s(e));
+  } else {
+    u = fr(a,s(e)));
+  }
+  return u;
+}
+</pre>
+</div>
+</div>
+<br>
+<br>
+</li>
+<li>
+<strong> Algoritmo Iterativo y su versi&oacute;n recursiva final con acumulador no expl&iacute;cito </strong>
+<br>
+<br>
+<div class="exterior">
+<div class="interior">
+<strong> Algoritmo iterativo </strong>
+<pre>
+f(x) {
+  e = e0(x);
+  while(g(e)){	   
+    e = s(e);	   
+  }
+  return r(e);
+}
+</pre>
+</div>
+<div class="interior">
+<strong>Algoritmo recursivo final</strong>
+<pre>
+f(x){
+  return fr(e0(x));
+}
+fr(e) {
+  R u;
+  if(!g(e)){
+	u = r(e);
+  }else{
+	u = fr(s(e));
+  }
+  return u;
+}
+</pre>
+</div>
+</div>
+<br>
+<br>
+</li>
+<li>
+<strong>Transformaci&oacute;n de recursivo simple no final a  recursivo final mediante un acumulador</strong>. Es una estrategia 
+que se puede usar en muchos casos siempre que la funci&oacute;n de combinaci&oacute;n cumpla algunos requisitos.
+<br>
+<br>
+<div class="exterior">
+<div class="interior">
+<strong>Algoritmo recursivo no final</strong>
+<pre>
+f(x){
+  fr(e_0(x));
+}
+fr(e){
+  R u;
+  if(b(e)){
+    u = sb(e);
+  } else if(h(e)){
+    u = c(fr(s(e)),t(e));
+  } else {
+    u = fr(s(e)));
+  }
+  return u;
+}
+</pre>
+</div>
+<div class="interior">
+<strong>Algoritmo iterativo</strong>
+<pre>
+f(x) {
+  e = e_0(x);
+  a = a_0;
+  while(!b(e)){	   
+    if(h(e){
+      r = t(e);
+      a = c1(a,r);
+    }
+    e = s(e);		   
+  }
+  return c1(a,sb(e));
+}
+</pre>
+</div>
+<div class="interior">
+<strong>Algoritmo recursivo final</strong>
+<pre>
+f(x){
+  return fr(a_0,e_0(x));
+}
+fr(a,e){
+  R u;
+  if(b(e)){
+    u = c1(a,sb(e));
+  } else if(h(e)){
+    u = fr(c1(a,t(e)),s(e));
+  } else {
+    u = fr(a,s(e)));
+  }
+  return u;
+}
+</pre>
+</div>
+</div>
+<br>
+<br>
+</li>
+<li>
+<strong>Transformaci&oacute;n de recursivo simple o m&uacute;ltiple a iterativo de forma ascendente</strong>. 
+Es una estrategia que se puede usar en muchos casos, pero no siempre, si encontremos un invariante para dise&ntilde;ar el algoritmo iterativo equivalente</li>
+</ul>
+<a id="ej"><h1> Ejemplos de algoritmos recursivos y su complejidad: operaciones sobre enteros grandes</h1> 
+
+<p>
+Como ejemplos de lo anterior veamos los algoritmos para llevar a cabo diferentes operaciones aritm&eacute;ticas entre enteros grandes.
+</p>
+<p>
+<a id="ejIntroduccion">
+Suponemos en los que sigue que tenemos un entero \(n\) que podemos representar en una base \(r\) mediante 
+los d&iacute;gitos \( d_i,  i \in [0,k-1],  k = \lceil \log_r n \rceil \) de la forma:
+\[  n = \sum_{i=0}^{k-1} d_i r^i\]
+Los d&iacute;gitos de \(n\) los designaremos por \(d_i\) o alternativamente por \(n[i]\) o \(d_i\).
+Igualmente designaremos por \(d[i,j]\) el entero definido por la subsecuencia anterior d&oacute;nde, como
+siempre usamos la regla Java: se incluye el &iacute;dice izquierdo pero no el derecho.
+</p>
+<p>
+Las complejidades de los algoritmos las calcularemos en funci&oacute;n de \(n\) y/o de \(k\), su n&uacute;mero de d&iacute;gitos.
+Asumimos que para enteros peqe&ntilde;os las operaciones de suma, resta, multiplicaci&oacute;n y divisi&oacute;n tienen complejidad
+\(\Theta(1)\) y que un entero peque&ntilde;o es aquel cuyo valor cabe en un <code> long </code>. 
+Es decir es menor o igual que
+\(2^{63} = 9223372036854775808\). Para valores mayores la complejidad de las operaciones 
+anteriores depender&aacute; del n&uacute;mero de d&iacute;gitos \(k\) en la base escogida \(r\). Por defecto haremos 
+\(r = 2^{63}\), aunque los c&aacute;lculos los llevaremos a cabo para una \(r\) en general. En una base dada \(r\),
+un entero grande se representar&aacute; por una lista de Long cada uno conteniendo un d&iacute;gito. Con esta representaci&oacute;n 
+obtener el d&iacute;gito \(i\) es una operaci&oacute;n de complejidad constante. Tambi&eacute;n es de complejidad constante dividir
+un entero en dos partes con la mitad de d&iacute;gitos. Es decir obtener dado \(s = k/2\) obtener \(n_0, n_1\) tal que 
+\( n = n_0 + n_1*r^s \). Esta operaci&oacute;n se llevar&aacute; a cabo obteniendo las sublistas de d&iacute;gitos \( (0,s), (s,k) \).
+La operaci&oacute;n multiplicar por \( r^s\) tambi&eacute;n puesto que consiste en agregar una lista \(s\) d&iacute;gitos cero 
+a principio del n&uacute;mero.
+</p>
+<p>
+Arriba hemos visto la expresi&oacute;n de un entero en funci&oacute;n de sus d&igitos;:
+\[  n = \sum_{i=0}^{k-1} d_i r^i\]
+Esta expresi&oacute;n es un polinomio de grado \(k-1\) en la variable \(r\). En muchas ocasiones necesitamos
+calcular el valor del entero a partir de sus d&iacute;gitos. La forma menos
+adecuada de hacer esto es usando directamente la expresi&oacute;n anterior. 
+Hay dos formas de hacerlo eficientemente: de d&iacute;gitos menos significativos  
+a m&aacute;s (LM) o de m&aacute;s significativos a menos (ML). Estas formas las usaremos m&aacute;s adelante
+para obtener versiones iterativas de algunos algortimos recursivos.
+</p>
+<p>
+La versi&oacute;n de d&iacute;gitos menos significativos  
+a m&aacute;s se lleva a cabo mediante el siguiente algoritmo:
+
+<pre>
+numLM(d){
+	a = 0;
+	b = 1;
+	i = 0;
+	while(i &lt; k){
+		a = a+d[i]*b;
+		b = b*r;
+		i++;
+	}
+	return a;
+}
+</pre>
+La intuci&oacute;n del algoritmo anterior viene de considerar \(n = \sum_{i=0}^{k-1} d_i r^i\)
+como suma del producto, elemento a elemento, de las series \(d_i\) y \(1,r,r^2,\ldots\).
+</p>
+<p>
+La versi&oacute;n de de m&aacute;s significativos a menos, conocida como el m&eacute;todo de Horner para evaluar poliomios,
+se lleva a cabo mediante el siguiente algoritmo:
+<pre>
+numML(d){
+	a = 0;
+	i = k-1;
+	while(i &ge; 0){
+		a = d[i]+a*r;
+		i--;
+	}
+	return a;
+}
+</pre>
+Lo anterior se debe a la propiedad \( val(n//d) = val(n)*r+d \). D&oacute;nde hemos representado por
+\(n//d\) a&ntilde;adir el d&iacute;gito \(d\) a la derecha del entero \(n\). El algoritmo
+mantiene el invariante que el valor de la secuencia de d&iacute;gitos \(d[i+1,k]\) es \(a\).
+</p>
+Se deja como ejercicio verificar los dos algoritmos anteriores y encontrar sus correspondientes versiones recursivas.
+<p>
+La secuencia de d&iacute;gitos de un entero \(n\) en una base \(r\) verifica:
+</p>
+\[
+d(n,r) =
+\begin{cases}
+n, & \text{si }n \lt r \\
+d(n/r,r)+n%r, & \text{si } n >0 \\
+\end{cases}
+\]
+<p>
+El algoritmo anterior devuelve una lista de d&iacute;gitos que 
+para bases peque&ntilde;as puede ser un String. Las operaciones \(/, %\) representan el cociente y el resto
+de la divisi&oacute;n entera y \(+\) a&ntilde;adir un elemento a una lista.
+</p>
+<p>
+Usaremos las ideas de divide y vencer&aacute;s para dise&ntilde;ar los algoritmos correspondientes 
+y calcular la complejidad
+de los mismos. 
+</p>
+<p>
+<a id="ejSuma">
+Comencemos por la <strong> suma </strong>. Asumimos que los dos enteros tienen \(k\) d&iacute;gitos. 
+Eso siempre lo podemos conseguir a&ntilde;adiendo cero por la izquierda al m&aacute;s peque&ntilde;o. 
+Para usar las ideas de divide y vencer&aacute;s dividimos el entero en dos partes. Hay diferentes formas de hacerlo:
+separar los primeros \(k-1\) d&iacute;gitos del &uacute;ltimo y dividirlo en dos partes de tam&ntilde;o similar. 
+Usando la segunda aproximaci&oacute;n tenemos:
+</p>
+\[ n = n_1*r^s + n_0 \] 
+En base 10 para el  n&uacute;mero 1456 tenemos 
+\[ k = 4,k_1 = 2, k_2 = 2, n_1 = 14, n_0 = 10, 1456 = 14*10^2+56 \]
+El algoritmo recursivo es de la forma:
+\[ m+n =
+  \begin{cases}
+    m+n       & \quad \text{if } k = 1\\
+    (m_1+n_1)r^s + (m_0+n_0) & \quad \text{if } k \gt 1
+  \end{cases}
+\]
+Las operaciones necesarias son: partir y multiplicar por \(r^s\). 
+Ambas de complejidad constante como hemos visto antes. Si \(s=1\), y teniendo en cuenta que \(m_0,n_0\) son enteros peque&ntilde;os,
+la complejidad cumple:
+\[ T(k) = T(k-1)+ 1,   \Theta(k)\]
+Y si \(s=k/2\) entonces:
+\[ T(k) = 2T(k/2)+ 1,   \Theta(k)\]
+Por lo tanto ambos algoritmos tienen la misma complejidad \(\Theta(k)\). 
+</p>
+<p>
+Lo algoritmos de suma de enteros grandes de \(k\) d%iacute;gitos producen un entero de tama&ntilde;o \(k+1\) d&iacute;gitos
+en el caso peor. La raz&oacute;n es que \( \lceil \log_r (2*n) \rceil \le \lceil \log_r 2 \rceil + \lceil \log_r n \rceil = k +1 \)
+</p>
+<p>
+<a id="ejResta">
+La suma y la <strong> diferencia </strong> de dos enteros podemos abordarla por la t&ecaute;cnica
+elemental aprendida en el colegio. Asumiendo que \( a \ge b \) el algoritmo para las diferencia es:
+</p>
+<pre>
+minus(a,b){
+	q = 0;
+	for(i=0;i &le; k-1; i++){
+		c[i] = a[i] - b[i] - q;
+		q =0;
+		if(c[i]&lt;0){
+				c[i] = c[i]+r;
+				q = 1;
+		} 
+	}
+	return c;
+}
+</pre>
+<p>
+Que como se puede comprobar tiene complejidad \( \Theta(k)\). Si \( a \lt b \) entonces intercambiando las
+posiciones de \(a,b\) obtendr&iacute;amos un resultado al que habr&iacute;a que cambiar el signo. 
+</p>
+<p>
+<a id="ejMayorOIgual">
+A su vez  el algoritmo para comprobar que a es <strong> mayor, igual o menor </strong>
+<pre>
+compare(a,b){
+	k = a.length();
+	ac = 0;
+	for (int i = k-1; i &ge; 0; i--) {
+		ac = ac + a[i] - b[i];
+		if (ac != 0) break;
+	}
+	return ac;
+}
+</pre>
+Tabi&eacute;n de complejidad \( \Theta(k)\) en el caso peor.
+
+<p>
+<a id="ejProducto">
+Siguiendo las ideas anteriores el <strong> producto </strong> de dos n&uacute;meros es de la forma:
+\[ m*n = (m_1*r^s + m_0)*(n_1*r^s + n_0) = m_1*n_1*r^{2s} +(m_1*n_0+m_0*n_1)*r^s+m_0*n_0\] 
+y el algoritmo es de la forma:
+\[ m*n =
+  \begin{cases}
+    m*n       & \quad \text{if } k = 1\\
+    m_1*n_1*r^{2s} +(m1*n0+m0*n1)*r^s+m0*n0 & \quad \text{if } k \gt 1
+  \end{cases}
+\]
+Cuya complejidad es si \(s=1\) 
+\[ T(k) = T(k-1)+ k,   \Theta(k^2)\]
+Lo anterior es debido a que ahora \(m_0,n_0\) son enteros peque&ntilde;os. Su producto tiene complejidad constante
+y el producto de un entero largo por uno pequeño complejidad \(\Theta(k)\), seg&uacute;n se puede comprobar. Queda, por tanto,
+un solo subproblema.
+Y si \(s=k/2\) entonces:
+\[ T(k) = 4T(k/2)+ k,   \Theta(k^2)\]
+</p>
+Pero si introducimos las variables 
+\(z_2 = m_1*n_1, z_1 = m_1*n_0+m_0*n_1, z_0=m_0*n_0 \) 
+y observamos que \[ z_1= m_1*n_0+m_0*n_1 =  (m_1+n_0)*(m_0+n_1)-m_1*n_1-m_0*n_0 = (m_1+n_0)*(m_0+n_1)-z_1 -z_0 \]
+Tenemos el problema recursivo:
+\[ m*n =
+  \begin{cases}
+    m*n       & \quad \text{if } k = 1\\
+    z_2*r^{2s} +z_1*r^s+z_0 & \quad \text{if } k \gt 1
+  \end{cases}
+\]
+con
+\[ z_2 = m_1*n_1, z_0=m_0*n_0,z_1 = (m_1+n_0)*(m_0+n_1)-z_1 -z_0 \]
+Con complejidad si \(s = k/2\): 
+\[ T(k) = 3 T(n/2) + k ,  \Theta(k^{\log_2 3}) = \Theta(k^{1.58}) \]
+<p>
+Esta &uacute;ltima variante se llama el <strong> algoritmo de Karatsuba</strong>. Este algoritmo todav&iacute;a se puede mejorar 
+dividiendo los enteros en tres partes y reorden&aacute;ndolas para que aparezcan m&aacute;s sumas y menos productos. Esta idea da lugar 
+al <strong>algoritmo Toom Cook</strong>.
+</p>
+<p>
+Lo algoritmos de producto de enteros grandes de \(k\) d&iacute;gitos producen un entero de tama&ntilde;o \(2k\) d&iacute;gitos
+en el caso peor. Asumiendo que los dos enteros tienen \(k\) d&iacute;gitos, entonces 
+\(\lceil log_r (m*n) \rceil \le \lceil log_r m \rceil+ \lceil log_r n \rceil  = 2k \)
+</p>
+<a id="ejDivision">
+Los algoritmos de <strong> divisi&oacute;n </strong> pueden dise&ntilde;arse usando el previo de multiplicaci&oacute;n. 
+Se trata de hacer una aproximaci&oacute;n inicial al cociente y posteriormente mejorar esa aproximaci&oacute;n mediante un algorimo
+iterativo. 
+Siendo respectivamente \(n, d, q, r, k\) el  dividendo, divisor, cociente, resto y el 
+n&uacute;mero de d&iacute;gitos de \(d\). Asumiendo que \(n--k\) representa 
+eliminar los \(k\) d&iacute;gitos  menos significativos de \(n\), ese decir dividir por la base elevada a \(k\),
+un algoritmo sencillo para la divisi&oacute;n es:
+<pre>
+div(n,d){
+	k = n&uacute;mero de d&iacute;gitos de d - 1;
+	a = d--k;
+	q = n / a;
+	r = d+1
+	while(abs(r)>=d){
+		r = n – (q * d);
+		q = q + (r--k / a) /2;		
+	}
+	r = n – (q * d); 
+	if(r &lt 0){
+		q=q-1;
+		r=r+d;
+	}
+	return (q,r);	
+</pre>
+Asumiendo que el n&uacute;mero de iteraciones es peque&ntilde;o, la complejidad del algoritmo es la de la multiplicaci&oacute;n.
+<a id="ejPotencia">
+Veamos ahora la <strong> potencia </strong> de exponente entero.  
+La potencia entera es el c&aacute;lculo de \(b^n \) donde \( n \) es un entero no negativo. Seg&uacute;n usemos algunas propiedades 
+u otras resultar&aacute; un algoritmo para su c&aacute;lculo. Veamos, en primer lugar el algoritmo 
+derivado de la definci&oacute;n:
+\[
+b^n =
+\begin{cases}
+1, & \text{si } n = 0 \\
+b^{n-1}*b, & \text{si } n \gt 0
+\end{cases}
+\]
+La primera permite una transformaci&oacute;n a recursivo final si consideramos la secuencia 
+\( S = (n,n-1,n>0)= [n,n-1,&hellip;,i, &hellip;, 1] \), 
+la funci&oacute;n de transformaci&oacute;n \(t(e) = b \) y el operador 
+de acumulaci&oacute;n \( (1,a*e) \). El algoritmo resultante es:
+<pre>
+pot(b,n){
+	a = 1;
+	while(n>0){
+		t = b;
+		a = a*t;
+		n=n-1;
+	}
+	return a;
+}
+</pre>
+Estudiemos su complejidad seg&uacute;n el tama&ntilde;no \(n\) y asumiendo enteros peque&ntilde;os.
+\[ \sum_{i \in pa(1,1)}^n 1, \Theta(n) \]
+\[ \sum_{i \in pa(1,1)}^n (\log n)^2, \Theta(n) \]
+Un segundo algoritmo lo podemos deducir de las propiedades:
+\[
+b^n =
+\begin{cases}
+1, & \text{si } n = 0 \\
+(b^{n/2})^2*b, & \text{si } n \gt 0 \land n\%2 = 1 \\
+(b^{n/2})^2, & \text{si } n \gt 0 \land n\%2 = 0
+\end{cases}
+\]
+En esta segunda definici&oacute;n la secuencia definida es 
+\( S = (n,n/2,n>0) \) y un acumulador por la derecha \(A = (1,c(a,n))\) cuya la funci&oacute;n de acumulaci&oacute;n es: 
+\[
+c(a,n) =
+\begin{cases}
+a^2*b, & \text{si } n\%2 = 1 \\
+a^2, & \text{si } n\%2 = 0
+\end{cases}
+\]
+Esta funci&oacute;n no cumple los requisitos de asociatividad, etc. No podemos aplicar el m&eacute;todo anterior. Pero podemos 
+pensar en una tercera definici&oacute;n basada en la descomposici&oacute;n en binario del exponente. Esta defini&oacute;n nos permite
+encontrar otro acumulador adecuado para la transformaci&oacute;n a iterativo y posiblemente otra secuencia.
+<br>
+Observemos que:
+\[
+\begin{cases}
+b^n & =  b^{\sum_{0}^{p} d_i 2^i} \\
+& =  \prod_{0}^{p} b^{d_i 2^i} \\
+& =  \prod_{0}^{p} (b^{2^i})^{d_i}
+\end{cases}
+
+\]
+Para buscar una soluci&oacute;n iterativa veamos el problema desde otro punto de vista. Para ello expresando el entero \(n\) en binario, 
+siendo \(d_i, i \in [0,k-1]\) los sucesivos d&iacute;gitos, \(k = \lceil log_2 n \rceil \) el n&uacute;mero de d&igitos; y los valores de los \(d_i\)  
+dados por la secuencia
+\[x\%2 = 1?x:1:0, x \in (n,n/2, n\ge 1)\]
+
+
+Los sucesivos d&iacute;gitos de la representaci&oacute;n en binario de \(n\) son iguales a \(n\%2\) y por lo tanto
+para  
+\( n\%2 = 1, d_i = 1, (b^{2^i})^{d_i} = b^{2^i} \) y para \( n\%2 = 0, d_i = 0, (b^{2^i})^{d_i} = 1\). 
+Por lo tanto existe un filtro, sobre la secuencia \(S\), mediante \( n\%2 = 1 \) y
+un acumulador \((1,c(a,(e,n))=a*e)\).
+Con esos elementos el algoritmo iterativo queda:
+<pre>
+pot(b,n){
+	e = b;
+	a = 1;
+	while( n > 0){
+		if(n%2==1){
+			a = a * e;
+		}
+		e = e * e;
+		n = n/2;
+	}
+	return a;
+}
+</pre>
+<p>
+La complejidad de ese algoritmo sobre enteros cortos es:
+\[ \sum_{i \in pg(1,n)}^n 1,  \Theta(\log n) \]
+Y si \(a,e,b\) son enteros largos y \(n\) es corto:
+\[ \sum_{i \in pg(1,n)}^n (i \log b)^s,  \Theta(n^s) \]
+Dependiendo \(s\) del algoritmo de multiplicar escogido (2,1.58, ...). Lo anterior es debido a que si partimos de 
+\(b\) con \(\log b\) d&iacute;gitos, recordando que en las multiplicaciones entre dos enteros grandes se obtiene otro
+con doble n&uacute;mero de d&iacute;gitos, los sucesivos valores de \(e\) tienen \(i \log b \) d&iacute;gitos, con 
+\(i = 1, 2, 4, \ldots \).
+</p>
+<a id="ejAplicacionesPotencia">
+<strong> Adaptaciones del algoritmo de la potencia entera </strong>. El algoritmo
+anterior puede ser adaptado para resolver otros  problemas diferentes:
+<ul>
+<li> \( b^n\) con \(b\) de tipo real </li>
+<li> \(b^n  \%  m\). Es decir el resto con respecto a \(m\) de \(b^n\)sin tener que hacer la operaci&oacute;n de
+potencia en primer lugar y usando resultados intermedios razonablemente peque&ntilde;os. </li>
+<li> \(	B^n \) con \(B\) una matriz cuadrada. El tipo matriz y sus operaciones se puede tomar de 
+<a href="http://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math4/linear/package-summary.html"  target="_blank">Matriz</a>.
+Ahora \(1\) ser&aacute; la matriz unidad y \(*\) el producto de matrices.</li>
+<li> Una recurrencia lineal del tipo \( f(n) = a_1 f(n-1)+\ldots+a_k f(n-k) \) 
+con condiciones iniciales \(f(k-1)=c_{k-1},\ldots, f(0) = c_0 \). 
+Este problema puede ser reducido al segundo puesto que la recurrencia puede ser escrita 
+como una ecuaci&oacute;n matricial. As&iacute;, para el caso \( k=2 \), 
+la recurrencia de la forma \[ f(n)= a_1 f(n-1)+ a_2 f(n-2)\]
+ con condiciones iniciales 
+\[f(1)=c1,f(0)=c_0\]
+
+se puede escribir como:
+
+\[
+
+\begin{pmatrix}
+  f_n \\
+  f_{n-1}
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  a_1 & a_2 \\
+  1 & 0 \\
+ \end{pmatrix}
+ \begin{pmatrix}
+  f_{n-1} \\
+  f_{n-2}
+ \end{pmatrix},
+ B = \begin{pmatrix}
+  a_1 & a_2 \\
+  1 & 0 
+ \end{pmatrix},
+ I = \begin{pmatrix}
+  1 & 0\\
+  0 & 1 
+ \end{pmatrix}
+\]
+
+Con soluci&oacute;n:
+\[
+\begin{pmatrix}
+  f_{n+1} \\
+  f_n
+ \end{pmatrix}
+ =
+ B^n
+ \begin{pmatrix}
+  c_1 \\
+  c_0
+ \end{pmatrix}
+\] 
+Para abordar el c&aacute;lculo de secuencias tenemos varios algoritmos disponibles: 
+<ul>
+<li> El algoritmo iterativo que se obtiene por la transformaci&oacute;n recursivo-iterativo bottom-up. 
+Este algoritmo tiene complejidad \(\Theta(n)\) para enteros peque&ntilde;os y 
+\[\sum_{i\in pa(0,1)}^n i + c,   \Theta(n^2)\]
+Esto &uacute;ltimo debido a que, en el caso peor, cuando se suman 
+dos enteros grandes su n&uacute;mero de d&iacute;gitos aumenta en uno. 
+Por lo tanto el  n&uacute;mero de d&iacute;gitos evoluciona como \(i+c\) tomando \(i\)
+ valores en una progresi&oacute;n aritm&ecaute;tica de raz&oacute;n uno. Adem&aacute;s la complejidad de la suma de 
+ enteros largos es del orden de su n&uacute;mero de d&iacute;gitos.</li>
+<li>El algoritmo resultante de transformar la secuencia en un problema de potencia de matrices y aplicar
+posteriormente el algoritmo de la potencia entera. Ahora, como vimos arriba, la complejidad resulta ser 
+\[ \sum_{i \in pg(1,2)}^n (i \log b)^s,  (\log b)^s \Theta(n^s) \]
+</li>
+</ul>
+</li>
+</ul>
+<a id="datosRecursivos"><h1>Tipos de datos recursivos</h1>
+Un tipo recursivo es aquel que tiene alguna propiedad con valores del mismo tipo. Este tipo de datos da lugar
+a algoritmos recursivos espec&icaute;ficos para calcular sus propiedades. Veremos aqu&iacute; ejemplos 
+de los mismos y t&eacute;cnicas para su dise&ntilde;o e implementaci&ocaute;n.
+<p>
+Los tipos de datos recursivos dan lugar a algoritmos recursivos espec&iacute;ficos. Estos algoritmos est&aacute;n 
+guiados por la estructura del tipo de datos recursivo. Veremos dos estrategias para hacer esto. Una para tipos sencillos
+que usaremos en el caso del tipo Tree. En esta estrategia cada algoritmo tiene usa estructura if-else que va preguntando
+por el tipo espec&iacute;fico de dato. Una secunda estrategia, que veremos para el tipo Expression m&aacute;s abajo,
+que no usa if-else. En su lugar define un subtipo para cada dato espec&iacute;ficos y cada subtipo implementa
+la propiedad adecuada. En esta segunda estratagia, m&aacute;s adecauda cuando el tipo recursivo es complejo,
+la recursividad queda dispersa por los diferentes subtipos.
+</p>
+<a id="tree"><h2>&Aacute;rbol</h2>
+<p>
+Veamos, en primer lugar, tipo &aacute;rbol. Un &acute;rbol es un tipo de datos jer&aacute;rquico, con una ra&iacute;z 
+y sub&acute;rboles hijos.
+El primer paso para definir un tipo de datos recursivo es indicar las posibles
+formas de construirlo, de forma equivalente los distintos subtipos del tipo que estamos definiendo o
+alternativamente los distintos tipos de constructores disponibles. 
+En el caso del
+&aacute;rbol:
+\[
+ Tree\!&lt;\!E\!&gt; = 
+  \begin{cases} 
+   empty()  \\
+   leaf(E \ e) \\
+   nary(e,List\!&lt;Tree\!&lt;\!E\!&gt;\!&gt; \ elements)
+  \end{cases}
+\]
+As&iacute; estamos definiendo un &aacute;rbol (Tree&lt;E&gt;) que puede ser vac&iacute;o, puede tener un elemento, 
+que llamaremos etiqueta, o puede ser un &aacute;rbol nario que tiene \(n\) hijos. Anteriormente \(e\) es una etiqueta 
+de tipo \(E\) y \(t_0,t_1,\dots,t_{n-1}\) son &aacute;rboles de tipo Tree&lt;E&gt; que lo llamamos hijos y al
+&aacute;rbol resultante padre de los mismos. Un &aacute;rbol que no tiene padre lo llamamos ra&iacute;z.
+</p>
+El segundo paso es definir un conjunto de predicados que nos indiquen cual es el tipo de &aacute;rbol.En este caso:
+\[
+  \begin{cases} 
+   boolean \ isEmpty()  \\
+   boolean \ isLeaf() \\
+   boolean \ isNary()
+  \end{cases}
+\]
+En tercer lugar definimos un conjunto propiedades del tipo. Alguna de estas propiedades tendr&aacute;n precondiciones
+espec&iacute;ficas. Por ejemplo:
+\[
+  \begin{cases} 
+   E \ getLabel() & \text{precondition } isLeaf(),isNary() \\
+   int \ getNumElements()      & \text{precondition }  \\
+   int \ getElement(i) & \text{precondition }  isNary(), i \in 0,\dots, getNumElements()-1 \\
+   int \ size() & \\
+   int \ getHeight() & \\
+   int \ getDepth(Tree\!&lt;\!E\!&gt; root) & \\
+   Tree\!&lt;\!E\!&gt; \ copy() & \\
+   Tree\!&lt;\!E\!&gt; \ add(Tree\!&lt;\!E\!&gt; \ t) & \text{precondition } isLeaf(),isNary() \\
+   Tree\!&lt;\!E\!&gt; \ add(int \ i, Tree\!&lt;\!E\!&gt; \ t) & \text{precondition } isLeaf(),isNary(), i \in 0,\dots, getNumElements() \\
+   Tree\!&lt;\!E\!&gt; \ remove(int \ i) & \text{precondition } isLeaf(),isNary(), i \in 0,\dots, getNumElements()-1
+  \end{cases}
+\]
+<p>
+Informalmente podemos dar las siguientes definiciones para las propiedades.
+El tama&ntilde;o de un &aacute;rbol (size) es el n&uacute;mero de etiquetas que tiene. 
+Se define camino en un &aacute;rbol a cualquier secuencia de &aacute;rboles, \(t_0,t_1,\dots,t_{r-1}\), 
+tal que cada uno es padre del siguiente. La longitud del camino se define como el
+n&uacute;mero de elementos de la secuencia menos uno.
+La altura de un &aacute;rbol (Height) se define como la longitud del camino m&acute;s largo que
+comienza en la ra&iacute;z y termina en una hoja. La altura de una hoja ser&aacute; de cero. La altura
+de un &aacute;rbol se define como la altura de su ra&iacute;z. La profundidad (Depht) de un &aacute;rbol se
+define como la longitud del camino que comienza en la ra&iacute;z y termina en &eacute;l. La profundidad de la
+ra&iacute;z es cero. A la profundidad de un &aacute;rbol tambi&eacute;n se la denomina nivel del &aacute;rbol
+en el &aacute;rbol que lo contiene.
+</p>
+
+
+Usemos la primera estrategia para definir las propiedades de Tree. En primer lugar algunas relaciones entre los predicados 
+definidos y los constructores:
+\[
+  \begin{cases} 
+   t.isEmpty() \iff t = empty() \\
+   t.isLeaf() \iff t = leaf(e) \\
+   t.isNary() \iff t = nary(e,elements) \\
+   e = t.getlabel() \iff t = leaf(e) \lor t = nary(e,elements)  \\
+   t_i = t.getElement(i) \iff t = nary(e,elements) \land t_i = elements.get(i) \\
+   elements = t.getElements() \iff t = nary(e,elements)
+  \end{cases}
+\]
+<p>
+Veamos ahora la defici&oacute;n recursiva de algunas propiedades:
+<pre>
+int size(){
+	int r;
+	if(isEmpty()){
+		r = 0;
+	} else if(isLeaf()){
+		r = 1;
+	} else {
+		r = 1+(int)elements.stream().mapToInt(x->x.size()).count();
+	}
+	return r;
+}
+</pre>
+Como vemos los casos base son que el &aacute;rbol sea vac&iacute;o o una hoja, 
+en cuyo caso el n&uaacute;mero de etiquetas es cero o uno respectivamente. 
+En el caso recursivo el n&uaacute;mero de etiquetas de un &aacute;rbol es la suma del
+n&uaacute;mero de etiquetas de sus hijos m&aacute;s uno.
+<pre>
+int getHeight(){
+	int r;
+	if((isEmpty() || isLeaf())){
+		r = 0;
+	} else {
+		r = 1+(int)elements.stream().mapToInt(x->x.getHeight()).max().orElse(0);
+	}
+	return r;
+}
+</pre>
+Para el c&aacute;lculo de la altura los casos base son, como antes,
+ el &aacute;rbol vac&iacute;o o una hoja, 
+en cuyo caso la altura es cero. 
+En el caso recursivo la altura de un &aacute;rbol es el m&aacute;ximo de las 
+alturas de sus hijos m&aacute;s uno.
+<pre>
+Tree&lt;E&gt; copy(){
+	Tree&lt;E&gt; r;
+	if(isEmpty()){
+		r = Tree.empty();
+	}else if(isLeaf()){
+		r = Tree.leaf(label);
+	}else{
+		List&lt;Tree&lt;E&gt;&gt; nElements = elements.stream().map(x->x.copy()).collect(Collectors.toList());	
+		return Tree.nary(label, nElements);
+	}
+	return r;
+}
+</pre>
+En el caso recursivo copiar un &aacute;rbol es copiar cada uno de sus hijos y construir un  &aacute;rbol
+a partir de las copias.
+
+<a id="expression"><h2>Expresi&oacute;n</h2>
+Una expresi&oacute;n es una combinaci&oacute;n constantes, variables, operadores y 
+funciones de acuerdo con sus reglas particulares de prioridad y de asociaci&oacute;n. 
+Cada expresi&oacute;n correctamente formada tiene un tipo y un valor.
+Este proceso de calcular el valor se llama evaluaci&oacute;n.
+Tambi&eacute;n puede contener placeHolders y en ese caso lo llamamos un patr&oacute;n. 
+Un placeHolder es una variable que no puede ser evaluada pero est&aacute; prevista para ser sustituida por una expresi&oacute;n.
+Veamos, como en le caso del &aacute;rbol, los constructores, algunos predicados y propiedades.
+\[
+ Exp\!&lt;\!R\!&gt; = 
+  \begin{cases} 
+   variable(String \ name, R \ value);  \\
+   constant(String \ name, R \ value);  \\
+   placeHolder(String  \ name); \\
+   unary(Exp\!&lt;\!T\!&gt;  \  op, UnaryOperatorExp\!&lt;\!T,\!R\!&gt;  \ operator); \\
+   binary(Exp\!&lt;\!T1\!&gt;  \ op1, Exp\!&lt;\!T2\!&gt;  \ op2, BinaryOperatorExp\!&lt;\!T1,\!T2,\!R\!&gt; operator); \\
+   ternary(Exp\!&lt;\!T1\!&gt;  \ op1, Exp\!&lt;\!T2\!&gt;  \ op2, Exp\!&lt;\!T3\!&gt;  \ op3,
+   TernaryOperatorExp\!&lt;\!T1,\!T2,\!T3,\!R\!&gt; operator); \\
+   nary(List\!&lt;\!Exp\!&lt;\!T\!&gt;\!&gt;  \  op, AccumulatorExp\!&lt;\!T,\!R\!&gt;  \ accumulator);
+  \end{cases}
+\]
+El sistema de tipos s&ocute;lo incluye, por simplicidad, Integer, Double y Boolean. 
+
+\[ enum \ ExpType\{Integer,Double,Boolean\};\]
+
+Se usan los siguientes tipos auxiliares: operador unario, binario, ternario y acumulador. Todos ellos son una especializaci&oacute;n de
+\(Operator\!&lt;\!C\!&gt\).
+
+\[
+ Operator\!&lt;\!C\!&gt; = 
+  \begin{cases} 
+	String \ getSortName(); \\
+	Integer getArity(); \\	
+	Integer getPriority(); \\
+	ExpType[] \ getExpType(); \\
+	C \ getCode();
+  \end{cases}
+\] 
+Donde C para \(UnaryOperatorExp\!&lt;\!T,\!R\!&gt;, BinaryOperatorExp\!&lt;\!T1,\!T2,\!R\!&gt;, TernaryOperatorExp\!&lt;\!T1,\!T2,\!T3,\!R\!&gt; \)
+y \(AccumulatorExp\!&lt;\!T,\!R\!&gt; \) es, respectivamente, 
+\(Function\!&lt;\!T,\!R\!&gt;, BiFunction\!&lt;\!T1,\!T2,\!R\!&gt;, TriFunction\!&lt;\!T1,\!T2,\!T3,\!R\!&gt;\) y
+ \(Collector\!&lt;\!T,\!?,\!R\!&gt;\). 
+<p>
+Podemos definir un conjunto de predicados que nos indiquen cual es el tipo de expresi&oacute;n: \( isVariable(),
+isConstant(), isPlaceHolder(), isUnary(), isBinary(), isTernary(), isNary() \).
+</p>
+Un conjunto de propiedades y m&eacute;todos del tipo son:
+\[
+  \begin{cases} 
+   Map\!&lt;\!String,\!Exp\!&lt;\!?\!&gt;\!&gt; vars() \\
+   ExpType \ getExpType(); \\
+   R  \ val(); \\  
+   Exp\!&lt;\!R\!&gt; \ copy(); \\
+   Boolean \ match(Exp\!&lt;\!?\!&gt; \ pattern); \\ 
+   Exp\!&lt;\!R\!&gt; \ ifMatchTransform(Exp\!&lt;\!?\!&gt; \ pattern, MapMap\!&lt;\!String,\!Exp\!&lt;\!?\!&gt;\!&gt; \  vars,String \ result); \\
+   void \ toDOT(String \ file);
+  \end{cases}
+\]
+Informalmente podemos dar las siguientes definiciones para las propiedades y y m&eacute;todos:
+<ul>
+<li>
+Cada expresi&oacute; tiene un conjunto de variables y placeHolders con identificadores diferentes. La propiedad
+vars() nos proporciona el conjunto de identificadores de variables y palceHolders y sus expresiones asociadas. 
+</li>
+<li>
+Una expresi&oacute;n bien formada tiene un <strong> tipo </strong>que viene devuelto por getExpType(). Por simplicidad los tipos que consideraremos son:
+Integer, Double y Boolean. Los tipos de los operandos y los operadores de una expresi&oacute;n bien formada 
+tienen que cumplir unas reglas que debemos especificar. El c&aacute;laculo del tipo resultantes m&aacute;s la comprobaci&Oacute;n 
+de las reglas de tipo deben estar contenidas en el c&oacute;digo de getExpType().
+</li>
+<li>
+Una expresi&oacute;n que tiene un tipo tiene tambi&eacute;n un <strong> valor </strong> de tipo R que
+viene devuelto por val(). El valor de las
+variables y constantes est&aacute; guardado en las variables y constantes. Los elementos placeHolder no son
+evaluables. 
+</li>
+<li>
+La copia de uan expresi&oacute;n es otra expresi&oacute;n igual pero no id&eacute;ntica.
+</li>
+<li>
+Un patr&oacute;n es una expresi&oacute;n que contiene
+placeHolders. Una expresi&oacute;n <strong> concuerda </strong> (match) con un patr&oacute;n cuando existe alguna
+sustituci&oacute;n de cada placeHolder por una subexpresi&oacute;n que transforme el patr&oacute;n en la expresi&oacute;n.
+El m&eacute;todo match(pattern) determina si la expresi&oacute;n concuerda con el patr&oacute;n y en su caso
+cuales son las sustituciones que hay que llevar a cabo en los placeHolders.
+</li>
+<li>
+Una expresi&oacute;n puede ser <strong> transformada </strong> (ifMatchTransform) si concuerda con un patr&oacute;n seg&uacute;n se indique en otro patr&oacute;n.
+</li>
+<li>
+A partir de una expresi&oacute;n se puede puede generar un fichero que represente el grafo de la expresi&oacute;n 
+en formato .dot (toDOT).
+</li>
+</ul>
+El tipo expresi&oacute;n es m&aacute;s complejo que &aacute;rbol. Por esta raz&oacute;n vamos utilizar una segunda t&eacute;cnica 
+para escribir el c&oacute;digo de los m&eacute;todos y propiedades derivadas. Esta segunda t&ecnica 
+consiste ensencialmente en tres ideas:
+<ul>
+<li> 
+Dise&ntilde;ar una clase abstracta para el tipo principal. Expresi&oacute;n en este caso. Ubicar en esta clase
+los m&eacute;todos de  factoria necesarios para crear cada uno de los subtipos. Implementar los predicados que nos 
+indican si una instancia es de un subtipo determinado: el c&oacute;digo consiste en preguntar al objeto si es una instancia
+del subtipo dado. A&ntilde;adir m&eacute;todos abstractos por cada una de las propiedades compartidas por todos los subtipos.
+</li>
+<li> 
+Dise&ntilde;ar una clase concreta para cada tipo espec&iacute;fico que herede de la clase anterior. Esta clase implementa
+cada uno de los m&eacute;todos abstractos anteriores asociados a las propiedades compartidas. Esta 
+implementaci&oacute;n es espec&iacute;fica para cada subtipo. Esta clase a&ntilde;ade 
+la propiedades espec&iacute;ficas
+del subtipo. Crear uno o varios m&eacute;dos de factor&iacute;a para crear objetos del subtipo en la clase abstracta
+anterior.
+</li>
+<li>
+Implementar los predicados \( isVariable(),
+isConstant(), isPlaceHolder(), isUnary(), isBinary(), isTernary(), isNary() \) para que devuelvan false en la clase
+abstracta. Sobrescribir en cada subtipo el predicado adecuado para que devuelva true en ese caso.
+</li>
+</ul>
+El c&oacute;digo completo se puede encontrar en 
+<a href="../us/lsi/tiposrecursivos.html" target="_blank">Tipos Recursivos</a>
+aqu&iacute; s&oacute;lo veremos algunos ejemplos.
+<p>
+Veamos la forma de implementar \( Exp\!&lt;\!R\!&gt; \ copy()\) en cada tipo concreto asumiendo que se ha declarado abtracto
+en la clase \(Exp\!&lt;\!R\!&gt;\).
+En la clase \(UnaryExp\!&lt;\!T,\!R\!&gt;\) tenemos:
+<pre>
+Exp&lt;R&gt; copy() {
+	return Exp.unary(this.getOp().copy(), this.operator);
+}
+</pre>
+</p>
+Y en la clase \(BinaryExp\!&lt;\!T1,\!T2,\!R\!&gt;\):
+<pre>
+Exp&lt;R&gt; copy() {
+	return Exp.binary(this.op1.copy(), this.op2.copy(), this.operator);
+}
+</pre>
+Y de la misma forma en la dem&aacute;s. Podemos observar la diferencia con la t&eacute;cnica usada en el caso del
+&aacute;rbol. Ahora no es necesario usar ifelse porque para cada subtipo hay una implementaci&oacute;n espec&iacute;fica.
+la recursividad que distribuida en la estructura del tipo recursivo.
+
+<a id="text"><h2> Representaci&oacute;n textual de los tipos recursivos</h2>
+<p>
+Para la reconstrucci&oacute;n de instancias de tipos recursivos a partir de sus representaciones textuales necesitamos
+t&eacute;cnicas dise&ntilde;adas al efecto. Estas t&eacute;cnicas comienzar partiendo el texto en part&iacute;culas
+que llamaremos token. Concentr&eacute;mosnos en el caso del &aacute;rbol. Un &aacute;rbol concreto
+cuyas etiquetas sean enteros podr&iacute;a ser \( 39(2(),27((),2(),3(),4())) \). Se ha representado el forma prefija:
+la etiqueta seguida de par&eacute;ntesis y dentro, si los tiene, los hijos separados por comas. El primer paso es decidir los token
+ (las part&iacute;culas) que forman el texto. Los diferentes tipos de part&iacute;culas los decribimos mediante el tipo
+ TokenType que en este caso tendr&aacute; dos valores: Integer y Separator. 
+ </p>
+ <p>
+ La clase <a href="../us/lsi/regularexpressions/Tokenizer.html" target="_blank">Tokenizer</a> est&aacute; diseñada para convertir el texto en una lista de tokens.
+ Cada token tiene asociado un texto, el token, y un tipo de token (Integer, Separator, ...). Una instacia de esa clase
+ mantiene un estado que contiene el token siguiente y  
+ tiene disponible los siguientes m&eacute;todos:
+ <ul>
+ <li>
+ <em>TokenType seeNextTokenType()</em>: Nos devuelve el tipo del siguiente token sin avanzar en el estado
+ </li>
+ <li>
+ <em>String seeNextToken()</em>: Nos devuelve el texto del siguiente token sin avanzar en el estado
+ </li>
+ <li>
+ <em>String matchTokenTypes(TokenType... s)</em>: Comprueba que el siguiente token es de uno de los tipos especificados y 
+ en otro caso dispara una excepci&oacute;n. Devuelve el texto del siguiente token.
+ </li>
+ <li>
+ <em>String matchTokens(String... s)</em>: Comprueba que el siguiente token tiene un texto igual a uno de
+ los especificados y 
+ en otro caso dispara una excepci&oacute;n. Devuelve el texto del siguiente token.
+ </li>
+ </ul>
+ </p>
+ <p>
+ Una ves dividido el texto en tokens debemos describir la estructura del texto. 
+ Esto lo hacemos mediante una gram&aacute;tica. Esta es una herramienta adecuada para especificar la
+ estructura recursiva de un texto de este tipo. La estructura del texto puede ser descrita como:
+ <pre>
+ Tree :: "(" ")" | Integer "(" ( ( ")" | Tree ("," Tree)* ")" ) ) ;
+ </pre>
+ Los s&iacute;mbolos ( ) | * indican agrupamiento, o, repetici&oacute;n 0 o varias veces. Son conceptos de la expresiones
+ regulares. Con lo anterior queremos decir que el texto puede ser un "(" seguido de ")", lo que se representar&iacute;a 
+ el &aacute;rbol vac&iacute;o, o un entero seguido de "(" y posteriormente un bloque. Ese bloque puede ser
+ un ")" o un &aacute;rbol seguido de varias repeticiones de ("," Tree) y acabado en ")".
+ </p>
+ La descripci&oacute;n anterior da lugar a un c&oacute;digo que reconoce el texto como correcto y dispara una excepci&oacute;n. Este c&oacute;digo es:
+ <pre>
+ void tree(Tokenizer tk) {
+ 	switch (tk.seeNextTokenType()) {
+		case Separator:
+			tk.matchTokens("(");
+			tk.matchTokens(")");
+			break;
+		case Integer:
+			String label = tk.matchTokenTypes(TokenType.Integer); 
+			tk.matchTokens("(");
+			if(tk.seeNextToken().equals(")")){
+				tk.matchTokens(")");
+			} else {
+				t = tree(tk);
+				while(tk.seeNextToken().equals(",")){
+					tk.matchTokens(",");
+					tree(tk);
+				}
+			}			
+			break;
+		default:
+			Preconditions.checkState(false, String.format("Token %s no reconocido en la posición %d",tk.seeNextTokenType().toString(),tk.getPosition()));
+ 		}
+ }
+ </pre>
+ La tarea siguiente es ir contruyendo el &aacute;rbol a medida que se va reconociendo:
+ <pre>
+ Tree&lt;String;&gt; tree(Tokenizer tk) {
+ 	Tree&lt;String;&gt; r = null;
+ 	switch (tk.seeNextTokenType()) {
+		case Separator:
+			tk.matchTokens("(");
+			tk.matchTokens(")");
+			r = Tree.empty();
+			break;
+		case Integer:
+			String label = tk.matchTokenTypes(TokenType.Integer); 			
+			tk.matchTokens("(");
+			if(tk.seeNextToken().equals(")")){
+				tk.matchTokens(")");
+				r = Tree.leaf(label);
+			} else {
+				List&lt;Tree&lt;String;&gt;&gt; elements = new ArrayList<>();
+				Tree&lt;String;&gt; t = tree(tk);
+				elements.add(t);
+				while(tk.seeNextToken().equals(",")){
+					tk.matchTokens(",");
+					t = tree(tk);
+					elements.add(t);
+				}
+				r = Tree.nary(label, elements);
+			}			
+			break;
+		default:
+			Preconditions.checkState(false, String.format("Token %s no reconocido en la posición %d",tk.seeNextTokenType().toString(),tk.getPosition()));
+ 	}
+ 	return r;
+ }
+ </pre>
+ Estas ideas pueden ser usadas para reconocer una expresi&oacute;n u otros tipos recursivos m&aacute;s complejos.
 </body>
 </html>

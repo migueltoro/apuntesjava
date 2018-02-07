@@ -4,8 +4,8 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 import org.jgrapht.Graph;
-import org.jgrapht.ext.DOTExporter;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import org.jgrapht.io.DOTExporter;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
 

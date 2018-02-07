@@ -2,15 +2,16 @@ package us.lsi.graphs.examples;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.Set;
 
 import org.jgrapht.Graph;
-import org.jgrapht.UndirectedGraph;
-import org.jgrapht.alg.ChromaticNumber;
-import org.jgrapht.ext.ComponentNameProvider;
-import org.jgrapht.ext.DOTExporter;
-import org.jgrapht.ext.IntegerComponentNameProvider;
+import org.jgrapht.alg.color.GreedyColoring;
+import org.jgrapht.alg.interfaces.VertexColoringAlgorithm;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import org.jgrapht.io.Attribute;
+import org.jgrapht.io.ComponentNameProvider;
+import org.jgrapht.io.DOTExporter;
+import org.jgrapht.io.DefaultAttribute;
+import org.jgrapht.io.IntegerComponentNameProvider;
 
 import us.lsi.common.Colors;
 import us.lsi.common.Files2;
@@ -29,22 +30,21 @@ public class ColoreadoDeGrafos {
 		
 		Graph<Ciudad,Carretera> graph =  new SimpleWeightedGraph<Ciudad,Carretera>(Carretera::create);
 		graph =  GraphsReader.newGraph("./ficheros/andalucia.txt",Ciudad::create, Carretera::create,graph,Carretera::getKm);
-		
-		int r = ChromaticNumber.findGreedyChromaticNumber((UndirectedGraph<Ciudad,Carretera>)graph);
-		Map<Integer,Set<Ciudad>> m = ChromaticNumber.findGreedyColoredGroups((UndirectedGraph<Ciudad,Carretera>)graph);
-		Map<Ciudad,String> colorDeCiudad = Maps2.newHashMap(Maps2.newHashMap(m),
-															x->Colors.getNameOfColor(x));
-		System.out.println(r);
+		VertexColoringAlgorithm<Ciudad> vca = new GreedyColoring<>(graph);
+		VertexColoringAlgorithm.Coloring<Ciudad> vc = vca.getColoring();
+		Map<Ciudad,Integer> colorDeCiudad = vc.getColors();
+		System.out.println(vc.getNumberColors());
 		ComponentNameProvider<Ciudad> vertexIDProvider = new IntegerComponentNameProvider<>();
 		DOTExporter<Ciudad,Carretera> de = new DOTExporter<Ciudad,Carretera>(
 				vertexIDProvider,
 				x->x.getNombre(), 
 				x->x.getNombre(),
-				x->Maps2.newHashMap("color",colorDeCiudad.get(x),"style", "filled"),
+				x->Maps2.<String,Attribute>newHashMap(
+						"color", DefaultAttribute.createAttribute(Colors.getNameOfColor(colorDeCiudad.get(x))),
+						"style", DefaultAttribute.createAttribute("filled")),
 				null);
 		PrintWriter f = Files2.getWriter("./ficheros/coloresAndalucia.gv");
 		de.exportGraph(graph, f);
-		System.out.println(m);
 	}
 
 }

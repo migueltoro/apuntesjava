@@ -36,13 +36,13 @@
 <span class="sourceLineNo">028</span>                int r;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>                int k;<a name="line.29"></a>
 <span class="sourceLineNo">030</span>                if(j-i == 0){<a name="line.30"></a>
-<span class="sourceLineNo">031</span>                        r = -i-1;<a name="line.31"></a>
+<span class="sourceLineNo">031</span>                        r = -1;<a name="line.31"></a>
 <span class="sourceLineNo">032</span>                }else{<a name="line.32"></a>
 <span class="sourceLineNo">033</span>                        k = (i+j)/2;<a name="line.33"></a>
 <span class="sourceLineNo">034</span>                        int r1 = ord.compare(key,lista.get(k));<a name="line.34"></a>
 <span class="sourceLineNo">035</span>                        if(r1==0){<a name="line.35"></a>
 <span class="sourceLineNo">036</span>                                r = k;<a name="line.36"></a>
-<span class="sourceLineNo">037</span>                        }else if(r1 &lt;0){<a name="line.37"></a>
+<span class="sourceLineNo">037</span>                        }else if(r1&lt;0){<a name="line.37"></a>
 <span class="sourceLineNo">038</span>                                r = bSearch(lista,i,k,key,ord);<a name="line.38"></a>
 <span class="sourceLineNo">039</span>                        }else{<a name="line.39"></a>
 <span class="sourceLineNo">040</span>                                r = bSearch(lista,k+1,j,key,ord);<a name="line.40"></a>
@@ -74,7 +74,7 @@
 <span class="sourceLineNo">066</span>                    } else if (cmp.compare(elem, pivote)&gt;0) {<a name="line.66"></a>
 <span class="sourceLineNo">067</span>                        Lists2.intercambia(lista,b,c-1);<a name="line.67"></a>
 <span class="sourceLineNo">068</span>                                c--;    <a name="line.68"></a>
-<span class="sourceLineNo">069</span>                    } else if (elem.equals(pivote)) {<a name="line.69"></a>
+<span class="sourceLineNo">069</span>                    } else {<a name="line.69"></a>
 <span class="sourceLineNo">070</span>                        b++;<a name="line.70"></a>
 <span class="sourceLineNo">071</span>                    }<a name="line.71"></a>
 <span class="sourceLineNo">072</span>                }<a name="line.72"></a>

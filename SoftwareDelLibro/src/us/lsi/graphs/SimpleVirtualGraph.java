@@ -213,6 +213,44 @@ public class SimpleVirtualGraph<V extends VirtualVertex<V,E>, E extends SimpleEd
 	@Override
 	public boolean removeVertex(V arg0) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int degreeOf(V arg0) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public GraphType getType() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int inDegreeOf(V arg0) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Set<E> incomingEdgesOf(V arg0) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int outDegreeOf(V arg0) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Set<E> outgoingEdgesOf(V arg0) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void setEdgeWeight(E arg0, double arg1) {
+		throw new UnsupportedOperationException();
+		
 	}	
+	
+	
 
 }

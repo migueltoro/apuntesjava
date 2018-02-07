@@ -7,11 +7,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
-import org.jgrapht.UndirectedGraph;
-import org.jgrapht.alg.HamiltonianCycle;
 import org.jgrapht.alg.cycle.HierholzerEulerianCycle;
 import org.jgrapht.alg.cycle.PatonCycleBase;
 import org.jgrapht.alg.cycle.UndirectedCycleBase;
+import org.jgrapht.alg.tour.TwoApproxMetricTSP;
 import org.jgrapht.graph.GraphWalk;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
@@ -28,8 +27,8 @@ public class Ciclos {
 		
 		SimpleWeightedGraph<Ciudad, Carretera> gc = Graphs2.completeGraph(graph,200000.);
 		
-		
-		List<Ciudad> r3 = HamiltonianCycle.getApproximateOptimalForCompleteGraph(gc);
+		TwoApproxMetricTSP<Ciudad, Carretera> tsp = new  TwoApproxMetricTSP<>();
+		List<Ciudad> r3 = tsp.getTour(gc).getVertexList();
 		GraphWalk<Ciudad,Carretera> gw = new GraphWalk<>(gc,r3,0.);
 		
 		System.out.println("Hamiltonian");
@@ -45,7 +44,7 @@ public class Ciclos {
 		
 		System.out.println(r2);
 		
-		UndirectedCycleBase<Ciudad,Carretera> sc = new PatonCycleBase<Ciudad,Carretera>((UndirectedGraph<Ciudad, Carretera>) graph);
+		UndirectedCycleBase<Ciudad,Carretera> sc = new PatonCycleBase<Ciudad,Carretera>(graph);
 		List<List<Ciudad>> r = sc.findCycleBase();
 		
 		Set<GraphWalk2<Ciudad,Carretera>> sgw = 

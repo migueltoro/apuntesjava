@@ -3,13 +3,13 @@ package us.lsi.ag.anuncios;
 
 import java.util.List;
 
-import us.lsi.ag.ProblemaAGIndex;
-import us.lsi.ag.agchromosomes.IndexChromosome;
+import us.lsi.ag.IndexChromosome;
+import us.lsi.ag.IndexProblemAG;
 import us.lsi.bt.anuncios.Anuncio;
 import us.lsi.bt.anuncios.ListaDeAnunciosAEmitir;
 import us.lsi.bt.anuncios.ProblemaAnuncios;
 
-public class ProblemaAnunciosAG extends ProblemaAnuncios implements ProblemaAGIndex<ListaDeAnunciosAEmitir> {
+public class ProblemaAnunciosAG extends ProblemaAnuncios implements IndexProblemAG<ListaDeAnunciosAEmitir> {
 
 	public ProblemaAnunciosAG(String file) {
 		super();
